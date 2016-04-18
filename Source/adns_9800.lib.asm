@@ -1,5 +1,3 @@
-.inc adns_9800.h.asm
-
 setup_adns:
     push acc
 
@@ -67,6 +65,10 @@ read_adns:
     mov a, address
     anl a, #7fh
     lcall write_spi
+
+    ; Wait for 120 microseconds
+    mov scratch, #40h
+    lcall delay
 
     ; Read the data from the SPI line and put it on the accumulator
     lcall read_spi
@@ -161,20 +163,4 @@ read_spi:
             djnz r0, write_adns_loop
 
     pop 00h
-    ret
-
-shl_acc:
-    rl a
-    djnz r0, shl_acc
-
-    ret
-
-shr_acc:
-    rr a
-    djnz r0, shr_acc
-
-    ret
-
-delay:
-    djnz scratch, delay
     ret
