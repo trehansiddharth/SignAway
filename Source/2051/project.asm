@@ -2,6 +2,8 @@
 
 .inc adns_9800.h.asm
 
+.inc psoc.h.asm
+
 .org 0000h
 sjmp main
 
@@ -106,6 +108,8 @@ writrg:
     ljmp repl
 
 .inc adns_9800.lib.asm
+
+.inc psoc.lib.asm
 
 .inc serial.lib.asm
 

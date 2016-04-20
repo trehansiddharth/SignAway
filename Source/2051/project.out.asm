@@ -23,6 +23,11 @@
 
 .equ scratch, 17h
 
+; ==== Included from "psoc.h.asm" by AS115: ====
+.equ pcs, 0b4h    ; P3.4
+
+.equ opcode, 10h
+
 .org 0000h
 sjmp main
 
@@ -322,6 +327,27 @@ read_spi:
             djnz r0, write_adns_loop
 
     pop 00h
+    ret
+
+; ==== Included from "psoc.lib.asm" by AS115: ====
+setup_psoc:
+    setb pcs
+
+send_psoc:
+    ; Send the opcode
+    mov ctrl, opcode
+    clr pcs
+    setb pcs
+
+    ; Wait for the PSoC to process it
+    mov scratch, #40h
+    lcall delay
+
+    ; Send the data
+    mov ctrl, data
+    clr pcs
+    setb pcs
+
     ret
 
 ; ==== Included from "serial.lib.asm" by AS115: ====
