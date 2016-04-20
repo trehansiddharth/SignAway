@@ -6,7 +6,7 @@
 .equ sclk, 90h    ; P1.0
 .equ mosi, 91h    ; P1.1
 .equ miso, 92h    ; P1.2
-.equ ncs, 0b5h    ; P3.5
+.equ ncs, 0b4h    ; P3.4
 .equ motion, 0b2h ; P3.2
 
 .equ ctrl, 90h    ; P1
@@ -49,6 +49,9 @@ main:
     repl:
         ; Reinitialize stack pointer
         mov sp, #stack
+
+		; Clear the error bit
+		clr errorf
 
         ; Print REPL prompt
         lcall print
@@ -131,12 +134,16 @@ jumtab:
 readrg:
     ; Get the address
     lcall getbyt
+	jb errorf, jump_badcmd
     mov address, a
     lcall prthex
 
     ; Read that register from the ADNS 9800
     lcall read_adns
     mov a, data
+
+	; Print the result
+	lcall crlf
     lcall prthex
 
     ljmp repl
@@ -144,6 +151,7 @@ readrg:
 writrg:
     ; Get the address
     lcall getbyt
+	jb errorf, jump_badcmd
     mov address, a
     lcall prthex
 
@@ -153,6 +161,7 @@ writrg:
 
     ; Get the data to write
     lcall getbyt
+	jb errorf, jump_badcmd
     mov data, a
     lcall prthex
 
@@ -160,6 +169,9 @@ writrg:
     lcall write_adns
 
     ljmp repl
+
+jump_badcmd:
+	ljmp badcmd
 
 ; ==== Included from "adns_9800.lib.asm" by AS115: ====
 setup_adns:
@@ -169,9 +181,12 @@ setup_adns:
     setb ncs
     setb sclk
 
+	; Set MISO high to use it as an input
+	setb miso
+
     ; Set constants that will be used in write_spi and read_spi
-    mov a, sclk
-    anl a, #0fh
+    mov a, #sclk
+    anl a, #07h
     mov r0, a
     mov a, #01h
     lcall shl_acc
@@ -179,8 +194,8 @@ setup_adns:
     cpl a
     mov sclk_low, a
 
-    mov a, mosi
-    anl a, #0fh
+    mov a, #mosi
+    anl a, #07h
     mov r0, a
     mov a, #01h
     lcall shl_acc
@@ -188,8 +203,8 @@ setup_adns:
     cpl a
     mov mosi_low, a
 
-    mov a, miso
-    anl a, #0fh
+    mov a, #miso
+    anl a, #07h
     mov r0, a
     mov a, #01h
     lcall shl_acc
@@ -248,7 +263,7 @@ write_spi:
     push 00h
 
     ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
-    mov r0, #07h
+    mov r0, #08h
     write_adns_loop:
         ; Get the next bit in acc (from MSB to LSB)
         rl a
@@ -266,7 +281,7 @@ write_spi:
         write_bit_not_set:
             mov a, ctrl
             anl a, sclk_low
-            orl a, mosi_high
+            anl a, mosi_low
             sjmp write_resume
 
         write_resume:
@@ -274,7 +289,7 @@ write_spi:
             mov ctrl, a
 
             ; Pause for the appropriate amount of time
-            mov scratch, #01h
+            mov scratch, #03h
             lcall delay
 
             ; Set SCLK high
@@ -291,7 +306,7 @@ read_spi:
     push 00h
 
     ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
-    mov r0, #07h
+    mov r0, #08h
     read_adns_loop:
         ; Shift to the next digit
         rl a
@@ -302,7 +317,7 @@ read_spi:
         anl ctrl, a
 
         ; Pause for the appropriate amount of time
-        mov scratch, #01h
+        mov scratch, #03h
         lcall delay
 
         ; Set SCLK high
@@ -313,18 +328,18 @@ read_spi:
         pop acc
         jnb miso, read_bit_not_set
 
-        ; Run SCLK low and MOSI high
+        ; Set acc.0
         read_bit_set:
             setb acc.0
             sjmp read_resume
 
-        ; Run SCLK low and MOSI low
+        ; Clear acc.0
         read_bit_not_set:
             clr acc.0
             sjmp read_resume
 
         read_resume:
-            djnz r0, write_adns_loop
+            djnz r0, read_adns_loop
 
     pop 00h
     ret
@@ -374,15 +389,19 @@ getchr:
 
 ; ==== Included from "util.lib.asm" by AS115: ====
 shl_acc:
-    rl a
-    djnz r0, shl_acc
-
+	inc r0
+	rr a
+	shl_acc_loop:
+		rl a
+		djnz r0, shl_acc_loop
     ret
 
 shr_acc:
-    rr a
-    djnz r0, shr_acc
-
+	inc r0
+	rl a
+	shr_acc_loop:
+		rr a
+		djnz r0, shr_acc_loop
     ret
 
 delay:

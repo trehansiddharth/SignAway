@@ -1,7 +1,7 @@
 .equ sclk, 90h    ; P1.0
 .equ mosi, 91h    ; P1.1
 .equ miso, 92h    ; P1.2
-.equ ncs, 0b5h    ; P3.5
+.equ ncs, 0b4h    ; P3.4
 .equ motion, 0b2h ; P3.2
 
 .equ ctrl, 90h    ; P1

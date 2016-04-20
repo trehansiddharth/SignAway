@@ -1,13 +1,17 @@
 shl_acc:
-    rl a
-    djnz r0, shl_acc
-
+	inc r0
+	rr a
+	shl_acc_loop:
+		rl a
+		djnz r0, shl_acc_loop
     ret
 
 shr_acc:
-    rr a
-    djnz r0, shr_acc
-
+	inc r0
+	rl a
+	shr_acc_loop:
+		rr a
+		djnz r0, shr_acc_loop
     ret
 
 delay:

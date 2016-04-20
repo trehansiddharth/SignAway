@@ -4,10 +4,13 @@ setup_adns:
     ; Set both NCS and SCLK high for initial state
     setb ncs
     setb sclk
+	
+	; Set MISO high to use it as an input
+	setb miso
 
     ; Set constants that will be used in write_spi and read_spi
-    mov a, sclk
-    anl a, #0fh
+    mov a, #sclk
+    anl a, #07h
     mov r0, a
     mov a, #01h
     lcall shl_acc
@@ -15,8 +18,8 @@ setup_adns:
     cpl a
     mov sclk_low, a
 
-    mov a, mosi
-    anl a, #0fh
+    mov a, #mosi
+    anl a, #07h
     mov r0, a
     mov a, #01h
     lcall shl_acc
@@ -24,8 +27,8 @@ setup_adns:
     cpl a
     mov mosi_low, a
 
-    mov a, miso
-    anl a, #0fh
+    mov a, #miso
+    anl a, #07h
     mov r0, a
     mov a, #01h
     lcall shl_acc
@@ -84,7 +87,7 @@ write_spi:
     push 00h
 
     ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
-    mov r0, #07h
+    mov r0, #08h
     write_adns_loop:
         ; Get the next bit in acc (from MSB to LSB)
         rl a
@@ -102,7 +105,7 @@ write_spi:
         write_bit_not_set:
             mov a, ctrl
             anl a, sclk_low
-            orl a, mosi_high
+            anl a, mosi_low
             sjmp write_resume
 
         write_resume:
@@ -110,7 +113,7 @@ write_spi:
             mov ctrl, a
 
             ; Pause for the appropriate amount of time
-            mov scratch, #01h
+            mov scratch, #03h
             lcall delay
 
             ; Set SCLK high
@@ -127,7 +130,7 @@ read_spi:
     push 00h
 
     ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
-    mov r0, #07h
+    mov r0, #08h
     read_adns_loop:
         ; Shift to the next digit
         rl a
@@ -138,7 +141,7 @@ read_spi:
         anl ctrl, a
 
         ; Pause for the appropriate amount of time
-        mov scratch, #01h
+        mov scratch, #03h
         lcall delay
 
         ; Set SCLK high
@@ -149,18 +152,18 @@ read_spi:
         pop acc
         jnb miso, read_bit_not_set
 
-        ; Run SCLK low and MOSI high
+        ; Set acc.0
         read_bit_set:
             setb acc.0
             sjmp read_resume
 
-        ; Run SCLK low and MOSI low
+        ; Clear acc.0
         read_bit_not_set:
             clr acc.0
             sjmp read_resume
 
         read_resume:
-            djnz r0, write_adns_loop
+            djnz r0, read_adns_loop
 
     pop 00h
     ret

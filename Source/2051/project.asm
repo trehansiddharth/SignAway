@@ -22,9 +22,12 @@ main:
     lcall print
     .db 0ah, 0dh, "Welcome to the SignAway REPL!", 00h
 
-    repl:
+    repl:		
         ; Reinitialize stack pointer
         mov sp, #stack
+		
+		; Clear the error bit
+		clr errorf
 
         ; Print REPL prompt
         lcall print
@@ -77,19 +80,24 @@ jumtab:
 readrg:
     ; Get the address
     lcall getbyt
+	jb errorf, jump_badcmd
     mov address, a
     lcall prthex
 
     ; Read that register from the ADNS 9800
     lcall read_adns
     mov a, data
+	
+	; Print the result
+	lcall crlf
     lcall prthex
-
+	
     ljmp repl
 
 writrg:
     ; Get the address
     lcall getbyt
+	jb errorf, jump_badcmd
     mov address, a
     lcall prthex
 
@@ -99,6 +107,7 @@ writrg:
 
     ; Get the data to write
     lcall getbyt
+	jb errorf, jump_badcmd
     mov data, a
     lcall prthex
 
@@ -106,6 +115,9 @@ writrg:
     lcall write_adns
 
     ljmp repl
+
+jump_badcmd:
+	ljmp badcmd
 
 .inc adns_9800.lib.asm
 
