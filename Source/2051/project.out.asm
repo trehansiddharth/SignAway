@@ -24,7 +24,7 @@
 .equ scratch, 17h
 
 ; ==== Included from "psoc.h.asm" by AS115: ====
-.equ pcs, 0b4h    ; P3.4
+.equ pcs, 0b7h    ; P3.7
 
 .equ opcode, 10h
 
