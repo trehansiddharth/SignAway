@@ -1,3 +1,4 @@
+; Change to 2051.h.asm to target 2051 microcontroller:
 ; ==== Included from "8051.h.asm" by AS115: ====
 .equ stack, 2fh
 .equ errorf, 1fh
@@ -19,6 +20,10 @@
 .equ mosi_high, 14h
 .equ mosi_low, 15h
 .equ miso_mask, 16h
+
+.equ pcs, 0b7h    ; P3.7
+
+.equ opcode, 10h
 
 .equ scratch, 17h
 
@@ -134,10 +139,10 @@ readrg:
 
     ; Read that register from the ADNS 9800
     lcall read_adns
-    mov a, data
 
 	; Print the result
 	lcall crlf
+    mov a, data
     lcall prthex
 
     ljmp repl
@@ -243,6 +248,9 @@ read_adns:
     mov scratch, #40h
     lcall delay
 
+	; Set MISO pin high to be able to read
+	setb miso
+
     ; Read the data from the SPI line and put it on the accumulator
     lcall read_spi
     mov data, a
@@ -298,7 +306,6 @@ write_spi:
 
 read_spi:
     push 00h
-    push 01h
 
     ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
     mov r0, #08h
