@@ -1,4 +1,5 @@
-.inc 8051.h.asm ; Change to 2051.h.asm to target 2051 microcontroller
+; Change to 2051.h.asm to target 2051 microcontroller:
+.inc 8051.h.asm
 
 .org 000h
 sjmp main
@@ -82,10 +83,10 @@ readrg:
 
     ; Read that register from the ADNS 9800
     lcall read_adns
-    mov a, data
 
 	; Print the result
 	lcall crlf
+    mov a, data
     lcall prthex
 
     ljmp repl

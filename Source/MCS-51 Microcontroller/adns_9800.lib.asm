@@ -72,6 +72,9 @@ read_adns:
     ; Wait for 120 microseconds
     mov scratch, #40h
     lcall delay
+	
+	; Set MISO pin high to be able to read
+	setb miso
 
     ; Read the data from the SPI line and put it on the accumulator
     lcall read_spi
@@ -128,7 +131,6 @@ write_spi:
 
 read_spi:
     push 00h
-    push 01h
 
     ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
     mov r0, #08h
