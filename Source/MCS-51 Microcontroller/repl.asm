@@ -18,9 +18,6 @@ main:
 
     ; Initialize pins for the ADNS-9800
     lcall setup_adns
-	
-	; Power up the ADNS-9800
-	lcall powerup_adns
 
     ; Print welcome message
     lcall print
@@ -122,15 +119,51 @@ writrg:
 
 powrup:
 	lcall powerup_adns
+	lcall print
+	.db 0ah, 0dh, "ADNS-9800 powered up.", 00h
+
 	ljmp repl
 
 shutdn:
 	lcall shutdown_adns
+	lcall print
+	.db 0ah, 0dh, "ADNS-9800 shut down.", 00h
+
 	ljmp repl
-	
+
 jump_badcmd:
 	ljmp badcmd
-	
+
+imageb:
+	lcall image_burst
+
+	mov dptr, #image_store
+	mov image_burst_counter, #90d
+	imageb_outer_loop:
+		push image_burst_counter
+		mov image_burst_counter, #10d
+		imageb_inner_loop:
+			; Read the pixel of the stored image
+			movx a, @dptr
+
+			; Send it over serial
+			lcall sndchr
+
+			; Increment dptr
+			inc dpl
+			jnc resume_imageb
+			inc dph
+
+			; Loop if necessary
+			resume_imageb:
+			djnz image_burst_counter, imageb_inner_loop
+		pop image_burst_counter
+
+		; Loop if necessary
+		djnz image_burst_counter, imageb_outer_loop
+
+	ljmp repl
+
 on_motion:
 	setb b.0
 	reti

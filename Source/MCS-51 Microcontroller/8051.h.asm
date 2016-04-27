@@ -26,3 +26,7 @@
 .equ scratch, 17h
 
 .equ image_burst_counter, 18h
+
+.org 7000h
+image_store:
+    .db 00h

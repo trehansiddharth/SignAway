@@ -40,7 +40,7 @@ setup_adns:
 powerup_adns:
 	; Reset the hardware
 	lcall reset_adns
-	
+
 	; Wait 50ms
 	mov scratch, #62h
 	outer_powerup_delay_loop:
@@ -50,26 +50,26 @@ powerup_adns:
 			djnz scratch, inner_powerup_delay_loop
 		pop scratch
 		djnz scratch, outer_powerup_delay_loop
-	
+
 	; Read registers 02h, 03h, 04h, 05h, and 06h
 	mov address, #02h
 	lcall read_adns
-	
+
 	inc address
 	lcall read_adns
-	
+
 	inc address
 	lcall read_adns
-	
+
 	inc address
 	lcall read_adns
-	
+
 	inc address
 	lcall read_adns
-	
+
 	; Enable laser
 	lcall enable_laser
-	
+
 	ret
 
 reset_adns:
@@ -77,7 +77,7 @@ reset_adns:
 	mov address, #3ah
 	mov data, #5ah
 	lcall write_adns
-	ret	
+	ret
 
 shutdown_adns:
 	; Unimplemented!
@@ -98,47 +98,67 @@ disable_laser:
 	ret
 
 image_burst:
+    push acc
+
 	; Reset the hardware
 	lcall reset_adns
-	
+
 	; Enable the laser
 	lcall enable_laser
-	
+
 	; Lower NCS
 	clr ncs
-	
+
 	; Write 93h to FRAME_CAPTURE register
 	mov a, #12h
 	lcall write_spi
 	mov a, #93h
 	lcall write_spi
-	
+
 	; Write c5h to FRAME_CAPTURE register
 	mov a, #12h
 	lcall write_spi
 	mov a, #0c5h
 	lcall write_spi
-	
+
 	; Raise NCS
 	setb ncs
-	
+
 	; Set NCS low again
 	clr ncs
-	
+
 	; Loop to read 900 pixels
+    mov dptr, #image_store
 	mov image_burst_counter, #90d
+    clr ncs
 	image_burst_outer_loop:
 		push image_burst_counter
 		mov image_burst_counter, #10d
 		image_burst_inner_loop:
-			
-			
+            ; Read the next incoming byte
+			lcall read_spi
+
+            ; Store it in memory
+            movx @dptr, a
+
+            ; Increment dptr
+            inc dpl
+            jnc resume_image_burst
+            inc dph
+
+            ; Loop if necessary
+            resume_image_burst:
 			djnz image_burst_counter, image_burst_inner_loop
 		pop image_burst_counter
+
+        ; Loop if necessary
 		djnz image_burst_counter, image_burst_outer_loop
-	
+
 	; Raise NCS back to default
 	setb ncs
+
+    pop acc
+    ret
 
 write_adns:
     push acc
@@ -175,7 +195,7 @@ read_adns:
     ; Wait for 120 microseconds
     mov scratch, #40h
     lcall delay
-	
+
 	; Set MISO pin high to be able to read
 	setb miso
 
