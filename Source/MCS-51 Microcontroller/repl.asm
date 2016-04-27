@@ -4,6 +4,10 @@
 .org 000h
 sjmp main
 
+.org 003h
+int0_isr:
+	ljmp on_motion
+
 .org 050h
 main:
     ; Disable external interrupts
@@ -12,8 +16,11 @@ main:
     ; Setup serial communication
     lcall setup_serial
 
-    ; Initialize pins for the ADNS 9800
+    ; Initialize pins for the ADNS-9800
     lcall setup_adns
+	
+	; Power up the ADNS-9800
+	lcall powerup_adns
 
     ; Print welcome message
     lcall print
@@ -55,17 +62,17 @@ jumtab:
    .dw badcmd             ; command 'f' 06
    .dw badcmd             ; command 'g' 07
    .dw badcmd             ; command 'h' 08
-   .dw badcmd             ; command 'i' 09
+   .dw imageb             ; command 'i' 09
    .dw badcmd             ; command 'j' 0a
    .dw badcmd             ; command 'k' 0b
    .dw badcmd             ; command 'l' 0c
    .dw badcmd             ; command 'm' 0d
    .dw badcmd             ; command 'n' 0e
    .dw badcmd             ; command 'o' 0f
-   .dw badcmd             ; command 'p' 10
+   .dw powrup             ; command 'p' 10 used
    .dw badcmd             ; command 'q' 11
    .dw readrg             ; command 'r' 12 used
-   .dw badcmd             ; command 's' 13
+   .dw shutdn             ; command 's' 13 used
    .dw badcmd             ; command 't' 14
    .dw badcmd             ; command 'u' 15
    .dw badcmd             ; command 'v' 16
@@ -113,8 +120,20 @@ writrg:
 
     ljmp repl
 
+powrup:
+	lcall powerup_adns
+	ljmp repl
+
+shutdn:
+	lcall shutdown_adns
+	ljmp repl
+	
 jump_badcmd:
 	ljmp badcmd
+	
+on_motion:
+	setb b.0
+	reti
 
 .inc adns_9800.lib.asm
 

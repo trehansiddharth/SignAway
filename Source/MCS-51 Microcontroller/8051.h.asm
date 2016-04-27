@@ -1,11 +1,11 @@
 .equ stack, 2fh
-.equ errorf, 1fh
+.equ errorf, 2eh
 
 .equ sclk, 90h    ; P1.0
 .equ mosi, 91h    ; P1.1
 .equ miso, 92h    ; P1.2
 .equ ncs, 0b4h    ; P3.4
-.equ motion, 0b2h ; P3.2
+.equ motion, 0b2h ; P3.2 (INT0)
 
 .equ ctrl, 90h    ; P1
 .equ chip, 0b0h   ; P3
@@ -24,3 +24,5 @@
 .equ opcode, 10h
 
 .equ scratch, 17h
+
+.equ image_burst_counter, 18h

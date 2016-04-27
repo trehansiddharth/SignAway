@@ -37,6 +37,109 @@ setup_adns:
     pop acc
     ret
 
+powerup_adns:
+	; Reset the hardware
+	lcall reset_adns
+	
+	; Wait 50ms
+	mov scratch, #62h
+	outer_powerup_delay_loop:
+		push scratch
+		mov scratch, #0ffh
+		inner_powerup_delay_loop:
+			djnz scratch, inner_powerup_delay_loop
+		pop scratch
+		djnz scratch, outer_powerup_delay_loop
+	
+	; Read registers 02h, 03h, 04h, 05h, and 06h
+	mov address, #02h
+	lcall read_adns
+	
+	inc address
+	lcall read_adns
+	
+	inc address
+	lcall read_adns
+	
+	inc address
+	lcall read_adns
+	
+	inc address
+	lcall read_adns
+	
+	; Enable laser
+	lcall enable_laser
+	
+	ret
+
+reset_adns:
+	; Write to Power_Up_Reset register
+	mov address, #3ah
+	mov data, #5ah
+	lcall write_adns
+	ret	
+
+shutdown_adns:
+	; Unimplemented!
+	ret
+
+enable_laser:
+	; Set LASER_CTRL0 register to 0 (clear force-disable bit)
+	mov address, #20h
+	mov data, #00h
+	lcall write_adns
+	ret
+
+disable_laser:
+	; Set LASER_CTRL0 register to 1 (set force-disable bit)
+	mov address, #20h
+	mov data, #01h
+	lcall write_adns
+	ret
+
+image_burst:
+	; Reset the hardware
+	lcall reset_adns
+	
+	; Enable the laser
+	lcall enable_laser
+	
+	; Lower NCS
+	clr ncs
+	
+	; Write 93h to FRAME_CAPTURE register
+	mov a, #12h
+	lcall write_spi
+	mov a, #93h
+	lcall write_spi
+	
+	; Write c5h to FRAME_CAPTURE register
+	mov a, #12h
+	lcall write_spi
+	mov a, #0c5h
+	lcall write_spi
+	
+	; Raise NCS
+	setb ncs
+	
+	; Set NCS low again
+	clr ncs
+	
+	; Loop to read 900 pixels
+	mov image_burst_counter, #90d
+	image_burst_outer_loop:
+		push image_burst_counter
+		mov image_burst_counter, #10d
+		image_burst_inner_loop:
+			
+			
+			djnz image_burst_counter, image_burst_inner_loop
+		pop image_burst_counter
+		djnz image_burst_counter, image_burst_outer_loop
+	
+	; Raise NCS back to default
+	setb ncs
+
 write_adns:
     push acc
 
