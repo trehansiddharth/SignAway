@@ -54,27 +54,27 @@ powerup_adns:
 	; Read registers 02h, 03h, 04h, 05h, and 06h
 	mov address, #02h
 	lcall read_adns
-	
+
 	lcall delay_r
 
 	inc address
 	lcall read_adns
-	
+
 	lcall delay_r
 
 	inc address
 	lcall read_adns
-	
+
 	lcall delay_r
 
 	inc address
 	lcall read_adns
-	
+
 	lcall delay_r
 
 	inc address
 	lcall read_adns
-	
+
 	lcall delay_r
 
 	; Enable laser
@@ -94,27 +94,63 @@ shutdown_adns:
 	ret
 
 enable_laser:
-	; Set LASER_CTRL0 register to 0 (clear force-disable bit)
+	; Read LASER_CTRL0
 	mov address, #20h
 	lcall read_adns
 	mov a, data
-	
+
 	lcall delay_r
-	
+
+    ; Clear bit 0 (FORCE_DISABLE) and write it back
 	clr acc.0
 	mov data, a
 	lcall write_adns
-	
+
 	ret
 
 disable_laser:
-	; Set LASER_CTRL0 register to 1 (set force-disable bit)
-	mov address, #20h
-	mov data, #01h
-	lcall write_adns
-	ret
+    ; Read LASER_CTRL0
+    mov address, #20h
+    lcall read_adns
+    mov a, data
+
+    lcall delay_r
+
+    ; Set bit 0 (FORCE_DISABLE) and write it back
+    setb acc.0
+    mov data, a
+    lcall write_adns
+
+    ret
 
 motion_burst:
+    push acc
+    push 00h
+
+    ; Lower NCS
+    clr ncs
+
+    ; Write 50h to the MOTION_BURST register
+    mov a, #d0h
+    lcall write_spi
+
+    mov a, #50h
+    lcall write_spi
+
+    ; Wait for a frame
+    lcall delay_frame
+
+    ; Read 14 registers
+    mov dptr, #motion_store
+    mov top_high, #motion_store_top_high
+    mov top_low, #motion_store_top_low
+    lcall burst
+
+    ; Raise NCS
+    setb ncs
+
+    pop 00h
+    pop acc
 	ret
 
 image_burst:
@@ -122,10 +158,6 @@ image_burst:
 
 	; Reset the hardware
 	lcall reset_adns
-	
-	; Wait for a while
-	mov scratch, #0feh
-	lcall delay
 
 	; Enable the laser
 	lcall enable_laser
@@ -138,7 +170,7 @@ image_burst:
 	lcall write_spi
 	mov a, #93h
 	lcall write_spi
-	
+
 	lcall delay_w
 
 	; Write c5h to FRAME_CAPTURE register
@@ -146,65 +178,72 @@ image_burst:
 	lcall write_spi
 	mov a, #0c5h
 	lcall write_spi
-	
+
 	setb ncs
-	
+
 	lcall delay_w
-	
-	mov scratch, #0feh
-	lcall delay
-	
-	clr ncs
-	
-	; Wait for the LSB in MOTION register to be set
-	await_motion_bit:		
-		; Read the MOTION register
-		mov a, #02h
-		lcall write_spi
-		
-		mov scratch, #40h
-		lcall delay
-		
-		lcall read_spi
-		
-		lcall delay_r
-		
-		; Loop again if the LSB is not set
-		jnb acc.0, await_motion_bit
-	
-	; Tell the chip to read register 64
-	mov a, #64h
-	lcall write_spi
-	
+
 	mov scratch, #0feh
 	lcall delay
 
-	; Loop to read 900 pixels
-    mov dptr, #image_store
-	image_burst_loop:		
-		; Read the next incoming byte
-		lcall read_spi
-		
-		; Store it in memory
-		movx @dptr, a
-		
-		; Increment dptr
-		inc dptr
-		
-		; Wait for a bit
-		mov scratch, #08h
+	clr ncs
+
+	; Wait for the LSB in MOTION register to be set
+	await_motion_bit:
+		; Read the MOTION register
+		mov a, #02h
+		lcall write_spi
+
+		mov scratch, #40h
 		lcall delay
-		
-		; Loop if necessary
-		mov a, dpl
-		cjne a, #image_store_top_low, image_burst_loop
-		mov a, dph
-		cjne a, #image_store_top_high, image_burst_loop
+
+		lcall read_spi
+
+		lcall delay_r
+
+		; Loop again if the LSB is not set
+		jnb acc.0, await_motion_bit
+
+	; Tell the chip to read register 64
+	mov a, #64h
+	lcall write_spi
+
+    ; Wait for 2 frames
+	lcall delay_frame
+    lcall delay_frame
+
+	; Read 900 pixels
+    mov dptr, #image_store
+    mov top_high, #image_store_top_high
+    mov top_low, #image_store_top_low
+    lcall burst
 
 	; Raise NCS back high
 	setb ncs
 
     pop acc
+    ret
+
+burst:
+    burst_loop:
+        ; Read the next incoming byte
+        lcall read_spi
+
+        ; Store it in memory
+        movx @dptr, a
+
+        ; Increment dptr
+        inc dptr
+
+        ; Wait for a bit
+        mov scratch, #08h
+        lcall delay
+
+        ; Loop if necessary
+        mov a, dpl
+        cjne a, top_low, burst_loop
+        mov a, dph
+        cjne a, top_high, burst_loop
     ret
 
 write_adns:
@@ -239,9 +278,8 @@ read_adns:
     anl a, #7fh
     lcall write_spi
 
-    ; Wait for 120 microseconds
-    mov scratch, #40h
-    lcall delay
+    ; Wait for 120 microseconds (1 frame)
+    lcall delay_frame
 
 	; Set MISO pin high to be able to read
 	setb miso
@@ -256,87 +294,6 @@ read_adns:
     pop acc
     ret
 
-write_spi:
-    push 00h
-
-    ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
-    mov r0, #08h
-    write_adns_loop:
-        ; Get the next bit in acc (from MSB to LSB)
-        rl a
-        push acc
-        jnb acc.0, write_bit_not_set
-
-        ; Run SCLK low and MOSI high
-        write_bit_set:
-            mov a, ctrl
-            anl a, sclk_low
-            orl a, mosi_high
-            sjmp write_resume
-
-        ; Run SCLK low and MOSI low
-        write_bit_not_set:
-            mov a, ctrl
-            anl a, sclk_low
-            anl a, mosi_low
-            sjmp write_resume
-
-        write_resume:
-            ; Write new SCLK and MOSI
-            mov ctrl, a
-
-            ; Set SCLK high
-            orl a, sclk_high
-            mov ctrl, a
-
-            pop acc
-            djnz r0, write_adns_loop
-
-    pop 00h
-    ret
-
-read_spi:
-    push 00h
-	
-	; Set MOSI low so the chip doesn't think we're writing to it
-	clr mosi
-
-    ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
-    mov r0, #08h
-    read_adns_loop:
-
-        ; Shift to the next digit
-        rl a
-        push acc
-
-        ; Set SCLK low
-        mov a, sclk_low
-        anl ctrl, a
-
-        ; Set SCLK high
-        mov a, sclk_high
-        orl ctrl, a
-
-        ; Get the next bit from the control register (from MSB to LSB)
-        pop acc
-        jnb miso, read_bit_not_set
-
-        ; Set acc.0
-        read_bit_set:
-            setb acc.0
-            sjmp read_resume
-
-        ; Clear acc.0
-        read_bit_not_set:
-            clr acc.0
-            sjmp read_resume
-
-        read_resume:
-            djnz r0, read_adns_loop
-
-    pop 00h
-    ret
-
 delay_w:
 	mov scratch, #40h
 	lcall delay
@@ -346,3 +303,8 @@ delay_r:
 	mov scratch, #0ah
 	lcall delay
 	ret
+
+delay_frame:
+    mov scratch, #40h
+    lcall delay
+    ret

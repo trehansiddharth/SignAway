@@ -25,6 +25,9 @@
 
 .equ scratch, 17h
 
+.equ top_high, 18h
+.equ top_low, 19h
+
 .org 7b00h
 motion_store:
 	.db 00h
@@ -35,3 +38,6 @@ image_store:
 
 .equ image_store_top_high, 7fh
 .equ image_store_top_low, 84h
+
+.equ motion_store_top_high, 7bh
+.equ motion_store_top_low, 0eh

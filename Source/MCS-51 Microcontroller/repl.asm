@@ -140,27 +140,27 @@ imageb:
 	; Loop to output 900 pixel values to serial
     mov dptr, #image_store
 	lcall crlf
-	imageb_loop:		
+	imageb_loop:
 		; Read the next incoming byte
 		movx a, @dptr
-		
+
 		; Output to serial
 		lcall prthex
-		
+
 		; Increment dptr
 		inc dptr
-		
+
 		; Loop if necessary
 		mov a, dpl
 		cjne a, #image_store_top_low, imageb_loop
 		mov a, dph
 		cjne a, #image_store_top_high, imageb_loop
-	
+
 	ljmp repl
 
 motbst:
 	lcall motion_burst
-	
+
 	ljmp repl
 
 on_motion:
@@ -168,6 +168,8 @@ on_motion:
 	reti
 
 .inc adns_9800.lib.asm
+
+.inc spi.lib.asm
 
 .inc psoc.lib.asm
 
