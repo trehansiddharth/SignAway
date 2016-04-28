@@ -25,6 +25,10 @@
 
 .equ scratch, 17h
 
+.org 7b00h
+motion_store:
+	.db 00h
+
 .org 7c00h
 image_store:
     .db 00h

@@ -59,11 +59,11 @@ jumtab:
    .dw badcmd             ; command 'f' 06
    .dw badcmd             ; command 'g' 07
    .dw badcmd             ; command 'h' 08
-   .dw imageb             ; command 'i' 09
+   .dw imageb             ; command 'i' 09 used
    .dw badcmd             ; command 'j' 0a
    .dw badcmd             ; command 'k' 0b
    .dw badcmd             ; command 'l' 0c
-   .dw badcmd             ; command 'm' 0d
+   .dw motbst             ; command 'm' 0d used
    .dw badcmd             ; command 'n' 0e
    .dw badcmd             ; command 'o' 0f
    .dw powrup             ; command 'p' 10 used
@@ -117,6 +117,9 @@ writrg:
 
     ljmp repl
 
+jump_badcmd:
+	ljmp badcmd
+
 powrup:
 	lcall powerup_adns
 	lcall print
@@ -130,9 +133,6 @@ shutdn:
 	.db 0ah, 0dh, "ADNS-9800 shut down.", 00h
 
 	ljmp repl
-
-jump_badcmd:
-	ljmp badcmd
 
 imageb:
 	lcall image_burst
@@ -155,6 +155,11 @@ imageb:
 		cjne a, #image_store_top_low, imageb_loop
 		mov a, dph
 		cjne a, #image_store_top_high, imageb_loop
+	
+	ljmp repl
+
+motbst:
+	lcall motion_burst
 	
 	ljmp repl
 

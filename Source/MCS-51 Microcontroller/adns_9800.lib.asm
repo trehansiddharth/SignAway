@@ -97,10 +97,12 @@ enable_laser:
 	; Set LASER_CTRL0 register to 0 (clear force-disable bit)
 	mov address, #20h
 	lcall read_adns
+	mov a, data
 	
 	lcall delay_r
 	
 	clr acc.0
+	mov data, a
 	lcall write_adns
 	
 	ret
@@ -110,6 +112,9 @@ disable_laser:
 	mov address, #20h
 	mov data, #01h
 	lcall write_adns
+	ret
+
+motion_burst:
 	ret
 
 image_burst:
@@ -171,7 +176,7 @@ image_burst:
 	mov a, #64h
 	lcall write_spi
 	
-	mov scratch, #40h
+	mov scratch, #0feh
 	lcall delay
 
 	; Loop to read 900 pixels
