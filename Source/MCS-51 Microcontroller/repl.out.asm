@@ -27,11 +27,12 @@
 
 .equ scratch, 17h
 
-.equ image_burst_counter, 18h
-
-.org 7000h
+.org 7c00h
 image_store:
     .db 00h
+
+.equ image_store_top_high, 7fh
+.equ image_store_top_low, 84h
 
 .org 000h
 sjmp main
@@ -199,30 +200,24 @@ jump_badcmd:
 imageb:
 	lcall image_burst
 
-	mov dptr, #image_store
-	mov image_burst_counter, #90d
-	imageb_outer_loop:
-		push image_burst_counter
-		mov image_burst_counter, #10d
-		imageb_inner_loop:
-			; Read the pixel of the stored image
-			movx a, @dptr
+	; Loop to output 900 pixel values to serial
+    mov dptr, #image_store
+	lcall crlf
+	imageb_loop:
+		; Read the next incoming byte
+		movx a, @dptr
 
-			; Send it over serial
-			lcall sndchr
+		; Output to serial
+		lcall prthex
 
-			; Increment dptr
-			inc dpl
-			jnc resume_imageb
-			inc dph
-
-			; Loop if necessary
-			resume_imageb:
-			djnz image_burst_counter, imageb_inner_loop
-		pop image_burst_counter
+		; Increment dptr
+		inc dptr
 
 		; Loop if necessary
-		djnz image_burst_counter, imageb_outer_loop
+		mov a, dpl
+		cjne a, #image_store_top_low, imageb_loop
+		mov a, dph
+		cjne a, #image_store_top_high, imageb_loop
 
 	ljmp repl
 
@@ -288,17 +283,27 @@ powerup_adns:
 	mov address, #02h
 	lcall read_adns
 
-	inc address
-	lcall read_adns
+	lcall delay_r
 
 	inc address
 	lcall read_adns
 
-	inc address
-	lcall read_adns
+	lcall delay_r
 
 	inc address
 	lcall read_adns
+
+	lcall delay_r
+
+	inc address
+	lcall read_adns
+
+	lcall delay_r
+
+	inc address
+	lcall read_adns
+
+	lcall delay_r
 
 	; Enable laser
 	lcall enable_laser
@@ -319,8 +324,13 @@ shutdown_adns:
 enable_laser:
 	; Set LASER_CTRL0 register to 0 (clear force-disable bit)
 	mov address, #20h
-	mov data, #00h
+	lcall read_adns
+
+	lcall delay_r
+
+	clr acc.0
 	lcall write_adns
+
 	ret
 
 disable_laser:
@@ -336,6 +346,10 @@ image_burst:
 	; Reset the hardware
 	lcall reset_adns
 
+	; Wait for a while
+	mov scratch, #0feh
+	lcall delay
+
 	; Enable the laser
 	lcall enable_laser
 
@@ -343,51 +357,74 @@ image_burst:
 	clr ncs
 
 	; Write 93h to FRAME_CAPTURE register
-	mov a, #12h
+	mov a, #92h
 	lcall write_spi
 	mov a, #93h
 	lcall write_spi
 
+	lcall delay_w
+
 	; Write c5h to FRAME_CAPTURE register
-	mov a, #12h
+	mov a, #92h
 	lcall write_spi
 	mov a, #0c5h
 	lcall write_spi
 
-	; Raise NCS
 	setb ncs
 
-	; Set NCS low again
+	lcall delay_w
+
+	mov scratch, #0feh
+	lcall delay
+
 	clr ncs
+
+	; Wait for the LSB in MOTION register to be set
+	await_motion_bit:
+		; Read the MOTION register
+		mov a, #02h
+		lcall write_spi
+
+		mov scratch, #40h
+		lcall delay
+
+		lcall read_spi
+
+		lcall delay_r
+
+		; Loop again if the LSB is not set
+		jnb acc.0, await_motion_bit
+
+	; Tell the chip to read register 64
+	mov a, #64h
+	lcall write_spi
+
+	mov scratch, #40h
+	lcall delay
 
 	; Loop to read 900 pixels
     mov dptr, #image_store
-	mov image_burst_counter, #90d
-    clr ncs
-	image_burst_outer_loop:
-		push image_burst_counter
-		mov image_burst_counter, #10d
-		image_burst_inner_loop:
-            ; Read the next incoming byte
-			lcall read_spi
+	image_burst_loop:
+		; Read the next incoming byte
+		lcall read_spi
 
-            ; Store it in memory
-            movx @dptr, a
+		; Store it in memory
+		movx @dptr, a
 
-            ; Increment dptr
-            inc dpl
-            jnc resume_image_burst
-            inc dph
+		; Increment dptr
+		inc dptr
 
-            ; Loop if necessary
-            resume_image_burst:
-			djnz image_burst_counter, image_burst_inner_loop
-		pop image_burst_counter
+		; Wait for a bit
+		mov scratch, #08h
+		lcall delay
 
-        ; Loop if necessary
-		djnz image_burst_counter, image_burst_outer_loop
+		; Loop if necessary
+		mov a, dpl
+		cjne a, #image_store_top_low, image_burst_loop
+		mov a, dph
+		cjne a, #image_store_top_high, image_burst_loop
 
-	; Raise NCS back to default
+	; Raise NCS back high
 	setb ncs
 
     pop acc
@@ -471,10 +508,6 @@ write_spi:
             ; Write new SCLK and MOSI
             mov ctrl, a
 
-            ; Pause for the appropriate amount of time
-            mov scratch, #03h
-            lcall delay
-
             ; Set SCLK high
             orl a, sclk_high
             mov ctrl, a
@@ -488,6 +521,9 @@ write_spi:
 read_spi:
     push 00h
 
+	; Set MOSI low so the chip doesn't think we're writing to it
+	clr mosi
+
     ; Set up the loop so it only runs 8 times (one for each bit of the data in acc)
     mov r0, #08h
     read_adns_loop:
@@ -499,10 +535,6 @@ read_spi:
         ; Set SCLK low
         mov a, sclk_low
         anl ctrl, a
-
-        ; Pause for the appropriate amount of time
-        mov scratch, #03h
-        lcall delay
 
         ; Set SCLK high
         mov a, sclk_high
@@ -527,6 +559,16 @@ read_spi:
 
     pop 00h
     ret
+
+delay_w:
+	mov scratch, #40h
+	lcall delay
+	ret
+
+delay_r:
+	mov scratch, #0ah
+	lcall delay
+	ret
 
 ; ==== Included from "psoc.lib.asm" by AS115: ====
 setup_psoc:

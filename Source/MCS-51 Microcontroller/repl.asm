@@ -137,31 +137,25 @@ jump_badcmd:
 imageb:
 	lcall image_burst
 
-	mov dptr, #image_store
-	mov image_burst_counter, #90d
-	imageb_outer_loop:
-		push image_burst_counter
-		mov image_burst_counter, #10d
-		imageb_inner_loop:
-			; Read the pixel of the stored image
-			movx a, @dptr
-
-			; Send it over serial
-			lcall sndchr
-
-			; Increment dptr
-			inc dpl
-			jnc resume_imageb
-			inc dph
-
-			; Loop if necessary
-			resume_imageb:
-			djnz image_burst_counter, imageb_inner_loop
-		pop image_burst_counter
-
+	; Loop to output 900 pixel values to serial
+    mov dptr, #image_store
+	lcall crlf
+	imageb_loop:		
+		; Read the next incoming byte
+		movx a, @dptr
+		
+		; Output to serial
+		lcall prthex
+		
+		; Increment dptr
+		inc dptr
+		
 		; Loop if necessary
-		djnz image_burst_counter, imageb_outer_loop
-
+		mov a, dpl
+		cjne a, #image_store_top_low, imageb_loop
+		mov a, dph
+		cjne a, #image_store_top_high, imageb_loop
+	
 	ljmp repl
 
 on_motion:

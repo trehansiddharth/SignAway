@@ -25,8 +25,9 @@
 
 .equ scratch, 17h
 
-.equ image_burst_counter, 18h
-
-.org 7000h
+.org 7c00h
 image_store:
     .db 00h
+
+.equ image_store_top_high, 7fh
+.equ image_store_top_low, 84h
