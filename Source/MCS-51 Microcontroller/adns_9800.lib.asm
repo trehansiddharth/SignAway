@@ -125,13 +125,12 @@ disable_laser:
 
 motion_burst:
     push acc
-    push 00h
 
     ; Lower NCS
     clr ncs
 
     ; Write 50h to the MOTION_BURST register
-    mov a, #d0h
+    mov a, #0d0h
     lcall write_spi
 
     mov a, #50h
@@ -149,7 +148,6 @@ motion_burst:
     ; Raise NCS
     setb ncs
 
-    pop 00h
     pop acc
 	ret
 

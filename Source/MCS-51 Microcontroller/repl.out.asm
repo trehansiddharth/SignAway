@@ -27,6 +27,9 @@
 
 .equ scratch, 17h
 
+.equ top_high, 18h
+.equ top_low, 19h
+
 .org 7b00h
 motion_store:
 	.db 00h
@@ -37,6 +40,9 @@ image_store:
 
 .equ image_store_top_high, 7fh
 .equ image_store_top_low, 84h
+
+.equ motion_store_top_high, 7bh
+.equ motion_store_top_low, 0eh
 
 .org 000h
 sjmp main
@@ -206,8 +212,26 @@ imageb:
 
 	; Loop to output 900 pixel values to serial
     mov dptr, #image_store
+	mov top_high, #image_store_top_high
+	mov top_low, #image_store_top_low
+	lcall print_burst
+
+	ljmp repl
+
+motbst:
+	lcall motion_burst
+
+	; Loop to output 14 register values to serial
+	mov dptr, #motion_store
+	mov top_high, #motion_store_top_high
+	mov top_low, #motion_store_top_low
+	lcall print_burst
+
+	ljmp repl
+
+print_burst:
 	lcall crlf
-	imageb_loop:
+	print_burst_loop:
 		; Read the next incoming byte
 		movx a, @dptr
 
@@ -219,16 +243,10 @@ imageb:
 
 		; Loop if necessary
 		mov a, dpl
-		cjne a, #image_store_top_low, imageb_loop
+		cjne a, top_low, print_burst_loop
 		mov a, dph
-		cjne a, #image_store_top_high, imageb_loop
-
-	ljmp repl
-
-motbst:
-	lcall motion_burst
-
-	ljmp repl
+		cjne a, top_high, print_burst_loop
+	ret
 
 on_motion:
 	setb b.0
@@ -331,13 +349,14 @@ shutdown_adns:
 	ret
 
 enable_laser:
-	; Set LASER_CTRL0 register to 0 (clear force-disable bit)
+	; Read LASER_CTRL0
 	mov address, #20h
 	lcall read_adns
 	mov a, data
 
 	lcall delay_r
 
+    ; Clear bit 0 (FORCE_DISABLE) and write it back
 	clr acc.0
 	mov data, a
 	lcall write_adns
@@ -345,13 +364,48 @@ enable_laser:
 	ret
 
 disable_laser:
-	; Set LASER_CTRL0 register to 1 (set force-disable bit)
-	mov address, #20h
-	mov data, #01h
-	lcall write_adns
-	ret
+    ; Read LASER_CTRL0
+    mov address, #20h
+    lcall read_adns
+    mov a, data
+
+    lcall delay_r
+
+    ; Set bit 0 (FORCE_DISABLE) and write it back
+    setb acc.0
+    mov data, a
+    lcall write_adns
+
+    ret
 
 motion_burst:
+    push acc
+    push 00h
+
+    ; Lower NCS
+    clr ncs
+
+    ; Write 50h to the MOTION_BURST register
+    mov a, #0d0h
+    lcall write_spi
+
+    mov a, #50h
+    lcall write_spi
+
+    ; Wait for a frame
+    lcall delay_frame
+
+    ; Read 14 registers
+    mov dptr, #motion_store
+    mov top_high, #motion_store_top_high
+    mov top_low, #motion_store_top_low
+    lcall burst
+
+    ; Raise NCS
+    setb ncs
+
+    pop 00h
+    pop acc
 	ret
 
 image_burst:
@@ -359,10 +413,6 @@ image_burst:
 
 	; Reset the hardware
 	lcall reset_adns
-
-	; Wait for a while
-	mov scratch, #0feh
-	lcall delay
 
 	; Enable the laser
 	lcall enable_laser
@@ -413,35 +463,42 @@ image_burst:
 	mov a, #64h
 	lcall write_spi
 
-	mov scratch, #0feh
-	lcall delay
+    ; Wait for 2 frames
+	lcall delay_frame
+    lcall delay_frame
 
-	; Loop to read 900 pixels
+	; Read 900 pixels
     mov dptr, #image_store
-	image_burst_loop:
-		; Read the next incoming byte
-		lcall read_spi
-
-		; Store it in memory
-		movx @dptr, a
-
-		; Increment dptr
-		inc dptr
-
-		; Wait for a bit
-		mov scratch, #08h
-		lcall delay
-
-		; Loop if necessary
-		mov a, dpl
-		cjne a, #image_store_top_low, image_burst_loop
-		mov a, dph
-		cjne a, #image_store_top_high, image_burst_loop
+    mov top_high, #image_store_top_high
+    mov top_low, #image_store_top_low
+    lcall burst
 
 	; Raise NCS back high
 	setb ncs
 
     pop acc
+    ret
+
+burst:
+    burst_loop:
+        ; Read the next incoming byte
+        lcall read_spi
+
+        ; Store it in memory
+        movx @dptr, a
+
+        ; Increment dptr
+        inc dptr
+
+        ; Wait for a bit
+        mov scratch, #08h
+        lcall delay
+
+        ; Loop if necessary
+        mov a, dpl
+        cjne a, top_low, burst_loop
+        mov a, dph
+        cjne a, top_high, burst_loop
     ret
 
 write_adns:
@@ -476,9 +533,8 @@ read_adns:
     anl a, #7fh
     lcall write_spi
 
-    ; Wait for 120 microseconds
-    mov scratch, #40h
-    lcall delay
+    ; Wait for 120 microseconds (1 frame)
+    lcall delay_frame
 
 	; Set MISO pin high to be able to read
 	setb miso
@@ -493,6 +549,22 @@ read_adns:
     pop acc
     ret
 
+delay_w:
+	mov scratch, #40h
+	lcall delay
+	ret
+
+delay_r:
+	mov scratch, #0ah
+	lcall delay
+	ret
+
+delay_frame:
+    mov scratch, #40h
+    lcall delay
+    ret
+
+; ==== Included from "spi.lib.asm" by AS115: ====
 write_spi:
     push 00h
 
@@ -573,16 +645,6 @@ read_spi:
 
     pop 00h
     ret
-
-delay_w:
-	mov scratch, #40h
-	lcall delay
-	ret
-
-delay_r:
-	mov scratch, #0ah
-	lcall delay
-	ret
 
 ; ==== Included from "psoc.lib.asm" by AS115: ====
 setup_psoc:

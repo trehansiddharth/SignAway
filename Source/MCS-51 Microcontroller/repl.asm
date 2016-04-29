@@ -139,8 +139,26 @@ imageb:
 
 	; Loop to output 900 pixel values to serial
     mov dptr, #image_store
+	mov top_high, #image_store_top_high
+	mov top_low, #image_store_top_low
+	lcall print_burst
+
+	ljmp repl
+
+motbst:
+	lcall motion_burst
+	
+	; Loop to output 14 register values to serial
+	mov dptr, #motion_store
+	mov top_high, #motion_store_top_high
+	mov top_low, #motion_store_top_low
+	lcall print_burst
+
+	ljmp repl
+
+print_burst:
 	lcall crlf
-	imageb_loop:
+	print_burst_loop:
 		; Read the next incoming byte
 		movx a, @dptr
 
@@ -152,16 +170,10 @@ imageb:
 
 		; Loop if necessary
 		mov a, dpl
-		cjne a, #image_store_top_low, imageb_loop
+		cjne a, top_low, print_burst_loop
 		mov a, dph
-		cjne a, #image_store_top_high, imageb_loop
-
-	ljmp repl
-
-motbst:
-	lcall motion_burst
-
-	ljmp repl
+		cjne a, top_high, print_burst_loop
+	ret
 
 on_motion:
 	setb b.0
