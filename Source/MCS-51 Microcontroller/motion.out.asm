@@ -57,210 +57,104 @@ image_store:
 .org 000h
 sjmp main
 
-.org 003h
-int0_isr:
-	ljmp on_motion
-
 .org 050h
 main:
-    ; Disable external interrupts
-    clr ea
+	; Move stack pointer to where we want it
+	mov sp, #stack
 
-    ; Setup serial communication
-    lcall setup_serial
+	; Setup the serial port
+	lcall setup_serial
 
-    ; Initialize pins for the ADNS-9800
-    lcall setup_adns
-
-    ; Print welcome message
-    lcall print
-    .db 0ah, 0dh, "Welcome to the SignAway REPL!", 00h
-
-    repl:
-        ; Reinitialize stack pointer
-        mov sp, #stack
-
-		; Clear the error bit
-		clr errorf
-
-        ; Print REPL prompt
-        lcall print
-        .db 0ah, 0dh, "> ", 0h
-
-        ; Get the next command from the serial port
-        lcall getcmd
-
-        ; Go to the appropriate subroutine based on the command we get
-        mov r2, a
-        ljmp nway
-
-        ; What to do in case of error:
-        badcmd:
-            lcall print
-            .db 0ah, 0dh, "Bad command.", 00h
-            ljmp repl
-
-; ==== Included from "minmon.lib.asm" by AS115: ====
-getcmd:
-    lcall getchr           ; get the single-letter command
-    clr   acc.5            ; make upper case
-    lcall sndchr           ; echo command
-    clr   C                ; clear the carry flag
-    subb  a, #'@'          ; convert to command number
-    jnc   cmdok1           ; letter command must be above '@'
-    lcall badcmd
-cmdok1:
-    push  acc              ; save command number
-    subb  a, #1Bh          ; command number must be 1Ah or less
-    jc    cmdok2
-    lcall badcmd           ; no need to pop acc since badpar
-                          ; initializes the system
-cmdok2:
-    pop   acc              ; recall command number
-    ret
-
-nway:
-    mov   dptr, #jumtab    ;point dptr at beginning of jump table
-    mov   a, r2            ;load acc with monitor routine number
-    rl    a                ;multiply by two.
-    inc   a                ;load first vector onto stack
-    movc  a, @a+dptr       ;         "          "
-    push  acc              ;         "          "
-    mov   a, r2            ;load acc with monitor routine number
-    rl    a                ;multiply by two
-    movc  a, @a+dptr       ;load second vector onto stack
-    push  acc              ;         "          "
-    ret                    ;jump to start of monitor routine
-
-jumtab:
-   .dw badcmd             ; command '@' 00
-   .dw badcmd             ; command 'a' 01
-   .dw badcmd             ; command 'b' 02
-   .dw badcmd             ; command 'c' 03
-   .dw badcmd             ; command 'd' 04
-   .dw badcmd             ; command 'e' 05
-   .dw badcmd             ; command 'f' 06
-   .dw badcmd             ; command 'g' 07
-   .dw badcmd             ; command 'h' 08
-   .dw imageb             ; command 'i' 09 used
-   .dw badcmd             ; command 'j' 0a
-   .dw badcmd             ; command 'k' 0b
-   .dw badcmd             ; command 'l' 0c
-   .dw motbst             ; command 'm' 0d used
-   .dw badcmd             ; command 'n' 0e
-   .dw badcmd             ; command 'o' 0f
-   .dw powrup             ; command 'p' 10 used
-   .dw badcmd             ; command 'q' 11
-   .dw readrg             ; command 'r' 12 used
-   .dw shutdn             ; command 's' 13 used
-   .dw badcmd             ; command 't' 14
-   .dw badcmd             ; command 'u' 15
-   .dw badcmd             ; command 'v' 16
-   .dw writrg             ; command 'w' 17 used
-   .dw badcmd             ; command 'x' 18
-   .dw badcmd             ; command 'y' 19
-   .dw badcmd             ; command 'z' 1a
-
-readrg:
-    ; Get the address
-    lcall getbyt
-	jb errorf, jump_badcmd
-    mov address, a
-    lcall prthex
-
-    ; Read that register from the ADNS 9800
-    lcall read_adns
-
-	; Print the result
-	lcall crlf
-    mov a, data
-    lcall prthex
-
-    ljmp repl
-
-writrg:
-    ; Get the address
-    lcall getbyt
-	jb errorf, jump_badcmd
-    mov address, a
-    lcall prthex
-
-    ; Something like an equal sign
-    lcall getchr
-    lcall sndchr
-
-    ; Get the data to write
-    lcall getbyt
-	jb errorf, jump_badcmd
-    mov data, a
-    lcall prthex
-
-    ; Write that value to that register on the ADNS 9800
-    lcall write_adns
-
-    ljmp repl
-
-jump_badcmd:
-	ljmp badcmd
-
-powrup:
+	; Setup and power up the ADNS-9800 chip
+	lcall setup_adns
 	lcall powerup_adns
+
+	; Disable interrupts
+	clr ea
+
+	; Clear absolute positions
+	mov x_low, #00h
+	mov x_high, #00h
+	mov y_low, #00h
+	mov y_high, #00h
+
+	; Print welcome message
 	lcall print
-	.db 0ah, 0dh, "ADNS-9800 powered up.", 00h
+	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
 
-	ljmp repl
+	; Read the motion registers every now and then
+	main_loop:
+		; Read the motion register
+		mov address, #02h
+		lcall read_adns
 
-shutdn:
-	lcall shutdown_adns
-	lcall print
-	.db 0ah, 0dh, "ADNS-9800 shut down.", 00h
+		lcall delay_r
 
-	ljmp repl
+		mov a, data
+		jnb acc.7, main_loop
 
-imageb:
-	lcall image_burst
+		on_motion:
+			; Read the DELTA_X_* registers
+			mov address, #03h
+			lcall read_adns
+			mov a, data
 
-	; Loop to output 900 pixel values to serial
-    mov dptr, #image_store
-	mov top_high, #image_store_top_high
-	mov top_low, #image_store_top_low
-	lcall print_burst
+			lcall delay_r
 
-	ljmp repl
+			inc address
+			lcall read_adns
+			mov r0, data
 
-motbst:
-	lcall motion_burst
+			; Update the x position
+			clr c
+			add a, x_low
+			mov x_low, a
+			mov a, x_high
+			addc a, r0
+			mov x_high, a
 
-	; Loop to output 14 register values to serial
-	mov dptr, #motion_store
-	mov top_high, #motion_store_top_high
-	mov top_low, #motion_store_top_low
-	lcall print_burst
+			; Read the DELTA_Y_* registers
+			mov address, #05h
+			lcall read_adns
+			mov a, data
 
-	ljmp repl
+			lcall delay_r
 
-print_burst:
-	lcall crlf
-	print_burst_loop:
-		; Read the next incoming byte
-		movx a, @dptr
+			inc address
+			lcall read_adns
+			mov r0, data
 
-		; Output to serial
+			; Update the y position
+			clr c
+			add a, y_low
+			mov y_low, a
+			mov a, y_high
+			addc a, r0
+			mov y_high, a
+
+		mov address, #02h
+		mov data, #00h
+		lcall write_adns
+
+		lcall delay_w
+
+		; Debugging!
+		lcall print
+		.db 0ah, 0dh, "X: ", 0h
+		mov a, x_high
+		lcall prthex
+		mov a, x_low
 		lcall prthex
 
-		; Increment dptr
-		inc dptr
+		sjmp main_loop
 
-		; Loop if necessary
-		mov a, dpl
-		cjne a, top_low, print_burst_loop
-		mov a, dph
-		cjne a, top_high, print_burst_loop
+delay16:
+	inc delay_high
+	delay16_outer_loop:
+		delay16_inner_loop:
+			djnz delay_low, delay16_inner_loop
+		djnz delay_high, delay16_outer_loop
 	ret
-
-on_motion:
-	setb b.0
-	reti
 
 ; ==== Included from "adns_9800.lib.asm" by AS115: ====
 setup_adns:
@@ -403,10 +297,6 @@ motion_burst:
 
     ; Wait for a frame
     lcall delay_frame
-
-	; Read from the MOTION_BURST register
-	mov a, #50h
-	lcall write_spi
 
     ; Read 14 registers
     mov dptr, #motion_store

@@ -138,6 +138,10 @@ motion_burst:
 
     ; Wait for a frame
     lcall delay_frame
+	
+	; Read from the MOTION_BURST register
+	mov a, #50h
+	lcall write_spi
 
     ; Read 14 registers
     mov dptr, #motion_store

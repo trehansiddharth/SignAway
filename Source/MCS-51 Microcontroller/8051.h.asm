@@ -35,6 +35,9 @@
 .equ y_low, 1ch
 .equ y_high, 1dh
 
+.equ delay_high, 1eh
+.equ delay_low, 1fh
+
 .org 7b00h
 motion_store:
 	.db 00h
@@ -48,6 +51,3 @@ image_store:
 
 .equ motion_store_top_high, 7bh
 .equ motion_store_top_low, 0eh
-
-.equ timer_count_high, 80h
-.equ timer_count_low, 00h
