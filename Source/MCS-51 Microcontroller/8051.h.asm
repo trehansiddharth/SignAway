@@ -5,7 +5,6 @@
 .equ mosi, 91h    ; P1.1
 .equ miso, 92h    ; P1.2
 .equ ncs, 0b4h    ; P3.4
-.equ motion, 0b2h ; P3.2 (INT0)
 
 .equ ctrl, 90h    ; P1
 .equ chip, 0b0h   ; P3
@@ -21,12 +20,20 @@
 
 .equ pcs, 0b7h    ; P3.7
 
+.equ but0, 93h
+.equ but1, 94h
+
 .equ opcode, 10h
 
 .equ scratch, 17h
 
 .equ top_high, 18h
 .equ top_low, 19h
+
+.equ x_low, 1ah
+.equ x_high, 1bh
+.equ y_low, 1ch
+.equ y_high, 1dh
 
 .org 7b00h
 motion_store:
@@ -41,3 +48,6 @@ image_store:
 
 .equ motion_store_top_high, 7bh
 .equ motion_store_top_low, 0eh
+
+.equ timer_count_high, 80h
+.equ timer_count_low, 00h
