@@ -151,6 +151,11 @@ motion_burst:
 
     ; Raise NCS
     setb ncs
+	
+	; Clear motion register
+	mov address, #02h
+	mov data, #00h
+	lcall write_adns
 
     pop acc
 	ret

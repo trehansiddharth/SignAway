@@ -82,71 +82,75 @@ main:
 	lcall print
 	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
 
-	; Read the motion registers every now and then
+	; Keep running motion burst to keep an accumulated absolute position
 	main_loop:
-		; Read the motion register
-		mov address, #02h
-		lcall read_adns
+		; Run motion burst
+		lcall motion_burst
 
-		lcall delay_r
+		; Read the DELTA_X_* registers
+		mov a, #02h
+		lcall grab_register
+		mov r0, a
 
-		mov a, data
-		jnb acc.7, main_loop
+		mov a, #03h
+		lcall grab_register
+		mov r1, a
 
-		on_motion:
-			; Read the DELTA_X_* registers
-			mov address, #03h
-			lcall read_adns
-			mov a, data
+		; Update the x position
+		clr c
 
-			lcall delay_r
+		mov a, x_low
+		add a, r0
+		mov x_low, a
 
-			inc address
-			lcall read_adns
-			mov r0, data
+		mov a, x_high
+		addc a, r1
+		mov x_high, a
 
-			; Update the x position
-			clr c
-			add a, x_low
-			mov x_low, a
-			mov a, x_high
-			addc a, r0
-			mov x_high, a
+		; Read the DELTA_Y_* registers
+		mov a, #04h
+		lcall grab_register
+		mov r0, a
 
-			; Read the DELTA_Y_* registers
-			mov address, #05h
-			lcall read_adns
-			mov a, data
+		mov a, #05h
+		lcall grab_register
+		mov r1, a
 
-			lcall delay_r
+		; Update the y position
+		clr c
 
-			inc address
-			lcall read_adns
-			mov r0, data
+		mov a, y_low
+		add a, r0
+		mov y_low, a
 
-			; Update the y position
-			clr c
-			add a, y_low
-			mov y_low, a
-			mov a, y_high
-			addc a, r0
-			mov y_high, a
-
-		mov address, #02h
-		mov data, #00h
-		lcall write_adns
-
-		lcall delay_w
+		mov a, y_high
+		addc a, r1
+		mov y_high, a
 
 		; Debugging!
 		lcall print
-		.db 0ah, 0dh, "X: ", 0h
+		.db 0ah, 0dh, "(", 0h
 		mov a, x_high
 		lcall prthex
 		mov a, x_low
 		lcall prthex
 
+		lcall print
+		.db ", ", 0h
+		mov a, y_high
+		lcall prthex
+		mov a, y_low
+		lcall prthex
+
+		lcall print
+		.db ") ", 0h
+
 		sjmp main_loop
+
+grab_register:
+	mov dptr, #motion_store
+	movc a, @a+dptr
+	ret
 
 delay16:
 	inc delay_high
@@ -298,6 +302,10 @@ motion_burst:
     ; Wait for a frame
     lcall delay_frame
 
+	; Read from the MOTION_BURST register
+	mov a, #50h
+	lcall write_spi
+
     ; Read 14 registers
     mov dptr, #motion_store
     mov top_high, #motion_store_top_high
@@ -306,6 +314,11 @@ motion_burst:
 
     ; Raise NCS
     setb ncs
+
+	; Clear motion register
+	mov address, #02h
+	mov data, #00h
+	lcall write_adns
 
     pop acc
 	ret
