@@ -1,19 +1,20 @@
 setup_psoc:
     setb pcs
 
-send_psoc:
-    ; Send the opcode
-    mov ctrl, opcode
+    ret
+
+write_psoc:
+    push acc
+
+    ; Lower PCS
     clr pcs
+
+    ; Write the data
+    mov a, data
+    lcall write_spi
+
+    ; Raise PCS
     setb pcs
 
-    ; Wait for the PSoC to process it
-    mov scratch, #40h
-    lcall delay
-
-    ; Send the data
-    mov ctrl, data
-    clr pcs
-    setb pcs
-
+    pop acc
     ret

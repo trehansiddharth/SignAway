@@ -20,11 +20,6 @@
 
 .equ pcs, 0b7h    ; P3.7
 
-.equ but0, 93h
-.equ but1, 94h
-
-.equ opcode, 10h
-
 .equ scratch, 17h
 
 .equ top_high, 18h
@@ -35,8 +30,10 @@
 .equ y_low, 1ch
 .equ y_high, 1dh
 
-.equ delay_high, 1eh
-.equ delay_low, 1fh
+.equ last_x_low, 1eh
+.equ last_x_high, 1fh
+.equ last_y_low, 20h
+.equ last_y_high, 21h
 
 .org 7b00h
 motion_store:

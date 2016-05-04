@@ -22,11 +22,6 @@
                    
 0000:              .equ pcs, 0b7h    ; P3.7
                    
-0000:              .equ but0, 93h
-0000:              .equ but1, 94h
-                   
-0000:              .equ opcode, 10h
-                   
 0000:              .equ scratch, 17h
                    
 0000:              .equ top_high, 18h
@@ -37,8 +32,10 @@
 0000:              .equ y_low, 1ch
 0000:              .equ y_high, 1dh
                    
-0000:              .equ delay_high, 1eh
-0000:              .equ delay_low, 1fh
+0000:              .equ last_x_low, 1eh
+0000:              .equ last_x_high, 1fh
+0000:              .equ last_y_low, 20h
+0000:              .equ last_y_high, 21h
                    
 7B00:              .org 7b00h
                    motion_store:
@@ -63,24 +60,37 @@
 0050: 75 81 2F              mov sp, #stack
                    
                             ; Setup the serial port
-0053: 12 02 E5              lcall setup_serial
+0053: 12 02 EE              lcall setup_serial
                    
                             ; Setup and power up the ADNS-9800 chip
-0056: 12 00 F6              lcall setup_adns
-0059: 12 01 2B              lcall powerup_adns
+0056: 12 01 05              lcall setup_adns
+0059: 12 01 3A              lcall powerup_adns
+                   
+                            ; Set the resolution to be 200 cpi by setting the C
+005C: 75 10 0F              mov address, #0fh
+005F: 75 11 01              mov data, #01h
+0062: 12 02 4F              lcall write_adns
+                   
+                            ; Setup the SPI connection with the PSoC
+0065: 12 02 DD              lcall setup_psoc
                    
                             ; Disable interrupts
-005C: C2 AF                 clr ea
+0068: C2 AF                 clr ea
                    
                             ; Clear absolute positions
-005E: 75 1A 00              mov x_low, #00h
-0061: 75 1B 00              mov x_high, #00h
-0064: 75 1C 00              mov y_low, #00h
-0067: 75 1D 00              mov y_high, #00h
+006A: 75 1A 00              mov x_low, #00h
+006D: 75 1B 00              mov x_high, #00h
+0070: 75 1C 00              mov y_low, #00h
+0073: 75 1D 00              mov y_high, #00h
+                   
+0076: 75 1E 00              mov last_x_low, #00h
+0079: 75 1F 00              mov last_x_high, #00h
+007C: 75 20 00              mov last_y_low, #00h
+007F: 75 21 00              mov last_y_high, #00h
                    
                             ; Print welcome message
-006A: 12 03 14              lcall print
-006D: 0A 0D 57 65 
+0082: 12 03 1D              lcall print
+0085: 0A 0D 57 65 
       6C 63 6F 6D 
       65 20 74 6F 
       20 74 68 65 
@@ -93,546 +103,539 @@
                             ; Keep running motion burst to keep an accumulated 
                             main_loop:
                                     ; Run motion burst
-008E: 12 01 9C                      lcall motion_burst
+00A6: 12 01 AB                      lcall motion_burst
                    
                                     ; Read the DELTA_X_* registers
-0091: 74 02                         mov a, #02h
-0093: 12 00 E8                      lcall grab_register
-0096: F8                            mov r0, a
+00A9: 74 02                         mov a, #02h
+00AB: 12 01 00                      lcall grab_register
+00AE: F8                            mov r0, a
                    
-0097: 74 03                         mov a, #03h
-0099: 12 00 E8                      lcall grab_register
-009C: F9                            mov r1, a
+00AF: 74 03                         mov a, #03h
+00B1: 12 01 00                      lcall grab_register
+00B4: F9                            mov r1, a
                    
                                     ; Update the x position
-009D: C3                            clr c
+00B5: C3                            clr c
                    
-009E: E5 1A                         mov a, x_low
-00A0: 28                            add a, r0
-00A1: F5 1A                         mov x_low, a
+00B6: E5 1A                         mov a, x_low
+00B8: 28                            add a, r0
+00B9: F5 1A                         mov x_low, a
                    
-00A3: E5 1B                         mov a, x_high
-00A5: 39                            addc a, r1
-00A6: F5 1B                         mov x_high, a
+00BB: E5 1B                         mov a, x_high
+00BD: 39                            addc a, r1
+00BE: F5 1B                         mov x_high, a
                    
                                     ; Read the DELTA_Y_* registers
-00A8: 74 04                         mov a, #04h
-00AA: 12 00 E8                      lcall grab_register
-00AD: F8                            mov r0, a
+00C0: 74 04                         mov a, #04h
+00C2: 12 01 00                      lcall grab_register
+00C5: F8                            mov r0, a
                    
-00AE: 74 05                         mov a, #05h
-00B0: 12 00 E8                      lcall grab_register
-00B3: F9                            mov r1, a
+00C6: 74 05                         mov a, #05h
+00C8: 12 01 00                      lcall grab_register
+00CB: F9                            mov r1, a
                    
                                     ; Update the y position
-00B4: C3                            clr c
+00CC: C3                            clr c
                    
-00B5: E5 1C                         mov a, y_low
-00B7: 28                            add a, r0
-00B8: F5 1C                         mov y_low, a
+00CD: E5 1C                         mov a, y_low
+00CF: 28                            add a, r0
+00D0: F5 1C                         mov y_low, a
                    
-00BA: E5 1D                         mov a, y_high
-00BC: 39                            addc a, r1
-00BD: F5 1D                         mov y_high, a
+00D2: E5 1D                         mov a, y_high
+00D4: 39                            addc a, r1
+00D5: F5 1D                         mov y_high, a
                    
                                     ; Debugging!
-00BF: 12 03 14                      lcall print
-00C2: 0A 0D 28 00 
+00D7: 12 03 1D                      lcall print
+00DA: 0A 0D 28 00 
                                     .db 0ah, 0dh, "(", 0h
-00C6: E5 1B                         mov a, x_high
-00C8: 12 03 33                      lcall prthex
-00CB: E5 1A                         mov a, x_low
-00CD: 12 03 33                      lcall prthex
+00DE: E5 1B                         mov a, x_high
+00E0: 12 03 3C                      lcall prthex
+00E3: E5 1A                         mov a, x_low
+00E5: 12 03 3C                      lcall prthex
                    
-00D0: 12 03 14                      lcall print
-00D3: 2C 20 00                      .db ", ", 0h
-00D6: E5 1D                         mov a, y_high
-00D8: 12 03 33                      lcall prthex
-00DB: E5 1C                         mov a, y_low
-00DD: 12 03 33                      lcall prthex
+00E8: 12 03 1D                      lcall print
+00EB: 2C 20 00                      .db ", ", 0h
+00EE: E5 1D                         mov a, y_high
+00F0: 12 03 3C                      lcall prthex
+00F3: E5 1C                         mov a, y_low
+00F5: 12 03 3C                      lcall prthex
                    
-00E0: 12 03 14                      lcall print
-00E3: 29 20 00                      .db ") ", 0h
+00F8: 12 03 1D                      lcall print
+00FB: 29 20 00                      .db ") ", 0h
                    
-00E6: 80 A6                         sjmp main_loop
+00FE: 80 A6                         sjmp main_loop
                    
                    grab_register:
-00E8: 90 7B 00              mov dptr, #motion_store
-00EB: 93                    movc a, @a+dptr
-00EC: 22                    ret
-                   
-                   delay16:
-00ED: 05 1E                 inc delay_high
-                            delay16_outer_loop:
-                                    delay16_inner_loop:
-00EF: D5 1F FD                              djnz delay_low, delay16_inner_loop
-00F2: D5 1E FA                      djnz delay_high, delay16_outer_loop
-00F5: 22                    ret
+0100: 90 7B 00              mov dptr, #motion_store
+0103: 93                    movc a, @a+dptr
+0104: 22                    ret
                    
                    ; ==== Included from "adns_9800.lib.asm" by AS115: ====
                    setup_adns:
-00F6: C0 E0            push acc
+0105: C0 E0            push acc
                    
                        ; Set both NCS and SCLK high for initial state
-00F8: D2 B4            setb ncs
-00FA: D2 90            setb sclk
+0107: D2 B4            setb ncs
+0109: D2 90            setb sclk
                    
                             ; Set MISO high to use it as an input
-00FC: D2 92                 setb miso
+010B: D2 92                 setb miso
                    
                        ; Set constants that will be used in write_spi and read_
-00FE: 74 90            mov a, #sclk
-0100: 54 07            anl a, #07h
-0102: F8               mov r0, a
-0103: 74 01            mov a, #01h
-0105: 12 03 04         lcall shl_acc
-0108: F5 12            mov sclk_high, a
-010A: F4               cpl a
-010B: F5 13            mov sclk_low, a
-                   
-010D: 74 91            mov a, #mosi
+010D: 74 90            mov a, #sclk
 010F: 54 07            anl a, #07h
 0111: F8               mov r0, a
 0112: 74 01            mov a, #01h
-0114: 12 03 04         lcall shl_acc
-0117: F5 14            mov mosi_high, a
+0114: 12 03 0D         lcall shl_acc
+0117: F5 12            mov sclk_high, a
 0119: F4               cpl a
-011A: F5 15            mov mosi_low, a
+011A: F5 13            mov sclk_low, a
                    
-011C: 74 92            mov a, #miso
+011C: 74 91            mov a, #mosi
 011E: 54 07            anl a, #07h
 0120: F8               mov r0, a
 0121: 74 01            mov a, #01h
-0123: 12 03 04         lcall shl_acc
-0126: F5 16            mov miso_mask, a
+0123: 12 03 0D         lcall shl_acc
+0126: F5 14            mov mosi_high, a
+0128: F4               cpl a
+0129: F5 15            mov mosi_low, a
                    
-0128: D0 E0            pop acc
-012A: 22               ret
+012B: 74 92            mov a, #miso
+012D: 54 07            anl a, #07h
+012F: F8               mov r0, a
+0130: 74 01            mov a, #01h
+0132: 12 03 0D         lcall shl_acc
+0135: F5 16            mov miso_mask, a
+                   
+0137: D0 E0            pop acc
+0139: 22               ret
                    
                    powerup_adns:
                             ; Reset the hardware
-012B: 12 01 6B              lcall reset_adns
+013A: 12 01 7A              lcall reset_adns
                    
                             ; Wait 50ms
-012E: 75 17 62              mov scratch, #62h
+013D: 75 17 62              mov scratch, #62h
                             outer_powerup_delay_loop:
-0131: C0 17                         push scratch
-0133: 75 17 FF                      mov scratch, #0ffh
+0140: C0 17                         push scratch
+0142: 75 17 FF                      mov scratch, #0ffh
                                     inner_powerup_delay_loop:
-0136: D5 17 FD                              djnz scratch, inner_powerup_delay_l
-0139: D0 17                         pop scratch
-013B: D5 17 F3                      djnz scratch, outer_powerup_delay_loop
+0145: D5 17 FD                              djnz scratch, inner_powerup_delay_l
+0148: D0 17                         pop scratch
+014A: D5 17 F3                      djnz scratch, outer_powerup_delay_loop
                    
                             ; Read registers 02h, 03h, 04h, 05h, and 06h
-013E: 75 10 02              mov address, #02h
-0141: 12 02 55              lcall read_adns
+014D: 75 10 02              mov address, #02h
+0150: 12 02 64              lcall read_adns
                    
-0144: 12 02 76              lcall delay_r
+0153: 12 02 85              lcall delay_r
                    
-0147: 05 10                 inc address
-0149: 12 02 55              lcall read_adns
+0156: 05 10                 inc address
+0158: 12 02 64              lcall read_adns
                    
-014C: 12 02 76              lcall delay_r
+015B: 12 02 85              lcall delay_r
                    
-014F: 05 10                 inc address
-0151: 12 02 55              lcall read_adns
+015E: 05 10                 inc address
+0160: 12 02 64              lcall read_adns
                    
-0154: 12 02 76              lcall delay_r
+0163: 12 02 85              lcall delay_r
                    
-0157: 05 10                 inc address
-0159: 12 02 55              lcall read_adns
+0166: 05 10                 inc address
+0168: 12 02 64              lcall read_adns
                    
-015C: 12 02 76              lcall delay_r
+016B: 12 02 85              lcall delay_r
                    
-015F: 05 10                 inc address
-0161: 12 02 55              lcall read_adns
+016E: 05 10                 inc address
+0170: 12 02 64              lcall read_adns
                    
-0164: 12 02 76              lcall delay_r
+0173: 12 02 85              lcall delay_r
                    
                             ; Enable laser
-0167: 12 01 76              lcall enable_laser
+0176: 12 01 85              lcall enable_laser
                    
-016A: 22                    ret
+0179: 22                    ret
                    
                    reset_adns:
                             ; Write to Power_Up_Reset register
-016B: 75 10 3A              mov address, #3ah
-016E: 75 11 5A              mov data, #5ah
-0171: 12 02 40              lcall write_adns
-0174: 22                    ret
+017A: 75 10 3A              mov address, #3ah
+017D: 75 11 5A              mov data, #5ah
+0180: 12 02 4F              lcall write_adns
+0183: 22                    ret
                    
                    shutdown_adns:
                             ; Unimplemented!
-0175: 22                    ret
+0184: 22                    ret
                    
                    enable_laser:
                             ; Read LASER_CTRL0
-0176: 75 10 20              mov address, #20h
-0179: 12 02 55              lcall read_adns
-017C: E5 11                 mov a, data
+0185: 75 10 20              mov address, #20h
+0188: 12 02 64              lcall read_adns
+018B: E5 11                 mov a, data
                    
-017E: 12 02 76              lcall delay_r
+018D: 12 02 85              lcall delay_r
                    
                        ; Clear bit 0 (FORCE_DISABLE) and write it back
-0181: C2 E0                 clr acc.0
-0183: F5 11                 mov data, a
-0185: 12 02 40              lcall write_adns
+0190: C2 E0                 clr acc.0
+0192: F5 11                 mov data, a
+0194: 12 02 4F              lcall write_adns
                    
-0188: 22                    ret
+0197: 22                    ret
                    
                    disable_laser:
                        ; Read LASER_CTRL0
-0189: 75 10 20         mov address, #20h
-018C: 12 02 55         lcall read_adns
-018F: E5 11            mov a, data
+0198: 75 10 20         mov address, #20h
+019B: 12 02 64         lcall read_adns
+019E: E5 11            mov a, data
                    
-0191: 12 02 76         lcall delay_r
+01A0: 12 02 85         lcall delay_r
                    
                        ; Set bit 0 (FORCE_DISABLE) and write it back
-0194: D2 E0            setb acc.0
-0196: F5 11            mov data, a
-0198: 12 02 40         lcall write_adns
+01A3: D2 E0            setb acc.0
+01A5: F5 11            mov data, a
+01A7: 12 02 4F         lcall write_adns
                    
-019B: 22               ret
+01AA: 22               ret
                    
                    motion_burst:
-019C: C0 E0            push acc
+01AB: C0 E0            push acc
                    
                        ; Lower NCS
-019E: C2 B4            clr ncs
+01AD: C2 B4            clr ncs
                    
                        ; Write 50h to the MOTION_BURST register
-01A0: 74 D0            mov a, #0d0h
-01A2: 12 02 84         lcall write_spi
+01AF: 74 D0            mov a, #0d0h
+01B1: 12 02 93         lcall write_spi
                    
-01A5: 74 50            mov a, #50h
-01A7: 12 02 84         lcall write_spi
+01B4: 74 50            mov a, #50h
+01B6: 12 02 93         lcall write_spi
                    
                        ; Wait for a frame
-01AA: 12 02 7D         lcall delay_frame
+01B9: 12 02 8C         lcall delay_frame
                    
                             ; Read from the MOTION_BURST register
-01AD: 74 50                 mov a, #50h
-01AF: 12 02 84              lcall write_spi
+01BC: 74 50                 mov a, #50h
+01BE: 12 02 93              lcall write_spi
                    
                        ; Read 14 registers
-01B2: 90 7B 00         mov dptr, #motion_store
-01B5: 75 18 7B         mov top_high, #motion_store_top_high
-01B8: 75 19 0E         mov top_low, #motion_store_top_low
-01BB: 12 02 2A         lcall burst
+01C1: 90 7B 00         mov dptr, #motion_store
+01C4: 75 18 7B         mov top_high, #motion_store_top_high
+01C7: 75 19 0E         mov top_low, #motion_store_top_low
+01CA: 12 02 39         lcall burst
                    
                        ; Raise NCS
-01BE: D2 B4            setb ncs
+01CD: D2 B4            setb ncs
                    
                             ; Clear motion register
-01C0: 75 10 02              mov address, #02h
-01C3: 75 11 00              mov data, #00h
-01C6: 12 02 40              lcall write_adns
+01CF: 75 10 02              mov address, #02h
+01D2: 75 11 00              mov data, #00h
+01D5: 12 02 4F              lcall write_adns
                    
-01C9: D0 E0            pop acc
-01CB: 22                    ret
+01D8: D0 E0            pop acc
+01DA: 22                    ret
                    
                    image_burst:
-01CC: C0 E0            push acc
+01DB: C0 E0            push acc
                    
                             ; Reset the hardware
-01CE: 12 01 6B              lcall reset_adns
+01DD: 12 01 7A              lcall reset_adns
                    
                             ; Enable the laser
-01D1: 12 01 76              lcall enable_laser
+01E0: 12 01 85              lcall enable_laser
                    
                             ; Lower NCS
-01D4: C2 B4                 clr ncs
+01E3: C2 B4                 clr ncs
                    
                             ; Write 93h to FRAME_CAPTURE register
-01D6: 74 92                 mov a, #92h
-01D8: 12 02 84              lcall write_spi
-01DB: 74 93                 mov a, #93h
-01DD: 12 02 84              lcall write_spi
+01E5: 74 92                 mov a, #92h
+01E7: 12 02 93              lcall write_spi
+01EA: 74 93                 mov a, #93h
+01EC: 12 02 93              lcall write_spi
                    
-01E0: 12 02 6F              lcall delay_w
+01EF: 12 02 7E              lcall delay_w
                    
                             ; Write c5h to FRAME_CAPTURE register
-01E3: 74 92                 mov a, #92h
-01E5: 12 02 84              lcall write_spi
-01E8: 74 C5                 mov a, #0c5h
-01EA: 12 02 84              lcall write_spi
+01F2: 74 92                 mov a, #92h
+01F4: 12 02 93              lcall write_spi
+01F7: 74 C5                 mov a, #0c5h
+01F9: 12 02 93              lcall write_spi
                    
-01ED: D2 B4                 setb ncs
+01FC: D2 B4                 setb ncs
                    
-01EF: 12 02 6F              lcall delay_w
+01FE: 12 02 7E              lcall delay_w
                    
-01F2: 75 17 FE              mov scratch, #0feh
-01F5: 12 03 10              lcall delay
+0201: 75 17 FE              mov scratch, #0feh
+0204: 12 03 19              lcall delay
                    
-01F8: C2 B4                 clr ncs
+0207: C2 B4                 clr ncs
                    
                             ; Wait for the LSB in MOTION register to be set
                             await_motion_bit:
                                     ; Read the MOTION register
-01FA: 74 02                         mov a, #02h
-01FC: 12 02 84                      lcall write_spi
+0209: 74 02                         mov a, #02h
+020B: 12 02 93                      lcall write_spi
                    
-01FF: 75 17 40                      mov scratch, #40h
-0202: 12 03 10                      lcall delay
+020E: 75 17 40                      mov scratch, #40h
+0211: 12 03 19                      lcall delay
                    
-0205: 12 02 AB                      lcall read_spi
+0214: 12 02 BA                      lcall read_spi
                    
-0208: 12 02 76                      lcall delay_r
+0217: 12 02 85                      lcall delay_r
                    
                                     ; Loop again if the LSB is not set
-020B: 30 E0 EC                      jnb acc.0, await_motion_bit
+021A: 30 E0 EC                      jnb acc.0, await_motion_bit
                    
                             ; Tell the chip to read register 64
-020E: 74 64                 mov a, #64h
-0210: 12 02 84              lcall write_spi
+021D: 74 64                 mov a, #64h
+021F: 12 02 93              lcall write_spi
                    
                        ; Wait for 2 frames
-0213: 12 02 7D              lcall delay_frame
-0216: 12 02 7D         lcall delay_frame
+0222: 12 02 8C              lcall delay_frame
+0225: 12 02 8C         lcall delay_frame
                    
                             ; Read 900 pixels
-0219: 90 7C 00         mov dptr, #image_store
-021C: 75 18 7F         mov top_high, #image_store_top_high
-021F: 75 19 84         mov top_low, #image_store_top_low
-0222: 12 02 2A         lcall burst
+0228: 90 7C 00         mov dptr, #image_store
+022B: 75 18 7F         mov top_high, #image_store_top_high
+022E: 75 19 84         mov top_low, #image_store_top_low
+0231: 12 02 39         lcall burst
                    
                             ; Raise NCS back high
-0225: D2 B4                 setb ncs
+0234: D2 B4                 setb ncs
                    
-0227: D0 E0            pop acc
-0229: 22               ret
+0236: D0 E0            pop acc
+0238: 22               ret
                    
                    burst:
                        burst_loop:
                            ; Read the next incoming byte
-022A: 12 02 AB             lcall read_spi
+0239: 12 02 BA             lcall read_spi
                    
                            ; Store it in memory
-022D: F0                   movx @dptr, a
+023C: F0                   movx @dptr, a
                    
                            ; Increment dptr
-022E: A3                   inc dptr
+023D: A3                   inc dptr
                    
                            ; Wait for a bit
-022F: 75 17 08             mov scratch, #08h
-0232: 12 03 10             lcall delay
+023E: 75 17 08             mov scratch, #08h
+0241: 12 03 19             lcall delay
                    
                            ; Loop if necessary
-0235: E5 82                mov a, dpl
-0237: B5 19 F0             cjne a, top_low, burst_loop
-023A: E5 83                mov a, dph
-023C: B5 18 EB             cjne a, top_high, burst_loop
-023F: 22               ret
+0244: E5 82                mov a, dpl
+0246: B5 19 F0             cjne a, top_low, burst_loop
+0249: E5 83                mov a, dph
+024B: B5 18 EB             cjne a, top_high, burst_loop
+024E: 22               ret
                    
                    write_adns:
-0240: C0 E0            push acc
+024F: C0 E0            push acc
                    
                        ; Set NCS for ADNS-9800 low
-0242: C2 B4            clr ncs
+0251: C2 B4            clr ncs
                    
                        ; Write the address (with MSB set high) on the SPI line
-0244: E5 10            mov a, address
-0246: 44 80            orl a, #80h
-0248: 12 02 84         lcall write_spi
+0253: E5 10            mov a, address
+0255: 44 80            orl a, #80h
+0257: 12 02 93         lcall write_spi
                    
                        ; Write the data on the SPI line
-024B: E5 11            mov a, data
-024D: 12 02 84         lcall write_spi
+025A: E5 11            mov a, data
+025C: 12 02 93         lcall write_spi
                    
                        ; Set NCS high again
-0250: D2 B4            setb ncs
+025F: D2 B4            setb ncs
                    
-0252: D0 E0            pop acc
-0254: 22               ret
+0261: D0 E0            pop acc
+0263: 22               ret
                    
                    read_adns:
-0255: C0 E0            push acc
+0264: C0 E0            push acc
                    
                        ; Set NCS for ADNS-9800 low
-0257: C2 B4            clr ncs
+0266: C2 B4            clr ncs
                    
                        ; Write the address (with MSB set low) on the SPI line
-0259: E5 10            mov a, address
-025B: 54 7F            anl a, #7fh
-025D: 12 02 84         lcall write_spi
+0268: E5 10            mov a, address
+026A: 54 7F            anl a, #7fh
+026C: 12 02 93         lcall write_spi
                    
                        ; Wait for 120 microseconds (1 frame)
-0260: 12 02 7D         lcall delay_frame
+026F: 12 02 8C         lcall delay_frame
                    
                             ; Set MISO pin high to be able to read
-0263: D2 92                 setb miso
+0272: D2 92                 setb miso
                    
                        ; Read the data from the SPI line and put it on the accu
-0265: 12 02 AB         lcall read_spi
-0268: F5 11            mov data, a
+0274: 12 02 BA         lcall read_spi
+0277: F5 11            mov data, a
                    
                        ; Set NCS high again
-026A: D2 B4            setb ncs
+0279: D2 B4            setb ncs
                    
-026C: D0 E0            pop acc
-026E: 22               ret
+027B: D0 E0            pop acc
+027D: 22               ret
                    
                    delay_w:
-026F: 75 17 40              mov scratch, #40h
-0272: 12 03 10              lcall delay
-0275: 22                    ret
+027E: 75 17 40              mov scratch, #40h
+0281: 12 03 19              lcall delay
+0284: 22                    ret
                    
                    delay_r:
-0276: 75 17 0A              mov scratch, #0ah
-0279: 12 03 10              lcall delay
-027C: 22                    ret
+0285: 75 17 0A              mov scratch, #0ah
+0288: 12 03 19              lcall delay
+028B: 22                    ret
                    
                    delay_frame:
-027D: 75 17 40         mov scratch, #40h
-0280: 12 03 10         lcall delay
-0283: 22               ret
+028C: 75 17 40         mov scratch, #40h
+028F: 12 03 19         lcall delay
+0292: 22               ret
                    
                    ; ==== Included from "spi.lib.asm" by AS115: ====
                    write_spi:
-0284: C0 00            push 00h
+0293: C0 00            push 00h
                    
                        ; Set up the loop so it only runs 8 times (one for each 
-0286: 78 08            mov r0, #08h
+0295: 78 08            mov r0, #08h
                        write_adns_loop:
                            ; Get the next bit in acc (from MSB to LSB)
-0288: 23                   rl a
-0289: C0 E0                push acc
-028B: 30 E0 08             jnb acc.0, write_bit_not_set
+0297: 23                   rl a
+0298: C0 E0                push acc
+029A: 30 E0 08             jnb acc.0, write_bit_not_set
                    
                            ; Run SCLK low and MOSI high
                            write_bit_set:
-028E: E5 90                    mov a, ctrl
-0290: 55 13                    anl a, sclk_low
-0292: 45 14                    orl a, mosi_high
-0294: 80 08                    sjmp write_resume
+029D: E5 90                    mov a, ctrl
+029F: 55 13                    anl a, sclk_low
+02A1: 45 14                    orl a, mosi_high
+02A3: 80 08                    sjmp write_resume
                    
                            ; Run SCLK low and MOSI low
                            write_bit_not_set:
-0296: E5 90                    mov a, ctrl
-0298: 55 13                    anl a, sclk_low
-029A: 55 15                    anl a, mosi_low
-029C: 80 00                    sjmp write_resume
+02A5: E5 90                    mov a, ctrl
+02A7: 55 13                    anl a, sclk_low
+02A9: 55 15                    anl a, mosi_low
+02AB: 80 00                    sjmp write_resume
                    
                            write_resume:
                                ; Write new SCLK and MOSI
-029E: F5 90                    mov ctrl, a
+02AD: F5 90                    mov ctrl, a
                    
                                ; Set SCLK high
-02A0: 45 12                    orl a, sclk_high
-02A2: F5 90                    mov ctrl, a
+02AF: 45 12                    orl a, sclk_high
+02B1: F5 90                    mov ctrl, a
                    
-02A4: D0 E0                    pop acc
-02A6: D8 E0                    djnz r0, write_adns_loop
+02B3: D0 E0                    pop acc
+02B5: D8 E0                    djnz r0, write_adns_loop
                    
-02A8: D0 00            pop 00h
-02AA: 22               ret
+02B7: D0 00            pop 00h
+02B9: 22               ret
                    
                    read_spi:
-02AB: C0 00            push 00h
+02BA: C0 00            push 00h
                    
                             ; Set MOSI low so the chip doesn't think we're writ
-02AD: C2 91                 clr mosi
+02BC: C2 91                 clr mosi
                    
                        ; Set up the loop so it only runs 8 times (one for each 
-02AF: 78 08            mov r0, #08h
+02BE: 78 08            mov r0, #08h
                        read_adns_loop:
                    
                            ; Shift to the next digit
-02B1: 23                   rl a
-02B2: C0 E0                push acc
+02C0: 23                   rl a
+02C1: C0 E0                push acc
                    
                            ; Set SCLK low
-02B4: E5 13                mov a, sclk_low
-02B6: 52 90                anl ctrl, a
+02C3: E5 13                mov a, sclk_low
+02C5: 52 90                anl ctrl, a
                    
                            ; Set SCLK high
-02B8: E5 12                mov a, sclk_high
-02BA: 42 90                orl ctrl, a
+02C7: E5 12                mov a, sclk_high
+02C9: 42 90                orl ctrl, a
                    
                            ; Get the next bit from the control register (from M
-02BC: D0 E0                pop acc
-02BE: 30 92 04             jnb miso, read_bit_not_set
+02CB: D0 E0                pop acc
+02CD: 30 92 04             jnb miso, read_bit_not_set
                    
                            ; Set acc.0
                            read_bit_set:
-02C1: D2 E0                    setb acc.0
-02C3: 80 04                    sjmp read_resume
+02D0: D2 E0                    setb acc.0
+02D2: 80 04                    sjmp read_resume
                    
                            ; Clear acc.0
                            read_bit_not_set:
-02C5: C2 E0                    clr acc.0
-02C7: 80 00                    sjmp read_resume
+02D4: C2 E0                    clr acc.0
+02D6: 80 00                    sjmp read_resume
                    
                            read_resume:
-02C9: D8 E6                    djnz r0, read_adns_loop
+02D8: D8 E6                    djnz r0, read_adns_loop
                    
-02CB: D0 00            pop 00h
-02CD: 22               ret
+02DA: D0 00            pop 00h
+02DC: 22               ret
                    
                    ; ==== Included from "psoc.lib.asm" by AS115: ====
                    setup_psoc:
-02CE: D2 B7            setb pcs
+02DD: D2 B7            setb pcs
                    
-                   send_psoc:
-                       ; Send the opcode
-02D0: 85 10 90         mov ctrl, opcode
-02D3: C2 B7            clr pcs
-02D5: D2 B7            setb pcs
+02DF: 22               ret
                    
-                       ; Wait for the PSoC to process it
-02D7: 75 17 40         mov scratch, #40h
-02DA: 12 03 10         lcall delay
+                   write_psoc:
+02E0: C0 E0            push acc
                    
-                       ; Send the data
-02DD: 85 11 90         mov ctrl, data
-02E0: C2 B7            clr pcs
-02E2: D2 B7            setb pcs
+                       ; Lower PCS
+02E2: C2 B7            clr pcs
                    
-02E4: 22               ret
+                       ; Write the data
+02E4: E5 11            mov a, data
+02E6: 12 02 93         lcall write_spi
+                   
+                       ; Raise PCS
+02E9: D2 B7            setb pcs
+                   
+02EB: D0 E0            pop acc
+02ED: 22               ret
                    
                    ; ==== Included from "serial.lib.asm" by AS115: ====
                    setup_serial:
-02E5: 75 89 20         mov   tmod, #20h
-02E8: 75 88 41         mov   tcon, #41h
-02EB: 75 8D FD         mov   th1,  #0fdh
-02EE: 75 98 50         mov   scon, #50h
-02F1: 22               ret
+02EE: 75 89 20         mov   tmod, #20h
+02F1: 75 88 41         mov   tcon, #41h
+02F4: 75 8D FD         mov   th1,  #0fdh
+02F7: 75 98 50         mov   scon, #50h
+02FA: 22               ret
                    
                    sndchr:
-02F2: C2 99            clr scon.1
-02F4: F5 99            mov sbuf, a
+02FB: C2 99            clr scon.1
+02FD: F5 99            mov sbuf, a
                        txloop:
-02F6: 30 99 FD             jnb scon.1, txloop
-02F9: 22               ret
+02FF: 30 99 FD             jnb scon.1, txloop
+0302: 22               ret
                    
                    getchr:
-02FA: 30 98 FD         jnb ri, getchr
-02FD: E5 99            mov a,  sbuf
-02FF: 54 7F            anl a,  #7fh
-0301: C2 98            clr ri
-0303: 22               ret
+0303: 30 98 FD         jnb ri, getchr
+0306: E5 99            mov a,  sbuf
+0308: 54 7F            anl a,  #7fh
+030A: C2 98            clr ri
+030C: 22               ret
                    
                    ; ==== Included from "util.lib.asm" by AS115: ====
                    shl_acc:
-0304: 08                    inc r0
-0305: 03                    rr a
+030D: 08                    inc r0
+030E: 03                    rr a
                             shl_acc_loop:
-0306: 23                            rl a
-0307: D8 FD                         djnz r0, shl_acc_loop
-0309: 22               ret
+030F: 23                            rl a
+0310: D8 FD                         djnz r0, shl_acc_loop
+0312: 22               ret
                    
                    shr_acc:
-030A: 08                    inc r0
-030B: 23                    rl a
+0313: 08                    inc r0
+0314: 23                    rl a
                             shr_acc_loop:
-030C: 03                            rr a
-030D: D8 FD                         djnz r0, shr_acc_loop
-030F: 22               ret
+0315: 03                            rr a
+0316: D8 FD                         djnz r0, shr_acc_loop
+0318: 22               ret
                    
                    delay:
-0310: D5 17 FD         djnz scratch, delay
-0313: 22               ret
+0319: D5 17 FD         djnz scratch, delay
+031C: 22               ret
                    
                    ;===========================================================
                    ; subroutine print
@@ -642,44 +645,44 @@
                    ; immediately following the string.
                    ;===========================================================
                    print:
-0314: D0 83           pop   dph              ; put return address in dptr
-0316: D0 82           pop   dpl
+031D: D0 83           pop   dph              ; put return address in dptr
+031F: D0 82           pop   dpl
                    prtstr:
-0318: E4              clr  a                 ; set offset = 0
-0319: 93              movc a,  @a+dptr       ; get chr from code memory
-031A: B4 00 02        cjne a,  #0h, mchrok   ; if termination chr, then return
-031D: 80 06           sjmp prtdone
+0321: E4              clr  a                 ; set offset = 0
+0322: 93              movc a,  @a+dptr       ; get chr from code memory
+0323: B4 00 02        cjne a,  #0h, mchrok   ; if termination chr, then return
+0326: 80 06           sjmp prtdone
                    mchrok:
-031F: 12 02 F2        lcall sndchr           ; send character
-0322: A3              inc   dptr             ; point at next character
-0323: 80 F3           sjmp  prtstr           ; loop till end of string
+0328: 12 02 FB        lcall sndchr           ; send character
+032B: A3              inc   dptr             ; point at next character
+032C: 80 F3           sjmp  prtstr           ; loop till end of string
                    prtdone:
-0325: 74 01           mov   a,  #1h          ; point to instruction after strin
-0327: 73              jmp   @a+dptr          ; return
+032E: 74 01           mov   a,  #1h          ; point to instruction after strin
+0330: 73              jmp   @a+dptr          ; return
                    ;===========================================================
                    ; subroutine crlf
                    ; crlf sends a carriage return line feed out the serial port
                    ;===========================================================
                    crlf:
-0328: 74 0A           mov   a,  #0ah         ; print lf
-032A: 12 02 F2        lcall sndchr
+0331: 74 0A           mov   a,  #0ah         ; print lf
+0333: 12 02 FB        lcall sndchr
                    cret:
-032D: 74 0D           mov   a,  #0dh         ; print cr
-032F: 12 02 F2        lcall sndchr
-0332: 22              ret
+0336: 74 0D           mov   a,  #0dh         ; print cr
+0338: 12 02 FB        lcall sndchr
+033B: 22              ret
                    ;===========================================================
                    ; subroutine prthex
                    ; this routine takes the contents of the acc and prints it o
                    ; as a 2 digit ascii hex number.
                    ;===========================================================
                    prthex:
-0333: C0 E0           push acc
-0335: 12 03 42        lcall binasc           ; convert acc to ascii
-0338: 12 02 F2        lcall sndchr           ; print first ascii hex digit
-033B: EA              mov   a,  r2           ; get second ascii hex digit
-033C: 12 02 F2        lcall sndchr           ; print it
-033F: D0 E0           pop acc
-0341: 22              ret
+033C: C0 E0           push acc
+033E: 12 03 4B        lcall binasc           ; convert acc to ascii
+0341: 12 02 FB        lcall sndchr           ; print first ascii hex digit
+0344: EA              mov   a,  r2           ; get second ascii hex digit
+0345: 12 02 FB        lcall sndchr           ; print it
+0348: D0 E0           pop acc
+034A: 22              ret
                    ;===========================================================
                    ; subroutine binasc
                    ; binasc takes the contents of the accumulator and converts 
@@ -687,22 +690,22 @@
                    ; accumulator and r2.
                    ;===========================================================
                    binasc:
-0342: FA              mov   r2, a            ; save in r2
-0343: 54 0F           anl   a,  #0fh         ; convert least sig digit.
-0345: 24 F6           add   a,  #0f6h        ; adjust it
-0347: 50 02           jnc   noadj1           ; if a-f then readjust
-0349: 24 07           add   a,  #07h
+034B: FA              mov   r2, a            ; save in r2
+034C: 54 0F           anl   a,  #0fh         ; convert least sig digit.
+034E: 24 F6           add   a,  #0f6h        ; adjust it
+0350: 50 02           jnc   noadj1           ; if a-f then readjust
+0352: 24 07           add   a,  #07h
                    noadj1:
-034B: 24 3A           add   a,  #3ah         ; make ascii
-034D: CA              xch   a,  r2           ; put result in reg 2
-034E: C4              swap  a                ; convert most sig digit
-034F: 54 0F           anl   a,  #0fh         ; look at least sig half of acc
-0351: 24 F6           add   a,  #0f6h        ; adjust it
-0353: 50 02           jnc   noadj2           ; if a-f then re-adjust
-0355: 24 07           add   a,  #07h
+0354: 24 3A           add   a,  #3ah         ; make ascii
+0356: CA              xch   a,  r2           ; put result in reg 2
+0357: C4              swap  a                ; convert most sig digit
+0358: 54 0F           anl   a,  #0fh         ; look at least sig half of acc
+035A: 24 F6           add   a,  #0f6h        ; adjust it
+035C: 50 02           jnc   noadj2           ; if a-f then re-adjust
+035E: 24 07           add   a,  #07h
                    noadj2:
-0357: 24 3A           add   a,  #3ah         ; make ascii
-0359: 22              ret
+0360: 24 3A           add   a,  #3ah         ; make ascii
+0362: 22              ret
                    
                    ;===========================================================
                    ; subroutine getbyt
@@ -710,14 +713,14 @@
                    ; serial port. the result is returned in the acc.
                    ;===========================================================
                    getbyt:
-035A: 12 02 FA       lcall getchr           ; get msb ascii chr
-035D: 12 03 6C       lcall ascbin           ; conv it to binary
-0360: C4             swap  a                ; move to most sig half of acc
-0361: F5 F0          mov   b,  a            ; save in b
-0363: 12 02 FA       lcall getchr           ; get lsb ascii chr
-0366: 12 03 6C       lcall ascbin           ; conv it to binary
-0369: 45 F0          orl   a,  b            ; combine two halves
-036B: 22             ret
+0363: 12 03 03       lcall getchr           ; get msb ascii chr
+0366: 12 03 75       lcall ascbin           ; conv it to binary
+0369: C4             swap  a                ; move to most sig half of acc
+036A: F5 F0          mov   b,  a            ; save in b
+036C: 12 03 03       lcall getchr           ; get lsb ascii chr
+036F: 12 03 75       lcall ascbin           ; conv it to binary
+0372: 45 F0          orl   a,  b            ; combine two halves
+0374: 22             ret
                    
                    ;===========================================================
                    ; subroutine ascbin
@@ -726,24 +729,24 @@
                    ; in the acc.
                    ;===========================================================
                    ascbin:
-036C: C2 2E           clr   errorf
-036E: 24 D0           add   a,  #0d0h        ; if chr < 30 then error
-0370: 50 17           jnc   notnum
-0372: C3              clr   c                ; check if chr is 0-9
-0373: 24 F6           add   a,  #0f6h        ; adjust it
-0375: 40 03           jc    hextry           ; jmp if chr not 0-9
-0377: 24 0A           add   a,  #0ah         ; if it is then adjust it
-0379: 22              ret
+0375: C2 2E           clr   errorf
+0377: 24 D0           add   a,  #0d0h        ; if chr < 30 then error
+0379: 50 17           jnc   notnum
+037B: C3              clr   c                ; check if chr is 0-9
+037C: 24 F6           add   a,  #0f6h        ; adjust it
+037E: 40 03           jc    hextry           ; jmp if chr not 0-9
+0380: 24 0A           add   a,  #0ah         ; if it is then adjust it
+0382: 22              ret
                    hextry:
-037A: C2 E5           clr   acc.5            ; convert to upper
-037C: C3              clr   c                ; check if chr is a-f
-037D: 24 F9           add   a,  #0f9h        ; adjust it
-037F: 50 08           jnc   notnum           ; if not a-f then error
-0381: C3              clr   c                ; see if char is 46 or less.
-0382: 24 FA           add   a,  #0fah        ; adjust acc
-0384: 40 03           jc    notnum           ; if carry then not hex
-0386: 54 0F           anl   a,  #0fh         ; clear unused bits
-0388: 22              ret
+0383: C2 E5           clr   acc.5            ; convert to upper
+0385: C3              clr   c                ; check if chr is a-f
+0386: 24 F9           add   a,  #0f9h        ; adjust it
+0388: 50 08           jnc   notnum           ; if not a-f then error
+038A: C3              clr   c                ; see if char is 46 or less.
+038B: 24 FA           add   a,  #0fah        ; adjust acc
+038D: 40 03           jc    notnum           ; if carry then not hex
+038F: 54 0F           anl   a,  #0fh         ; clear unused bits
+0391: 22              ret
                    notnum:
-0389: D2 2E           setb  errorf           ; if not a valid digit
-038B: 22              ret
+0392: D2 2E           setb  errorf           ; if not a valid digit
+0394: 22              ret

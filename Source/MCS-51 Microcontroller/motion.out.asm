@@ -22,11 +22,6 @@
 
 .equ pcs, 0b7h    ; P3.7
 
-.equ but0, 93h
-.equ but1, 94h
-
-.equ opcode, 10h
-
 .equ scratch, 17h
 
 .equ top_high, 18h
@@ -37,8 +32,10 @@
 .equ y_low, 1ch
 .equ y_high, 1dh
 
-.equ delay_high, 1eh
-.equ delay_low, 1fh
+.equ last_x_low, 1eh
+.equ last_x_high, 1fh
+.equ last_y_low, 20h
+.equ last_y_high, 21h
 
 .org 7b00h
 motion_store:
@@ -69,6 +66,14 @@ main:
 	lcall setup_adns
 	lcall powerup_adns
 
+	; Set the resolution to be 200 cpi by setting the CONFIGURATION_I register to 01h
+	mov address, #0fh
+	mov data, #01h
+	lcall write_adns
+
+	; Setup the SPI connection with the PSoC
+	lcall setup_psoc
+
 	; Disable interrupts
 	clr ea
 
@@ -77,6 +82,11 @@ main:
 	mov x_high, #00h
 	mov y_low, #00h
 	mov y_high, #00h
+
+	mov last_x_low, #00h
+	mov last_x_high, #00h
+	mov last_y_low, #00h
+	mov last_y_high, #00h
 
 	; Print welcome message
 	lcall print
@@ -150,14 +160,6 @@ main:
 grab_register:
 	mov dptr, #motion_store
 	movc a, @a+dptr
-	ret
-
-delay16:
-	inc delay_high
-	delay16_outer_loop:
-		delay16_inner_loop:
-			djnz delay_low, delay16_inner_loop
-		djnz delay_high, delay16_outer_loop
 	ret
 
 ; ==== Included from "adns_9800.lib.asm" by AS115: ====
@@ -565,21 +567,22 @@ read_spi:
 setup_psoc:
     setb pcs
 
-send_psoc:
-    ; Send the opcode
-    mov ctrl, opcode
+    ret
+
+write_psoc:
+    push acc
+
+    ; Lower PCS
     clr pcs
+
+    ; Write the data
+    mov a, data
+    lcall write_spi
+
+    ; Raise PCS
     setb pcs
 
-    ; Wait for the PSoC to process it
-    mov scratch, #40h
-    lcall delay
-
-    ; Send the data
-    mov ctrl, data
-    clr pcs
-    setb pcs
-
+    pop acc
     ret
 
 ; ==== Included from "serial.lib.asm" by AS115: ====
