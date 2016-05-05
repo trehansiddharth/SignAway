@@ -1,0 +1,17 @@
+# SignatureVerifier
+# 2016-05-05 04:17:55Z
+
+# IO_2@[IOP=(3)][IoId=(2)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 2
+# IO_3@[IOP=(3)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 3
+set_location "ClockGenBlock" m0s8clockgenblockcell -1 -1 0
+set_io "Pin_Button_0(0)" iocell 2 1
+set_io "Pin_Button_1(0)" iocell 2 2
+set_io "Pin_Button_Interrupt(0)" iocell 2 0
+set_io "Pin_LED_Green(0)" iocell 1 4
+set_io "Pin_LED_Red(0)" iocell 1 5
+set_io "Pin_LED_Yellow(0)" iocell 1 6
+set_io "Pin_MOSI(0)" iocell 0 0
+set_io "Pin_SCLK(0)" iocell 0 1
+set_io "Pin_SS(0)" iocell 0 2

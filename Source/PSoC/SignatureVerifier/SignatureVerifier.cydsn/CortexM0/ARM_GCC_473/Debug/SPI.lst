@@ -1,0 +1,4421 @@
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"SPI.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	SPI_initVar
+  18              		.bss
+  19              		.type	SPI_initVar, %object
+  20              		.size	SPI_initVar, 1
+  21              	SPI_initVar:
+  22 0000 00       		.space	1
+  23              		.comm	SPI_swStatusTx,1,1
+  24              		.comm	SPI_swStatusRx,1,1
+  25              		.section	.text.SPI_Init,"ax",%progbits
+  26              		.align	2
+  27              		.global	SPI_Init
+  28              		.code	16
+  29              		.thumb_func
+  30              		.type	SPI_Init, %function
+  31              	SPI_Init:
+  32              	.LFB0:
+  33              		.file 1 ".\\Generated_Source\\PSoC4\\SPI.c"
+   1:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC4/SPI.c **** * File Name: SPI.c
+   3:.\Generated_Source\PSoC4/SPI.c **** * Version 2.60
+   4:.\Generated_Source\PSoC4/SPI.c **** *
+   5:.\Generated_Source\PSoC4/SPI.c **** * Description:
+   6:.\Generated_Source\PSoC4/SPI.c **** *  This file provides all API functionality of the SPI Slave component.
+   7:.\Generated_Source\PSoC4/SPI.c **** *
+   8:.\Generated_Source\PSoC4/SPI.c **** * Note:
+   9:.\Generated_Source\PSoC4/SPI.c **** *  None.
+  10:.\Generated_Source\PSoC4/SPI.c **** *
+  11:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+  12:.\Generated_Source\PSoC4/SPI.c **** * Copyright 2008-2013, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC4/SPI.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:.\Generated_Source\PSoC4/SPI.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:.\Generated_Source\PSoC4/SPI.c **** * the software package with which this file was provided.
+  16:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+  17:.\Generated_Source\PSoC4/SPI.c **** 
+  18:.\Generated_Source\PSoC4/SPI.c **** #include "SPI_PVT.h"
+  19:.\Generated_Source\PSoC4/SPI.c **** 
+  20:.\Generated_Source\PSoC4/SPI.c **** #if (SPI_TX_SOFTWARE_BUF_ENABLED)
+  21:.\Generated_Source\PSoC4/SPI.c **** 
+  22:.\Generated_Source\PSoC4/SPI.c ****     volatile uint16 SPI_txBuffer[SPI_TX_BUFFER_SIZE] = {0u};
+  23:.\Generated_Source\PSoC4/SPI.c ****     volatile uint8 SPI_txBufferRead;
+  24:.\Generated_Source\PSoC4/SPI.c ****     volatile uint8 SPI_txBufferWrite;
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 2
+
+
+  25:.\Generated_Source\PSoC4/SPI.c ****     volatile uint8 SPI_txBufferFull;
+  26:.\Generated_Source\PSoC4/SPI.c **** 
+  27:.\Generated_Source\PSoC4/SPI.c **** #endif /* SPI_TX_SOFTWARE_BUF_ENABLED*/
+  28:.\Generated_Source\PSoC4/SPI.c **** 
+  29:.\Generated_Source\PSoC4/SPI.c **** #if (SPI_RX_SOFTWARE_BUF_ENABLED)
+  30:.\Generated_Source\PSoC4/SPI.c **** 
+  31:.\Generated_Source\PSoC4/SPI.c ****     volatile uint16 SPI_rxBuffer[SPI_RX_BUFFER_SIZE] = {0u};
+  32:.\Generated_Source\PSoC4/SPI.c ****     volatile uint8 SPI_rxBufferRead;
+  33:.\Generated_Source\PSoC4/SPI.c ****     volatile uint8 SPI_rxBufferWrite;
+  34:.\Generated_Source\PSoC4/SPI.c ****     volatile uint8 SPI_rxBufferFull;
+  35:.\Generated_Source\PSoC4/SPI.c **** 
+  36:.\Generated_Source\PSoC4/SPI.c **** #endif /* SPI_RX_SOFTWARE_BUF_ENABLED */
+  37:.\Generated_Source\PSoC4/SPI.c **** 
+  38:.\Generated_Source\PSoC4/SPI.c **** uint8 SPI_initVar = 0u;
+  39:.\Generated_Source\PSoC4/SPI.c **** 
+  40:.\Generated_Source\PSoC4/SPI.c **** volatile uint8 SPI_swStatusTx;
+  41:.\Generated_Source\PSoC4/SPI.c **** volatile uint8 SPI_swStatusRx;
+  42:.\Generated_Source\PSoC4/SPI.c **** 
+  43:.\Generated_Source\PSoC4/SPI.c **** 
+  44:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+  45:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_Init
+  46:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+  47:.\Generated_Source\PSoC4/SPI.c **** *
+  48:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+  49:.\Generated_Source\PSoC4/SPI.c **** *  Inits/Restores default SPIS configuration provided with customizer.
+  50:.\Generated_Source\PSoC4/SPI.c **** *
+  51:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+  52:.\Generated_Source\PSoC4/SPI.c **** *  None.
+  53:.\Generated_Source\PSoC4/SPI.c **** *
+  54:.\Generated_Source\PSoC4/SPI.c **** * Return:
+  55:.\Generated_Source\PSoC4/SPI.c **** *  None.
+  56:.\Generated_Source\PSoC4/SPI.c **** *
+  57:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+  58:.\Generated_Source\PSoC4/SPI.c **** *  When this function is called it initializes all of the necessary parameters
+  59:.\Generated_Source\PSoC4/SPI.c **** *  for execution. i.e. setting the initial interrupt mask, configuring the
+  60:.\Generated_Source\PSoC4/SPI.c **** *  interrupt service routine, configuring the bit-counter parameters and
+  61:.\Generated_Source\PSoC4/SPI.c **** *  clearing the FIFO and Status Register.
+  62:.\Generated_Source\PSoC4/SPI.c **** *
+  63:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+  64:.\Generated_Source\PSoC4/SPI.c **** *  No.
+  65:.\Generated_Source\PSoC4/SPI.c **** *
+  66:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+  67:.\Generated_Source\PSoC4/SPI.c **** void SPI_Init(void) 
+  68:.\Generated_Source\PSoC4/SPI.c **** {
+  34              		.loc 1 68 0
+  35              		.cfi_startproc
+  36 0000 80B5     		push	{r7, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 00AF     		add	r7, sp, #0
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_register 7
+  69:.\Generated_Source\PSoC4/SPI.c ****     /*Initialize the Bit counter */
+  70:.\Generated_Source\PSoC4/SPI.c ****     SPI_COUNTER_PERIOD_REG = SPI_BITCTR_INIT;
+  44              		.loc 1 70 0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 3
+
+
+  45 0004 084B     		ldr	r3, .L2
+  46 0006 0F22     		mov	r2, #15
+  47 0008 1A70     		strb	r2, [r3]
+  71:.\Generated_Source\PSoC4/SPI.c **** 
+  72:.\Generated_Source\PSoC4/SPI.c ****     /* ISR initialization */
+  73:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_TX_INT_ENABLED)
+  74:.\Generated_Source\PSoC4/SPI.c **** 
+  75:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_TX_ISR_NUMBER);
+  76:.\Generated_Source\PSoC4/SPI.c **** 
+  77:.\Generated_Source\PSoC4/SPI.c ****         /* Set the ISR to point to the SPI_isr Interrupt. */
+  78:.\Generated_Source\PSoC4/SPI.c ****         (void)CyIntSetVector(SPI_TX_ISR_NUMBER, &SPI_TX_ISR);
+  79:.\Generated_Source\PSoC4/SPI.c **** 
+  80:.\Generated_Source\PSoC4/SPI.c ****         /* Set the priority. */
+  81:.\Generated_Source\PSoC4/SPI.c ****         CyIntSetPriority(SPI_TX_ISR_NUMBER, SPI_TX_ISR_PRIORITY);
+  82:.\Generated_Source\PSoC4/SPI.c **** 
+  83:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_TX_INT_ENABLED */
+  84:.\Generated_Source\PSoC4/SPI.c **** 
+  85:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_RX_INT_ENABLED)
+  86:.\Generated_Source\PSoC4/SPI.c **** 
+  87:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_RX_ISR_NUMBER);
+  88:.\Generated_Source\PSoC4/SPI.c **** 
+  89:.\Generated_Source\PSoC4/SPI.c ****         /* Set the ISR to point to the SPI_isr Interrupt. */
+  90:.\Generated_Source\PSoC4/SPI.c ****         (void)CyIntSetVector(SPI_RX_ISR_NUMBER, &SPI_RX_ISR);
+  91:.\Generated_Source\PSoC4/SPI.c **** 
+  92:.\Generated_Source\PSoC4/SPI.c ****         /* Set the priority. */
+  93:.\Generated_Source\PSoC4/SPI.c ****         CyIntSetPriority(SPI_RX_ISR_NUMBER, SPI_RX_ISR_PRIORITY);
+  94:.\Generated_Source\PSoC4/SPI.c **** 
+  95:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_RX_INT_ENABLED */
+  96:.\Generated_Source\PSoC4/SPI.c **** 
+  97:.\Generated_Source\PSoC4/SPI.c ****     /* Clear any stray data from the RX and TX FIFO */
+  98:.\Generated_Source\PSoC4/SPI.c ****     SPI_ClearFIFO();
+  48              		.loc 1 98 0
+  49 000a FFF7FEFF 		bl	SPI_ClearFIFO
+  99:.\Generated_Source\PSoC4/SPI.c **** 
+ 100:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_RX_SOFTWARE_BUF_ENABLED)
+ 101:.\Generated_Source\PSoC4/SPI.c ****         SPI_txBufferFull = 0u;
+ 102:.\Generated_Source\PSoC4/SPI.c ****         SPI_rxBufferRead = 0u;
+ 103:.\Generated_Source\PSoC4/SPI.c ****         SPI_rxBufferWrite = 0u;
+ 104:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_RX_SOFTWARE_BUF_ENABLED */
+ 105:.\Generated_Source\PSoC4/SPI.c **** 
+ 106:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_TX_SOFTWARE_BUF_ENABLED)
+ 107:.\Generated_Source\PSoC4/SPI.c ****         SPI_txBufferFull = 0u;
+ 108:.\Generated_Source\PSoC4/SPI.c ****         SPI_txBufferRead = 0u;
+ 109:.\Generated_Source\PSoC4/SPI.c ****         SPI_txBufferWrite = 0u;
+ 110:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_TX_SOFTWARE_BUF_ENABLED */
+ 111:.\Generated_Source\PSoC4/SPI.c **** 
+ 112:.\Generated_Source\PSoC4/SPI.c ****     (void) SPI_ReadTxStatus(); /* Clear any pending status bits */
+  50              		.loc 1 112 0
+  51 000e FFF7FEFF 		bl	SPI_ReadTxStatus
+ 113:.\Generated_Source\PSoC4/SPI.c ****     (void) SPI_ReadRxStatus(); /* Clear any pending status bits */
+  52              		.loc 1 113 0
+  53 0012 FFF7FEFF 		bl	SPI_ReadRxStatus
+ 114:.\Generated_Source\PSoC4/SPI.c **** 
+ 115:.\Generated_Source\PSoC4/SPI.c **** 
+ 116:.\Generated_Source\PSoC4/SPI.c ****     /* Configure the Initial interrupt mask */
+ 117:.\Generated_Source\PSoC4/SPI.c ****     #if (SPI_TX_SOFTWARE_BUF_ENABLED)
+ 118:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_STATUS_MASK_REG  = (SPI_TX_INIT_INTERRUPTS_MASK &
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 4
+
+
+ 119:.\Generated_Source\PSoC4/SPI.c ****                                                 (uint8)~SPI_STS_TX_FIFO_NOT_FULL);
+ 120:.\Generated_Source\PSoC4/SPI.c ****     #else /* SPI_TX_SOFTWARE_BUF_ENABLED */
+ 121:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_STATUS_MASK_REG  = SPI_TX_INIT_INTERRUPTS_MASK;
+  54              		.loc 1 121 0
+  55 0016 054B     		ldr	r3, .L2+4
+  56 0018 0022     		mov	r2, #0
+  57 001a 1A70     		strb	r2, [r3]
+ 122:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_TX_SOFTWARE_BUF_ENABLED */
+ 123:.\Generated_Source\PSoC4/SPI.c **** 
+ 124:.\Generated_Source\PSoC4/SPI.c ****     SPI_RX_STATUS_MASK_REG  = SPI_RX_INIT_INTERRUPTS_MASK;
+  58              		.loc 1 124 0
+  59 001c 044B     		ldr	r3, .L2+8
+  60 001e 0022     		mov	r2, #0
+  61 0020 1A70     		strb	r2, [r3]
+ 125:.\Generated_Source\PSoC4/SPI.c **** 
+ 126:.\Generated_Source\PSoC4/SPI.c **** }
+  62              		.loc 1 126 0
+  63 0022 BD46     		mov	sp, r7
+  64              		@ sp needed for prologue
+  65 0024 80BD     		pop	{r7, pc}
+  66              	.L3:
+  67 0026 C046     		.align	2
+  68              	.L2:
+  69 0028 82000F40 		.word	1074724994
+  70 002c 80000F40 		.word	1074724992
+  71 0030 83000F40 		.word	1074724995
+  72              		.cfi_endproc
+  73              	.LFE0:
+  74              		.size	SPI_Init, .-SPI_Init
+  75              		.section	.text.SPI_Enable,"ax",%progbits
+  76              		.align	2
+  77              		.global	SPI_Enable
+  78              		.code	16
+  79              		.thumb_func
+  80              		.type	SPI_Enable, %function
+  81              	SPI_Enable:
+  82              	.LFB1:
+ 127:.\Generated_Source\PSoC4/SPI.c **** 
+ 128:.\Generated_Source\PSoC4/SPI.c **** 
+ 129:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 130:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_Enable
+ 131:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 132:.\Generated_Source\PSoC4/SPI.c **** *
+ 133:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 134:.\Generated_Source\PSoC4/SPI.c **** *  Enable SPIS component.
+ 135:.\Generated_Source\PSoC4/SPI.c **** *
+ 136:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 137:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 138:.\Generated_Source\PSoC4/SPI.c **** *
+ 139:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 140:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 141:.\Generated_Source\PSoC4/SPI.c **** *
+ 142:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 143:.\Generated_Source\PSoC4/SPI.c **** void SPI_Enable(void) 
+ 144:.\Generated_Source\PSoC4/SPI.c **** {
+  83              		.loc 1 144 0
+  84              		.cfi_startproc
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 5
+
+
+  85 0000 90B5     		push	{r4, r7, lr}
+  86              	.LCFI2:
+  87              		.cfi_def_cfa_offset 12
+  88              		.cfi_offset 4, -12
+  89              		.cfi_offset 7, -8
+  90              		.cfi_offset 14, -4
+  91 0002 83B0     		sub	sp, sp, #12
+  92              	.LCFI3:
+  93              		.cfi_def_cfa_offset 24
+  94 0004 00AF     		add	r7, sp, #0
+  95              	.LCFI4:
+  96              		.cfi_def_cfa_register 7
+ 145:.\Generated_Source\PSoC4/SPI.c ****     uint8 enableInterrupts;
+ 146:.\Generated_Source\PSoC4/SPI.c ****     enableInterrupts = CyEnterCriticalSection();
+  97              		.loc 1 146 0
+  98 0006 FC1D     		add	r4, r7, #7
+  99 0008 FFF7FEFF 		bl	CyEnterCriticalSection
+ 100 000c 031C     		mov	r3, r0
+ 101 000e 2370     		strb	r3, [r4]
+ 147:.\Generated_Source\PSoC4/SPI.c **** 
+ 148:.\Generated_Source\PSoC4/SPI.c ****     SPI_COUNTER_CONTROL_REG |= SPI_CNTR_ENABLE;
+ 102              		.loc 1 148 0
+ 103 0010 0F4B     		ldr	r3, .L5
+ 104 0012 0F4A     		ldr	r2, .L5
+ 105 0014 1278     		ldrb	r2, [r2]
+ 106 0016 D2B2     		uxtb	r2, r2
+ 107 0018 2021     		mov	r1, #32
+ 108 001a 0A43     		orr	r2, r1
+ 109 001c D2B2     		uxtb	r2, r2
+ 110 001e 1A70     		strb	r2, [r3]
+ 149:.\Generated_Source\PSoC4/SPI.c ****     SPI_TX_STATUS_ACTL_REG |= SPI_INT_ENABLE;
+ 111              		.loc 1 149 0
+ 112 0020 0C4B     		ldr	r3, .L5+4
+ 113 0022 0C4A     		ldr	r2, .L5+4
+ 114 0024 1278     		ldrb	r2, [r2]
+ 115 0026 D2B2     		uxtb	r2, r2
+ 116 0028 1021     		mov	r1, #16
+ 117 002a 0A43     		orr	r2, r1
+ 118 002c D2B2     		uxtb	r2, r2
+ 119 002e 1A70     		strb	r2, [r3]
+ 150:.\Generated_Source\PSoC4/SPI.c ****     SPI_RX_STATUS_ACTL_REG |= SPI_INT_ENABLE;
+ 120              		.loc 1 150 0
+ 121 0030 094B     		ldr	r3, .L5+8
+ 122 0032 094A     		ldr	r2, .L5+8
+ 123 0034 1278     		ldrb	r2, [r2]
+ 124 0036 D2B2     		uxtb	r2, r2
+ 125 0038 1021     		mov	r1, #16
+ 126 003a 0A43     		orr	r2, r1
+ 127 003c D2B2     		uxtb	r2, r2
+ 128 003e 1A70     		strb	r2, [r3]
+ 151:.\Generated_Source\PSoC4/SPI.c **** 
+ 152:.\Generated_Source\PSoC4/SPI.c ****     CyExitCriticalSection(enableInterrupts);
+ 129              		.loc 1 152 0
+ 130 0040 FB1D     		add	r3, r7, #7
+ 131 0042 1B78     		ldrb	r3, [r3]
+ 132 0044 181C     		mov	r0, r3
+ 133 0046 FFF7FEFF 		bl	CyExitCriticalSection
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 6
+
+
+ 153:.\Generated_Source\PSoC4/SPI.c **** 
+ 154:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_TX_INT_ENABLED)
+ 155:.\Generated_Source\PSoC4/SPI.c ****         CyIntEnable(SPI_TX_ISR_NUMBER);
+ 156:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_TX_INT_ENABLED */
+ 157:.\Generated_Source\PSoC4/SPI.c **** 
+ 158:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_RX_INT_ENABLED)
+ 159:.\Generated_Source\PSoC4/SPI.c ****         CyIntEnable(SPI_RX_ISR_NUMBER);
+ 160:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_RX_INT_ENABLED */
+ 161:.\Generated_Source\PSoC4/SPI.c **** }
+ 134              		.loc 1 161 0
+ 135 004a BD46     		mov	sp, r7
+ 136 004c 03B0     		add	sp, sp, #12
+ 137              		@ sp needed for prologue
+ 138 004e 90BD     		pop	{r4, r7, pc}
+ 139              	.L6:
+ 140              		.align	2
+ 141              	.L5:
+ 142 0050 92000F40 		.word	1074725010
+ 143 0054 90000F40 		.word	1074725008
+ 144 0058 93000F40 		.word	1074725011
+ 145              		.cfi_endproc
+ 146              	.LFE1:
+ 147              		.size	SPI_Enable, .-SPI_Enable
+ 148              		.section	.text.SPI_Start,"ax",%progbits
+ 149              		.align	2
+ 150              		.global	SPI_Start
+ 151              		.code	16
+ 152              		.thumb_func
+ 153              		.type	SPI_Start, %function
+ 154              	SPI_Start:
+ 155              	.LFB2:
+ 162:.\Generated_Source\PSoC4/SPI.c **** 
+ 163:.\Generated_Source\PSoC4/SPI.c **** 
+ 164:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 165:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_Start
+ 166:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 167:.\Generated_Source\PSoC4/SPI.c **** *
+ 168:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 169:.\Generated_Source\PSoC4/SPI.c **** *  Initialize and Enable the SPI Slave component.
+ 170:.\Generated_Source\PSoC4/SPI.c **** *
+ 171:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 172:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 173:.\Generated_Source\PSoC4/SPI.c **** *
+ 174:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 175:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 176:.\Generated_Source\PSoC4/SPI.c **** *
+ 177:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 178:.\Generated_Source\PSoC4/SPI.c **** *  SPI_initVar - used to check initial configuration, modified on
+ 179:.\Generated_Source\PSoC4/SPI.c **** *  first function call.
+ 180:.\Generated_Source\PSoC4/SPI.c **** *
+ 181:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 182:.\Generated_Source\PSoC4/SPI.c **** *  Enable the clock input to enable operation.
+ 183:.\Generated_Source\PSoC4/SPI.c **** *
+ 184:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+ 185:.\Generated_Source\PSoC4/SPI.c **** *  No.
+ 186:.\Generated_Source\PSoC4/SPI.c **** *
+ 187:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 7
+
+
+ 188:.\Generated_Source\PSoC4/SPI.c **** void SPI_Start(void) 
+ 189:.\Generated_Source\PSoC4/SPI.c **** {
+ 156              		.loc 1 189 0
+ 157              		.cfi_startproc
+ 158 0000 80B5     		push	{r7, lr}
+ 159              	.LCFI5:
+ 160              		.cfi_def_cfa_offset 8
+ 161              		.cfi_offset 7, -8
+ 162              		.cfi_offset 14, -4
+ 163 0002 00AF     		add	r7, sp, #0
+ 164              	.LCFI6:
+ 165              		.cfi_def_cfa_register 7
+ 190:.\Generated_Source\PSoC4/SPI.c ****     if(SPI_initVar == 0u)
+ 166              		.loc 1 190 0
+ 167 0004 064B     		ldr	r3, .L9
+ 168 0006 1B78     		ldrb	r3, [r3]
+ 169 0008 002B     		cmp	r3, #0
+ 170 000a 04D1     		bne	.L8
+ 191:.\Generated_Source\PSoC4/SPI.c ****     {
+ 192:.\Generated_Source\PSoC4/SPI.c ****         SPI_Init();
+ 171              		.loc 1 192 0
+ 172 000c FFF7FEFF 		bl	SPI_Init
+ 193:.\Generated_Source\PSoC4/SPI.c ****         SPI_initVar = 1u;
+ 173              		.loc 1 193 0
+ 174 0010 034B     		ldr	r3, .L9
+ 175 0012 0122     		mov	r2, #1
+ 176 0014 1A70     		strb	r2, [r3]
+ 177              	.L8:
+ 194:.\Generated_Source\PSoC4/SPI.c ****     }
+ 195:.\Generated_Source\PSoC4/SPI.c **** 
+ 196:.\Generated_Source\PSoC4/SPI.c ****     SPI_Enable();
+ 178              		.loc 1 196 0
+ 179 0016 FFF7FEFF 		bl	SPI_Enable
+ 197:.\Generated_Source\PSoC4/SPI.c **** }
+ 180              		.loc 1 197 0
+ 181 001a BD46     		mov	sp, r7
+ 182              		@ sp needed for prologue
+ 183 001c 80BD     		pop	{r7, pc}
+ 184              	.L10:
+ 185 001e C046     		.align	2
+ 186              	.L9:
+ 187 0020 00000000 		.word	SPI_initVar
+ 188              		.cfi_endproc
+ 189              	.LFE2:
+ 190              		.size	SPI_Start, .-SPI_Start
+ 191              		.section	.text.SPI_Stop,"ax",%progbits
+ 192              		.align	2
+ 193              		.global	SPI_Stop
+ 194              		.code	16
+ 195              		.thumb_func
+ 196              		.type	SPI_Stop, %function
+ 197              	SPI_Stop:
+ 198              	.LFB3:
+ 198:.\Generated_Source\PSoC4/SPI.c **** 
+ 199:.\Generated_Source\PSoC4/SPI.c **** 
+ 200:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 201:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_Stop
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 8
+
+
+ 202:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 203:.\Generated_Source\PSoC4/SPI.c **** *
+ 204:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 205:.\Generated_Source\PSoC4/SPI.c **** *  Disable the SPI Slave component.
+ 206:.\Generated_Source\PSoC4/SPI.c **** *
+ 207:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 208:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 209:.\Generated_Source\PSoC4/SPI.c **** *
+ 210:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 211:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 212:.\Generated_Source\PSoC4/SPI.c **** *
+ 213:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 214:.\Generated_Source\PSoC4/SPI.c **** *  Disable the internal interrupt if one is used.
+ 215:.\Generated_Source\PSoC4/SPI.c **** *
+ 216:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 217:.\Generated_Source\PSoC4/SPI.c **** void SPI_Stop(void) 
+ 218:.\Generated_Source\PSoC4/SPI.c **** {
+ 199              		.loc 1 218 0
+ 200              		.cfi_startproc
+ 201 0000 90B5     		push	{r4, r7, lr}
+ 202              	.LCFI7:
+ 203              		.cfi_def_cfa_offset 12
+ 204              		.cfi_offset 4, -12
+ 205              		.cfi_offset 7, -8
+ 206              		.cfi_offset 14, -4
+ 207 0002 83B0     		sub	sp, sp, #12
+ 208              	.LCFI8:
+ 209              		.cfi_def_cfa_offset 24
+ 210 0004 00AF     		add	r7, sp, #0
+ 211              	.LCFI9:
+ 212              		.cfi_def_cfa_register 7
+ 219:.\Generated_Source\PSoC4/SPI.c ****     uint8 enableInterrupts;
+ 220:.\Generated_Source\PSoC4/SPI.c ****     enableInterrupts = CyEnterCriticalSection();
+ 213              		.loc 1 220 0
+ 214 0006 FC1D     		add	r4, r7, #7
+ 215 0008 FFF7FEFF 		bl	CyEnterCriticalSection
+ 216 000c 031C     		mov	r3, r0
+ 217 000e 2370     		strb	r3, [r4]
+ 221:.\Generated_Source\PSoC4/SPI.c **** 
+ 222:.\Generated_Source\PSoC4/SPI.c ****     SPI_TX_STATUS_ACTL_REG &= (uint8)~SPI_INT_ENABLE;
+ 218              		.loc 1 222 0
+ 219 0010 0B4B     		ldr	r3, .L12
+ 220 0012 0B4A     		ldr	r2, .L12
+ 221 0014 1278     		ldrb	r2, [r2]
+ 222 0016 D2B2     		uxtb	r2, r2
+ 223 0018 1021     		mov	r1, #16
+ 224 001a 8A43     		bic	r2, r1
+ 225 001c D2B2     		uxtb	r2, r2
+ 226 001e 1A70     		strb	r2, [r3]
+ 223:.\Generated_Source\PSoC4/SPI.c ****     SPI_RX_STATUS_ACTL_REG &= (uint8)~SPI_INT_ENABLE;
+ 227              		.loc 1 223 0
+ 228 0020 084B     		ldr	r3, .L12+4
+ 229 0022 084A     		ldr	r2, .L12+4
+ 230 0024 1278     		ldrb	r2, [r2]
+ 231 0026 D2B2     		uxtb	r2, r2
+ 232 0028 1021     		mov	r1, #16
+ 233 002a 8A43     		bic	r2, r1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 9
+
+
+ 234 002c D2B2     		uxtb	r2, r2
+ 235 002e 1A70     		strb	r2, [r3]
+ 224:.\Generated_Source\PSoC4/SPI.c **** 
+ 225:.\Generated_Source\PSoC4/SPI.c ****     CyExitCriticalSection(enableInterrupts);
+ 236              		.loc 1 225 0
+ 237 0030 FB1D     		add	r3, r7, #7
+ 238 0032 1B78     		ldrb	r3, [r3]
+ 239 0034 181C     		mov	r0, r3
+ 240 0036 FFF7FEFF 		bl	CyExitCriticalSection
+ 226:.\Generated_Source\PSoC4/SPI.c **** 
+ 227:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_TX_INT_ENABLED)
+ 228:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_TX_ISR_NUMBER);
+ 229:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_TX_INT_ENABLED */
+ 230:.\Generated_Source\PSoC4/SPI.c **** 
+ 231:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_RX_INT_ENABLED)
+ 232:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_RX_ISR_NUMBER);
+ 233:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_RX_INT_ENABLED */
+ 234:.\Generated_Source\PSoC4/SPI.c **** }
+ 241              		.loc 1 234 0
+ 242 003a BD46     		mov	sp, r7
+ 243 003c 03B0     		add	sp, sp, #12
+ 244              		@ sp needed for prologue
+ 245 003e 90BD     		pop	{r4, r7, pc}
+ 246              	.L13:
+ 247              		.align	2
+ 248              	.L12:
+ 249 0040 90000F40 		.word	1074725008
+ 250 0044 93000F40 		.word	1074725011
+ 251              		.cfi_endproc
+ 252              	.LFE3:
+ 253              		.size	SPI_Stop, .-SPI_Stop
+ 254              		.section	.text.SPI_EnableTxInt,"ax",%progbits
+ 255              		.align	2
+ 256              		.global	SPI_EnableTxInt
+ 257              		.code	16
+ 258              		.thumb_func
+ 259              		.type	SPI_EnableTxInt, %function
+ 260              	SPI_EnableTxInt:
+ 261              	.LFB4:
+ 235:.\Generated_Source\PSoC4/SPI.c **** 
+ 236:.\Generated_Source\PSoC4/SPI.c **** 
+ 237:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 238:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_EnableTxInt
+ 239:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 240:.\Generated_Source\PSoC4/SPI.c **** *
+ 241:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 242:.\Generated_Source\PSoC4/SPI.c **** *  Enable internal Tx interrupt generation.
+ 243:.\Generated_Source\PSoC4/SPI.c **** *
+ 244:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 245:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 246:.\Generated_Source\PSoC4/SPI.c **** *
+ 247:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 248:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 249:.\Generated_Source\PSoC4/SPI.c **** *
+ 250:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 251:.\Generated_Source\PSoC4/SPI.c **** *  Enable the internal Tx interrupt output -or- the interrupt component itself.
+ 252:.\Generated_Source\PSoC4/SPI.c **** *
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 10
+
+
+ 253:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 254:.\Generated_Source\PSoC4/SPI.c **** void SPI_EnableTxInt(void) 
+ 255:.\Generated_Source\PSoC4/SPI.c **** {
+ 262              		.loc 1 255 0
+ 263              		.cfi_startproc
+ 264 0000 80B5     		push	{r7, lr}
+ 265              	.LCFI10:
+ 266              		.cfi_def_cfa_offset 8
+ 267              		.cfi_offset 7, -8
+ 268              		.cfi_offset 14, -4
+ 269 0002 00AF     		add	r7, sp, #0
+ 270              	.LCFI11:
+ 271              		.cfi_def_cfa_register 7
+ 256:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_TX_INT_ENABLED)
+ 257:.\Generated_Source\PSoC4/SPI.c ****         CyIntEnable(SPI_TX_ISR_NUMBER);
+ 258:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_TX_INT_ENABLED */
+ 259:.\Generated_Source\PSoC4/SPI.c **** }
+ 272              		.loc 1 259 0
+ 273 0004 BD46     		mov	sp, r7
+ 274              		@ sp needed for prologue
+ 275 0006 80BD     		pop	{r7, pc}
+ 276              		.cfi_endproc
+ 277              	.LFE4:
+ 278              		.size	SPI_EnableTxInt, .-SPI_EnableTxInt
+ 279              		.section	.text.SPI_EnableRxInt,"ax",%progbits
+ 280              		.align	2
+ 281              		.global	SPI_EnableRxInt
+ 282              		.code	16
+ 283              		.thumb_func
+ 284              		.type	SPI_EnableRxInt, %function
+ 285              	SPI_EnableRxInt:
+ 286              	.LFB5:
+ 260:.\Generated_Source\PSoC4/SPI.c **** 
+ 261:.\Generated_Source\PSoC4/SPI.c **** 
+ 262:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 263:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_EnableRxInt
+ 264:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 265:.\Generated_Source\PSoC4/SPI.c **** *
+ 266:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 267:.\Generated_Source\PSoC4/SPI.c **** *  Enable internal Rx interrupt generation.
+ 268:.\Generated_Source\PSoC4/SPI.c **** *
+ 269:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 270:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 271:.\Generated_Source\PSoC4/SPI.c **** *
+ 272:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 273:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 274:.\Generated_Source\PSoC4/SPI.c **** *
+ 275:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 276:.\Generated_Source\PSoC4/SPI.c **** *  Enable the internal Rx interrupt output -or- the interrupt component itself.
+ 277:.\Generated_Source\PSoC4/SPI.c **** *
+ 278:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 279:.\Generated_Source\PSoC4/SPI.c **** void SPI_EnableRxInt(void) 
+ 280:.\Generated_Source\PSoC4/SPI.c **** {
+ 287              		.loc 1 280 0
+ 288              		.cfi_startproc
+ 289 0000 80B5     		push	{r7, lr}
+ 290              	.LCFI12:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 11
+
+
+ 291              		.cfi_def_cfa_offset 8
+ 292              		.cfi_offset 7, -8
+ 293              		.cfi_offset 14, -4
+ 294 0002 00AF     		add	r7, sp, #0
+ 295              	.LCFI13:
+ 296              		.cfi_def_cfa_register 7
+ 281:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_RX_INT_ENABLED)
+ 282:.\Generated_Source\PSoC4/SPI.c ****         CyIntEnable(SPI_RX_ISR_NUMBER);
+ 283:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_RX_INT_ENABLED */
+ 284:.\Generated_Source\PSoC4/SPI.c **** }
+ 297              		.loc 1 284 0
+ 298 0004 BD46     		mov	sp, r7
+ 299              		@ sp needed for prologue
+ 300 0006 80BD     		pop	{r7, pc}
+ 301              		.cfi_endproc
+ 302              	.LFE5:
+ 303              		.size	SPI_EnableRxInt, .-SPI_EnableRxInt
+ 304              		.section	.text.SPI_DisableTxInt,"ax",%progbits
+ 305              		.align	2
+ 306              		.global	SPI_DisableTxInt
+ 307              		.code	16
+ 308              		.thumb_func
+ 309              		.type	SPI_DisableTxInt, %function
+ 310              	SPI_DisableTxInt:
+ 311              	.LFB6:
+ 285:.\Generated_Source\PSoC4/SPI.c **** 
+ 286:.\Generated_Source\PSoC4/SPI.c **** 
+ 287:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 288:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_DisableTxInt
+ 289:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 290:.\Generated_Source\PSoC4/SPI.c **** *
+ 291:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 292:.\Generated_Source\PSoC4/SPI.c **** *  Disable internal Tx interrupt generation.
+ 293:.\Generated_Source\PSoC4/SPI.c **** *
+ 294:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 295:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 296:.\Generated_Source\PSoC4/SPI.c **** *
+ 297:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 298:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 299:.\Generated_Source\PSoC4/SPI.c **** *
+ 300:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 301:.\Generated_Source\PSoC4/SPI.c **** *  Disable the internal Tx interrupt output -or- the interrupt component itself.
+ 302:.\Generated_Source\PSoC4/SPI.c **** *
+ 303:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 304:.\Generated_Source\PSoC4/SPI.c **** void SPI_DisableTxInt(void) 
+ 305:.\Generated_Source\PSoC4/SPI.c **** {
+ 312              		.loc 1 305 0
+ 313              		.cfi_startproc
+ 314 0000 80B5     		push	{r7, lr}
+ 315              	.LCFI14:
+ 316              		.cfi_def_cfa_offset 8
+ 317              		.cfi_offset 7, -8
+ 318              		.cfi_offset 14, -4
+ 319 0002 00AF     		add	r7, sp, #0
+ 320              	.LCFI15:
+ 321              		.cfi_def_cfa_register 7
+ 306:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_TX_INT_ENABLED)
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 12
+
+
+ 307:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_TX_ISR_NUMBER);
+ 308:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_TX_INT_ENABLED */
+ 309:.\Generated_Source\PSoC4/SPI.c **** }
+ 322              		.loc 1 309 0
+ 323 0004 BD46     		mov	sp, r7
+ 324              		@ sp needed for prologue
+ 325 0006 80BD     		pop	{r7, pc}
+ 326              		.cfi_endproc
+ 327              	.LFE6:
+ 328              		.size	SPI_DisableTxInt, .-SPI_DisableTxInt
+ 329              		.section	.text.SPI_DisableRxInt,"ax",%progbits
+ 330              		.align	2
+ 331              		.global	SPI_DisableRxInt
+ 332              		.code	16
+ 333              		.thumb_func
+ 334              		.type	SPI_DisableRxInt, %function
+ 335              	SPI_DisableRxInt:
+ 336              	.LFB7:
+ 310:.\Generated_Source\PSoC4/SPI.c **** 
+ 311:.\Generated_Source\PSoC4/SPI.c **** 
+ 312:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 313:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_DisableRxInt
+ 314:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 315:.\Generated_Source\PSoC4/SPI.c **** *
+ 316:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 317:.\Generated_Source\PSoC4/SPI.c **** *  Disable internal Rx interrupt generation.
+ 318:.\Generated_Source\PSoC4/SPI.c **** *
+ 319:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 320:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 321:.\Generated_Source\PSoC4/SPI.c **** *
+ 322:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 323:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 324:.\Generated_Source\PSoC4/SPI.c **** *
+ 325:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 326:.\Generated_Source\PSoC4/SPI.c **** *  Disable the internal Rx interrupt output -or- the interrupt component itself.
+ 327:.\Generated_Source\PSoC4/SPI.c **** *
+ 328:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 329:.\Generated_Source\PSoC4/SPI.c **** void SPI_DisableRxInt(void) 
+ 330:.\Generated_Source\PSoC4/SPI.c **** {
+ 337              		.loc 1 330 0
+ 338              		.cfi_startproc
+ 339 0000 80B5     		push	{r7, lr}
+ 340              	.LCFI16:
+ 341              		.cfi_def_cfa_offset 8
+ 342              		.cfi_offset 7, -8
+ 343              		.cfi_offset 14, -4
+ 344 0002 00AF     		add	r7, sp, #0
+ 345              	.LCFI17:
+ 346              		.cfi_def_cfa_register 7
+ 331:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_RX_INT_ENABLED)
+ 332:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_RX_ISR_NUMBER);
+ 333:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_RX_INT_ENABLED */
+ 334:.\Generated_Source\PSoC4/SPI.c **** }
+ 347              		.loc 1 334 0
+ 348 0004 BD46     		mov	sp, r7
+ 349              		@ sp needed for prologue
+ 350 0006 80BD     		pop	{r7, pc}
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 13
+
+
+ 351              		.cfi_endproc
+ 352              	.LFE7:
+ 353              		.size	SPI_DisableRxInt, .-SPI_DisableRxInt
+ 354              		.section	.text.SPI_SetTxInterruptMode,"ax",%progbits
+ 355              		.align	2
+ 356              		.global	SPI_SetTxInterruptMode
+ 357              		.code	16
+ 358              		.thumb_func
+ 359              		.type	SPI_SetTxInterruptMode, %function
+ 360              	SPI_SetTxInterruptMode:
+ 361              	.LFB8:
+ 335:.\Generated_Source\PSoC4/SPI.c **** 
+ 336:.\Generated_Source\PSoC4/SPI.c **** 
+ 337:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 338:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_SetTxInterruptMode
+ 339:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 340:.\Generated_Source\PSoC4/SPI.c **** *
+ 341:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 342:.\Generated_Source\PSoC4/SPI.c **** *  Configure which status bits trigger an interrupt event.
+ 343:.\Generated_Source\PSoC4/SPI.c **** *
+ 344:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 345:.\Generated_Source\PSoC4/SPI.c **** *  intSrc: An or'd combination of the desired status bit masks (defined in the
+ 346:.\Generated_Source\PSoC4/SPI.c **** *  header file).
+ 347:.\Generated_Source\PSoC4/SPI.c **** *
+ 348:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 349:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 350:.\Generated_Source\PSoC4/SPI.c **** *
+ 351:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 352:.\Generated_Source\PSoC4/SPI.c **** *  Enables the output of specific status bits to the interrupt controller.
+ 353:.\Generated_Source\PSoC4/SPI.c **** *
+ 354:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 355:.\Generated_Source\PSoC4/SPI.c **** void SPI_SetTxInterruptMode(uint8 intSrc) 
+ 356:.\Generated_Source\PSoC4/SPI.c **** {
+ 362              		.loc 1 356 0
+ 363              		.cfi_startproc
+ 364 0000 80B5     		push	{r7, lr}
+ 365              	.LCFI18:
+ 366              		.cfi_def_cfa_offset 8
+ 367              		.cfi_offset 7, -8
+ 368              		.cfi_offset 14, -4
+ 369 0002 82B0     		sub	sp, sp, #8
+ 370              	.LCFI19:
+ 371              		.cfi_def_cfa_offset 16
+ 372 0004 00AF     		add	r7, sp, #0
+ 373              	.LCFI20:
+ 374              		.cfi_def_cfa_register 7
+ 375 0006 021C     		mov	r2, r0
+ 376 0008 FB1D     		add	r3, r7, #7
+ 377 000a 1A70     		strb	r2, [r3]
+ 357:.\Generated_Source\PSoC4/SPI.c ****     SPI_TX_STATUS_MASK_REG  = intSrc;
+ 378              		.loc 1 357 0
+ 379 000c 034B     		ldr	r3, .L19
+ 380 000e FA1D     		add	r2, r7, #7
+ 381 0010 1278     		ldrb	r2, [r2]
+ 382 0012 1A70     		strb	r2, [r3]
+ 358:.\Generated_Source\PSoC4/SPI.c **** }
+ 383              		.loc 1 358 0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 14
+
+
+ 384 0014 BD46     		mov	sp, r7
+ 385 0016 02B0     		add	sp, sp, #8
+ 386              		@ sp needed for prologue
+ 387 0018 80BD     		pop	{r7, pc}
+ 388              	.L20:
+ 389 001a C046     		.align	2
+ 390              	.L19:
+ 391 001c 80000F40 		.word	1074724992
+ 392              		.cfi_endproc
+ 393              	.LFE8:
+ 394              		.size	SPI_SetTxInterruptMode, .-SPI_SetTxInterruptMode
+ 395              		.section	.text.SPI_SetRxInterruptMode,"ax",%progbits
+ 396              		.align	2
+ 397              		.global	SPI_SetRxInterruptMode
+ 398              		.code	16
+ 399              		.thumb_func
+ 400              		.type	SPI_SetRxInterruptMode, %function
+ 401              	SPI_SetRxInterruptMode:
+ 402              	.LFB9:
+ 359:.\Generated_Source\PSoC4/SPI.c **** 
+ 360:.\Generated_Source\PSoC4/SPI.c **** 
+ 361:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 362:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_SetRxInterruptMode
+ 363:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 364:.\Generated_Source\PSoC4/SPI.c **** *
+ 365:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 366:.\Generated_Source\PSoC4/SPI.c **** *  Configure which status bits trigger an interrupt event.
+ 367:.\Generated_Source\PSoC4/SPI.c **** *
+ 368:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 369:.\Generated_Source\PSoC4/SPI.c **** *  intSrc: An or'd combination of the desired status bit masks (defined in the
+ 370:.\Generated_Source\PSoC4/SPI.c **** *  header file).
+ 371:.\Generated_Source\PSoC4/SPI.c **** *
+ 372:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 373:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 374:.\Generated_Source\PSoC4/SPI.c **** *
+ 375:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 376:.\Generated_Source\PSoC4/SPI.c **** *  Enables the output of specific status bits to the interrupt controller.
+ 377:.\Generated_Source\PSoC4/SPI.c **** *
+ 378:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 379:.\Generated_Source\PSoC4/SPI.c **** void SPI_SetRxInterruptMode(uint8 intSrc) 
+ 380:.\Generated_Source\PSoC4/SPI.c **** {
+ 403              		.loc 1 380 0
+ 404              		.cfi_startproc
+ 405 0000 80B5     		push	{r7, lr}
+ 406              	.LCFI21:
+ 407              		.cfi_def_cfa_offset 8
+ 408              		.cfi_offset 7, -8
+ 409              		.cfi_offset 14, -4
+ 410 0002 82B0     		sub	sp, sp, #8
+ 411              	.LCFI22:
+ 412              		.cfi_def_cfa_offset 16
+ 413 0004 00AF     		add	r7, sp, #0
+ 414              	.LCFI23:
+ 415              		.cfi_def_cfa_register 7
+ 416 0006 021C     		mov	r2, r0
+ 417 0008 FB1D     		add	r3, r7, #7
+ 418 000a 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 15
+
+
+ 381:.\Generated_Source\PSoC4/SPI.c ****     SPI_RX_STATUS_MASK_REG  = intSrc;
+ 419              		.loc 1 381 0
+ 420 000c 034B     		ldr	r3, .L22
+ 421 000e FA1D     		add	r2, r7, #7
+ 422 0010 1278     		ldrb	r2, [r2]
+ 423 0012 1A70     		strb	r2, [r3]
+ 382:.\Generated_Source\PSoC4/SPI.c **** }
+ 424              		.loc 1 382 0
+ 425 0014 BD46     		mov	sp, r7
+ 426 0016 02B0     		add	sp, sp, #8
+ 427              		@ sp needed for prologue
+ 428 0018 80BD     		pop	{r7, pc}
+ 429              	.L23:
+ 430 001a C046     		.align	2
+ 431              	.L22:
+ 432 001c 83000F40 		.word	1074724995
+ 433              		.cfi_endproc
+ 434              	.LFE9:
+ 435              		.size	SPI_SetRxInterruptMode, .-SPI_SetRxInterruptMode
+ 436              		.section	.text.SPI_ReadTxStatus,"ax",%progbits
+ 437              		.align	2
+ 438              		.global	SPI_ReadTxStatus
+ 439              		.code	16
+ 440              		.thumb_func
+ 441              		.type	SPI_ReadTxStatus, %function
+ 442              	SPI_ReadTxStatus:
+ 443              	.LFB10:
+ 383:.\Generated_Source\PSoC4/SPI.c **** 
+ 384:.\Generated_Source\PSoC4/SPI.c **** 
+ 385:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 386:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_ReadTxStatus
+ 387:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 388:.\Generated_Source\PSoC4/SPI.c **** *
+ 389:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 390:.\Generated_Source\PSoC4/SPI.c **** *  Read the Tx status register for the component.
+ 391:.\Generated_Source\PSoC4/SPI.c **** *
+ 392:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 393:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 394:.\Generated_Source\PSoC4/SPI.c **** *
+ 395:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 396:.\Generated_Source\PSoC4/SPI.c **** *  Contents of the Tx status register.
+ 397:.\Generated_Source\PSoC4/SPI.c **** *
+ 398:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 399:.\Generated_Source\PSoC4/SPI.c **** *  SPI_swStatusTx - used to store in software status register,
+ 400:.\Generated_Source\PSoC4/SPI.c **** *  modified every function call - resets to zero.
+ 401:.\Generated_Source\PSoC4/SPI.c **** *
+ 402:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 403:.\Generated_Source\PSoC4/SPI.c **** *  Allows the user and the API to read the Tx status register for error
+ 404:.\Generated_Source\PSoC4/SPI.c **** *  detection and flow control.
+ 405:.\Generated_Source\PSoC4/SPI.c **** *
+ 406:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+ 407:.\Generated_Source\PSoC4/SPI.c **** *  Clear Tx status register of the component.
+ 408:.\Generated_Source\PSoC4/SPI.c **** *
+ 409:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+ 410:.\Generated_Source\PSoC4/SPI.c **** *  No.
+ 411:.\Generated_Source\PSoC4/SPI.c **** *
+ 412:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 16
+
+
+ 413:.\Generated_Source\PSoC4/SPI.c **** uint8 SPI_ReadTxStatus(void) 
+ 414:.\Generated_Source\PSoC4/SPI.c **** {
+ 444              		.loc 1 414 0
+ 445              		.cfi_startproc
+ 446 0000 80B5     		push	{r7, lr}
+ 447              	.LCFI24:
+ 448              		.cfi_def_cfa_offset 8
+ 449              		.cfi_offset 7, -8
+ 450              		.cfi_offset 14, -4
+ 451 0002 82B0     		sub	sp, sp, #8
+ 452              	.LCFI25:
+ 453              		.cfi_def_cfa_offset 16
+ 454 0004 00AF     		add	r7, sp, #0
+ 455              	.LCFI26:
+ 456              		.cfi_def_cfa_register 7
+ 415:.\Generated_Source\PSoC4/SPI.c ****     uint8 tmpStatus;
+ 416:.\Generated_Source\PSoC4/SPI.c **** 
+ 417:.\Generated_Source\PSoC4/SPI.c ****     #if (SPI_TX_SOFTWARE_BUF_ENABLED)
+ 418:.\Generated_Source\PSoC4/SPI.c **** 
+ 419:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableTxInt();
+ 420:.\Generated_Source\PSoC4/SPI.c **** 
+ 421:.\Generated_Source\PSoC4/SPI.c ****         tmpStatus = SPI_GET_STATUS_TX(SPI_swStatusTx);
+ 422:.\Generated_Source\PSoC4/SPI.c **** 
+ 423:.\Generated_Source\PSoC4/SPI.c ****         SPI_swStatusTx = 0u;
+ 424:.\Generated_Source\PSoC4/SPI.c **** 
+ 425:.\Generated_Source\PSoC4/SPI.c ****         /* Enable Interrupts */
+ 426:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableTxInt();
+ 427:.\Generated_Source\PSoC4/SPI.c **** 
+ 428:.\Generated_Source\PSoC4/SPI.c ****     #else /* !SPI_TX_SOFTWARE_BUF_ENABLED */
+ 429:.\Generated_Source\PSoC4/SPI.c **** 
+ 430:.\Generated_Source\PSoC4/SPI.c ****         tmpStatus = SPI_TX_STATUS_REG;
+ 457              		.loc 1 430 0
+ 458 0006 054A     		ldr	r2, .L26
+ 459 0008 FB1D     		add	r3, r7, #7
+ 460 000a 1278     		ldrb	r2, [r2]
+ 461 000c 1A70     		strb	r2, [r3]
+ 431:.\Generated_Source\PSoC4/SPI.c **** 
+ 432:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_TX_SOFTWARE_BUF_ENABLED */
+ 433:.\Generated_Source\PSoC4/SPI.c **** 
+ 434:.\Generated_Source\PSoC4/SPI.c ****     return(tmpStatus);
+ 462              		.loc 1 434 0
+ 463 000e FB1D     		add	r3, r7, #7
+ 464 0010 1B78     		ldrb	r3, [r3]
+ 435:.\Generated_Source\PSoC4/SPI.c **** }
+ 465              		.loc 1 435 0
+ 466 0012 181C     		mov	r0, r3
+ 467 0014 BD46     		mov	sp, r7
+ 468 0016 02B0     		add	sp, sp, #8
+ 469              		@ sp needed for prologue
+ 470 0018 80BD     		pop	{r7, pc}
+ 471              	.L27:
+ 472 001a C046     		.align	2
+ 473              	.L26:
+ 474 001c 60000F40 		.word	1074724960
+ 475              		.cfi_endproc
+ 476              	.LFE10:
+ 477              		.size	SPI_ReadTxStatus, .-SPI_ReadTxStatus
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 17
+
+
+ 478              		.section	.text.SPI_ReadRxStatus,"ax",%progbits
+ 479              		.align	2
+ 480              		.global	SPI_ReadRxStatus
+ 481              		.code	16
+ 482              		.thumb_func
+ 483              		.type	SPI_ReadRxStatus, %function
+ 484              	SPI_ReadRxStatus:
+ 485              	.LFB11:
+ 436:.\Generated_Source\PSoC4/SPI.c **** 
+ 437:.\Generated_Source\PSoC4/SPI.c **** 
+ 438:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 439:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_ReadRxStatus
+ 440:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 441:.\Generated_Source\PSoC4/SPI.c **** *
+ 442:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 443:.\Generated_Source\PSoC4/SPI.c **** *  Read the Rx status register for the component.
+ 444:.\Generated_Source\PSoC4/SPI.c **** *
+ 445:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 446:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 447:.\Generated_Source\PSoC4/SPI.c **** *
+ 448:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 449:.\Generated_Source\PSoC4/SPI.c **** *  Contents of the Rx status register.
+ 450:.\Generated_Source\PSoC4/SPI.c **** *
+ 451:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 452:.\Generated_Source\PSoC4/SPI.c **** *  SPI_swStatusRx - used to store in software Rx status register,
+ 453:.\Generated_Source\PSoC4/SPI.c **** *  modified every function call - resets to zero.
+ 454:.\Generated_Source\PSoC4/SPI.c **** *
+ 455:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 456:.\Generated_Source\PSoC4/SPI.c **** *  Allows the user and the API to read the Rx status register for error
+ 457:.\Generated_Source\PSoC4/SPI.c **** *  detection and flow control.
+ 458:.\Generated_Source\PSoC4/SPI.c **** *
+ 459:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+ 460:.\Generated_Source\PSoC4/SPI.c **** *  Clear Rx status register of the component.
+ 461:.\Generated_Source\PSoC4/SPI.c **** *
+ 462:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+ 463:.\Generated_Source\PSoC4/SPI.c **** *  No.
+ 464:.\Generated_Source\PSoC4/SPI.c **** *
+ 465:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 466:.\Generated_Source\PSoC4/SPI.c **** uint8 SPI_ReadRxStatus(void) 
+ 467:.\Generated_Source\PSoC4/SPI.c **** {
+ 486              		.loc 1 467 0
+ 487              		.cfi_startproc
+ 488 0000 80B5     		push	{r7, lr}
+ 489              	.LCFI27:
+ 490              		.cfi_def_cfa_offset 8
+ 491              		.cfi_offset 7, -8
+ 492              		.cfi_offset 14, -4
+ 493 0002 82B0     		sub	sp, sp, #8
+ 494              	.LCFI28:
+ 495              		.cfi_def_cfa_offset 16
+ 496 0004 00AF     		add	r7, sp, #0
+ 497              	.LCFI29:
+ 498              		.cfi_def_cfa_register 7
+ 468:.\Generated_Source\PSoC4/SPI.c ****     uint8 tmpStatus;
+ 469:.\Generated_Source\PSoC4/SPI.c **** 
+ 470:.\Generated_Source\PSoC4/SPI.c ****     #if (SPI_RX_SOFTWARE_BUF_ENABLED)
+ 471:.\Generated_Source\PSoC4/SPI.c **** 
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 18
+
+
+ 472:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableRxInt();
+ 473:.\Generated_Source\PSoC4/SPI.c **** 
+ 474:.\Generated_Source\PSoC4/SPI.c ****         tmpStatus = SPI_GET_STATUS_RX(SPI_swStatusRx);
+ 475:.\Generated_Source\PSoC4/SPI.c **** 
+ 476:.\Generated_Source\PSoC4/SPI.c ****         SPI_swStatusRx = 0u;
+ 477:.\Generated_Source\PSoC4/SPI.c **** 
+ 478:.\Generated_Source\PSoC4/SPI.c ****         /* Enable Interrupts */
+ 479:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableRxInt();
+ 480:.\Generated_Source\PSoC4/SPI.c **** 
+ 481:.\Generated_Source\PSoC4/SPI.c ****     #else /* !SPI_RX_SOFTWARE_BUF_ENABLED */
+ 482:.\Generated_Source\PSoC4/SPI.c **** 
+ 483:.\Generated_Source\PSoC4/SPI.c ****         tmpStatus = SPI_RX_STATUS_REG;
+ 499              		.loc 1 483 0
+ 500 0006 054A     		ldr	r2, .L30
+ 501 0008 FB1D     		add	r3, r7, #7
+ 502 000a 1278     		ldrb	r2, [r2]
+ 503 000c 1A70     		strb	r2, [r3]
+ 484:.\Generated_Source\PSoC4/SPI.c **** 
+ 485:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_RX_SOFTWARE_BUF_ENABLED */
+ 486:.\Generated_Source\PSoC4/SPI.c **** 
+ 487:.\Generated_Source\PSoC4/SPI.c ****     return(tmpStatus);
+ 504              		.loc 1 487 0
+ 505 000e FB1D     		add	r3, r7, #7
+ 506 0010 1B78     		ldrb	r3, [r3]
+ 488:.\Generated_Source\PSoC4/SPI.c **** }
+ 507              		.loc 1 488 0
+ 508 0012 181C     		mov	r0, r3
+ 509 0014 BD46     		mov	sp, r7
+ 510 0016 02B0     		add	sp, sp, #8
+ 511              		@ sp needed for prologue
+ 512 0018 80BD     		pop	{r7, pc}
+ 513              	.L31:
+ 514 001a C046     		.align	2
+ 515              	.L30:
+ 516 001c 63000F40 		.word	1074724963
+ 517              		.cfi_endproc
+ 518              	.LFE11:
+ 519              		.size	SPI_ReadRxStatus, .-SPI_ReadRxStatus
+ 520              		.section	.text.SPI_WriteTxData,"ax",%progbits
+ 521              		.align	2
+ 522              		.global	SPI_WriteTxData
+ 523              		.code	16
+ 524              		.thumb_func
+ 525              		.type	SPI_WriteTxData, %function
+ 526              	SPI_WriteTxData:
+ 527              	.LFB12:
+ 489:.\Generated_Source\PSoC4/SPI.c **** 
+ 490:.\Generated_Source\PSoC4/SPI.c **** 
+ 491:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 492:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_WriteTxData
+ 493:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 494:.\Generated_Source\PSoC4/SPI.c **** *
+ 495:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 496:.\Generated_Source\PSoC4/SPI.c **** *  Write a byte of data to be sent across the SPI.
+ 497:.\Generated_Source\PSoC4/SPI.c **** *
+ 498:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 499:.\Generated_Source\PSoC4/SPI.c **** *  txDataByte: The data value to send across the SPI.
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 19
+
+
+ 500:.\Generated_Source\PSoC4/SPI.c **** *
+ 501:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 502:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 503:.\Generated_Source\PSoC4/SPI.c **** *
+ 504:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 505:.\Generated_Source\PSoC4/SPI.c **** *  SPI_txBufferWrite - used for the account of the bytes which
+ 506:.\Generated_Source\PSoC4/SPI.c **** *  have been written down in the TX software buffer, modified every function
+ 507:.\Generated_Source\PSoC4/SPI.c **** *  call if TX Software Buffer is used.
+ 508:.\Generated_Source\PSoC4/SPI.c **** *  SPI_txBufferRead - used for the account of the bytes which
+ 509:.\Generated_Source\PSoC4/SPI.c **** *  have been read from the TX software buffer.
+ 510:.\Generated_Source\PSoC4/SPI.c **** *  SPI_txBuffer[SPI_TX_BUFFER_SIZE] - used to store
+ 511:.\Generated_Source\PSoC4/SPI.c **** *  data to sending, modified every function call if TX Software Buffer is used.
+ 512:.\Generated_Source\PSoC4/SPI.c **** *
+ 513:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 514:.\Generated_Source\PSoC4/SPI.c **** *  Allows the user to transmit any byte of data in a single transfer.
+ 515:.\Generated_Source\PSoC4/SPI.c **** *
+ 516:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+ 517:.\Generated_Source\PSoC4/SPI.c **** *  If this function is called again before the previous byte is finished then
+ 518:.\Generated_Source\PSoC4/SPI.c **** *  the next byte will be appended to the transfer with no time between
+ 519:.\Generated_Source\PSoC4/SPI.c **** *  the byte transfers. Clear Tx status register of the component.
+ 520:.\Generated_Source\PSoC4/SPI.c **** *
+ 521:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+ 522:.\Generated_Source\PSoC4/SPI.c **** *  No.
+ 523:.\Generated_Source\PSoC4/SPI.c **** *
+ 524:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 525:.\Generated_Source\PSoC4/SPI.c **** void SPI_WriteTxData(uint16 txData) 
+ 526:.\Generated_Source\PSoC4/SPI.c **** {
+ 528              		.loc 1 526 0
+ 529              		.cfi_startproc
+ 530 0000 80B5     		push	{r7, lr}
+ 531              	.LCFI30:
+ 532              		.cfi_def_cfa_offset 8
+ 533              		.cfi_offset 7, -8
+ 534              		.cfi_offset 14, -4
+ 535 0002 82B0     		sub	sp, sp, #8
+ 536              	.LCFI31:
+ 537              		.cfi_def_cfa_offset 16
+ 538 0004 00AF     		add	r7, sp, #0
+ 539              	.LCFI32:
+ 540              		.cfi_def_cfa_register 7
+ 541 0006 021C     		mov	r2, r0
+ 542 0008 BB1D     		add	r3, r7, #6
+ 543 000a 1A80     		strh	r2, [r3]
+ 527:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_TX_SOFTWARE_BUF_ENABLED)
+ 528:.\Generated_Source\PSoC4/SPI.c **** 
+ 529:.\Generated_Source\PSoC4/SPI.c ****         uint8 tempStatus;
+ 530:.\Generated_Source\PSoC4/SPI.c ****         uint8 tmpTxBufferRead;
+ 531:.\Generated_Source\PSoC4/SPI.c **** 
+ 532:.\Generated_Source\PSoC4/SPI.c ****         /* Block if buffer is full, so we don't overwrite. */
+ 533:.\Generated_Source\PSoC4/SPI.c ****         do
+ 534:.\Generated_Source\PSoC4/SPI.c ****         {
+ 535:.\Generated_Source\PSoC4/SPI.c ****             tmpTxBufferRead = SPI_txBufferRead;
+ 536:.\Generated_Source\PSoC4/SPI.c ****             if (0u == tmpTxBufferRead)
+ 537:.\Generated_Source\PSoC4/SPI.c ****             {
+ 538:.\Generated_Source\PSoC4/SPI.c ****                 tmpTxBufferRead = SPI_TX_BUFFER_SIZE - 1u;
+ 539:.\Generated_Source\PSoC4/SPI.c ****             }
+ 540:.\Generated_Source\PSoC4/SPI.c ****             else
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 20
+
+
+ 541:.\Generated_Source\PSoC4/SPI.c ****             {
+ 542:.\Generated_Source\PSoC4/SPI.c ****                 tmpTxBufferRead--;
+ 543:.\Generated_Source\PSoC4/SPI.c ****             }
+ 544:.\Generated_Source\PSoC4/SPI.c **** 
+ 545:.\Generated_Source\PSoC4/SPI.c ****         } while(tmpTxBufferRead == SPI_txBufferWrite);
+ 546:.\Generated_Source\PSoC4/SPI.c **** 
+ 547:.\Generated_Source\PSoC4/SPI.c ****         /* Disable Interrupt to protect variables that could change on interrupt. */
+ 548:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableTxInt();
+ 549:.\Generated_Source\PSoC4/SPI.c **** 
+ 550:.\Generated_Source\PSoC4/SPI.c ****         tempStatus = SPI_GET_STATUS_TX(SPI_swStatusTx);
+ 551:.\Generated_Source\PSoC4/SPI.c ****         SPI_swStatusTx = tempStatus;
+ 552:.\Generated_Source\PSoC4/SPI.c **** 
+ 553:.\Generated_Source\PSoC4/SPI.c ****         if((SPI_txBufferRead == SPI_txBufferWrite) &&
+ 554:.\Generated_Source\PSoC4/SPI.c ****             (0u != (SPI_swStatusTx & SPI_STS_TX_FIFO_NOT_FULL)))
+ 555:.\Generated_Source\PSoC4/SPI.c ****         {
+ 556:.\Generated_Source\PSoC4/SPI.c ****             /* Add directly to the FIFO. */
+ 557:.\Generated_Source\PSoC4/SPI.c ****             CY_SET_REG16(SPI_TXDATA_PTR, txData);
+ 558:.\Generated_Source\PSoC4/SPI.c ****         }
+ 559:.\Generated_Source\PSoC4/SPI.c ****         else
+ 560:.\Generated_Source\PSoC4/SPI.c ****         {
+ 561:.\Generated_Source\PSoC4/SPI.c ****             /* Add to the software buffer. */
+ 562:.\Generated_Source\PSoC4/SPI.c ****             SPI_txBufferWrite++;
+ 563:.\Generated_Source\PSoC4/SPI.c ****             if(SPI_txBufferWrite >= SPI_TX_BUFFER_SIZE)
+ 564:.\Generated_Source\PSoC4/SPI.c ****             {
+ 565:.\Generated_Source\PSoC4/SPI.c ****                 SPI_txBufferWrite = 0u;
+ 566:.\Generated_Source\PSoC4/SPI.c ****             }
+ 567:.\Generated_Source\PSoC4/SPI.c **** 
+ 568:.\Generated_Source\PSoC4/SPI.c ****             if(SPI_txBufferWrite == SPI_txBufferRead)
+ 569:.\Generated_Source\PSoC4/SPI.c ****             {
+ 570:.\Generated_Source\PSoC4/SPI.c ****                 SPI_txBufferRead++;
+ 571:.\Generated_Source\PSoC4/SPI.c ****                 if(SPI_txBufferRead >= SPI_RX_BUFFER_SIZE)
+ 572:.\Generated_Source\PSoC4/SPI.c ****                 {
+ 573:.\Generated_Source\PSoC4/SPI.c ****                     SPI_txBufferRead = 0u;
+ 574:.\Generated_Source\PSoC4/SPI.c ****                 }
+ 575:.\Generated_Source\PSoC4/SPI.c ****                 SPI_txBufferFull = 1u;
+ 576:.\Generated_Source\PSoC4/SPI.c ****             }
+ 577:.\Generated_Source\PSoC4/SPI.c **** 
+ 578:.\Generated_Source\PSoC4/SPI.c ****             SPI_txBuffer[SPI_txBufferWrite] = txData;
+ 579:.\Generated_Source\PSoC4/SPI.c **** 
+ 580:.\Generated_Source\PSoC4/SPI.c ****             SPI_TX_STATUS_MASK_REG |= SPI_STS_TX_FIFO_NOT_FULL;
+ 581:.\Generated_Source\PSoC4/SPI.c ****         }
+ 582:.\Generated_Source\PSoC4/SPI.c **** 
+ 583:.\Generated_Source\PSoC4/SPI.c ****         /* Enable Interrupt. */
+ 584:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableTxInt();
+ 585:.\Generated_Source\PSoC4/SPI.c **** 
+ 586:.\Generated_Source\PSoC4/SPI.c ****     #else /* !SPI_TX_SOFTWARE_BUF_ENABLED*/
+ 587:.\Generated_Source\PSoC4/SPI.c **** 
+ 588:.\Generated_Source\PSoC4/SPI.c ****         
+ 589:.\Generated_Source\PSoC4/SPI.c ****         while(0u == (SPI_TX_STATUS_REG & SPI_STS_TX_FIFO_NOT_FULL))
+ 544              		.loc 1 589 0
+ 545 000c C046     		mov	r8, r8
+ 546              	.L33:
+ 547              		.loc 1 589 0 is_stmt 0 discriminator 1
+ 548 000e 074B     		ldr	r3, .L34
+ 549 0010 1B78     		ldrb	r3, [r3]
+ 550 0012 DBB2     		uxtb	r3, r3
+ 551 0014 1A1C     		mov	r2, r3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 21
+
+
+ 552 0016 0223     		mov	r3, #2
+ 553 0018 1340     		and	r3, r2
+ 554 001a F8D0     		beq	.L33
+ 590:.\Generated_Source\PSoC4/SPI.c **** 		{
+ 591:.\Generated_Source\PSoC4/SPI.c **** 			; /* Block while FIFO is full */
+ 592:.\Generated_Source\PSoC4/SPI.c **** 		}
+ 593:.\Generated_Source\PSoC4/SPI.c **** 
+ 594:.\Generated_Source\PSoC4/SPI.c ****         /* Then write the byte */
+ 595:.\Generated_Source\PSoC4/SPI.c ****         CY_SET_REG16(SPI_TXDATA_PTR, txData);
+ 555              		.loc 1 595 0 is_stmt 1
+ 556 001c 044B     		ldr	r3, .L34+4
+ 557 001e BA1D     		add	r2, r7, #6
+ 558 0020 1288     		ldrh	r2, [r2]
+ 559 0022 1A80     		strh	r2, [r3]
+ 596:.\Generated_Source\PSoC4/SPI.c **** 
+ 597:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_TX_SOFTWARE_BUF_ENABLED */
+ 598:.\Generated_Source\PSoC4/SPI.c **** }
+ 560              		.loc 1 598 0
+ 561 0024 BD46     		mov	sp, r7
+ 562 0026 02B0     		add	sp, sp, #8
+ 563              		@ sp needed for prologue
+ 564 0028 80BD     		pop	{r7, pc}
+ 565              	.L35:
+ 566 002a C046     		.align	2
+ 567              	.L34:
+ 568 002c 60000F40 		.word	1074724960
+ 569 0030 84100F40 		.word	1074729092
+ 570              		.cfi_endproc
+ 571              	.LFE12:
+ 572              		.size	SPI_WriteTxData, .-SPI_WriteTxData
+ 573              		.section	.text.SPI_ReadRxData,"ax",%progbits
+ 574              		.align	2
+ 575              		.global	SPI_ReadRxData
+ 576              		.code	16
+ 577              		.thumb_func
+ 578              		.type	SPI_ReadRxData, %function
+ 579              	SPI_ReadRxData:
+ 580              	.LFB13:
+ 599:.\Generated_Source\PSoC4/SPI.c **** 
+ 600:.\Generated_Source\PSoC4/SPI.c **** #if(SPI_MODE_USE_ZERO != 0u)
+ 601:.\Generated_Source\PSoC4/SPI.c **** 
+ 602:.\Generated_Source\PSoC4/SPI.c ****     /*******************************************************************************
+ 603:.\Generated_Source\PSoC4/SPI.c ****     * Function Name: SPI_WriteTxDataZero
+ 604:.\Generated_Source\PSoC4/SPI.c ****     ********************************************************************************
+ 605:.\Generated_Source\PSoC4/SPI.c ****     *
+ 606:.\Generated_Source\PSoC4/SPI.c ****     * Summary:
+ 607:.\Generated_Source\PSoC4/SPI.c ****     *  Write a byte zero of data to be sent across the SPI. This must be used in
+ 608:.\Generated_Source\PSoC4/SPI.c ****     *  Mode 00 and 01 if the FIFO is empty and data is not being sent.
+ 609:.\Generated_Source\PSoC4/SPI.c ****     *
+ 610:.\Generated_Source\PSoC4/SPI.c ****     * Parameters:
+ 611:.\Generated_Source\PSoC4/SPI.c ****     *  txDataByte: The data value to send across the SPI.
+ 612:.\Generated_Source\PSoC4/SPI.c ****     *
+ 613:.\Generated_Source\PSoC4/SPI.c ****     * Return:
+ 614:.\Generated_Source\PSoC4/SPI.c ****     *  None.
+ 615:.\Generated_Source\PSoC4/SPI.c ****     *
+ 616:.\Generated_Source\PSoC4/SPI.c ****     * Theory:
+ 617:.\Generated_Source\PSoC4/SPI.c ****     *  Allows the user to transmit any byte of data in a single transfer. Clear
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 22
+
+
+ 618:.\Generated_Source\PSoC4/SPI.c ****     *  status register of the component.
+ 619:.\Generated_Source\PSoC4/SPI.c ****     *
+ 620:.\Generated_Source\PSoC4/SPI.c ****     *******************************************************************************/
+ 621:.\Generated_Source\PSoC4/SPI.c ****     void SPI_WriteTxDataZero(uint16 txDataByte)
+ 622:.\Generated_Source\PSoC4/SPI.c ****                                         
+ 623:.\Generated_Source\PSoC4/SPI.c ****     {
+ 624:.\Generated_Source\PSoC4/SPI.c ****         CY_SET_REG16(SPI_TXDATA_ZERO_PTR, txDataByte);
+ 625:.\Generated_Source\PSoC4/SPI.c ****     }
+ 626:.\Generated_Source\PSoC4/SPI.c **** 
+ 627:.\Generated_Source\PSoC4/SPI.c **** #endif /* (SPI_MODE_USE_ZERO != 0u) */
+ 628:.\Generated_Source\PSoC4/SPI.c **** 
+ 629:.\Generated_Source\PSoC4/SPI.c **** 
+ 630:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 631:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_ReadRxData
+ 632:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 633:.\Generated_Source\PSoC4/SPI.c **** *
+ 634:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 635:.\Generated_Source\PSoC4/SPI.c **** *  Read the next byte of data received across the SPI.
+ 636:.\Generated_Source\PSoC4/SPI.c **** *
+ 637:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 638:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 639:.\Generated_Source\PSoC4/SPI.c **** *
+ 640:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 641:.\Generated_Source\PSoC4/SPI.c **** *  The next byte of data read from the FIFO.
+ 642:.\Generated_Source\PSoC4/SPI.c **** *
+ 643:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 644:.\Generated_Source\PSoC4/SPI.c **** *  SPI_rxBufferWrite - used for the account of the bytes which
+ 645:.\Generated_Source\PSoC4/SPI.c **** *  have been written down in the RX software buffer.
+ 646:.\Generated_Source\PSoC4/SPI.c **** *  SPI_rxBufferRead - used for the account of the bytes which
+ 647:.\Generated_Source\PSoC4/SPI.c **** *  have been read from the RX software buffer, modified every function
+ 648:.\Generated_Source\PSoC4/SPI.c **** *  call if RX Software Buffer is used.
+ 649:.\Generated_Source\PSoC4/SPI.c **** *  SPI_rxBuffer[SPI_RX_BUFFER_SIZE] - used to store
+ 650:.\Generated_Source\PSoC4/SPI.c **** *  received data.
+ 651:.\Generated_Source\PSoC4/SPI.c **** *
+ 652:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 653:.\Generated_Source\PSoC4/SPI.c **** *  Allows the user to read a byte of data received.
+ 654:.\Generated_Source\PSoC4/SPI.c **** *
+ 655:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+ 656:.\Generated_Source\PSoC4/SPI.c **** *  Will return invalid data if the FIFO is empty.  User should poll for FIFO
+ 657:.\Generated_Source\PSoC4/SPI.c **** *  empty status before calling Read function.
+ 658:.\Generated_Source\PSoC4/SPI.c **** *
+ 659:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+ 660:.\Generated_Source\PSoC4/SPI.c **** *  No.
+ 661:.\Generated_Source\PSoC4/SPI.c **** *
+ 662:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 663:.\Generated_Source\PSoC4/SPI.c **** uint16 SPI_ReadRxData(void) 
+ 664:.\Generated_Source\PSoC4/SPI.c **** {
+ 581              		.loc 1 664 0
+ 582              		.cfi_startproc
+ 583 0000 80B5     		push	{r7, lr}
+ 584              	.LCFI33:
+ 585              		.cfi_def_cfa_offset 8
+ 586              		.cfi_offset 7, -8
+ 587              		.cfi_offset 14, -4
+ 588 0002 82B0     		sub	sp, sp, #8
+ 589              	.LCFI34:
+ 590              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 23
+
+
+ 591 0004 00AF     		add	r7, sp, #0
+ 592              	.LCFI35:
+ 593              		.cfi_def_cfa_register 7
+ 665:.\Generated_Source\PSoC4/SPI.c ****     uint16 rxData;
+ 666:.\Generated_Source\PSoC4/SPI.c **** 
+ 667:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_RX_SOFTWARE_BUF_ENABLED)
+ 668:.\Generated_Source\PSoC4/SPI.c **** 
+ 669:.\Generated_Source\PSoC4/SPI.c ****         /* Disable Interrupt to protect variables that could change on interrupt. */
+ 670:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableRxInt();
+ 671:.\Generated_Source\PSoC4/SPI.c **** 
+ 672:.\Generated_Source\PSoC4/SPI.c ****         if(SPI_rxBufferRead != SPI_rxBufferWrite)
+ 673:.\Generated_Source\PSoC4/SPI.c ****         {
+ 674:.\Generated_Source\PSoC4/SPI.c ****             if(SPI_rxBufferFull == 0u)
+ 675:.\Generated_Source\PSoC4/SPI.c ****             {
+ 676:.\Generated_Source\PSoC4/SPI.c ****                 SPI_rxBufferRead++;
+ 677:.\Generated_Source\PSoC4/SPI.c ****                 if(SPI_rxBufferRead >= SPI_RX_BUFFER_SIZE)
+ 678:.\Generated_Source\PSoC4/SPI.c ****                 {
+ 679:.\Generated_Source\PSoC4/SPI.c ****                     SPI_rxBufferRead = 0u;
+ 680:.\Generated_Source\PSoC4/SPI.c ****                 }
+ 681:.\Generated_Source\PSoC4/SPI.c ****             }
+ 682:.\Generated_Source\PSoC4/SPI.c ****             else
+ 683:.\Generated_Source\PSoC4/SPI.c ****             {
+ 684:.\Generated_Source\PSoC4/SPI.c ****                 SPI_rxBufferFull = 0u;
+ 685:.\Generated_Source\PSoC4/SPI.c ****             }
+ 686:.\Generated_Source\PSoC4/SPI.c ****         }
+ 687:.\Generated_Source\PSoC4/SPI.c **** 
+ 688:.\Generated_Source\PSoC4/SPI.c ****         rxData = SPI_rxBuffer[SPI_rxBufferRead];
+ 689:.\Generated_Source\PSoC4/SPI.c **** 
+ 690:.\Generated_Source\PSoC4/SPI.c ****         /* Enable Interrupt. */
+ 691:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableRxInt();
+ 692:.\Generated_Source\PSoC4/SPI.c **** 
+ 693:.\Generated_Source\PSoC4/SPI.c ****     #else /* !SPI_RX_SOFTWARE_BUF_ENABLED */
+ 694:.\Generated_Source\PSoC4/SPI.c **** 
+ 695:.\Generated_Source\PSoC4/SPI.c ****         rxData = CY_GET_REG16(SPI_RXDATA_PTR);
+ 594              		.loc 1 695 0
+ 595 0006 054A     		ldr	r2, .L38
+ 596 0008 BB1D     		add	r3, r7, #6
+ 597 000a 1288     		ldrh	r2, [r2]
+ 598 000c 1A80     		strh	r2, [r3]
+ 696:.\Generated_Source\PSoC4/SPI.c **** 
+ 697:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_RX_SOFTWARE_BUF_ENABLED */
+ 698:.\Generated_Source\PSoC4/SPI.c **** 
+ 699:.\Generated_Source\PSoC4/SPI.c ****     return (rxData);
+ 599              		.loc 1 699 0
+ 600 000e BB1D     		add	r3, r7, #6
+ 601 0010 1B88     		ldrh	r3, [r3]
+ 700:.\Generated_Source\PSoC4/SPI.c **** 
+ 701:.\Generated_Source\PSoC4/SPI.c **** }
+ 602              		.loc 1 701 0
+ 603 0012 181C     		mov	r0, r3
+ 604 0014 BD46     		mov	sp, r7
+ 605 0016 02B0     		add	sp, sp, #8
+ 606              		@ sp needed for prologue
+ 607 0018 80BD     		pop	{r7, pc}
+ 608              	.L39:
+ 609 001a C046     		.align	2
+ 610              	.L38:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 24
+
+
+ 611 001c A4100F40 		.word	1074729124
+ 612              		.cfi_endproc
+ 613              	.LFE13:
+ 614              		.size	SPI_ReadRxData, .-SPI_ReadRxData
+ 615              		.section	.text.SPI_GetRxBufferSize,"ax",%progbits
+ 616              		.align	2
+ 617              		.global	SPI_GetRxBufferSize
+ 618              		.code	16
+ 619              		.thumb_func
+ 620              		.type	SPI_GetRxBufferSize, %function
+ 621              	SPI_GetRxBufferSize:
+ 622              	.LFB14:
+ 702:.\Generated_Source\PSoC4/SPI.c **** 
+ 703:.\Generated_Source\PSoC4/SPI.c **** 
+ 704:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 705:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_GetRxBufferSize
+ 706:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 707:.\Generated_Source\PSoC4/SPI.c **** *
+ 708:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 709:.\Generated_Source\PSoC4/SPI.c **** *  Returns the number of bytes/words of data currently held in the RX buffer.
+ 710:.\Generated_Source\PSoC4/SPI.c **** *  If RX Software Buffer not used then function return 0 if FIFO empty or 1 if
+ 711:.\Generated_Source\PSoC4/SPI.c **** *  FIFO not empty. In another case function return size of RX Software Buffer.
+ 712:.\Generated_Source\PSoC4/SPI.c **** *
+ 713:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 714:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 715:.\Generated_Source\PSoC4/SPI.c **** *
+ 716:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 717:.\Generated_Source\PSoC4/SPI.c **** *  Integer count of the number of bytes/words in the RX buffer.
+ 718:.\Generated_Source\PSoC4/SPI.c **** *
+ 719:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 720:.\Generated_Source\PSoC4/SPI.c **** *  SPI_rxBufferWrite - used for the account of the bytes which
+ 721:.\Generated_Source\PSoC4/SPI.c **** *  have been written down in the RX software buffer.
+ 722:.\Generated_Source\PSoC4/SPI.c **** *  SPI_rxBufferRead - used for the account of the bytes which
+ 723:.\Generated_Source\PSoC4/SPI.c **** *  have been read from the RX software buffer.
+ 724:.\Generated_Source\PSoC4/SPI.c **** *
+ 725:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 726:.\Generated_Source\PSoC4/SPI.c **** *  Allows the user to find out how full the RX Buffer is.
+ 727:.\Generated_Source\PSoC4/SPI.c **** *
+ 728:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 729:.\Generated_Source\PSoC4/SPI.c **** uint8 SPI_GetRxBufferSize(void) 
+ 730:.\Generated_Source\PSoC4/SPI.c **** {
+ 623              		.loc 1 730 0
+ 624              		.cfi_startproc
+ 625 0000 80B5     		push	{r7, lr}
+ 626              	.LCFI36:
+ 627              		.cfi_def_cfa_offset 8
+ 628              		.cfi_offset 7, -8
+ 629              		.cfi_offset 14, -4
+ 630 0002 82B0     		sub	sp, sp, #8
+ 631              	.LCFI37:
+ 632              		.cfi_def_cfa_offset 16
+ 633 0004 00AF     		add	r7, sp, #0
+ 634              	.LCFI38:
+ 635              		.cfi_def_cfa_register 7
+ 731:.\Generated_Source\PSoC4/SPI.c ****     uint8 size;
+ 732:.\Generated_Source\PSoC4/SPI.c **** 
+ 733:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_RX_SOFTWARE_BUF_ENABLED)
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 25
+
+
+ 734:.\Generated_Source\PSoC4/SPI.c **** 
+ 735:.\Generated_Source\PSoC4/SPI.c ****         /* Disable Interrupt to protect variables that could change on interrupt. */
+ 736:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableRxInt();
+ 737:.\Generated_Source\PSoC4/SPI.c **** 
+ 738:.\Generated_Source\PSoC4/SPI.c ****         if(SPI_rxBufferRead == SPI_rxBufferWrite)
+ 739:.\Generated_Source\PSoC4/SPI.c ****         {
+ 740:.\Generated_Source\PSoC4/SPI.c ****             size = 0u; /* No data in RX buffer */
+ 741:.\Generated_Source\PSoC4/SPI.c ****         }
+ 742:.\Generated_Source\PSoC4/SPI.c ****         else if(SPI_rxBufferRead < SPI_rxBufferWrite)
+ 743:.\Generated_Source\PSoC4/SPI.c ****         {
+ 744:.\Generated_Source\PSoC4/SPI.c ****             size = (SPI_rxBufferWrite - SPI_rxBufferRead);
+ 745:.\Generated_Source\PSoC4/SPI.c ****         }
+ 746:.\Generated_Source\PSoC4/SPI.c ****         else
+ 747:.\Generated_Source\PSoC4/SPI.c ****         {
+ 748:.\Generated_Source\PSoC4/SPI.c ****             size = (SPI_RX_BUFFER_SIZE - SPI_rxBufferRead) + SPI_rxBufferWrite;
+ 749:.\Generated_Source\PSoC4/SPI.c ****         }
+ 750:.\Generated_Source\PSoC4/SPI.c **** 
+ 751:.\Generated_Source\PSoC4/SPI.c ****         /* Enable interrupt. */
+ 752:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableRxInt();
+ 753:.\Generated_Source\PSoC4/SPI.c **** 
+ 754:.\Generated_Source\PSoC4/SPI.c ****     #else /* !SPI_RX_SOFTWARE_BUF_ENABLED*/
+ 755:.\Generated_Source\PSoC4/SPI.c **** 
+ 756:.\Generated_Source\PSoC4/SPI.c ****         /* We can only know if there is data in the fifo. */
+ 757:.\Generated_Source\PSoC4/SPI.c ****         size = ((SPI_RX_STATUS_REG & SPI_STS_RX_FIFO_NOT_EMPTY) != 0u) ? 1u : 0u;
+ 636              		.loc 1 757 0
+ 637 0006 094B     		ldr	r3, .L44
+ 638 0008 1B78     		ldrb	r3, [r3]
+ 639 000a DBB2     		uxtb	r3, r3
+ 640 000c 1A1C     		mov	r2, r3
+ 641 000e 0823     		mov	r3, #8
+ 642 0010 1340     		and	r3, r2
+ 643 0012 01D0     		beq	.L41
+ 644              		.loc 1 757 0 is_stmt 0 discriminator 1
+ 645 0014 0123     		mov	r3, #1
+ 646 0016 00E0     		b	.L42
+ 647              	.L41:
+ 648              		.loc 1 757 0 discriminator 2
+ 649 0018 0023     		mov	r3, #0
+ 650              	.L42:
+ 651              		.loc 1 757 0 discriminator 3
+ 652 001a FA1D     		add	r2, r7, #7
+ 653 001c 1370     		strb	r3, [r2]
+ 758:.\Generated_Source\PSoC4/SPI.c **** 
+ 759:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_RX_SOFTWARE_BUF_ENABLED */
+ 760:.\Generated_Source\PSoC4/SPI.c **** 
+ 761:.\Generated_Source\PSoC4/SPI.c ****     return (size);
+ 654              		.loc 1 761 0 is_stmt 1 discriminator 3
+ 655 001e FB1D     		add	r3, r7, #7
+ 656 0020 1B78     		ldrb	r3, [r3]
+ 762:.\Generated_Source\PSoC4/SPI.c **** }
+ 657              		.loc 1 762 0 discriminator 3
+ 658 0022 181C     		mov	r0, r3
+ 659 0024 BD46     		mov	sp, r7
+ 660 0026 02B0     		add	sp, sp, #8
+ 661              		@ sp needed for prologue
+ 662 0028 80BD     		pop	{r7, pc}
+ 663              	.L45:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 26
+
+
+ 664 002a C046     		.align	2
+ 665              	.L44:
+ 666 002c 63000F40 		.word	1074724963
+ 667              		.cfi_endproc
+ 668              	.LFE14:
+ 669              		.size	SPI_GetRxBufferSize, .-SPI_GetRxBufferSize
+ 670              		.section	.text.SPI_GetTxBufferSize,"ax",%progbits
+ 671              		.align	2
+ 672              		.global	SPI_GetTxBufferSize
+ 673              		.code	16
+ 674              		.thumb_func
+ 675              		.type	SPI_GetTxBufferSize, %function
+ 676              	SPI_GetTxBufferSize:
+ 677              	.LFB15:
+ 763:.\Generated_Source\PSoC4/SPI.c **** 
+ 764:.\Generated_Source\PSoC4/SPI.c **** 
+ 765:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 766:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_GetTxBufferSize
+ 767:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 768:.\Generated_Source\PSoC4/SPI.c **** *
+ 769:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 770:.\Generated_Source\PSoC4/SPI.c **** *  Returns the number of bytes/words of data currently held in the TX buffer.
+ 771:.\Generated_Source\PSoC4/SPI.c **** *  If TX Software Buffer not used then function return 0 - if FIFO empty, 1 - if
+ 772:.\Generated_Source\PSoC4/SPI.c **** *  FIFO not full, 4 - if FIFO full. In another case function return size of TX
+ 773:.\Generated_Source\PSoC4/SPI.c **** *  Software Buffer.
+ 774:.\Generated_Source\PSoC4/SPI.c **** *
+ 775:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 776:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 777:.\Generated_Source\PSoC4/SPI.c **** *
+ 778:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 779:.\Generated_Source\PSoC4/SPI.c **** *  Integer count of the number of bytes/words in the TX buffer.
+ 780:.\Generated_Source\PSoC4/SPI.c **** *
+ 781:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 782:.\Generated_Source\PSoC4/SPI.c **** *  SPI_txBufferWrite - used for the account of the bytes which
+ 783:.\Generated_Source\PSoC4/SPI.c **** *  have been written down in the TX software buffer.
+ 784:.\Generated_Source\PSoC4/SPI.c **** *  SPI_txBufferRead - used for the account of the bytes which
+ 785:.\Generated_Source\PSoC4/SPI.c **** *  have been read from the TX software buffer.
+ 786:.\Generated_Source\PSoC4/SPI.c **** *
+ 787:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 788:.\Generated_Source\PSoC4/SPI.c **** *  Allows the user to find out how full the TX Buffer is.
+ 789:.\Generated_Source\PSoC4/SPI.c **** *
+ 790:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+ 791:.\Generated_Source\PSoC4/SPI.c **** *  Clear status register of the component.
+ 792:.\Generated_Source\PSoC4/SPI.c **** *
+ 793:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 794:.\Generated_Source\PSoC4/SPI.c **** uint8  SPI_GetTxBufferSize(void) 
+ 795:.\Generated_Source\PSoC4/SPI.c **** {
+ 678              		.loc 1 795 0
+ 679              		.cfi_startproc
+ 680 0000 80B5     		push	{r7, lr}
+ 681              	.LCFI39:
+ 682              		.cfi_def_cfa_offset 8
+ 683              		.cfi_offset 7, -8
+ 684              		.cfi_offset 14, -4
+ 685 0002 82B0     		sub	sp, sp, #8
+ 686              	.LCFI40:
+ 687              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 27
+
+
+ 688 0004 00AF     		add	r7, sp, #0
+ 689              	.LCFI41:
+ 690              		.cfi_def_cfa_register 7
+ 796:.\Generated_Source\PSoC4/SPI.c ****     uint8 size;
+ 797:.\Generated_Source\PSoC4/SPI.c **** 
+ 798:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_TX_SOFTWARE_BUF_ENABLED)
+ 799:.\Generated_Source\PSoC4/SPI.c **** 
+ 800:.\Generated_Source\PSoC4/SPI.c ****         /* Disable Interrupt to protect variables that could change on interrupt. */
+ 801:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableTxInt();
+ 802:.\Generated_Source\PSoC4/SPI.c **** 
+ 803:.\Generated_Source\PSoC4/SPI.c ****         if(SPI_txBufferRead == SPI_txBufferWrite)
+ 804:.\Generated_Source\PSoC4/SPI.c ****         {
+ 805:.\Generated_Source\PSoC4/SPI.c ****             size = 0u;
+ 806:.\Generated_Source\PSoC4/SPI.c ****         }
+ 807:.\Generated_Source\PSoC4/SPI.c ****         else if(SPI_txBufferRead < SPI_txBufferWrite)
+ 808:.\Generated_Source\PSoC4/SPI.c ****         {
+ 809:.\Generated_Source\PSoC4/SPI.c ****             size = (SPI_txBufferWrite - SPI_txBufferRead);
+ 810:.\Generated_Source\PSoC4/SPI.c ****         }
+ 811:.\Generated_Source\PSoC4/SPI.c ****         else
+ 812:.\Generated_Source\PSoC4/SPI.c ****         {
+ 813:.\Generated_Source\PSoC4/SPI.c ****             size = (SPI_TX_BUFFER_SIZE - SPI_txBufferRead) + SPI_txBufferWrite;
+ 814:.\Generated_Source\PSoC4/SPI.c ****         }
+ 815:.\Generated_Source\PSoC4/SPI.c **** 
+ 816:.\Generated_Source\PSoC4/SPI.c ****         /* Enable Interrupt. */
+ 817:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableTxInt();
+ 818:.\Generated_Source\PSoC4/SPI.c **** 
+ 819:.\Generated_Source\PSoC4/SPI.c ****     #else /* !SPI_TX_SOFTWARE_BUF_ENABLED */
+ 820:.\Generated_Source\PSoC4/SPI.c **** 
+ 821:.\Generated_Source\PSoC4/SPI.c ****         size = SPI_TX_STATUS_REG;
+ 691              		.loc 1 821 0
+ 692 0006 0F4A     		ldr	r2, .L51
+ 693 0008 FB1D     		add	r3, r7, #7
+ 694 000a 1278     		ldrb	r2, [r2]
+ 695 000c 1A70     		strb	r2, [r3]
+ 822:.\Generated_Source\PSoC4/SPI.c **** 
+ 823:.\Generated_Source\PSoC4/SPI.c ****         /* Is the fifo is full. */
+ 824:.\Generated_Source\PSoC4/SPI.c ****         if((size & SPI_STS_TX_FIFO_EMPTY) != 0u)
+ 696              		.loc 1 824 0
+ 697 000e FB1D     		add	r3, r7, #7
+ 698 0010 1A78     		ldrb	r2, [r3]
+ 699 0012 0423     		mov	r3, #4
+ 700 0014 1340     		and	r3, r2
+ 701 0016 03D0     		beq	.L47
+ 825:.\Generated_Source\PSoC4/SPI.c ****         {
+ 826:.\Generated_Source\PSoC4/SPI.c ****             size = 0u;
+ 702              		.loc 1 826 0
+ 703 0018 FB1D     		add	r3, r7, #7
+ 704 001a 0022     		mov	r2, #0
+ 705 001c 1A70     		strb	r2, [r3]
+ 706 001e 0BE0     		b	.L48
+ 707              	.L47:
+ 827:.\Generated_Source\PSoC4/SPI.c ****         }
+ 828:.\Generated_Source\PSoC4/SPI.c ****         else if((size & SPI_STS_TX_FIFO_NOT_FULL) != 0u)
+ 708              		.loc 1 828 0
+ 709 0020 FB1D     		add	r3, r7, #7
+ 710 0022 1A78     		ldrb	r2, [r3]
+ 711 0024 0223     		mov	r3, #2
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 28
+
+
+ 712 0026 1340     		and	r3, r2
+ 713 0028 03D0     		beq	.L49
+ 829:.\Generated_Source\PSoC4/SPI.c ****         {
+ 830:.\Generated_Source\PSoC4/SPI.c ****             size = 1u;
+ 714              		.loc 1 830 0
+ 715 002a FB1D     		add	r3, r7, #7
+ 716 002c 0122     		mov	r2, #1
+ 717 002e 1A70     		strb	r2, [r3]
+ 718 0030 02E0     		b	.L48
+ 719              	.L49:
+ 831:.\Generated_Source\PSoC4/SPI.c ****         }
+ 832:.\Generated_Source\PSoC4/SPI.c ****         else
+ 833:.\Generated_Source\PSoC4/SPI.c ****         {
+ 834:.\Generated_Source\PSoC4/SPI.c ****             size = 4u;
+ 720              		.loc 1 834 0
+ 721 0032 FB1D     		add	r3, r7, #7
+ 722 0034 0422     		mov	r2, #4
+ 723 0036 1A70     		strb	r2, [r3]
+ 724              	.L48:
+ 835:.\Generated_Source\PSoC4/SPI.c ****         }
+ 836:.\Generated_Source\PSoC4/SPI.c **** 
+ 837:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_TX_SOFTWARE_BUF_ENABLED */
+ 838:.\Generated_Source\PSoC4/SPI.c **** 
+ 839:.\Generated_Source\PSoC4/SPI.c ****     return (size);
+ 725              		.loc 1 839 0
+ 726 0038 FB1D     		add	r3, r7, #7
+ 727 003a 1B78     		ldrb	r3, [r3]
+ 840:.\Generated_Source\PSoC4/SPI.c **** }
+ 728              		.loc 1 840 0
+ 729 003c 181C     		mov	r0, r3
+ 730 003e BD46     		mov	sp, r7
+ 731 0040 02B0     		add	sp, sp, #8
+ 732              		@ sp needed for prologue
+ 733 0042 80BD     		pop	{r7, pc}
+ 734              	.L52:
+ 735              		.align	2
+ 736              	.L51:
+ 737 0044 60000F40 		.word	1074724960
+ 738              		.cfi_endproc
+ 739              	.LFE15:
+ 740              		.size	SPI_GetTxBufferSize, .-SPI_GetTxBufferSize
+ 741              		.section	.text.SPI_ClearRxBuffer,"ax",%progbits
+ 742              		.align	2
+ 743              		.global	SPI_ClearRxBuffer
+ 744              		.code	16
+ 745              		.thumb_func
+ 746              		.type	SPI_ClearRxBuffer, %function
+ 747              	SPI_ClearRxBuffer:
+ 748              	.LFB16:
+ 841:.\Generated_Source\PSoC4/SPI.c **** 
+ 842:.\Generated_Source\PSoC4/SPI.c **** 
+ 843:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 844:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_ClearRxBuffer
+ 845:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 846:.\Generated_Source\PSoC4/SPI.c **** *
+ 847:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 848:.\Generated_Source\PSoC4/SPI.c **** *  Clear the RX RAM buffer by setting the read and write pointers both to zero.
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 29
+
+
+ 849:.\Generated_Source\PSoC4/SPI.c **** *
+ 850:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 851:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 852:.\Generated_Source\PSoC4/SPI.c **** *
+ 853:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 854:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 855:.\Generated_Source\PSoC4/SPI.c **** *
+ 856:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 857:.\Generated_Source\PSoC4/SPI.c **** *  SPI_rxBufferWrite - used for the account of the bytes which
+ 858:.\Generated_Source\PSoC4/SPI.c **** *  have been written down in the RX software buffer, modified every function
+ 859:.\Generated_Source\PSoC4/SPI.c **** *  call - resets to zero.
+ 860:.\Generated_Source\PSoC4/SPI.c **** *  SPI_rxBufferRead - used for the account of the bytes which
+ 861:.\Generated_Source\PSoC4/SPI.c **** *  have been read from the RX software buffer, modified every function call -
+ 862:.\Generated_Source\PSoC4/SPI.c **** *  resets to zero.
+ 863:.\Generated_Source\PSoC4/SPI.c **** *
+ 864:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 865:.\Generated_Source\PSoC4/SPI.c **** *  Setting the pointers to zero makes the system believe there is no data to
+ 866:.\Generated_Source\PSoC4/SPI.c **** *  read and writing will resume at address 0 overwriting any data that may have
+ 867:.\Generated_Source\PSoC4/SPI.c **** *  remained in the RAM.
+ 868:.\Generated_Source\PSoC4/SPI.c **** *
+ 869:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+ 870:.\Generated_Source\PSoC4/SPI.c **** *  Any received data not read from the RAM buffer will be lost when overwritten.
+ 871:.\Generated_Source\PSoC4/SPI.c **** *
+ 872:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+ 873:.\Generated_Source\PSoC4/SPI.c **** *  No.
+ 874:.\Generated_Source\PSoC4/SPI.c **** *
+ 875:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 876:.\Generated_Source\PSoC4/SPI.c **** void SPI_ClearRxBuffer(void) 
+ 877:.\Generated_Source\PSoC4/SPI.c **** {
+ 749              		.loc 1 877 0
+ 750              		.cfi_startproc
+ 751 0000 80B5     		push	{r7, lr}
+ 752              	.LCFI42:
+ 753              		.cfi_def_cfa_offset 8
+ 754              		.cfi_offset 7, -8
+ 755              		.cfi_offset 14, -4
+ 756 0002 00AF     		add	r7, sp, #0
+ 757              	.LCFI43:
+ 758              		.cfi_def_cfa_register 7
+ 878:.\Generated_Source\PSoC4/SPI.c ****     /* Clear Hardware RX FIFO */
+ 879:.\Generated_Source\PSoC4/SPI.c ****     while((SPI_RX_STATUS_REG & SPI_STS_RX_FIFO_NOT_EMPTY) != 0u)
+ 759              		.loc 1 879 0
+ 760 0004 01E0     		b	.L54
+ 761              	.L55:
+ 880:.\Generated_Source\PSoC4/SPI.c ****     {
+ 881:.\Generated_Source\PSoC4/SPI.c ****         CY_GET_REG16(SPI_RXDATA_PTR);
+ 762              		.loc 1 881 0
+ 763 0006 054B     		ldr	r3, .L56
+ 764 0008 1B88     		ldrh	r3, [r3]
+ 765              	.L54:
+ 879:.\Generated_Source\PSoC4/SPI.c ****     while((SPI_RX_STATUS_REG & SPI_STS_RX_FIFO_NOT_EMPTY) != 0u)
+ 766              		.loc 1 879 0 discriminator 1
+ 767 000a 054B     		ldr	r3, .L56+4
+ 768 000c 1B78     		ldrb	r3, [r3]
+ 769 000e DBB2     		uxtb	r3, r3
+ 770 0010 1A1C     		mov	r2, r3
+ 771 0012 0823     		mov	r3, #8
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 30
+
+
+ 772 0014 1340     		and	r3, r2
+ 773 0016 F6D1     		bne	.L55
+ 882:.\Generated_Source\PSoC4/SPI.c ****     }
+ 883:.\Generated_Source\PSoC4/SPI.c **** 
+ 884:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_RX_SOFTWARE_BUF_ENABLED)
+ 885:.\Generated_Source\PSoC4/SPI.c **** 
+ 886:.\Generated_Source\PSoC4/SPI.c ****         /* Disable interrupt to protect variables that could change on interrupt. */
+ 887:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableRxInt();
+ 888:.\Generated_Source\PSoC4/SPI.c **** 
+ 889:.\Generated_Source\PSoC4/SPI.c ****         SPI_rxBufferRead  = 0u;
+ 890:.\Generated_Source\PSoC4/SPI.c ****         SPI_rxBufferWrite = 0u;
+ 891:.\Generated_Source\PSoC4/SPI.c **** 		SPI_rxBufferFull  = 0u;
+ 892:.\Generated_Source\PSoC4/SPI.c ****         /* Enable interrupt. */
+ 893:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableRxInt();
+ 894:.\Generated_Source\PSoC4/SPI.c **** 
+ 895:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_RX_SOFTWARE_BUF_ENABLED */
+ 896:.\Generated_Source\PSoC4/SPI.c **** }
+ 774              		.loc 1 896 0
+ 775 0018 BD46     		mov	sp, r7
+ 776              		@ sp needed for prologue
+ 777 001a 80BD     		pop	{r7, pc}
+ 778              	.L57:
+ 779              		.align	2
+ 780              	.L56:
+ 781 001c A4100F40 		.word	1074729124
+ 782 0020 63000F40 		.word	1074724963
+ 783              		.cfi_endproc
+ 784              	.LFE16:
+ 785              		.size	SPI_ClearRxBuffer, .-SPI_ClearRxBuffer
+ 786              		.section	.text.SPI_ClearTxBuffer,"ax",%progbits
+ 787              		.align	2
+ 788              		.global	SPI_ClearTxBuffer
+ 789              		.code	16
+ 790              		.thumb_func
+ 791              		.type	SPI_ClearTxBuffer, %function
+ 792              	SPI_ClearTxBuffer:
+ 793              	.LFB17:
+ 897:.\Generated_Source\PSoC4/SPI.c **** 
+ 898:.\Generated_Source\PSoC4/SPI.c **** 
+ 899:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+ 900:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_ClearTxBuffer
+ 901:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+ 902:.\Generated_Source\PSoC4/SPI.c **** *
+ 903:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+ 904:.\Generated_Source\PSoC4/SPI.c **** *  Clear the TX RAM buffer by setting the read and write pointers both to zero.
+ 905:.\Generated_Source\PSoC4/SPI.c **** *
+ 906:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+ 907:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 908:.\Generated_Source\PSoC4/SPI.c **** *
+ 909:.\Generated_Source\PSoC4/SPI.c **** * Return:
+ 910:.\Generated_Source\PSoC4/SPI.c **** *  None.
+ 911:.\Generated_Source\PSoC4/SPI.c **** *
+ 912:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+ 913:.\Generated_Source\PSoC4/SPI.c **** *  SPI_txBufferWrite - used for the account of the bytes which
+ 914:.\Generated_Source\PSoC4/SPI.c **** *  have been written down in the TX software buffer, modified every function
+ 915:.\Generated_Source\PSoC4/SPI.c **** *  call - resets to zero.
+ 916:.\Generated_Source\PSoC4/SPI.c **** *  SPI_txBufferRead - used for the account of the bytes which
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 31
+
+
+ 917:.\Generated_Source\PSoC4/SPI.c **** *  have been read from the TX software buffer, modified every function call -
+ 918:.\Generated_Source\PSoC4/SPI.c **** *  resets to zero.
+ 919:.\Generated_Source\PSoC4/SPI.c **** *
+ 920:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+ 921:.\Generated_Source\PSoC4/SPI.c **** *  Setting the pointers to zero makes the system believe there is no data to
+ 922:.\Generated_Source\PSoC4/SPI.c **** *  read and writing will resume at address 0 overwriting any data that may have
+ 923:.\Generated_Source\PSoC4/SPI.c **** *  remained in the RAM.
+ 924:.\Generated_Source\PSoC4/SPI.c **** *
+ 925:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+ 926:.\Generated_Source\PSoC4/SPI.c **** *  Any data not yet transmitted from the RAM buffer will be lost when
+ 927:.\Generated_Source\PSoC4/SPI.c **** *  overwritten.
+ 928:.\Generated_Source\PSoC4/SPI.c **** *
+ 929:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+ 930:.\Generated_Source\PSoC4/SPI.c **** *  No.
+ 931:.\Generated_Source\PSoC4/SPI.c **** *
+ 932:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+ 933:.\Generated_Source\PSoC4/SPI.c **** void SPI_ClearTxBuffer(void) 
+ 934:.\Generated_Source\PSoC4/SPI.c **** {
+ 794              		.loc 1 934 0
+ 795              		.cfi_startproc
+ 796 0000 90B5     		push	{r4, r7, lr}
+ 797              	.LCFI44:
+ 798              		.cfi_def_cfa_offset 12
+ 799              		.cfi_offset 4, -12
+ 800              		.cfi_offset 7, -8
+ 801              		.cfi_offset 14, -4
+ 802 0002 83B0     		sub	sp, sp, #12
+ 803              	.LCFI45:
+ 804              		.cfi_def_cfa_offset 24
+ 805 0004 00AF     		add	r7, sp, #0
+ 806              	.LCFI46:
+ 807              		.cfi_def_cfa_register 7
+ 935:.\Generated_Source\PSoC4/SPI.c ****     uint8 enableInterrupts;
+ 936:.\Generated_Source\PSoC4/SPI.c **** 
+ 937:.\Generated_Source\PSoC4/SPI.c ****     /* Clear Hardware TX FIFO */
+ 938:.\Generated_Source\PSoC4/SPI.c ****     enableInterrupts = CyEnterCriticalSection();
+ 808              		.loc 1 938 0
+ 809 0006 FC1D     		add	r4, r7, #7
+ 810 0008 FFF7FEFF 		bl	CyEnterCriticalSection
+ 811 000c 031C     		mov	r3, r0
+ 812 000e 2370     		strb	r3, [r4]
+ 939:.\Generated_Source\PSoC4/SPI.c **** 
+ 940:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_DATA_WIDTH <= 8u)
+ 941:.\Generated_Source\PSoC4/SPI.c **** 
+ 942:.\Generated_Source\PSoC4/SPI.c ****         /* Clear TX FIFO */
+ 943:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG |= (uint8)SPI_FIFO_CLR;
+ 944:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG &= (uint8)~SPI_FIFO_CLR;
+ 945:.\Generated_Source\PSoC4/SPI.c **** 
+ 946:.\Generated_Source\PSoC4/SPI.c ****     #else
+ 947:.\Generated_Source\PSoC4/SPI.c **** 
+ 948:.\Generated_Source\PSoC4/SPI.c ****         /* Clear TX FIFO */
+ 949:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG |= (uint8)SPI_FIFO_CLR;
+ 813              		.loc 1 949 0
+ 814 0010 134B     		ldr	r3, .L59
+ 815 0012 134A     		ldr	r2, .L59
+ 816 0014 1278     		ldrb	r2, [r2]
+ 817 0016 D2B2     		uxtb	r2, r2
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 32
+
+
+ 818 0018 0321     		mov	r1, #3
+ 819 001a 0A43     		orr	r2, r1
+ 820 001c D2B2     		uxtb	r2, r2
+ 821 001e 1A70     		strb	r2, [r3]
+ 950:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG &= (uint8)~SPI_FIFO_CLR;
+ 822              		.loc 1 950 0
+ 823 0020 0F4B     		ldr	r3, .L59
+ 824 0022 0F4A     		ldr	r2, .L59
+ 825 0024 1278     		ldrb	r2, [r2]
+ 826 0026 D2B2     		uxtb	r2, r2
+ 827 0028 0321     		mov	r1, #3
+ 828 002a 8A43     		bic	r2, r1
+ 829 002c D2B2     		uxtb	r2, r2
+ 830 002e 1A70     		strb	r2, [r3]
+ 951:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP1_REG |= (uint8)SPI_FIFO_CLR;
+ 831              		.loc 1 951 0
+ 832 0030 0C4B     		ldr	r3, .L59+4
+ 833 0032 0C4A     		ldr	r2, .L59+4
+ 834 0034 1278     		ldrb	r2, [r2]
+ 835 0036 D2B2     		uxtb	r2, r2
+ 836 0038 0321     		mov	r1, #3
+ 837 003a 0A43     		orr	r2, r1
+ 838 003c D2B2     		uxtb	r2, r2
+ 839 003e 1A70     		strb	r2, [r3]
+ 952:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP1_REG &= (uint8)~SPI_FIFO_CLR;
+ 840              		.loc 1 952 0
+ 841 0040 084B     		ldr	r3, .L59+4
+ 842 0042 084A     		ldr	r2, .L59+4
+ 843 0044 1278     		ldrb	r2, [r2]
+ 844 0046 D2B2     		uxtb	r2, r2
+ 845 0048 0321     		mov	r1, #3
+ 846 004a 8A43     		bic	r2, r1
+ 847 004c D2B2     		uxtb	r2, r2
+ 848 004e 1A70     		strb	r2, [r3]
+ 953:.\Generated_Source\PSoC4/SPI.c **** 
+ 954:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_DATA_WIDTH > 8u */
+ 955:.\Generated_Source\PSoC4/SPI.c **** 
+ 956:.\Generated_Source\PSoC4/SPI.c ****     CyExitCriticalSection(enableInterrupts);
+ 849              		.loc 1 956 0
+ 850 0050 FB1D     		add	r3, r7, #7
+ 851 0052 1B78     		ldrb	r3, [r3]
+ 852 0054 181C     		mov	r0, r3
+ 853 0056 FFF7FEFF 		bl	CyExitCriticalSection
+ 957:.\Generated_Source\PSoC4/SPI.c **** 
+ 958:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_TX_SOFTWARE_BUF_ENABLED)
+ 959:.\Generated_Source\PSoC4/SPI.c **** 
+ 960:.\Generated_Source\PSoC4/SPI.c ****         /* Disable Interrupt to protect variables that could change on interrupt. */
+ 961:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableTxInt();
+ 962:.\Generated_Source\PSoC4/SPI.c **** 
+ 963:.\Generated_Source\PSoC4/SPI.c ****         SPI_txBufferRead  = 0u;
+ 964:.\Generated_Source\PSoC4/SPI.c ****         SPI_txBufferWrite = 0u;
+ 965:.\Generated_Source\PSoC4/SPI.c **** 		SPI_txBufferFull  = 0u;
+ 966:.\Generated_Source\PSoC4/SPI.c **** 		
+ 967:.\Generated_Source\PSoC4/SPI.c ****         /* If Buffer is empty then disable TX FIFO status interrupt */
+ 968:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_STATUS_MASK_REG &= (uint8)~SPI_STS_TX_FIFO_NOT_FULL;
+ 969:.\Generated_Source\PSoC4/SPI.c **** 
+ 970:.\Generated_Source\PSoC4/SPI.c ****         /* Enable Interrupt. */
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 33
+
+
+ 971:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableTxInt();
+ 972:.\Generated_Source\PSoC4/SPI.c **** 
+ 973:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_TX_SOFTWARE_BUF_ENABLED */
+ 974:.\Generated_Source\PSoC4/SPI.c **** }
+ 854              		.loc 1 974 0
+ 855 005a BD46     		mov	sp, r7
+ 856 005c 03B0     		add	sp, sp, #12
+ 857              		@ sp needed for prologue
+ 858 005e 90BD     		pop	{r4, r7, pc}
+ 859              	.L60:
+ 860              		.align	2
+ 861              	.L59:
+ 862 0060 92000F40 		.word	1074725010
+ 863 0064 93000F40 		.word	1074725011
+ 864              		.cfi_endproc
+ 865              	.LFE17:
+ 866              		.size	SPI_ClearTxBuffer, .-SPI_ClearTxBuffer
+ 867              		.section	.text.SPI_PutArray,"ax",%progbits
+ 868              		.align	2
+ 869              		.global	SPI_PutArray
+ 870              		.code	16
+ 871              		.thumb_func
+ 872              		.type	SPI_PutArray, %function
+ 873              	SPI_PutArray:
+ 874              	.LFB18:
+ 975:.\Generated_Source\PSoC4/SPI.c **** 
+ 976:.\Generated_Source\PSoC4/SPI.c **** 
+ 977:.\Generated_Source\PSoC4/SPI.c **** #if (SPI_BIDIRECTIONAL_MODE != 0u)
+ 978:.\Generated_Source\PSoC4/SPI.c **** 
+ 979:.\Generated_Source\PSoC4/SPI.c ****     /*******************************************************************************
+ 980:.\Generated_Source\PSoC4/SPI.c ****     * Function Name: SPI_TxEnable
+ 981:.\Generated_Source\PSoC4/SPI.c ****     ********************************************************************************
+ 982:.\Generated_Source\PSoC4/SPI.c ****     *
+ 983:.\Generated_Source\PSoC4/SPI.c ****     * Summary:
+ 984:.\Generated_Source\PSoC4/SPI.c ****     *  If the SPI Slave is configured to use a single bi-directional pin then this
+ 985:.\Generated_Source\PSoC4/SPI.c ****     *  will set the bi-directional pin to transmit.
+ 986:.\Generated_Source\PSoC4/SPI.c ****     *
+ 987:.\Generated_Source\PSoC4/SPI.c ****     * Parameters:
+ 988:.\Generated_Source\PSoC4/SPI.c ****     *  None.
+ 989:.\Generated_Source\PSoC4/SPI.c ****     *
+ 990:.\Generated_Source\PSoC4/SPI.c ****     * Return:
+ 991:.\Generated_Source\PSoC4/SPI.c ****     *  None.
+ 992:.\Generated_Source\PSoC4/SPI.c ****     *
+ 993:.\Generated_Source\PSoC4/SPI.c ****     *******************************************************************************/
+ 994:.\Generated_Source\PSoC4/SPI.c ****     void SPI_TxEnable(void) 
+ 995:.\Generated_Source\PSoC4/SPI.c ****     {
+ 996:.\Generated_Source\PSoC4/SPI.c ****             SPI_CONTROL_REG |= SPI_CTRL_TX_SIGNAL_EN;
+ 997:.\Generated_Source\PSoC4/SPI.c ****     }
+ 998:.\Generated_Source\PSoC4/SPI.c **** 
+ 999:.\Generated_Source\PSoC4/SPI.c **** 
+1000:.\Generated_Source\PSoC4/SPI.c ****     /*******************************************************************************
+1001:.\Generated_Source\PSoC4/SPI.c ****     * Function Name: SPI_TxDisable
+1002:.\Generated_Source\PSoC4/SPI.c ****     ********************************************************************************
+1003:.\Generated_Source\PSoC4/SPI.c ****     *
+1004:.\Generated_Source\PSoC4/SPI.c ****     * Summary:
+1005:.\Generated_Source\PSoC4/SPI.c ****     *  If the SPI Slave is configured to use a single bi-directional pin then this
+1006:.\Generated_Source\PSoC4/SPI.c ****     *  will set the bi-directional pin to receive.
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 34
+
+
+1007:.\Generated_Source\PSoC4/SPI.c ****     *
+1008:.\Generated_Source\PSoC4/SPI.c ****     * Parameters:
+1009:.\Generated_Source\PSoC4/SPI.c ****     *  None.
+1010:.\Generated_Source\PSoC4/SPI.c ****     *
+1011:.\Generated_Source\PSoC4/SPI.c ****     * Return:
+1012:.\Generated_Source\PSoC4/SPI.c ****     *  None.
+1013:.\Generated_Source\PSoC4/SPI.c ****     *
+1014:.\Generated_Source\PSoC4/SPI.c ****     *******************************************************************************/
+1015:.\Generated_Source\PSoC4/SPI.c ****     void SPI_TxDisable(void) 
+1016:.\Generated_Source\PSoC4/SPI.c ****     {
+1017:.\Generated_Source\PSoC4/SPI.c ****             SPI_CONTROL_REG &= (uint8)~SPI_CTRL_TX_SIGNAL_EN;
+1018:.\Generated_Source\PSoC4/SPI.c ****     }
+1019:.\Generated_Source\PSoC4/SPI.c **** 
+1020:.\Generated_Source\PSoC4/SPI.c **** #endif /* SPI_BIDIRECTIONAL_MODE != 0u */
+1021:.\Generated_Source\PSoC4/SPI.c **** 
+1022:.\Generated_Source\PSoC4/SPI.c **** 
+1023:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+1024:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_PutArray
+1025:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+1026:.\Generated_Source\PSoC4/SPI.c **** *
+1027:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+1028:.\Generated_Source\PSoC4/SPI.c **** *  Write available data from RAM/ROM to the TX buffer while space is available
+1029:.\Generated_Source\PSoC4/SPI.c **** *  in the TX buffer. Keep trying until all data is passed to the TX buffer. If
+1030:.\Generated_Source\PSoC4/SPI.c **** *  used Mode 00 or 01 before PutArray() function should be called
+1031:.\Generated_Source\PSoC4/SPI.c **** *  WriteTxDataZero() function.
+1032:.\Generated_Source\PSoC4/SPI.c **** *
+1033:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+1034:.\Generated_Source\PSoC4/SPI.c **** *  *buffer: Pointer to the location in RAM containing the data to send
+1035:.\Generated_Source\PSoC4/SPI.c **** *  byteCount: The number of bytes to move to the transmit buffer.
+1036:.\Generated_Source\PSoC4/SPI.c **** *
+1037:.\Generated_Source\PSoC4/SPI.c **** * Return:
+1038:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1039:.\Generated_Source\PSoC4/SPI.c **** *
+1040:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+1041:.\Generated_Source\PSoC4/SPI.c **** *  Will stay in this routine until all data has been sent.  May get locked in
+1042:.\Generated_Source\PSoC4/SPI.c **** *  this loop if data is not being initiated by the master if there is not
+1043:.\Generated_Source\PSoC4/SPI.c **** *  enough room in the TX FIFO.
+1044:.\Generated_Source\PSoC4/SPI.c **** *
+1045:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+1046:.\Generated_Source\PSoC4/SPI.c **** *  No.
+1047:.\Generated_Source\PSoC4/SPI.c **** *
+1048:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+1049:.\Generated_Source\PSoC4/SPI.c **** void SPI_PutArray(const uint16 buffer[], uint8 byteCount)
+1050:.\Generated_Source\PSoC4/SPI.c ****                                                                     
+1051:.\Generated_Source\PSoC4/SPI.c **** {
+ 875              		.loc 1 1051 0
+ 876              		.cfi_startproc
+ 877 0000 80B5     		push	{r7, lr}
+ 878              	.LCFI47:
+ 879              		.cfi_def_cfa_offset 8
+ 880              		.cfi_offset 7, -8
+ 881              		.cfi_offset 14, -4
+ 882 0002 84B0     		sub	sp, sp, #16
+ 883              	.LCFI48:
+ 884              		.cfi_def_cfa_offset 24
+ 885 0004 00AF     		add	r7, sp, #0
+ 886              	.LCFI49:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 35
+
+
+ 887              		.cfi_def_cfa_register 7
+ 888 0006 7860     		str	r0, [r7, #4]
+ 889 0008 0A1C     		mov	r2, r1
+ 890 000a FB1C     		add	r3, r7, #3
+ 891 000c 1A70     		strb	r2, [r3]
+1052:.\Generated_Source\PSoC4/SPI.c ****     uint8 bufIndex;
+1053:.\Generated_Source\PSoC4/SPI.c ****     bufIndex = 0u;
+ 892              		.loc 1 1053 0
+ 893 000e 3B1C     		mov	r3, r7
+ 894 0010 0F33     		add	r3, r3, #15
+ 895 0012 0022     		mov	r2, #0
+ 896 0014 1A70     		strb	r2, [r3]
+1054:.\Generated_Source\PSoC4/SPI.c **** 
+1055:.\Generated_Source\PSoC4/SPI.c ****     while(byteCount > 0u)
+ 897              		.loc 1 1055 0
+ 898 0016 15E0     		b	.L62
+ 899              	.L63:
+1056:.\Generated_Source\PSoC4/SPI.c ****     {
+1057:.\Generated_Source\PSoC4/SPI.c ****         SPI_WriteTxData(buffer[bufIndex]);
+ 900              		.loc 1 1057 0
+ 901 0018 3B1C     		mov	r3, r7
+ 902 001a 0F33     		add	r3, r3, #15
+ 903 001c 1B78     		ldrb	r3, [r3]
+ 904 001e 5B00     		lsl	r3, r3, #1
+ 905 0020 7A68     		ldr	r2, [r7, #4]
+ 906 0022 D318     		add	r3, r2, r3
+ 907 0024 1B88     		ldrh	r3, [r3]
+ 908 0026 181C     		mov	r0, r3
+ 909 0028 FFF7FEFF 		bl	SPI_WriteTxData
+1058:.\Generated_Source\PSoC4/SPI.c ****         bufIndex++;
+ 910              		.loc 1 1058 0
+ 911 002c 3B1C     		mov	r3, r7
+ 912 002e 0F33     		add	r3, r3, #15
+ 913 0030 3A1C     		mov	r2, r7
+ 914 0032 0F32     		add	r2, r2, #15
+ 915 0034 1278     		ldrb	r2, [r2]
+ 916 0036 0132     		add	r2, r2, #1
+ 917 0038 1A70     		strb	r2, [r3]
+1059:.\Generated_Source\PSoC4/SPI.c ****         byteCount--;
+ 918              		.loc 1 1059 0
+ 919 003a FB1C     		add	r3, r7, #3
+ 920 003c FA1C     		add	r2, r7, #3
+ 921 003e 1278     		ldrb	r2, [r2]
+ 922 0040 013A     		sub	r2, r2, #1
+ 923 0042 1A70     		strb	r2, [r3]
+ 924              	.L62:
+1055:.\Generated_Source\PSoC4/SPI.c ****     while(byteCount > 0u)
+ 925              		.loc 1 1055 0 discriminator 1
+ 926 0044 FB1C     		add	r3, r7, #3
+ 927 0046 1B78     		ldrb	r3, [r3]
+ 928 0048 002B     		cmp	r3, #0
+ 929 004a E5D1     		bne	.L63
+1060:.\Generated_Source\PSoC4/SPI.c ****     }
+1061:.\Generated_Source\PSoC4/SPI.c **** }
+ 930              		.loc 1 1061 0
+ 931 004c BD46     		mov	sp, r7
+ 932 004e 04B0     		add	sp, sp, #16
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 36
+
+
+ 933              		@ sp needed for prologue
+ 934 0050 80BD     		pop	{r7, pc}
+ 935              		.cfi_endproc
+ 936              	.LFE18:
+ 937              		.size	SPI_PutArray, .-SPI_PutArray
+ 938 0052 C046     		.section	.text.SPI_ClearFIFO,"ax",%progbits
+ 939              		.align	2
+ 940              		.global	SPI_ClearFIFO
+ 941              		.code	16
+ 942              		.thumb_func
+ 943              		.type	SPI_ClearFIFO, %function
+ 944              	SPI_ClearFIFO:
+ 945              	.LFB19:
+1062:.\Generated_Source\PSoC4/SPI.c **** 
+1063:.\Generated_Source\PSoC4/SPI.c **** 
+1064:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+1065:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_ClearFIFO
+1066:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+1067:.\Generated_Source\PSoC4/SPI.c **** *
+1068:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+1069:.\Generated_Source\PSoC4/SPI.c **** *  Clear the RX and TX FIFO's of all data for a fresh start.
+1070:.\Generated_Source\PSoC4/SPI.c **** *
+1071:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+1072:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1073:.\Generated_Source\PSoC4/SPI.c **** *
+1074:.\Generated_Source\PSoC4/SPI.c **** * Return:
+1075:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1076:.\Generated_Source\PSoC4/SPI.c **** *
+1077:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+1078:.\Generated_Source\PSoC4/SPI.c **** *  Clear status register of the component.
+1079:.\Generated_Source\PSoC4/SPI.c **** *
+1080:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+1081:.\Generated_Source\PSoC4/SPI.c **** void SPI_ClearFIFO(void) 
+1082:.\Generated_Source\PSoC4/SPI.c **** {
+ 946              		.loc 1 1082 0
+ 947              		.cfi_startproc
+ 948 0000 90B5     		push	{r4, r7, lr}
+ 949              	.LCFI50:
+ 950              		.cfi_def_cfa_offset 12
+ 951              		.cfi_offset 4, -12
+ 952              		.cfi_offset 7, -8
+ 953              		.cfi_offset 14, -4
+ 954 0002 83B0     		sub	sp, sp, #12
+ 955              	.LCFI51:
+ 956              		.cfi_def_cfa_offset 24
+ 957 0004 00AF     		add	r7, sp, #0
+ 958              	.LCFI52:
+ 959              		.cfi_def_cfa_register 7
+1083:.\Generated_Source\PSoC4/SPI.c ****     uint8 enableInterrupts;
+1084:.\Generated_Source\PSoC4/SPI.c **** 
+1085:.\Generated_Source\PSoC4/SPI.c ****     while((SPI_RX_STATUS_REG & SPI_STS_RX_FIFO_NOT_EMPTY) != 0u)
+ 960              		.loc 1 1085 0
+ 961 0006 01E0     		b	.L65
+ 962              	.L66:
+1086:.\Generated_Source\PSoC4/SPI.c ****     {
+1087:.\Generated_Source\PSoC4/SPI.c ****         CY_GET_REG16(SPI_RXDATA_PTR);
+ 963              		.loc 1 1087 0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 37
+
+
+ 964 0008 1A4B     		ldr	r3, .L67
+ 965 000a 1B88     		ldrh	r3, [r3]
+ 966              	.L65:
+1085:.\Generated_Source\PSoC4/SPI.c ****     while((SPI_RX_STATUS_REG & SPI_STS_RX_FIFO_NOT_EMPTY) != 0u)
+ 967              		.loc 1 1085 0 discriminator 1
+ 968 000c 1A4B     		ldr	r3, .L67+4
+ 969 000e 1B78     		ldrb	r3, [r3]
+ 970 0010 DBB2     		uxtb	r3, r3
+ 971 0012 1A1C     		mov	r2, r3
+ 972 0014 0823     		mov	r3, #8
+ 973 0016 1340     		and	r3, r2
+ 974 0018 F6D1     		bne	.L66
+1088:.\Generated_Source\PSoC4/SPI.c ****     }
+1089:.\Generated_Source\PSoC4/SPI.c **** 
+1090:.\Generated_Source\PSoC4/SPI.c ****     enableInterrupts = CyEnterCriticalSection();
+ 975              		.loc 1 1090 0
+ 976 001a FC1D     		add	r4, r7, #7
+ 977 001c FFF7FEFF 		bl	CyEnterCriticalSection
+ 978 0020 031C     		mov	r3, r0
+ 979 0022 2370     		strb	r3, [r4]
+1091:.\Generated_Source\PSoC4/SPI.c **** 
+1092:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_DATA_WIDTH <= 8u)
+1093:.\Generated_Source\PSoC4/SPI.c **** 
+1094:.\Generated_Source\PSoC4/SPI.c ****         /* Clear TX FIFO */
+1095:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG |= (uint8)SPI_FIFO_CLR;
+1096:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG &= (uint8)~SPI_FIFO_CLR;
+1097:.\Generated_Source\PSoC4/SPI.c **** 
+1098:.\Generated_Source\PSoC4/SPI.c ****     #else
+1099:.\Generated_Source\PSoC4/SPI.c **** 
+1100:.\Generated_Source\PSoC4/SPI.c ****         /* Clear TX FIFO */
+1101:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG |= (uint8)SPI_FIFO_CLR;
+ 980              		.loc 1 1101 0
+ 981 0024 154B     		ldr	r3, .L67+8
+ 982 0026 154A     		ldr	r2, .L67+8
+ 983 0028 1278     		ldrb	r2, [r2]
+ 984 002a D2B2     		uxtb	r2, r2
+ 985 002c 0321     		mov	r1, #3
+ 986 002e 0A43     		orr	r2, r1
+ 987 0030 D2B2     		uxtb	r2, r2
+ 988 0032 1A70     		strb	r2, [r3]
+1102:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP0_REG &= (uint8)~SPI_FIFO_CLR;
+ 989              		.loc 1 1102 0
+ 990 0034 114B     		ldr	r3, .L67+8
+ 991 0036 114A     		ldr	r2, .L67+8
+ 992 0038 1278     		ldrb	r2, [r2]
+ 993 003a D2B2     		uxtb	r2, r2
+ 994 003c 0321     		mov	r1, #3
+ 995 003e 8A43     		bic	r2, r1
+ 996 0040 D2B2     		uxtb	r2, r2
+ 997 0042 1A70     		strb	r2, [r3]
+1103:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP1_REG |= (uint8)SPI_FIFO_CLR;
+ 998              		.loc 1 1103 0
+ 999 0044 0E4B     		ldr	r3, .L67+12
+ 1000 0046 0E4A     		ldr	r2, .L67+12
+ 1001 0048 1278     		ldrb	r2, [r2]
+ 1002 004a D2B2     		uxtb	r2, r2
+ 1003 004c 0321     		mov	r1, #3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 38
+
+
+ 1004 004e 0A43     		orr	r2, r1
+ 1005 0050 D2B2     		uxtb	r2, r2
+ 1006 0052 1A70     		strb	r2, [r3]
+1104:.\Generated_Source\PSoC4/SPI.c ****         SPI_TX_AUX_CONTROL_DP1_REG &= (uint8)~SPI_FIFO_CLR;
+ 1007              		.loc 1 1104 0
+ 1008 0054 0A4B     		ldr	r3, .L67+12
+ 1009 0056 0A4A     		ldr	r2, .L67+12
+ 1010 0058 1278     		ldrb	r2, [r2]
+ 1011 005a D2B2     		uxtb	r2, r2
+ 1012 005c 0321     		mov	r1, #3
+ 1013 005e 8A43     		bic	r2, r1
+ 1014 0060 D2B2     		uxtb	r2, r2
+ 1015 0062 1A70     		strb	r2, [r3]
+1105:.\Generated_Source\PSoC4/SPI.c **** 
+1106:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_DATA_WIDTH <= 8u */
+1107:.\Generated_Source\PSoC4/SPI.c **** 
+1108:.\Generated_Source\PSoC4/SPI.c ****     CyExitCriticalSection(enableInterrupts);
+ 1016              		.loc 1 1108 0
+ 1017 0064 FB1D     		add	r3, r7, #7
+ 1018 0066 1B78     		ldrb	r3, [r3]
+ 1019 0068 181C     		mov	r0, r3
+ 1020 006a FFF7FEFF 		bl	CyExitCriticalSection
+1109:.\Generated_Source\PSoC4/SPI.c **** }
+ 1021              		.loc 1 1109 0
+ 1022 006e BD46     		mov	sp, r7
+ 1023 0070 03B0     		add	sp, sp, #12
+ 1024              		@ sp needed for prologue
+ 1025 0072 90BD     		pop	{r4, r7, pc}
+ 1026              	.L68:
+ 1027              		.align	2
+ 1028              	.L67:
+ 1029 0074 A4100F40 		.word	1074729124
+ 1030 0078 63000F40 		.word	1074724963
+ 1031 007c 92000F40 		.word	1074725010
+ 1032 0080 93000F40 		.word	1074725011
+ 1033              		.cfi_endproc
+ 1034              	.LFE19:
+ 1035              		.size	SPI_ClearFIFO, .-SPI_ClearFIFO
+ 1036              		.section	.text.SPI_EnableInt,"ax",%progbits
+ 1037              		.align	2
+ 1038              		.global	SPI_EnableInt
+ 1039              		.code	16
+ 1040              		.thumb_func
+ 1041              		.type	SPI_EnableInt, %function
+ 1042              	SPI_EnableInt:
+ 1043              	.LFB20:
+1110:.\Generated_Source\PSoC4/SPI.c **** 
+1111:.\Generated_Source\PSoC4/SPI.c **** 
+1112:.\Generated_Source\PSoC4/SPI.c **** /* Following functions are for version Compatibility, they are obsolete.
+1113:.\Generated_Source\PSoC4/SPI.c **** *  Please do not use it in new projects.
+1114:.\Generated_Source\PSoC4/SPI.c **** */
+1115:.\Generated_Source\PSoC4/SPI.c **** 
+1116:.\Generated_Source\PSoC4/SPI.c **** 
+1117:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+1118:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_EnableInt
+1119:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+1120:.\Generated_Source\PSoC4/SPI.c **** *
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 39
+
+
+1121:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+1122:.\Generated_Source\PSoC4/SPI.c **** *  Enable internal interrupt generation.
+1123:.\Generated_Source\PSoC4/SPI.c **** *
+1124:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+1125:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1126:.\Generated_Source\PSoC4/SPI.c **** *
+1127:.\Generated_Source\PSoC4/SPI.c **** * Return:
+1128:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1129:.\Generated_Source\PSoC4/SPI.c **** *
+1130:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+1131:.\Generated_Source\PSoC4/SPI.c **** *  Enable the internal interrupt output -or- the interrupt component itself.
+1132:.\Generated_Source\PSoC4/SPI.c **** *
+1133:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+1134:.\Generated_Source\PSoC4/SPI.c **** void SPI_EnableInt(void) 
+1135:.\Generated_Source\PSoC4/SPI.c **** {
+ 1044              		.loc 1 1135 0
+ 1045              		.cfi_startproc
+ 1046 0000 80B5     		push	{r7, lr}
+ 1047              	.LCFI53:
+ 1048              		.cfi_def_cfa_offset 8
+ 1049              		.cfi_offset 7, -8
+ 1050              		.cfi_offset 14, -4
+ 1051 0002 00AF     		add	r7, sp, #0
+ 1052              	.LCFI54:
+ 1053              		.cfi_def_cfa_register 7
+1136:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_TX_INT_ENABLED)
+1137:.\Generated_Source\PSoC4/SPI.c ****         CyIntEnable(SPI_TX_ISR_NUMBER);
+1138:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_TX_INT_ENABLED */
+1139:.\Generated_Source\PSoC4/SPI.c **** 
+1140:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_RX_INT_ENABLED)
+1141:.\Generated_Source\PSoC4/SPI.c ****         CyIntEnable(SPI_RX_ISR_NUMBER);
+1142:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_RX_INT_ENABLED */
+1143:.\Generated_Source\PSoC4/SPI.c **** }
+ 1054              		.loc 1 1143 0
+ 1055 0004 BD46     		mov	sp, r7
+ 1056              		@ sp needed for prologue
+ 1057 0006 80BD     		pop	{r7, pc}
+ 1058              		.cfi_endproc
+ 1059              	.LFE20:
+ 1060              		.size	SPI_EnableInt, .-SPI_EnableInt
+ 1061              		.section	.text.SPI_DisableInt,"ax",%progbits
+ 1062              		.align	2
+ 1063              		.global	SPI_DisableInt
+ 1064              		.code	16
+ 1065              		.thumb_func
+ 1066              		.type	SPI_DisableInt, %function
+ 1067              	SPI_DisableInt:
+ 1068              	.LFB21:
+1144:.\Generated_Source\PSoC4/SPI.c **** 
+1145:.\Generated_Source\PSoC4/SPI.c **** 
+1146:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+1147:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_DisableInt
+1148:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+1149:.\Generated_Source\PSoC4/SPI.c **** *
+1150:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+1151:.\Generated_Source\PSoC4/SPI.c **** *  Disable internal interrupt generation.
+1152:.\Generated_Source\PSoC4/SPI.c **** *
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 40
+
+
+1153:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+1154:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1155:.\Generated_Source\PSoC4/SPI.c **** *
+1156:.\Generated_Source\PSoC4/SPI.c **** * Return:
+1157:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1158:.\Generated_Source\PSoC4/SPI.c **** *
+1159:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+1160:.\Generated_Source\PSoC4/SPI.c **** *  Disable the internal interrupt output -or- the interrupt component itself.
+1161:.\Generated_Source\PSoC4/SPI.c **** *
+1162:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+1163:.\Generated_Source\PSoC4/SPI.c **** void SPI_DisableInt(void) 
+1164:.\Generated_Source\PSoC4/SPI.c **** {
+ 1069              		.loc 1 1164 0
+ 1070              		.cfi_startproc
+ 1071 0000 80B5     		push	{r7, lr}
+ 1072              	.LCFI55:
+ 1073              		.cfi_def_cfa_offset 8
+ 1074              		.cfi_offset 7, -8
+ 1075              		.cfi_offset 14, -4
+ 1076 0002 00AF     		add	r7, sp, #0
+ 1077              	.LCFI56:
+ 1078              		.cfi_def_cfa_register 7
+1165:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_TX_INT_ENABLED)
+1166:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_TX_ISR_NUMBER);
+1167:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_TX_INT_ENABLED */
+1168:.\Generated_Source\PSoC4/SPI.c **** 
+1169:.\Generated_Source\PSoC4/SPI.c ****     #if(SPI_INTERNAL_RX_INT_ENABLED)
+1170:.\Generated_Source\PSoC4/SPI.c ****         CyIntDisable(SPI_RX_ISR_NUMBER);
+1171:.\Generated_Source\PSoC4/SPI.c ****     #endif /* SPI_INTERNAL_RX_INT_ENABLED */
+1172:.\Generated_Source\PSoC4/SPI.c **** }
+ 1079              		.loc 1 1172 0
+ 1080 0004 BD46     		mov	sp, r7
+ 1081              		@ sp needed for prologue
+ 1082 0006 80BD     		pop	{r7, pc}
+ 1083              		.cfi_endproc
+ 1084              	.LFE21:
+ 1085              		.size	SPI_DisableInt, .-SPI_DisableInt
+ 1086              		.section	.text.SPI_SetInterruptMode,"ax",%progbits
+ 1087              		.align	2
+ 1088              		.global	SPI_SetInterruptMode
+ 1089              		.code	16
+ 1090              		.thumb_func
+ 1091              		.type	SPI_SetInterruptMode, %function
+ 1092              	SPI_SetInterruptMode:
+ 1093              	.LFB22:
+1173:.\Generated_Source\PSoC4/SPI.c **** 
+1174:.\Generated_Source\PSoC4/SPI.c **** 
+1175:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+1176:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_SetInterruptMode
+1177:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+1178:.\Generated_Source\PSoC4/SPI.c **** *
+1179:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+1180:.\Generated_Source\PSoC4/SPI.c **** *  Configure which status bits trigger an interrupt event.
+1181:.\Generated_Source\PSoC4/SPI.c **** *
+1182:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+1183:.\Generated_Source\PSoC4/SPI.c **** *  intSrc: An or'd combination of the desired status bit masks (defined in the
+1184:.\Generated_Source\PSoC4/SPI.c **** *  header file).
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 41
+
+
+1185:.\Generated_Source\PSoC4/SPI.c **** *
+1186:.\Generated_Source\PSoC4/SPI.c **** * Return:
+1187:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1188:.\Generated_Source\PSoC4/SPI.c **** *
+1189:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+1190:.\Generated_Source\PSoC4/SPI.c **** *  Enables the output of specific status bits to the interrupt controller.
+1191:.\Generated_Source\PSoC4/SPI.c **** *
+1192:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+1193:.\Generated_Source\PSoC4/SPI.c **** void SPI_SetInterruptMode(uint8 intSrc) 
+1194:.\Generated_Source\PSoC4/SPI.c **** {
+ 1094              		.loc 1 1194 0
+ 1095              		.cfi_startproc
+ 1096 0000 80B5     		push	{r7, lr}
+ 1097              	.LCFI57:
+ 1098              		.cfi_def_cfa_offset 8
+ 1099              		.cfi_offset 7, -8
+ 1100              		.cfi_offset 14, -4
+ 1101 0002 82B0     		sub	sp, sp, #8
+ 1102              	.LCFI58:
+ 1103              		.cfi_def_cfa_offset 16
+ 1104 0004 00AF     		add	r7, sp, #0
+ 1105              	.LCFI59:
+ 1106              		.cfi_def_cfa_register 7
+ 1107 0006 021C     		mov	r2, r0
+ 1108 0008 FB1D     		add	r3, r7, #7
+ 1109 000a 1A70     		strb	r2, [r3]
+1195:.\Generated_Source\PSoC4/SPI.c ****     SPI_TX_STATUS_MASK_REG  = intSrc;
+ 1110              		.loc 1 1195 0
+ 1111 000c 054B     		ldr	r3, .L72
+ 1112 000e FA1D     		add	r2, r7, #7
+ 1113 0010 1278     		ldrb	r2, [r2]
+ 1114 0012 1A70     		strb	r2, [r3]
+1196:.\Generated_Source\PSoC4/SPI.c ****     SPI_RX_STATUS_MASK_REG  = intSrc;
+ 1115              		.loc 1 1196 0
+ 1116 0014 044B     		ldr	r3, .L72+4
+ 1117 0016 FA1D     		add	r2, r7, #7
+ 1118 0018 1278     		ldrb	r2, [r2]
+ 1119 001a 1A70     		strb	r2, [r3]
+1197:.\Generated_Source\PSoC4/SPI.c **** }
+ 1120              		.loc 1 1197 0
+ 1121 001c BD46     		mov	sp, r7
+ 1122 001e 02B0     		add	sp, sp, #8
+ 1123              		@ sp needed for prologue
+ 1124 0020 80BD     		pop	{r7, pc}
+ 1125              	.L73:
+ 1126 0022 C046     		.align	2
+ 1127              	.L72:
+ 1128 0024 80000F40 		.word	1074724992
+ 1129 0028 83000F40 		.word	1074724995
+ 1130              		.cfi_endproc
+ 1131              	.LFE22:
+ 1132              		.size	SPI_SetInterruptMode, .-SPI_SetInterruptMode
+ 1133              		.section	.text.SPI_ReadStatus,"ax",%progbits
+ 1134              		.align	2
+ 1135              		.global	SPI_ReadStatus
+ 1136              		.code	16
+ 1137              		.thumb_func
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 42
+
+
+ 1138              		.type	SPI_ReadStatus, %function
+ 1139              	SPI_ReadStatus:
+ 1140              	.LFB23:
+1198:.\Generated_Source\PSoC4/SPI.c **** 
+1199:.\Generated_Source\PSoC4/SPI.c **** 
+1200:.\Generated_Source\PSoC4/SPI.c **** /*******************************************************************************
+1201:.\Generated_Source\PSoC4/SPI.c **** * Function Name: SPI_ReadStatus
+1202:.\Generated_Source\PSoC4/SPI.c **** ********************************************************************************
+1203:.\Generated_Source\PSoC4/SPI.c **** *
+1204:.\Generated_Source\PSoC4/SPI.c **** * Summary:
+1205:.\Generated_Source\PSoC4/SPI.c **** *  Read the status register for the component.
+1206:.\Generated_Source\PSoC4/SPI.c **** *
+1207:.\Generated_Source\PSoC4/SPI.c **** * Parameters:
+1208:.\Generated_Source\PSoC4/SPI.c **** *  None.
+1209:.\Generated_Source\PSoC4/SPI.c **** *
+1210:.\Generated_Source\PSoC4/SPI.c **** * Return:
+1211:.\Generated_Source\PSoC4/SPI.c **** *  Contents of the status register.
+1212:.\Generated_Source\PSoC4/SPI.c **** *
+1213:.\Generated_Source\PSoC4/SPI.c **** * Global variables:
+1214:.\Generated_Source\PSoC4/SPI.c **** *  SPI_swStatus - used to store in software status register,
+1215:.\Generated_Source\PSoC4/SPI.c **** *  modified every function call - resets to zero.
+1216:.\Generated_Source\PSoC4/SPI.c **** *
+1217:.\Generated_Source\PSoC4/SPI.c **** * Theory:
+1218:.\Generated_Source\PSoC4/SPI.c **** *  Allows the user and the API to read the status register for error detection
+1219:.\Generated_Source\PSoC4/SPI.c **** *  and flow control.
+1220:.\Generated_Source\PSoC4/SPI.c **** *
+1221:.\Generated_Source\PSoC4/SPI.c **** * Side Effects:
+1222:.\Generated_Source\PSoC4/SPI.c **** *  Clear status register of the component.
+1223:.\Generated_Source\PSoC4/SPI.c **** *
+1224:.\Generated_Source\PSoC4/SPI.c **** * Reentrant:
+1225:.\Generated_Source\PSoC4/SPI.c **** *  No.
+1226:.\Generated_Source\PSoC4/SPI.c **** *
+1227:.\Generated_Source\PSoC4/SPI.c **** *******************************************************************************/
+1228:.\Generated_Source\PSoC4/SPI.c **** uint8 SPI_ReadStatus(void) 
+1229:.\Generated_Source\PSoC4/SPI.c **** {
+ 1141              		.loc 1 1229 0
+ 1142              		.cfi_startproc
+ 1143 0000 80B5     		push	{r7, lr}
+ 1144              	.LCFI60:
+ 1145              		.cfi_def_cfa_offset 8
+ 1146              		.cfi_offset 7, -8
+ 1147              		.cfi_offset 14, -4
+ 1148 0002 82B0     		sub	sp, sp, #8
+ 1149              	.LCFI61:
+ 1150              		.cfi_def_cfa_offset 16
+ 1151 0004 00AF     		add	r7, sp, #0
+ 1152              	.LCFI62:
+ 1153              		.cfi_def_cfa_register 7
+1230:.\Generated_Source\PSoC4/SPI.c ****     uint8 tmpStatus;
+1231:.\Generated_Source\PSoC4/SPI.c **** 
+1232:.\Generated_Source\PSoC4/SPI.c ****     #if ((SPI_TX_SOFTWARE_BUF_ENABLED) || (SPI_RX_SOFTWARE_BUF_ENABLED))
+1233:.\Generated_Source\PSoC4/SPI.c **** 
+1234:.\Generated_Source\PSoC4/SPI.c ****         SPI_DisableInt();
+1235:.\Generated_Source\PSoC4/SPI.c **** 
+1236:.\Generated_Source\PSoC4/SPI.c ****         tmpStatus = SPI_GET_STATUS_TX(SPI_swStatusTx) |
+1237:.\Generated_Source\PSoC4/SPI.c ****               (SPI_GET_STATUS_RX(SPI_swStatusRx) & (uint8)~SPI_STS_RX_FIFO_FULL);
+1238:.\Generated_Source\PSoC4/SPI.c **** 
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 43
+
+
+1239:.\Generated_Source\PSoC4/SPI.c ****         SPI_swStatusTx = 0u;
+1240:.\Generated_Source\PSoC4/SPI.c ****         SPI_swStatusRx = 0u;
+1241:.\Generated_Source\PSoC4/SPI.c **** 
+1242:.\Generated_Source\PSoC4/SPI.c ****         /* Enable Interrupts */
+1243:.\Generated_Source\PSoC4/SPI.c ****         SPI_EnableInt();
+1244:.\Generated_Source\PSoC4/SPI.c **** 
+1245:.\Generated_Source\PSoC4/SPI.c ****     #else /* !((SPI_TX_SOFTWARE_BUF_ENABLED) || (SPI_RX_SOFTWARE_BUF_ENABLED)) */
+1246:.\Generated_Source\PSoC4/SPI.c **** 
+1247:.\Generated_Source\PSoC4/SPI.c ****         tmpStatus = SPI_TX_STATUS_REG | (SPI_RX_STATUS_REG &
+ 1154              		.loc 1 1247 0
+ 1155 0006 0A4B     		ldr	r3, .L76
+ 1156 0008 1B78     		ldrb	r3, [r3]
+ 1157 000a DBB2     		uxtb	r3, r3
+ 1158 000c DAB2     		uxtb	r2, r3
+ 1159 000e 094B     		ldr	r3, .L76+4
+ 1160 0010 1B78     		ldrb	r3, [r3]
+ 1161 0012 DBB2     		uxtb	r3, r3
+ 1162 0014 DBB2     		uxtb	r3, r3
+ 1163 0016 4021     		mov	r1, #64
+ 1164 0018 8B43     		bic	r3, r1
+ 1165 001a DBB2     		uxtb	r3, r3
+ 1166 001c 1343     		orr	r3, r2
+ 1167 001e DAB2     		uxtb	r2, r3
+ 1168 0020 FB1D     		add	r3, r7, #7
+ 1169 0022 1A70     		strb	r2, [r3]
+1248:.\Generated_Source\PSoC4/SPI.c ****                                                       (uint8)~SPI_STS_RX_FIFO_FULL);
+1249:.\Generated_Source\PSoC4/SPI.c **** 
+1250:.\Generated_Source\PSoC4/SPI.c ****     #endif /* (SPI_TX_SOFTWARE_BUF_ENABLED) || (SPI_RX_SOFTWARE_BUF_ENABLED) */
+1251:.\Generated_Source\PSoC4/SPI.c **** 
+1252:.\Generated_Source\PSoC4/SPI.c ****     return(tmpStatus);
+ 1170              		.loc 1 1252 0
+ 1171 0024 FB1D     		add	r3, r7, #7
+ 1172 0026 1B78     		ldrb	r3, [r3]
+1253:.\Generated_Source\PSoC4/SPI.c **** }
+ 1173              		.loc 1 1253 0
+ 1174 0028 181C     		mov	r0, r3
+ 1175 002a BD46     		mov	sp, r7
+ 1176 002c 02B0     		add	sp, sp, #8
+ 1177              		@ sp needed for prologue
+ 1178 002e 80BD     		pop	{r7, pc}
+ 1179              	.L77:
+ 1180              		.align	2
+ 1181              	.L76:
+ 1182 0030 60000F40 		.word	1074724960
+ 1183 0034 63000F40 		.word	1074724963
+ 1184              		.cfi_endproc
+ 1185              	.LFE23:
+ 1186              		.size	SPI_ReadStatus, .-SPI_ReadStatus
+ 1187              		.text
+ 1188              	.Letext0:
+ 1189              		.file 2 ".\\Generated_Source\\PSoC4\\cytypes.h"
+ 1190              		.section	.debug_info,"",%progbits
+ 1191              	.Ldebug_info0:
+ 1192 0000 82040000 		.4byte	0x482
+ 1193 0004 0200     		.2byte	0x2
+ 1194 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1195 000a 04       		.byte	0x4
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 44
+
+
+ 1196 000b 01       		.uleb128 0x1
+ 1197 000c 29030000 		.4byte	.LASF53
+ 1198 0010 01       		.byte	0x1
+ 1199 0011 14000000 		.4byte	.LASF54
+ 1200 0015 B1000000 		.4byte	.LASF55
+ 1201 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1202 001d 00000000 		.4byte	0
+ 1203 0021 00000000 		.4byte	0
+ 1204 0025 00000000 		.4byte	.Ldebug_line0
+ 1205 0029 02       		.uleb128 0x2
+ 1206 002a 01       		.byte	0x1
+ 1207 002b 06       		.byte	0x6
+ 1208 002c F4020000 		.4byte	.LASF0
+ 1209 0030 02       		.uleb128 0x2
+ 1210 0031 01       		.byte	0x1
+ 1211 0032 08       		.byte	0x8
+ 1212 0033 92010000 		.4byte	.LASF1
+ 1213 0037 02       		.uleb128 0x2
+ 1214 0038 02       		.byte	0x2
+ 1215 0039 05       		.byte	0x5
+ 1216 003a AE020000 		.4byte	.LASF2
+ 1217 003e 02       		.uleb128 0x2
+ 1218 003f 02       		.byte	0x2
+ 1219 0040 07       		.byte	0x7
+ 1220 0041 5E000000 		.4byte	.LASF3
+ 1221 0045 02       		.uleb128 0x2
+ 1222 0046 04       		.byte	0x4
+ 1223 0047 05       		.byte	0x5
+ 1224 0048 D0020000 		.4byte	.LASF4
+ 1225 004c 02       		.uleb128 0x2
+ 1226 004d 04       		.byte	0x4
+ 1227 004e 07       		.byte	0x7
+ 1228 004f 4F010000 		.4byte	.LASF5
+ 1229 0053 02       		.uleb128 0x2
+ 1230 0054 08       		.byte	0x8
+ 1231 0055 05       		.byte	0x5
+ 1232 0056 81020000 		.4byte	.LASF6
+ 1233 005a 02       		.uleb128 0x2
+ 1234 005b 08       		.byte	0x8
+ 1235 005c 07       		.byte	0x7
+ 1236 005d 2E020000 		.4byte	.LASF7
+ 1237 0061 03       		.uleb128 0x3
+ 1238 0062 04       		.byte	0x4
+ 1239 0063 05       		.byte	0x5
+ 1240 0064 696E7400 		.ascii	"int\000"
+ 1241 0068 02       		.uleb128 0x2
+ 1242 0069 04       		.byte	0x4
+ 1243 006a 07       		.byte	0x7
+ 1244 006b 0A020000 		.4byte	.LASF8
+ 1245 006f 04       		.uleb128 0x4
+ 1246 0070 61010000 		.4byte	.LASF9
+ 1247 0074 02       		.byte	0x2
+ 1248 0075 5B       		.byte	0x5b
+ 1249 0076 30000000 		.4byte	0x30
+ 1250 007a 04       		.uleb128 0x4
+ 1251 007b EF010000 		.4byte	.LASF10
+ 1252 007f 02       		.byte	0x2
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 45
+
+
+ 1253 0080 5C       		.byte	0x5c
+ 1254 0081 3E000000 		.4byte	0x3e
+ 1255 0085 02       		.uleb128 0x2
+ 1256 0086 04       		.byte	0x4
+ 1257 0087 04       		.byte	0x4
+ 1258 0088 0B010000 		.4byte	.LASF11
+ 1259 008c 02       		.uleb128 0x2
+ 1260 008d 08       		.byte	0x8
+ 1261 008e 04       		.byte	0x4
+ 1262 008f A0010000 		.4byte	.LASF12
+ 1263 0093 02       		.uleb128 0x2
+ 1264 0094 01       		.byte	0x1
+ 1265 0095 08       		.byte	0x8
+ 1266 0096 8F020000 		.4byte	.LASF13
+ 1267 009a 04       		.uleb128 0x4
+ 1268 009b 39010000 		.4byte	.LASF14
+ 1269 009f 02       		.byte	0x2
+ 1270 00a0 F0       		.byte	0xf0
+ 1271 00a1 A5000000 		.4byte	0xa5
+ 1272 00a5 05       		.uleb128 0x5
+ 1273 00a6 6F000000 		.4byte	0x6f
+ 1274 00aa 04       		.uleb128 0x4
+ 1275 00ab 00000000 		.4byte	.LASF15
+ 1276 00af 02       		.byte	0x2
+ 1277 00b0 F1       		.byte	0xf1
+ 1278 00b1 B5000000 		.4byte	0xb5
+ 1279 00b5 05       		.uleb128 0x5
+ 1280 00b6 7A000000 		.4byte	0x7a
+ 1281 00ba 02       		.uleb128 0x2
+ 1282 00bb 04       		.byte	0x4
+ 1283 00bc 07       		.byte	0x7
+ 1284 00bd 67020000 		.4byte	.LASF16
+ 1285 00c1 06       		.uleb128 0x6
+ 1286 00c2 01       		.byte	0x1
+ 1287 00c3 71000000 		.4byte	.LASF17
+ 1288 00c7 01       		.byte	0x1
+ 1289 00c8 43       		.byte	0x43
+ 1290 00c9 01       		.byte	0x1
+ 1291 00ca 00000000 		.4byte	.LFB0
+ 1292 00ce 34000000 		.4byte	.LFE0
+ 1293 00d2 00000000 		.4byte	.LLST0
+ 1294 00d6 01       		.byte	0x1
+ 1295 00d7 07       		.uleb128 0x7
+ 1296 00d8 01       		.byte	0x1
+ 1297 00d9 94020000 		.4byte	.LASF19
+ 1298 00dd 01       		.byte	0x1
+ 1299 00de 8F       		.byte	0x8f
+ 1300 00df 01       		.byte	0x1
+ 1301 00e0 00000000 		.4byte	.LFB1
+ 1302 00e4 5C000000 		.4byte	.LFE1
+ 1303 00e8 2C000000 		.4byte	.LLST1
+ 1304 00ec 01       		.byte	0x1
+ 1305 00ed 00010000 		.4byte	0x100
+ 1306 00f1 08       		.uleb128 0x8
+ 1307 00f2 70020000 		.4byte	.LASF21
+ 1308 00f6 01       		.byte	0x1
+ 1309 00f7 91       		.byte	0x91
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 46
+
+
+ 1310 00f8 6F000000 		.4byte	0x6f
+ 1311 00fc 02       		.byte	0x2
+ 1312 00fd 91       		.byte	0x91
+ 1313 00fe 6F       		.sleb128 -17
+ 1314 00ff 00       		.byte	0
+ 1315 0100 06       		.uleb128 0x6
+ 1316 0101 01       		.byte	0x1
+ 1317 0102 1F030000 		.4byte	.LASF18
+ 1318 0106 01       		.byte	0x1
+ 1319 0107 BC       		.byte	0xbc
+ 1320 0108 01       		.byte	0x1
+ 1321 0109 00000000 		.4byte	.LFB2
+ 1322 010d 24000000 		.4byte	.LFE2
+ 1323 0111 64000000 		.4byte	.LLST2
+ 1324 0115 01       		.byte	0x1
+ 1325 0116 07       		.uleb128 0x7
+ 1326 0117 01       		.byte	0x1
+ 1327 0118 E6010000 		.4byte	.LASF20
+ 1328 011c 01       		.byte	0x1
+ 1329 011d D9       		.byte	0xd9
+ 1330 011e 01       		.byte	0x1
+ 1331 011f 00000000 		.4byte	.LFB3
+ 1332 0123 48000000 		.4byte	.LFE3
+ 1333 0127 90000000 		.4byte	.LLST3
+ 1334 012b 01       		.byte	0x1
+ 1335 012c 3F010000 		.4byte	0x13f
+ 1336 0130 08       		.uleb128 0x8
+ 1337 0131 70020000 		.4byte	.LASF21
+ 1338 0135 01       		.byte	0x1
+ 1339 0136 DB       		.byte	0xdb
+ 1340 0137 6F000000 		.4byte	0x6f
+ 1341 013b 02       		.byte	0x2
+ 1342 013c 91       		.byte	0x91
+ 1343 013d 6F       		.sleb128 -17
+ 1344 013e 00       		.byte	0
+ 1345 013f 09       		.uleb128 0x9
+ 1346 0140 01       		.byte	0x1
+ 1347 0141 82010000 		.4byte	.LASF22
+ 1348 0145 01       		.byte	0x1
+ 1349 0146 FE       		.byte	0xfe
+ 1350 0147 01       		.byte	0x1
+ 1351 0148 00000000 		.4byte	.LFB4
+ 1352 014c 08000000 		.4byte	.LFE4
+ 1353 0150 C8000000 		.4byte	.LLST4
+ 1354 0154 01       		.byte	0x1
+ 1355 0155 0A       		.uleb128 0xa
+ 1356 0156 01       		.byte	0x1
+ 1357 0157 0F030000 		.4byte	.LASF23
+ 1358 015b 01       		.byte	0x1
+ 1359 015c 1701     		.2byte	0x117
+ 1360 015e 01       		.byte	0x1
+ 1361 015f 00000000 		.4byte	.LFB5
+ 1362 0163 08000000 		.4byte	.LFE5
+ 1363 0167 F4000000 		.4byte	.LLST5
+ 1364 016b 01       		.byte	0x1
+ 1365 016c 0A       		.uleb128 0xa
+ 1366 016d 01       		.byte	0x1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 47
+
+
+ 1367 016e BF020000 		.4byte	.LASF24
+ 1368 0172 01       		.byte	0x1
+ 1369 0173 3001     		.2byte	0x130
+ 1370 0175 01       		.byte	0x1
+ 1371 0176 00000000 		.4byte	.LFB6
+ 1372 017a 08000000 		.4byte	.LFE6
+ 1373 017e 20010000 		.4byte	.LLST6
+ 1374 0182 01       		.byte	0x1
+ 1375 0183 0A       		.uleb128 0xa
+ 1376 0184 01       		.byte	0x1
+ 1377 0185 3E010000 		.4byte	.LASF25
+ 1378 0189 01       		.byte	0x1
+ 1379 018a 4901     		.2byte	0x149
+ 1380 018c 01       		.byte	0x1
+ 1381 018d 00000000 		.4byte	.LFB7
+ 1382 0191 08000000 		.4byte	.LFE7
+ 1383 0195 4C010000 		.4byte	.LLST7
+ 1384 0199 01       		.byte	0x1
+ 1385 019a 0B       		.uleb128 0xb
+ 1386 019b 01       		.byte	0x1
+ 1387 019c 17020000 		.4byte	.LASF26
+ 1388 01a0 01       		.byte	0x1
+ 1389 01a1 6301     		.2byte	0x163
+ 1390 01a3 01       		.byte	0x1
+ 1391 01a4 00000000 		.4byte	.LFB8
+ 1392 01a8 20000000 		.4byte	.LFE8
+ 1393 01ac 78010000 		.4byte	.LLST8
+ 1394 01b0 01       		.byte	0x1
+ 1395 01b1 C5010000 		.4byte	0x1c5
+ 1396 01b5 0C       		.uleb128 0xc
+ 1397 01b6 BE010000 		.4byte	.LASF28
+ 1398 01ba 01       		.byte	0x1
+ 1399 01bb 6301     		.2byte	0x163
+ 1400 01bd 6F000000 		.4byte	0x6f
+ 1401 01c1 02       		.byte	0x2
+ 1402 01c2 91       		.byte	0x91
+ 1403 01c3 77       		.sleb128 -9
+ 1404 01c4 00       		.byte	0
+ 1405 01c5 0B       		.uleb128 0xb
+ 1406 01c6 01       		.byte	0x1
+ 1407 01c7 A7010000 		.4byte	.LASF27
+ 1408 01cb 01       		.byte	0x1
+ 1409 01cc 7B01     		.2byte	0x17b
+ 1410 01ce 01       		.byte	0x1
+ 1411 01cf 00000000 		.4byte	.LFB9
+ 1412 01d3 20000000 		.4byte	.LFE9
+ 1413 01d7 B0010000 		.4byte	.LLST9
+ 1414 01db 01       		.byte	0x1
+ 1415 01dc F0010000 		.4byte	0x1f0
+ 1416 01e0 0C       		.uleb128 0xc
+ 1417 01e1 BE010000 		.4byte	.LASF28
+ 1418 01e5 01       		.byte	0x1
+ 1419 01e6 7B01     		.2byte	0x17b
+ 1420 01e8 6F000000 		.4byte	0x6f
+ 1421 01ec 02       		.byte	0x2
+ 1422 01ed 91       		.byte	0x91
+ 1423 01ee 77       		.sleb128 -9
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 48
+
+
+ 1424 01ef 00       		.byte	0
+ 1425 01f0 0D       		.uleb128 0xd
+ 1426 01f1 01       		.byte	0x1
+ 1427 01f2 71010000 		.4byte	.LASF30
+ 1428 01f6 01       		.byte	0x1
+ 1429 01f7 9D01     		.2byte	0x19d
+ 1430 01f9 01       		.byte	0x1
+ 1431 01fa 6F000000 		.4byte	0x6f
+ 1432 01fe 00000000 		.4byte	.LFB10
+ 1433 0202 20000000 		.4byte	.LFE10
+ 1434 0206 E8010000 		.4byte	.LLST10
+ 1435 020a 01       		.byte	0x1
+ 1436 020b 1F020000 		.4byte	0x21f
+ 1437 020f 0E       		.uleb128 0xe
+ 1438 0210 D9020000 		.4byte	.LASF29
+ 1439 0214 01       		.byte	0x1
+ 1440 0215 9F01     		.2byte	0x19f
+ 1441 0217 6F000000 		.4byte	0x6f
+ 1442 021b 02       		.byte	0x2
+ 1443 021c 91       		.byte	0x91
+ 1444 021d 77       		.sleb128 -9
+ 1445 021e 00       		.byte	0
+ 1446 021f 0D       		.uleb128 0xd
+ 1447 0220 01       		.byte	0x1
+ 1448 0221 E3020000 		.4byte	.LASF31
+ 1449 0225 01       		.byte	0x1
+ 1450 0226 D201     		.2byte	0x1d2
+ 1451 0228 01       		.byte	0x1
+ 1452 0229 6F000000 		.4byte	0x6f
+ 1453 022d 00000000 		.4byte	.LFB11
+ 1454 0231 20000000 		.4byte	.LFE11
+ 1455 0235 20020000 		.4byte	.LLST11
+ 1456 0239 01       		.byte	0x1
+ 1457 023a 4E020000 		.4byte	0x24e
+ 1458 023e 0E       		.uleb128 0xe
+ 1459 023f D9020000 		.4byte	.LASF29
+ 1460 0243 01       		.byte	0x1
+ 1461 0244 D401     		.2byte	0x1d4
+ 1462 0246 6F000000 		.4byte	0x6f
+ 1463 024a 02       		.byte	0x2
+ 1464 024b 91       		.byte	0x91
+ 1465 024c 77       		.sleb128 -9
+ 1466 024d 00       		.byte	0
+ 1467 024e 0B       		.uleb128 0xb
+ 1468 024f 01       		.byte	0x1
+ 1469 0250 33000000 		.4byte	.LASF32
+ 1470 0254 01       		.byte	0x1
+ 1471 0255 0D02     		.2byte	0x20d
+ 1472 0257 01       		.byte	0x1
+ 1473 0258 00000000 		.4byte	.LFB12
+ 1474 025c 34000000 		.4byte	.LFE12
+ 1475 0260 58020000 		.4byte	.LLST12
+ 1476 0264 01       		.byte	0x1
+ 1477 0265 79020000 		.4byte	0x279
+ 1478 0269 0C       		.uleb128 0xc
+ 1479 026a 4E020000 		.4byte	.LASF33
+ 1480 026e 01       		.byte	0x1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 49
+
+
+ 1481 026f 0D02     		.2byte	0x20d
+ 1482 0271 7A000000 		.4byte	0x7a
+ 1483 0275 02       		.byte	0x2
+ 1484 0276 91       		.byte	0x91
+ 1485 0277 76       		.sleb128 -10
+ 1486 0278 00       		.byte	0
+ 1487 0279 0D       		.uleb128 0xd
+ 1488 027a 01       		.byte	0x1
+ 1489 027b 4F000000 		.4byte	.LASF34
+ 1490 027f 01       		.byte	0x1
+ 1491 0280 9702     		.2byte	0x297
+ 1492 0282 01       		.byte	0x1
+ 1493 0283 7A000000 		.4byte	0x7a
+ 1494 0287 00000000 		.4byte	.LFB13
+ 1495 028b 20000000 		.4byte	.LFE13
+ 1496 028f 90020000 		.4byte	.LLST13
+ 1497 0293 01       		.byte	0x1
+ 1498 0294 A8020000 		.4byte	0x2a8
+ 1499 0298 0E       		.uleb128 0xe
+ 1500 0299 AA000000 		.4byte	.LASF35
+ 1501 029d 01       		.byte	0x1
+ 1502 029e 9902     		.2byte	0x299
+ 1503 02a0 7A000000 		.4byte	0x7a
+ 1504 02a4 02       		.byte	0x2
+ 1505 02a5 91       		.byte	0x91
+ 1506 02a6 76       		.sleb128 -10
+ 1507 02a7 00       		.byte	0
+ 1508 02a8 0D       		.uleb128 0xd
+ 1509 02a9 01       		.byte	0x1
+ 1510 02aa F6010000 		.4byte	.LASF36
+ 1511 02ae 01       		.byte	0x1
+ 1512 02af D902     		.2byte	0x2d9
+ 1513 02b1 01       		.byte	0x1
+ 1514 02b2 6F000000 		.4byte	0x6f
+ 1515 02b6 00000000 		.4byte	.LFB14
+ 1516 02ba 30000000 		.4byte	.LFE14
+ 1517 02be C8020000 		.4byte	.LLST14
+ 1518 02c2 01       		.byte	0x1
+ 1519 02c3 D7020000 		.4byte	0x2d7
+ 1520 02c7 0E       		.uleb128 0xe
+ 1521 02c8 34010000 		.4byte	.LASF37
+ 1522 02cc 01       		.byte	0x1
+ 1523 02cd DB02     		.2byte	0x2db
+ 1524 02cf 6F000000 		.4byte	0x6f
+ 1525 02d3 02       		.byte	0x2
+ 1526 02d4 91       		.byte	0x91
+ 1527 02d5 77       		.sleb128 -9
+ 1528 02d6 00       		.byte	0
+ 1529 02d7 0D       		.uleb128 0xd
+ 1530 02d8 01       		.byte	0x1
+ 1531 02d9 D2010000 		.4byte	.LASF38
+ 1532 02dd 01       		.byte	0x1
+ 1533 02de 1A03     		.2byte	0x31a
+ 1534 02e0 01       		.byte	0x1
+ 1535 02e1 6F000000 		.4byte	0x6f
+ 1536 02e5 00000000 		.4byte	.LFB15
+ 1537 02e9 48000000 		.4byte	.LFE15
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 50
+
+
+ 1538 02ed 00030000 		.4byte	.LLST15
+ 1539 02f1 01       		.byte	0x1
+ 1540 02f2 06030000 		.4byte	0x306
+ 1541 02f6 0E       		.uleb128 0xe
+ 1542 02f7 34010000 		.4byte	.LASF37
+ 1543 02fb 01       		.byte	0x1
+ 1544 02fc 1C03     		.2byte	0x31c
+ 1545 02fe 6F000000 		.4byte	0x6f
+ 1546 0302 02       		.byte	0x2
+ 1547 0303 91       		.byte	0x91
+ 1548 0304 77       		.sleb128 -9
+ 1549 0305 00       		.byte	0
+ 1550 0306 0A       		.uleb128 0xa
+ 1551 0307 01       		.byte	0x1
+ 1552 0308 55020000 		.4byte	.LASF39
+ 1553 030c 01       		.byte	0x1
+ 1554 030d 6C03     		.2byte	0x36c
+ 1555 030f 01       		.byte	0x1
+ 1556 0310 00000000 		.4byte	.LFB16
+ 1557 0314 24000000 		.4byte	.LFE16
+ 1558 0318 38030000 		.4byte	.LLST16
+ 1559 031c 01       		.byte	0x1
+ 1560 031d 0F       		.uleb128 0xf
+ 1561 031e 01       		.byte	0x1
+ 1562 031f 89000000 		.4byte	.LASF40
+ 1563 0323 01       		.byte	0x1
+ 1564 0324 A503     		.2byte	0x3a5
+ 1565 0326 01       		.byte	0x1
+ 1566 0327 00000000 		.4byte	.LFB17
+ 1567 032b 68000000 		.4byte	.LFE17
+ 1568 032f 64030000 		.4byte	.LLST17
+ 1569 0333 01       		.byte	0x1
+ 1570 0334 48030000 		.4byte	0x348
+ 1571 0338 0E       		.uleb128 0xe
+ 1572 0339 70020000 		.4byte	.LASF21
+ 1573 033d 01       		.byte	0x1
+ 1574 033e A703     		.2byte	0x3a7
+ 1575 0340 6F000000 		.4byte	0x6f
+ 1576 0344 02       		.byte	0x2
+ 1577 0345 91       		.byte	0x91
+ 1578 0346 6F       		.sleb128 -17
+ 1579 0347 00       		.byte	0
+ 1580 0348 0F       		.uleb128 0xf
+ 1581 0349 01       		.byte	0x1
+ 1582 034a C5010000 		.4byte	.LASF41
+ 1583 034e 01       		.byte	0x1
+ 1584 034f 1904     		.2byte	0x419
+ 1585 0351 01       		.byte	0x1
+ 1586 0352 00000000 		.4byte	.LFB18
+ 1587 0356 52000000 		.4byte	.LFE18
+ 1588 035a 9C030000 		.4byte	.LLST18
+ 1589 035e 01       		.byte	0x1
+ 1590 035f 91030000 		.4byte	0x391
+ 1591 0363 0C       		.uleb128 0xc
+ 1592 0364 B8020000 		.4byte	.LASF42
+ 1593 0368 01       		.byte	0x1
+ 1594 0369 1904     		.2byte	0x419
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 51
+
+
+ 1595 036b 91030000 		.4byte	0x391
+ 1596 036f 02       		.byte	0x2
+ 1597 0370 91       		.byte	0x91
+ 1598 0371 6C       		.sleb128 -20
+ 1599 0372 0C       		.uleb128 0xc
+ 1600 0373 67010000 		.4byte	.LASF43
+ 1601 0377 01       		.byte	0x1
+ 1602 0378 1904     		.2byte	0x419
+ 1603 037a 6F000000 		.4byte	0x6f
+ 1604 037e 02       		.byte	0x2
+ 1605 037f 91       		.byte	0x91
+ 1606 0380 6B       		.sleb128 -21
+ 1607 0381 0E       		.uleb128 0xe
+ 1608 0382 45020000 		.4byte	.LASF44
+ 1609 0386 01       		.byte	0x1
+ 1610 0387 1C04     		.2byte	0x41c
+ 1611 0389 6F000000 		.4byte	0x6f
+ 1612 038d 02       		.byte	0x2
+ 1613 038e 91       		.byte	0x91
+ 1614 038f 77       		.sleb128 -9
+ 1615 0390 00       		.byte	0
+ 1616 0391 10       		.uleb128 0x10
+ 1617 0392 04       		.byte	0x4
+ 1618 0393 97030000 		.4byte	0x397
+ 1619 0397 11       		.uleb128 0x11
+ 1620 0398 7A000000 		.4byte	0x7a
+ 1621 039c 0F       		.uleb128 0xf
+ 1622 039d 01       		.byte	0x1
+ 1623 039e 11010000 		.4byte	.LASF45
+ 1624 03a2 01       		.byte	0x1
+ 1625 03a3 3904     		.2byte	0x439
+ 1626 03a5 01       		.byte	0x1
+ 1627 03a6 00000000 		.4byte	.LFB19
+ 1628 03aa 84000000 		.4byte	.LFE19
+ 1629 03ae D4030000 		.4byte	.LLST19
+ 1630 03b2 01       		.byte	0x1
+ 1631 03b3 C7030000 		.4byte	0x3c7
+ 1632 03b7 0E       		.uleb128 0xe
+ 1633 03b8 70020000 		.4byte	.LASF21
+ 1634 03bc 01       		.byte	0x1
+ 1635 03bd 3B04     		.2byte	0x43b
+ 1636 03bf 6F000000 		.4byte	0x6f
+ 1637 03c3 02       		.byte	0x2
+ 1638 03c4 91       		.byte	0x91
+ 1639 03c5 6F       		.sleb128 -17
+ 1640 03c6 00       		.byte	0
+ 1641 03c7 0A       		.uleb128 0xa
+ 1642 03c8 01       		.byte	0x1
+ 1643 03c9 06000000 		.4byte	.LASF46
+ 1644 03cd 01       		.byte	0x1
+ 1645 03ce 6E04     		.2byte	0x46e
+ 1646 03d0 01       		.byte	0x1
+ 1647 03d1 00000000 		.4byte	.LFB20
+ 1648 03d5 08000000 		.4byte	.LFE20
+ 1649 03d9 0C040000 		.4byte	.LLST20
+ 1650 03dd 01       		.byte	0x1
+ 1651 03de 0A       		.uleb128 0xa
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 52
+
+
+ 1652 03df 01       		.byte	0x1
+ 1653 03e0 9F020000 		.4byte	.LASF47
+ 1654 03e4 01       		.byte	0x1
+ 1655 03e5 8B04     		.2byte	0x48b
+ 1656 03e7 01       		.byte	0x1
+ 1657 03e8 00000000 		.4byte	.LFB21
+ 1658 03ec 08000000 		.4byte	.LFE21
+ 1659 03f0 38040000 		.4byte	.LLST21
+ 1660 03f4 01       		.byte	0x1
+ 1661 03f5 0B       		.uleb128 0xb
+ 1662 03f6 01       		.byte	0x1
+ 1663 03f7 1F010000 		.4byte	.LASF48
+ 1664 03fb 01       		.byte	0x1
+ 1665 03fc A904     		.2byte	0x4a9
+ 1666 03fe 01       		.byte	0x1
+ 1667 03ff 00000000 		.4byte	.LFB22
+ 1668 0403 2C000000 		.4byte	.LFE22
+ 1669 0407 64040000 		.4byte	.LLST22
+ 1670 040b 01       		.byte	0x1
+ 1671 040c 20040000 		.4byte	0x420
+ 1672 0410 0C       		.uleb128 0xc
+ 1673 0411 BE010000 		.4byte	.LASF28
+ 1674 0415 01       		.byte	0x1
+ 1675 0416 A904     		.2byte	0x4a9
+ 1676 0418 6F000000 		.4byte	0x6f
+ 1677 041c 02       		.byte	0x2
+ 1678 041d 91       		.byte	0x91
+ 1679 041e 77       		.sleb128 -9
+ 1680 041f 00       		.byte	0
+ 1681 0420 0D       		.uleb128 0xd
+ 1682 0421 01       		.byte	0x1
+ 1683 0422 00030000 		.4byte	.LASF49
+ 1684 0426 01       		.byte	0x1
+ 1685 0427 CC04     		.2byte	0x4cc
+ 1686 0429 01       		.byte	0x1
+ 1687 042a 6F000000 		.4byte	0x6f
+ 1688 042e 00000000 		.4byte	.LFB23
+ 1689 0432 38000000 		.4byte	.LFE23
+ 1690 0436 9C040000 		.4byte	.LLST23
+ 1691 043a 01       		.byte	0x1
+ 1692 043b 4F040000 		.4byte	0x44f
+ 1693 043f 0E       		.uleb128 0xe
+ 1694 0440 D9020000 		.4byte	.LASF29
+ 1695 0444 01       		.byte	0x1
+ 1696 0445 CE04     		.2byte	0x4ce
+ 1697 0447 6F000000 		.4byte	0x6f
+ 1698 044b 02       		.byte	0x2
+ 1699 044c 91       		.byte	0x91
+ 1700 044d 77       		.sleb128 -9
+ 1701 044e 00       		.byte	0
+ 1702 044f 12       		.uleb128 0x12
+ 1703 0450 43000000 		.4byte	.LASF50
+ 1704 0454 01       		.byte	0x1
+ 1705 0455 26       		.byte	0x26
+ 1706 0456 6F000000 		.4byte	0x6f
+ 1707 045a 01       		.byte	0x1
+ 1708 045b 05       		.byte	0x5
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 53
+
+
+ 1709 045c 03       		.byte	0x3
+ 1710 045d 00000000 		.4byte	SPI_initVar
+ 1711 0461 12       		.uleb128 0x12
+ 1712 0462 9B000000 		.4byte	.LASF51
+ 1713 0466 01       		.byte	0x1
+ 1714 0467 28       		.byte	0x28
+ 1715 0468 A5000000 		.4byte	0xa5
+ 1716 046c 01       		.byte	0x1
+ 1717 046d 05       		.byte	0x5
+ 1718 046e 03       		.byte	0x3
+ 1719 046f 00000000 		.4byte	SPI_swStatusTx
+ 1720 0473 12       		.uleb128 0x12
+ 1721 0474 7A000000 		.4byte	.LASF52
+ 1722 0478 01       		.byte	0x1
+ 1723 0479 29       		.byte	0x29
+ 1724 047a A5000000 		.4byte	0xa5
+ 1725 047e 01       		.byte	0x1
+ 1726 047f 05       		.byte	0x5
+ 1727 0480 03       		.byte	0x3
+ 1728 0481 00000000 		.4byte	SPI_swStatusRx
+ 1729 0485 00       		.byte	0
+ 1730              		.section	.debug_abbrev,"",%progbits
+ 1731              	.Ldebug_abbrev0:
+ 1732 0000 01       		.uleb128 0x1
+ 1733 0001 11       		.uleb128 0x11
+ 1734 0002 01       		.byte	0x1
+ 1735 0003 25       		.uleb128 0x25
+ 1736 0004 0E       		.uleb128 0xe
+ 1737 0005 13       		.uleb128 0x13
+ 1738 0006 0B       		.uleb128 0xb
+ 1739 0007 03       		.uleb128 0x3
+ 1740 0008 0E       		.uleb128 0xe
+ 1741 0009 1B       		.uleb128 0x1b
+ 1742 000a 0E       		.uleb128 0xe
+ 1743 000b 55       		.uleb128 0x55
+ 1744 000c 06       		.uleb128 0x6
+ 1745 000d 11       		.uleb128 0x11
+ 1746 000e 01       		.uleb128 0x1
+ 1747 000f 52       		.uleb128 0x52
+ 1748 0010 01       		.uleb128 0x1
+ 1749 0011 10       		.uleb128 0x10
+ 1750 0012 06       		.uleb128 0x6
+ 1751 0013 00       		.byte	0
+ 1752 0014 00       		.byte	0
+ 1753 0015 02       		.uleb128 0x2
+ 1754 0016 24       		.uleb128 0x24
+ 1755 0017 00       		.byte	0
+ 1756 0018 0B       		.uleb128 0xb
+ 1757 0019 0B       		.uleb128 0xb
+ 1758 001a 3E       		.uleb128 0x3e
+ 1759 001b 0B       		.uleb128 0xb
+ 1760 001c 03       		.uleb128 0x3
+ 1761 001d 0E       		.uleb128 0xe
+ 1762 001e 00       		.byte	0
+ 1763 001f 00       		.byte	0
+ 1764 0020 03       		.uleb128 0x3
+ 1765 0021 24       		.uleb128 0x24
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 54
+
+
+ 1766 0022 00       		.byte	0
+ 1767 0023 0B       		.uleb128 0xb
+ 1768 0024 0B       		.uleb128 0xb
+ 1769 0025 3E       		.uleb128 0x3e
+ 1770 0026 0B       		.uleb128 0xb
+ 1771 0027 03       		.uleb128 0x3
+ 1772 0028 08       		.uleb128 0x8
+ 1773 0029 00       		.byte	0
+ 1774 002a 00       		.byte	0
+ 1775 002b 04       		.uleb128 0x4
+ 1776 002c 16       		.uleb128 0x16
+ 1777 002d 00       		.byte	0
+ 1778 002e 03       		.uleb128 0x3
+ 1779 002f 0E       		.uleb128 0xe
+ 1780 0030 3A       		.uleb128 0x3a
+ 1781 0031 0B       		.uleb128 0xb
+ 1782 0032 3B       		.uleb128 0x3b
+ 1783 0033 0B       		.uleb128 0xb
+ 1784 0034 49       		.uleb128 0x49
+ 1785 0035 13       		.uleb128 0x13
+ 1786 0036 00       		.byte	0
+ 1787 0037 00       		.byte	0
+ 1788 0038 05       		.uleb128 0x5
+ 1789 0039 35       		.uleb128 0x35
+ 1790 003a 00       		.byte	0
+ 1791 003b 49       		.uleb128 0x49
+ 1792 003c 13       		.uleb128 0x13
+ 1793 003d 00       		.byte	0
+ 1794 003e 00       		.byte	0
+ 1795 003f 06       		.uleb128 0x6
+ 1796 0040 2E       		.uleb128 0x2e
+ 1797 0041 00       		.byte	0
+ 1798 0042 3F       		.uleb128 0x3f
+ 1799 0043 0C       		.uleb128 0xc
+ 1800 0044 03       		.uleb128 0x3
+ 1801 0045 0E       		.uleb128 0xe
+ 1802 0046 3A       		.uleb128 0x3a
+ 1803 0047 0B       		.uleb128 0xb
+ 1804 0048 3B       		.uleb128 0x3b
+ 1805 0049 0B       		.uleb128 0xb
+ 1806 004a 27       		.uleb128 0x27
+ 1807 004b 0C       		.uleb128 0xc
+ 1808 004c 11       		.uleb128 0x11
+ 1809 004d 01       		.uleb128 0x1
+ 1810 004e 12       		.uleb128 0x12
+ 1811 004f 01       		.uleb128 0x1
+ 1812 0050 40       		.uleb128 0x40
+ 1813 0051 06       		.uleb128 0x6
+ 1814 0052 9642     		.uleb128 0x2116
+ 1815 0054 0C       		.uleb128 0xc
+ 1816 0055 00       		.byte	0
+ 1817 0056 00       		.byte	0
+ 1818 0057 07       		.uleb128 0x7
+ 1819 0058 2E       		.uleb128 0x2e
+ 1820 0059 01       		.byte	0x1
+ 1821 005a 3F       		.uleb128 0x3f
+ 1822 005b 0C       		.uleb128 0xc
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 55
+
+
+ 1823 005c 03       		.uleb128 0x3
+ 1824 005d 0E       		.uleb128 0xe
+ 1825 005e 3A       		.uleb128 0x3a
+ 1826 005f 0B       		.uleb128 0xb
+ 1827 0060 3B       		.uleb128 0x3b
+ 1828 0061 0B       		.uleb128 0xb
+ 1829 0062 27       		.uleb128 0x27
+ 1830 0063 0C       		.uleb128 0xc
+ 1831 0064 11       		.uleb128 0x11
+ 1832 0065 01       		.uleb128 0x1
+ 1833 0066 12       		.uleb128 0x12
+ 1834 0067 01       		.uleb128 0x1
+ 1835 0068 40       		.uleb128 0x40
+ 1836 0069 06       		.uleb128 0x6
+ 1837 006a 9642     		.uleb128 0x2116
+ 1838 006c 0C       		.uleb128 0xc
+ 1839 006d 01       		.uleb128 0x1
+ 1840 006e 13       		.uleb128 0x13
+ 1841 006f 00       		.byte	0
+ 1842 0070 00       		.byte	0
+ 1843 0071 08       		.uleb128 0x8
+ 1844 0072 34       		.uleb128 0x34
+ 1845 0073 00       		.byte	0
+ 1846 0074 03       		.uleb128 0x3
+ 1847 0075 0E       		.uleb128 0xe
+ 1848 0076 3A       		.uleb128 0x3a
+ 1849 0077 0B       		.uleb128 0xb
+ 1850 0078 3B       		.uleb128 0x3b
+ 1851 0079 0B       		.uleb128 0xb
+ 1852 007a 49       		.uleb128 0x49
+ 1853 007b 13       		.uleb128 0x13
+ 1854 007c 02       		.uleb128 0x2
+ 1855 007d 0A       		.uleb128 0xa
+ 1856 007e 00       		.byte	0
+ 1857 007f 00       		.byte	0
+ 1858 0080 09       		.uleb128 0x9
+ 1859 0081 2E       		.uleb128 0x2e
+ 1860 0082 00       		.byte	0
+ 1861 0083 3F       		.uleb128 0x3f
+ 1862 0084 0C       		.uleb128 0xc
+ 1863 0085 03       		.uleb128 0x3
+ 1864 0086 0E       		.uleb128 0xe
+ 1865 0087 3A       		.uleb128 0x3a
+ 1866 0088 0B       		.uleb128 0xb
+ 1867 0089 3B       		.uleb128 0x3b
+ 1868 008a 0B       		.uleb128 0xb
+ 1869 008b 27       		.uleb128 0x27
+ 1870 008c 0C       		.uleb128 0xc
+ 1871 008d 11       		.uleb128 0x11
+ 1872 008e 01       		.uleb128 0x1
+ 1873 008f 12       		.uleb128 0x12
+ 1874 0090 01       		.uleb128 0x1
+ 1875 0091 40       		.uleb128 0x40
+ 1876 0092 06       		.uleb128 0x6
+ 1877 0093 9742     		.uleb128 0x2117
+ 1878 0095 0C       		.uleb128 0xc
+ 1879 0096 00       		.byte	0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 56
+
+
+ 1880 0097 00       		.byte	0
+ 1881 0098 0A       		.uleb128 0xa
+ 1882 0099 2E       		.uleb128 0x2e
+ 1883 009a 00       		.byte	0
+ 1884 009b 3F       		.uleb128 0x3f
+ 1885 009c 0C       		.uleb128 0xc
+ 1886 009d 03       		.uleb128 0x3
+ 1887 009e 0E       		.uleb128 0xe
+ 1888 009f 3A       		.uleb128 0x3a
+ 1889 00a0 0B       		.uleb128 0xb
+ 1890 00a1 3B       		.uleb128 0x3b
+ 1891 00a2 05       		.uleb128 0x5
+ 1892 00a3 27       		.uleb128 0x27
+ 1893 00a4 0C       		.uleb128 0xc
+ 1894 00a5 11       		.uleb128 0x11
+ 1895 00a6 01       		.uleb128 0x1
+ 1896 00a7 12       		.uleb128 0x12
+ 1897 00a8 01       		.uleb128 0x1
+ 1898 00a9 40       		.uleb128 0x40
+ 1899 00aa 06       		.uleb128 0x6
+ 1900 00ab 9742     		.uleb128 0x2117
+ 1901 00ad 0C       		.uleb128 0xc
+ 1902 00ae 00       		.byte	0
+ 1903 00af 00       		.byte	0
+ 1904 00b0 0B       		.uleb128 0xb
+ 1905 00b1 2E       		.uleb128 0x2e
+ 1906 00b2 01       		.byte	0x1
+ 1907 00b3 3F       		.uleb128 0x3f
+ 1908 00b4 0C       		.uleb128 0xc
+ 1909 00b5 03       		.uleb128 0x3
+ 1910 00b6 0E       		.uleb128 0xe
+ 1911 00b7 3A       		.uleb128 0x3a
+ 1912 00b8 0B       		.uleb128 0xb
+ 1913 00b9 3B       		.uleb128 0x3b
+ 1914 00ba 05       		.uleb128 0x5
+ 1915 00bb 27       		.uleb128 0x27
+ 1916 00bc 0C       		.uleb128 0xc
+ 1917 00bd 11       		.uleb128 0x11
+ 1918 00be 01       		.uleb128 0x1
+ 1919 00bf 12       		.uleb128 0x12
+ 1920 00c0 01       		.uleb128 0x1
+ 1921 00c1 40       		.uleb128 0x40
+ 1922 00c2 06       		.uleb128 0x6
+ 1923 00c3 9742     		.uleb128 0x2117
+ 1924 00c5 0C       		.uleb128 0xc
+ 1925 00c6 01       		.uleb128 0x1
+ 1926 00c7 13       		.uleb128 0x13
+ 1927 00c8 00       		.byte	0
+ 1928 00c9 00       		.byte	0
+ 1929 00ca 0C       		.uleb128 0xc
+ 1930 00cb 05       		.uleb128 0x5
+ 1931 00cc 00       		.byte	0
+ 1932 00cd 03       		.uleb128 0x3
+ 1933 00ce 0E       		.uleb128 0xe
+ 1934 00cf 3A       		.uleb128 0x3a
+ 1935 00d0 0B       		.uleb128 0xb
+ 1936 00d1 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 57
+
+
+ 1937 00d2 05       		.uleb128 0x5
+ 1938 00d3 49       		.uleb128 0x49
+ 1939 00d4 13       		.uleb128 0x13
+ 1940 00d5 02       		.uleb128 0x2
+ 1941 00d6 0A       		.uleb128 0xa
+ 1942 00d7 00       		.byte	0
+ 1943 00d8 00       		.byte	0
+ 1944 00d9 0D       		.uleb128 0xd
+ 1945 00da 2E       		.uleb128 0x2e
+ 1946 00db 01       		.byte	0x1
+ 1947 00dc 3F       		.uleb128 0x3f
+ 1948 00dd 0C       		.uleb128 0xc
+ 1949 00de 03       		.uleb128 0x3
+ 1950 00df 0E       		.uleb128 0xe
+ 1951 00e0 3A       		.uleb128 0x3a
+ 1952 00e1 0B       		.uleb128 0xb
+ 1953 00e2 3B       		.uleb128 0x3b
+ 1954 00e3 05       		.uleb128 0x5
+ 1955 00e4 27       		.uleb128 0x27
+ 1956 00e5 0C       		.uleb128 0xc
+ 1957 00e6 49       		.uleb128 0x49
+ 1958 00e7 13       		.uleb128 0x13
+ 1959 00e8 11       		.uleb128 0x11
+ 1960 00e9 01       		.uleb128 0x1
+ 1961 00ea 12       		.uleb128 0x12
+ 1962 00eb 01       		.uleb128 0x1
+ 1963 00ec 40       		.uleb128 0x40
+ 1964 00ed 06       		.uleb128 0x6
+ 1965 00ee 9742     		.uleb128 0x2117
+ 1966 00f0 0C       		.uleb128 0xc
+ 1967 00f1 01       		.uleb128 0x1
+ 1968 00f2 13       		.uleb128 0x13
+ 1969 00f3 00       		.byte	0
+ 1970 00f4 00       		.byte	0
+ 1971 00f5 0E       		.uleb128 0xe
+ 1972 00f6 34       		.uleb128 0x34
+ 1973 00f7 00       		.byte	0
+ 1974 00f8 03       		.uleb128 0x3
+ 1975 00f9 0E       		.uleb128 0xe
+ 1976 00fa 3A       		.uleb128 0x3a
+ 1977 00fb 0B       		.uleb128 0xb
+ 1978 00fc 3B       		.uleb128 0x3b
+ 1979 00fd 05       		.uleb128 0x5
+ 1980 00fe 49       		.uleb128 0x49
+ 1981 00ff 13       		.uleb128 0x13
+ 1982 0100 02       		.uleb128 0x2
+ 1983 0101 0A       		.uleb128 0xa
+ 1984 0102 00       		.byte	0
+ 1985 0103 00       		.byte	0
+ 1986 0104 0F       		.uleb128 0xf
+ 1987 0105 2E       		.uleb128 0x2e
+ 1988 0106 01       		.byte	0x1
+ 1989 0107 3F       		.uleb128 0x3f
+ 1990 0108 0C       		.uleb128 0xc
+ 1991 0109 03       		.uleb128 0x3
+ 1992 010a 0E       		.uleb128 0xe
+ 1993 010b 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 58
+
+
+ 1994 010c 0B       		.uleb128 0xb
+ 1995 010d 3B       		.uleb128 0x3b
+ 1996 010e 05       		.uleb128 0x5
+ 1997 010f 27       		.uleb128 0x27
+ 1998 0110 0C       		.uleb128 0xc
+ 1999 0111 11       		.uleb128 0x11
+ 2000 0112 01       		.uleb128 0x1
+ 2001 0113 12       		.uleb128 0x12
+ 2002 0114 01       		.uleb128 0x1
+ 2003 0115 40       		.uleb128 0x40
+ 2004 0116 06       		.uleb128 0x6
+ 2005 0117 9642     		.uleb128 0x2116
+ 2006 0119 0C       		.uleb128 0xc
+ 2007 011a 01       		.uleb128 0x1
+ 2008 011b 13       		.uleb128 0x13
+ 2009 011c 00       		.byte	0
+ 2010 011d 00       		.byte	0
+ 2011 011e 10       		.uleb128 0x10
+ 2012 011f 0F       		.uleb128 0xf
+ 2013 0120 00       		.byte	0
+ 2014 0121 0B       		.uleb128 0xb
+ 2015 0122 0B       		.uleb128 0xb
+ 2016 0123 49       		.uleb128 0x49
+ 2017 0124 13       		.uleb128 0x13
+ 2018 0125 00       		.byte	0
+ 2019 0126 00       		.byte	0
+ 2020 0127 11       		.uleb128 0x11
+ 2021 0128 26       		.uleb128 0x26
+ 2022 0129 00       		.byte	0
+ 2023 012a 49       		.uleb128 0x49
+ 2024 012b 13       		.uleb128 0x13
+ 2025 012c 00       		.byte	0
+ 2026 012d 00       		.byte	0
+ 2027 012e 12       		.uleb128 0x12
+ 2028 012f 34       		.uleb128 0x34
+ 2029 0130 00       		.byte	0
+ 2030 0131 03       		.uleb128 0x3
+ 2031 0132 0E       		.uleb128 0xe
+ 2032 0133 3A       		.uleb128 0x3a
+ 2033 0134 0B       		.uleb128 0xb
+ 2034 0135 3B       		.uleb128 0x3b
+ 2035 0136 0B       		.uleb128 0xb
+ 2036 0137 49       		.uleb128 0x49
+ 2037 0138 13       		.uleb128 0x13
+ 2038 0139 3F       		.uleb128 0x3f
+ 2039 013a 0C       		.uleb128 0xc
+ 2040 013b 02       		.uleb128 0x2
+ 2041 013c 0A       		.uleb128 0xa
+ 2042 013d 00       		.byte	0
+ 2043 013e 00       		.byte	0
+ 2044 013f 00       		.byte	0
+ 2045              		.section	.debug_loc,"",%progbits
+ 2046              	.Ldebug_loc0:
+ 2047              	.LLST0:
+ 2048 0000 00000000 		.4byte	.LFB0
+ 2049 0004 02000000 		.4byte	.LCFI0
+ 2050 0008 0200     		.2byte	0x2
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 59
+
+
+ 2051 000a 7D       		.byte	0x7d
+ 2052 000b 00       		.sleb128 0
+ 2053 000c 02000000 		.4byte	.LCFI0
+ 2054 0010 04000000 		.4byte	.LCFI1
+ 2055 0014 0200     		.2byte	0x2
+ 2056 0016 7D       		.byte	0x7d
+ 2057 0017 08       		.sleb128 8
+ 2058 0018 04000000 		.4byte	.LCFI1
+ 2059 001c 34000000 		.4byte	.LFE0
+ 2060 0020 0200     		.2byte	0x2
+ 2061 0022 77       		.byte	0x77
+ 2062 0023 08       		.sleb128 8
+ 2063 0024 00000000 		.4byte	0
+ 2064 0028 00000000 		.4byte	0
+ 2065              	.LLST1:
+ 2066 002c 00000000 		.4byte	.LFB1
+ 2067 0030 02000000 		.4byte	.LCFI2
+ 2068 0034 0200     		.2byte	0x2
+ 2069 0036 7D       		.byte	0x7d
+ 2070 0037 00       		.sleb128 0
+ 2071 0038 02000000 		.4byte	.LCFI2
+ 2072 003c 04000000 		.4byte	.LCFI3
+ 2073 0040 0200     		.2byte	0x2
+ 2074 0042 7D       		.byte	0x7d
+ 2075 0043 0C       		.sleb128 12
+ 2076 0044 04000000 		.4byte	.LCFI3
+ 2077 0048 06000000 		.4byte	.LCFI4
+ 2078 004c 0200     		.2byte	0x2
+ 2079 004e 7D       		.byte	0x7d
+ 2080 004f 18       		.sleb128 24
+ 2081 0050 06000000 		.4byte	.LCFI4
+ 2082 0054 5C000000 		.4byte	.LFE1
+ 2083 0058 0200     		.2byte	0x2
+ 2084 005a 77       		.byte	0x77
+ 2085 005b 18       		.sleb128 24
+ 2086 005c 00000000 		.4byte	0
+ 2087 0060 00000000 		.4byte	0
+ 2088              	.LLST2:
+ 2089 0064 00000000 		.4byte	.LFB2
+ 2090 0068 02000000 		.4byte	.LCFI5
+ 2091 006c 0200     		.2byte	0x2
+ 2092 006e 7D       		.byte	0x7d
+ 2093 006f 00       		.sleb128 0
+ 2094 0070 02000000 		.4byte	.LCFI5
+ 2095 0074 04000000 		.4byte	.LCFI6
+ 2096 0078 0200     		.2byte	0x2
+ 2097 007a 7D       		.byte	0x7d
+ 2098 007b 08       		.sleb128 8
+ 2099 007c 04000000 		.4byte	.LCFI6
+ 2100 0080 24000000 		.4byte	.LFE2
+ 2101 0084 0200     		.2byte	0x2
+ 2102 0086 77       		.byte	0x77
+ 2103 0087 08       		.sleb128 8
+ 2104 0088 00000000 		.4byte	0
+ 2105 008c 00000000 		.4byte	0
+ 2106              	.LLST3:
+ 2107 0090 00000000 		.4byte	.LFB3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 60
+
+
+ 2108 0094 02000000 		.4byte	.LCFI7
+ 2109 0098 0200     		.2byte	0x2
+ 2110 009a 7D       		.byte	0x7d
+ 2111 009b 00       		.sleb128 0
+ 2112 009c 02000000 		.4byte	.LCFI7
+ 2113 00a0 04000000 		.4byte	.LCFI8
+ 2114 00a4 0200     		.2byte	0x2
+ 2115 00a6 7D       		.byte	0x7d
+ 2116 00a7 0C       		.sleb128 12
+ 2117 00a8 04000000 		.4byte	.LCFI8
+ 2118 00ac 06000000 		.4byte	.LCFI9
+ 2119 00b0 0200     		.2byte	0x2
+ 2120 00b2 7D       		.byte	0x7d
+ 2121 00b3 18       		.sleb128 24
+ 2122 00b4 06000000 		.4byte	.LCFI9
+ 2123 00b8 48000000 		.4byte	.LFE3
+ 2124 00bc 0200     		.2byte	0x2
+ 2125 00be 77       		.byte	0x77
+ 2126 00bf 18       		.sleb128 24
+ 2127 00c0 00000000 		.4byte	0
+ 2128 00c4 00000000 		.4byte	0
+ 2129              	.LLST4:
+ 2130 00c8 00000000 		.4byte	.LFB4
+ 2131 00cc 02000000 		.4byte	.LCFI10
+ 2132 00d0 0200     		.2byte	0x2
+ 2133 00d2 7D       		.byte	0x7d
+ 2134 00d3 00       		.sleb128 0
+ 2135 00d4 02000000 		.4byte	.LCFI10
+ 2136 00d8 04000000 		.4byte	.LCFI11
+ 2137 00dc 0200     		.2byte	0x2
+ 2138 00de 7D       		.byte	0x7d
+ 2139 00df 08       		.sleb128 8
+ 2140 00e0 04000000 		.4byte	.LCFI11
+ 2141 00e4 08000000 		.4byte	.LFE4
+ 2142 00e8 0200     		.2byte	0x2
+ 2143 00ea 77       		.byte	0x77
+ 2144 00eb 08       		.sleb128 8
+ 2145 00ec 00000000 		.4byte	0
+ 2146 00f0 00000000 		.4byte	0
+ 2147              	.LLST5:
+ 2148 00f4 00000000 		.4byte	.LFB5
+ 2149 00f8 02000000 		.4byte	.LCFI12
+ 2150 00fc 0200     		.2byte	0x2
+ 2151 00fe 7D       		.byte	0x7d
+ 2152 00ff 00       		.sleb128 0
+ 2153 0100 02000000 		.4byte	.LCFI12
+ 2154 0104 04000000 		.4byte	.LCFI13
+ 2155 0108 0200     		.2byte	0x2
+ 2156 010a 7D       		.byte	0x7d
+ 2157 010b 08       		.sleb128 8
+ 2158 010c 04000000 		.4byte	.LCFI13
+ 2159 0110 08000000 		.4byte	.LFE5
+ 2160 0114 0200     		.2byte	0x2
+ 2161 0116 77       		.byte	0x77
+ 2162 0117 08       		.sleb128 8
+ 2163 0118 00000000 		.4byte	0
+ 2164 011c 00000000 		.4byte	0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 61
+
+
+ 2165              	.LLST6:
+ 2166 0120 00000000 		.4byte	.LFB6
+ 2167 0124 02000000 		.4byte	.LCFI14
+ 2168 0128 0200     		.2byte	0x2
+ 2169 012a 7D       		.byte	0x7d
+ 2170 012b 00       		.sleb128 0
+ 2171 012c 02000000 		.4byte	.LCFI14
+ 2172 0130 04000000 		.4byte	.LCFI15
+ 2173 0134 0200     		.2byte	0x2
+ 2174 0136 7D       		.byte	0x7d
+ 2175 0137 08       		.sleb128 8
+ 2176 0138 04000000 		.4byte	.LCFI15
+ 2177 013c 08000000 		.4byte	.LFE6
+ 2178 0140 0200     		.2byte	0x2
+ 2179 0142 77       		.byte	0x77
+ 2180 0143 08       		.sleb128 8
+ 2181 0144 00000000 		.4byte	0
+ 2182 0148 00000000 		.4byte	0
+ 2183              	.LLST7:
+ 2184 014c 00000000 		.4byte	.LFB7
+ 2185 0150 02000000 		.4byte	.LCFI16
+ 2186 0154 0200     		.2byte	0x2
+ 2187 0156 7D       		.byte	0x7d
+ 2188 0157 00       		.sleb128 0
+ 2189 0158 02000000 		.4byte	.LCFI16
+ 2190 015c 04000000 		.4byte	.LCFI17
+ 2191 0160 0200     		.2byte	0x2
+ 2192 0162 7D       		.byte	0x7d
+ 2193 0163 08       		.sleb128 8
+ 2194 0164 04000000 		.4byte	.LCFI17
+ 2195 0168 08000000 		.4byte	.LFE7
+ 2196 016c 0200     		.2byte	0x2
+ 2197 016e 77       		.byte	0x77
+ 2198 016f 08       		.sleb128 8
+ 2199 0170 00000000 		.4byte	0
+ 2200 0174 00000000 		.4byte	0
+ 2201              	.LLST8:
+ 2202 0178 00000000 		.4byte	.LFB8
+ 2203 017c 02000000 		.4byte	.LCFI18
+ 2204 0180 0200     		.2byte	0x2
+ 2205 0182 7D       		.byte	0x7d
+ 2206 0183 00       		.sleb128 0
+ 2207 0184 02000000 		.4byte	.LCFI18
+ 2208 0188 04000000 		.4byte	.LCFI19
+ 2209 018c 0200     		.2byte	0x2
+ 2210 018e 7D       		.byte	0x7d
+ 2211 018f 08       		.sleb128 8
+ 2212 0190 04000000 		.4byte	.LCFI19
+ 2213 0194 06000000 		.4byte	.LCFI20
+ 2214 0198 0200     		.2byte	0x2
+ 2215 019a 7D       		.byte	0x7d
+ 2216 019b 10       		.sleb128 16
+ 2217 019c 06000000 		.4byte	.LCFI20
+ 2218 01a0 20000000 		.4byte	.LFE8
+ 2219 01a4 0200     		.2byte	0x2
+ 2220 01a6 77       		.byte	0x77
+ 2221 01a7 10       		.sleb128 16
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 62
+
+
+ 2222 01a8 00000000 		.4byte	0
+ 2223 01ac 00000000 		.4byte	0
+ 2224              	.LLST9:
+ 2225 01b0 00000000 		.4byte	.LFB9
+ 2226 01b4 02000000 		.4byte	.LCFI21
+ 2227 01b8 0200     		.2byte	0x2
+ 2228 01ba 7D       		.byte	0x7d
+ 2229 01bb 00       		.sleb128 0
+ 2230 01bc 02000000 		.4byte	.LCFI21
+ 2231 01c0 04000000 		.4byte	.LCFI22
+ 2232 01c4 0200     		.2byte	0x2
+ 2233 01c6 7D       		.byte	0x7d
+ 2234 01c7 08       		.sleb128 8
+ 2235 01c8 04000000 		.4byte	.LCFI22
+ 2236 01cc 06000000 		.4byte	.LCFI23
+ 2237 01d0 0200     		.2byte	0x2
+ 2238 01d2 7D       		.byte	0x7d
+ 2239 01d3 10       		.sleb128 16
+ 2240 01d4 06000000 		.4byte	.LCFI23
+ 2241 01d8 20000000 		.4byte	.LFE9
+ 2242 01dc 0200     		.2byte	0x2
+ 2243 01de 77       		.byte	0x77
+ 2244 01df 10       		.sleb128 16
+ 2245 01e0 00000000 		.4byte	0
+ 2246 01e4 00000000 		.4byte	0
+ 2247              	.LLST10:
+ 2248 01e8 00000000 		.4byte	.LFB10
+ 2249 01ec 02000000 		.4byte	.LCFI24
+ 2250 01f0 0200     		.2byte	0x2
+ 2251 01f2 7D       		.byte	0x7d
+ 2252 01f3 00       		.sleb128 0
+ 2253 01f4 02000000 		.4byte	.LCFI24
+ 2254 01f8 04000000 		.4byte	.LCFI25
+ 2255 01fc 0200     		.2byte	0x2
+ 2256 01fe 7D       		.byte	0x7d
+ 2257 01ff 08       		.sleb128 8
+ 2258 0200 04000000 		.4byte	.LCFI25
+ 2259 0204 06000000 		.4byte	.LCFI26
+ 2260 0208 0200     		.2byte	0x2
+ 2261 020a 7D       		.byte	0x7d
+ 2262 020b 10       		.sleb128 16
+ 2263 020c 06000000 		.4byte	.LCFI26
+ 2264 0210 20000000 		.4byte	.LFE10
+ 2265 0214 0200     		.2byte	0x2
+ 2266 0216 77       		.byte	0x77
+ 2267 0217 10       		.sleb128 16
+ 2268 0218 00000000 		.4byte	0
+ 2269 021c 00000000 		.4byte	0
+ 2270              	.LLST11:
+ 2271 0220 00000000 		.4byte	.LFB11
+ 2272 0224 02000000 		.4byte	.LCFI27
+ 2273 0228 0200     		.2byte	0x2
+ 2274 022a 7D       		.byte	0x7d
+ 2275 022b 00       		.sleb128 0
+ 2276 022c 02000000 		.4byte	.LCFI27
+ 2277 0230 04000000 		.4byte	.LCFI28
+ 2278 0234 0200     		.2byte	0x2
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 63
+
+
+ 2279 0236 7D       		.byte	0x7d
+ 2280 0237 08       		.sleb128 8
+ 2281 0238 04000000 		.4byte	.LCFI28
+ 2282 023c 06000000 		.4byte	.LCFI29
+ 2283 0240 0200     		.2byte	0x2
+ 2284 0242 7D       		.byte	0x7d
+ 2285 0243 10       		.sleb128 16
+ 2286 0244 06000000 		.4byte	.LCFI29
+ 2287 0248 20000000 		.4byte	.LFE11
+ 2288 024c 0200     		.2byte	0x2
+ 2289 024e 77       		.byte	0x77
+ 2290 024f 10       		.sleb128 16
+ 2291 0250 00000000 		.4byte	0
+ 2292 0254 00000000 		.4byte	0
+ 2293              	.LLST12:
+ 2294 0258 00000000 		.4byte	.LFB12
+ 2295 025c 02000000 		.4byte	.LCFI30
+ 2296 0260 0200     		.2byte	0x2
+ 2297 0262 7D       		.byte	0x7d
+ 2298 0263 00       		.sleb128 0
+ 2299 0264 02000000 		.4byte	.LCFI30
+ 2300 0268 04000000 		.4byte	.LCFI31
+ 2301 026c 0200     		.2byte	0x2
+ 2302 026e 7D       		.byte	0x7d
+ 2303 026f 08       		.sleb128 8
+ 2304 0270 04000000 		.4byte	.LCFI31
+ 2305 0274 06000000 		.4byte	.LCFI32
+ 2306 0278 0200     		.2byte	0x2
+ 2307 027a 7D       		.byte	0x7d
+ 2308 027b 10       		.sleb128 16
+ 2309 027c 06000000 		.4byte	.LCFI32
+ 2310 0280 34000000 		.4byte	.LFE12
+ 2311 0284 0200     		.2byte	0x2
+ 2312 0286 77       		.byte	0x77
+ 2313 0287 10       		.sleb128 16
+ 2314 0288 00000000 		.4byte	0
+ 2315 028c 00000000 		.4byte	0
+ 2316              	.LLST13:
+ 2317 0290 00000000 		.4byte	.LFB13
+ 2318 0294 02000000 		.4byte	.LCFI33
+ 2319 0298 0200     		.2byte	0x2
+ 2320 029a 7D       		.byte	0x7d
+ 2321 029b 00       		.sleb128 0
+ 2322 029c 02000000 		.4byte	.LCFI33
+ 2323 02a0 04000000 		.4byte	.LCFI34
+ 2324 02a4 0200     		.2byte	0x2
+ 2325 02a6 7D       		.byte	0x7d
+ 2326 02a7 08       		.sleb128 8
+ 2327 02a8 04000000 		.4byte	.LCFI34
+ 2328 02ac 06000000 		.4byte	.LCFI35
+ 2329 02b0 0200     		.2byte	0x2
+ 2330 02b2 7D       		.byte	0x7d
+ 2331 02b3 10       		.sleb128 16
+ 2332 02b4 06000000 		.4byte	.LCFI35
+ 2333 02b8 20000000 		.4byte	.LFE13
+ 2334 02bc 0200     		.2byte	0x2
+ 2335 02be 77       		.byte	0x77
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 64
+
+
+ 2336 02bf 10       		.sleb128 16
+ 2337 02c0 00000000 		.4byte	0
+ 2338 02c4 00000000 		.4byte	0
+ 2339              	.LLST14:
+ 2340 02c8 00000000 		.4byte	.LFB14
+ 2341 02cc 02000000 		.4byte	.LCFI36
+ 2342 02d0 0200     		.2byte	0x2
+ 2343 02d2 7D       		.byte	0x7d
+ 2344 02d3 00       		.sleb128 0
+ 2345 02d4 02000000 		.4byte	.LCFI36
+ 2346 02d8 04000000 		.4byte	.LCFI37
+ 2347 02dc 0200     		.2byte	0x2
+ 2348 02de 7D       		.byte	0x7d
+ 2349 02df 08       		.sleb128 8
+ 2350 02e0 04000000 		.4byte	.LCFI37
+ 2351 02e4 06000000 		.4byte	.LCFI38
+ 2352 02e8 0200     		.2byte	0x2
+ 2353 02ea 7D       		.byte	0x7d
+ 2354 02eb 10       		.sleb128 16
+ 2355 02ec 06000000 		.4byte	.LCFI38
+ 2356 02f0 30000000 		.4byte	.LFE14
+ 2357 02f4 0200     		.2byte	0x2
+ 2358 02f6 77       		.byte	0x77
+ 2359 02f7 10       		.sleb128 16
+ 2360 02f8 00000000 		.4byte	0
+ 2361 02fc 00000000 		.4byte	0
+ 2362              	.LLST15:
+ 2363 0300 00000000 		.4byte	.LFB15
+ 2364 0304 02000000 		.4byte	.LCFI39
+ 2365 0308 0200     		.2byte	0x2
+ 2366 030a 7D       		.byte	0x7d
+ 2367 030b 00       		.sleb128 0
+ 2368 030c 02000000 		.4byte	.LCFI39
+ 2369 0310 04000000 		.4byte	.LCFI40
+ 2370 0314 0200     		.2byte	0x2
+ 2371 0316 7D       		.byte	0x7d
+ 2372 0317 08       		.sleb128 8
+ 2373 0318 04000000 		.4byte	.LCFI40
+ 2374 031c 06000000 		.4byte	.LCFI41
+ 2375 0320 0200     		.2byte	0x2
+ 2376 0322 7D       		.byte	0x7d
+ 2377 0323 10       		.sleb128 16
+ 2378 0324 06000000 		.4byte	.LCFI41
+ 2379 0328 48000000 		.4byte	.LFE15
+ 2380 032c 0200     		.2byte	0x2
+ 2381 032e 77       		.byte	0x77
+ 2382 032f 10       		.sleb128 16
+ 2383 0330 00000000 		.4byte	0
+ 2384 0334 00000000 		.4byte	0
+ 2385              	.LLST16:
+ 2386 0338 00000000 		.4byte	.LFB16
+ 2387 033c 02000000 		.4byte	.LCFI42
+ 2388 0340 0200     		.2byte	0x2
+ 2389 0342 7D       		.byte	0x7d
+ 2390 0343 00       		.sleb128 0
+ 2391 0344 02000000 		.4byte	.LCFI42
+ 2392 0348 04000000 		.4byte	.LCFI43
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 65
+
+
+ 2393 034c 0200     		.2byte	0x2
+ 2394 034e 7D       		.byte	0x7d
+ 2395 034f 08       		.sleb128 8
+ 2396 0350 04000000 		.4byte	.LCFI43
+ 2397 0354 24000000 		.4byte	.LFE16
+ 2398 0358 0200     		.2byte	0x2
+ 2399 035a 77       		.byte	0x77
+ 2400 035b 08       		.sleb128 8
+ 2401 035c 00000000 		.4byte	0
+ 2402 0360 00000000 		.4byte	0
+ 2403              	.LLST17:
+ 2404 0364 00000000 		.4byte	.LFB17
+ 2405 0368 02000000 		.4byte	.LCFI44
+ 2406 036c 0200     		.2byte	0x2
+ 2407 036e 7D       		.byte	0x7d
+ 2408 036f 00       		.sleb128 0
+ 2409 0370 02000000 		.4byte	.LCFI44
+ 2410 0374 04000000 		.4byte	.LCFI45
+ 2411 0378 0200     		.2byte	0x2
+ 2412 037a 7D       		.byte	0x7d
+ 2413 037b 0C       		.sleb128 12
+ 2414 037c 04000000 		.4byte	.LCFI45
+ 2415 0380 06000000 		.4byte	.LCFI46
+ 2416 0384 0200     		.2byte	0x2
+ 2417 0386 7D       		.byte	0x7d
+ 2418 0387 18       		.sleb128 24
+ 2419 0388 06000000 		.4byte	.LCFI46
+ 2420 038c 68000000 		.4byte	.LFE17
+ 2421 0390 0200     		.2byte	0x2
+ 2422 0392 77       		.byte	0x77
+ 2423 0393 18       		.sleb128 24
+ 2424 0394 00000000 		.4byte	0
+ 2425 0398 00000000 		.4byte	0
+ 2426              	.LLST18:
+ 2427 039c 00000000 		.4byte	.LFB18
+ 2428 03a0 02000000 		.4byte	.LCFI47
+ 2429 03a4 0200     		.2byte	0x2
+ 2430 03a6 7D       		.byte	0x7d
+ 2431 03a7 00       		.sleb128 0
+ 2432 03a8 02000000 		.4byte	.LCFI47
+ 2433 03ac 04000000 		.4byte	.LCFI48
+ 2434 03b0 0200     		.2byte	0x2
+ 2435 03b2 7D       		.byte	0x7d
+ 2436 03b3 08       		.sleb128 8
+ 2437 03b4 04000000 		.4byte	.LCFI48
+ 2438 03b8 06000000 		.4byte	.LCFI49
+ 2439 03bc 0200     		.2byte	0x2
+ 2440 03be 7D       		.byte	0x7d
+ 2441 03bf 18       		.sleb128 24
+ 2442 03c0 06000000 		.4byte	.LCFI49
+ 2443 03c4 52000000 		.4byte	.LFE18
+ 2444 03c8 0200     		.2byte	0x2
+ 2445 03ca 77       		.byte	0x77
+ 2446 03cb 18       		.sleb128 24
+ 2447 03cc 00000000 		.4byte	0
+ 2448 03d0 00000000 		.4byte	0
+ 2449              	.LLST19:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 66
+
+
+ 2450 03d4 00000000 		.4byte	.LFB19
+ 2451 03d8 02000000 		.4byte	.LCFI50
+ 2452 03dc 0200     		.2byte	0x2
+ 2453 03de 7D       		.byte	0x7d
+ 2454 03df 00       		.sleb128 0
+ 2455 03e0 02000000 		.4byte	.LCFI50
+ 2456 03e4 04000000 		.4byte	.LCFI51
+ 2457 03e8 0200     		.2byte	0x2
+ 2458 03ea 7D       		.byte	0x7d
+ 2459 03eb 0C       		.sleb128 12
+ 2460 03ec 04000000 		.4byte	.LCFI51
+ 2461 03f0 06000000 		.4byte	.LCFI52
+ 2462 03f4 0200     		.2byte	0x2
+ 2463 03f6 7D       		.byte	0x7d
+ 2464 03f7 18       		.sleb128 24
+ 2465 03f8 06000000 		.4byte	.LCFI52
+ 2466 03fc 84000000 		.4byte	.LFE19
+ 2467 0400 0200     		.2byte	0x2
+ 2468 0402 77       		.byte	0x77
+ 2469 0403 18       		.sleb128 24
+ 2470 0404 00000000 		.4byte	0
+ 2471 0408 00000000 		.4byte	0
+ 2472              	.LLST20:
+ 2473 040c 00000000 		.4byte	.LFB20
+ 2474 0410 02000000 		.4byte	.LCFI53
+ 2475 0414 0200     		.2byte	0x2
+ 2476 0416 7D       		.byte	0x7d
+ 2477 0417 00       		.sleb128 0
+ 2478 0418 02000000 		.4byte	.LCFI53
+ 2479 041c 04000000 		.4byte	.LCFI54
+ 2480 0420 0200     		.2byte	0x2
+ 2481 0422 7D       		.byte	0x7d
+ 2482 0423 08       		.sleb128 8
+ 2483 0424 04000000 		.4byte	.LCFI54
+ 2484 0428 08000000 		.4byte	.LFE20
+ 2485 042c 0200     		.2byte	0x2
+ 2486 042e 77       		.byte	0x77
+ 2487 042f 08       		.sleb128 8
+ 2488 0430 00000000 		.4byte	0
+ 2489 0434 00000000 		.4byte	0
+ 2490              	.LLST21:
+ 2491 0438 00000000 		.4byte	.LFB21
+ 2492 043c 02000000 		.4byte	.LCFI55
+ 2493 0440 0200     		.2byte	0x2
+ 2494 0442 7D       		.byte	0x7d
+ 2495 0443 00       		.sleb128 0
+ 2496 0444 02000000 		.4byte	.LCFI55
+ 2497 0448 04000000 		.4byte	.LCFI56
+ 2498 044c 0200     		.2byte	0x2
+ 2499 044e 7D       		.byte	0x7d
+ 2500 044f 08       		.sleb128 8
+ 2501 0450 04000000 		.4byte	.LCFI56
+ 2502 0454 08000000 		.4byte	.LFE21
+ 2503 0458 0200     		.2byte	0x2
+ 2504 045a 77       		.byte	0x77
+ 2505 045b 08       		.sleb128 8
+ 2506 045c 00000000 		.4byte	0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 67
+
+
+ 2507 0460 00000000 		.4byte	0
+ 2508              	.LLST22:
+ 2509 0464 00000000 		.4byte	.LFB22
+ 2510 0468 02000000 		.4byte	.LCFI57
+ 2511 046c 0200     		.2byte	0x2
+ 2512 046e 7D       		.byte	0x7d
+ 2513 046f 00       		.sleb128 0
+ 2514 0470 02000000 		.4byte	.LCFI57
+ 2515 0474 04000000 		.4byte	.LCFI58
+ 2516 0478 0200     		.2byte	0x2
+ 2517 047a 7D       		.byte	0x7d
+ 2518 047b 08       		.sleb128 8
+ 2519 047c 04000000 		.4byte	.LCFI58
+ 2520 0480 06000000 		.4byte	.LCFI59
+ 2521 0484 0200     		.2byte	0x2
+ 2522 0486 7D       		.byte	0x7d
+ 2523 0487 10       		.sleb128 16
+ 2524 0488 06000000 		.4byte	.LCFI59
+ 2525 048c 2C000000 		.4byte	.LFE22
+ 2526 0490 0200     		.2byte	0x2
+ 2527 0492 77       		.byte	0x77
+ 2528 0493 10       		.sleb128 16
+ 2529 0494 00000000 		.4byte	0
+ 2530 0498 00000000 		.4byte	0
+ 2531              	.LLST23:
+ 2532 049c 00000000 		.4byte	.LFB23
+ 2533 04a0 02000000 		.4byte	.LCFI60
+ 2534 04a4 0200     		.2byte	0x2
+ 2535 04a6 7D       		.byte	0x7d
+ 2536 04a7 00       		.sleb128 0
+ 2537 04a8 02000000 		.4byte	.LCFI60
+ 2538 04ac 04000000 		.4byte	.LCFI61
+ 2539 04b0 0200     		.2byte	0x2
+ 2540 04b2 7D       		.byte	0x7d
+ 2541 04b3 08       		.sleb128 8
+ 2542 04b4 04000000 		.4byte	.LCFI61
+ 2543 04b8 06000000 		.4byte	.LCFI62
+ 2544 04bc 0200     		.2byte	0x2
+ 2545 04be 7D       		.byte	0x7d
+ 2546 04bf 10       		.sleb128 16
+ 2547 04c0 06000000 		.4byte	.LCFI62
+ 2548 04c4 38000000 		.4byte	.LFE23
+ 2549 04c8 0200     		.2byte	0x2
+ 2550 04ca 77       		.byte	0x77
+ 2551 04cb 10       		.sleb128 16
+ 2552 04cc 00000000 		.4byte	0
+ 2553 04d0 00000000 		.4byte	0
+ 2554              		.section	.debug_aranges,"",%progbits
+ 2555 0000 D4000000 		.4byte	0xd4
+ 2556 0004 0200     		.2byte	0x2
+ 2557 0006 00000000 		.4byte	.Ldebug_info0
+ 2558 000a 04       		.byte	0x4
+ 2559 000b 00       		.byte	0
+ 2560 000c 0000     		.2byte	0
+ 2561 000e 0000     		.2byte	0
+ 2562 0010 00000000 		.4byte	.LFB0
+ 2563 0014 34000000 		.4byte	.LFE0-.LFB0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 68
+
+
+ 2564 0018 00000000 		.4byte	.LFB1
+ 2565 001c 5C000000 		.4byte	.LFE1-.LFB1
+ 2566 0020 00000000 		.4byte	.LFB2
+ 2567 0024 24000000 		.4byte	.LFE2-.LFB2
+ 2568 0028 00000000 		.4byte	.LFB3
+ 2569 002c 48000000 		.4byte	.LFE3-.LFB3
+ 2570 0030 00000000 		.4byte	.LFB4
+ 2571 0034 08000000 		.4byte	.LFE4-.LFB4
+ 2572 0038 00000000 		.4byte	.LFB5
+ 2573 003c 08000000 		.4byte	.LFE5-.LFB5
+ 2574 0040 00000000 		.4byte	.LFB6
+ 2575 0044 08000000 		.4byte	.LFE6-.LFB6
+ 2576 0048 00000000 		.4byte	.LFB7
+ 2577 004c 08000000 		.4byte	.LFE7-.LFB7
+ 2578 0050 00000000 		.4byte	.LFB8
+ 2579 0054 20000000 		.4byte	.LFE8-.LFB8
+ 2580 0058 00000000 		.4byte	.LFB9
+ 2581 005c 20000000 		.4byte	.LFE9-.LFB9
+ 2582 0060 00000000 		.4byte	.LFB10
+ 2583 0064 20000000 		.4byte	.LFE10-.LFB10
+ 2584 0068 00000000 		.4byte	.LFB11
+ 2585 006c 20000000 		.4byte	.LFE11-.LFB11
+ 2586 0070 00000000 		.4byte	.LFB12
+ 2587 0074 34000000 		.4byte	.LFE12-.LFB12
+ 2588 0078 00000000 		.4byte	.LFB13
+ 2589 007c 20000000 		.4byte	.LFE13-.LFB13
+ 2590 0080 00000000 		.4byte	.LFB14
+ 2591 0084 30000000 		.4byte	.LFE14-.LFB14
+ 2592 0088 00000000 		.4byte	.LFB15
+ 2593 008c 48000000 		.4byte	.LFE15-.LFB15
+ 2594 0090 00000000 		.4byte	.LFB16
+ 2595 0094 24000000 		.4byte	.LFE16-.LFB16
+ 2596 0098 00000000 		.4byte	.LFB17
+ 2597 009c 68000000 		.4byte	.LFE17-.LFB17
+ 2598 00a0 00000000 		.4byte	.LFB18
+ 2599 00a4 52000000 		.4byte	.LFE18-.LFB18
+ 2600 00a8 00000000 		.4byte	.LFB19
+ 2601 00ac 84000000 		.4byte	.LFE19-.LFB19
+ 2602 00b0 00000000 		.4byte	.LFB20
+ 2603 00b4 08000000 		.4byte	.LFE20-.LFB20
+ 2604 00b8 00000000 		.4byte	.LFB21
+ 2605 00bc 08000000 		.4byte	.LFE21-.LFB21
+ 2606 00c0 00000000 		.4byte	.LFB22
+ 2607 00c4 2C000000 		.4byte	.LFE22-.LFB22
+ 2608 00c8 00000000 		.4byte	.LFB23
+ 2609 00cc 38000000 		.4byte	.LFE23-.LFB23
+ 2610 00d0 00000000 		.4byte	0
+ 2611 00d4 00000000 		.4byte	0
+ 2612              		.section	.debug_ranges,"",%progbits
+ 2613              	.Ldebug_ranges0:
+ 2614 0000 00000000 		.4byte	.LFB0
+ 2615 0004 34000000 		.4byte	.LFE0
+ 2616 0008 00000000 		.4byte	.LFB1
+ 2617 000c 5C000000 		.4byte	.LFE1
+ 2618 0010 00000000 		.4byte	.LFB2
+ 2619 0014 24000000 		.4byte	.LFE2
+ 2620 0018 00000000 		.4byte	.LFB3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 69
+
+
+ 2621 001c 48000000 		.4byte	.LFE3
+ 2622 0020 00000000 		.4byte	.LFB4
+ 2623 0024 08000000 		.4byte	.LFE4
+ 2624 0028 00000000 		.4byte	.LFB5
+ 2625 002c 08000000 		.4byte	.LFE5
+ 2626 0030 00000000 		.4byte	.LFB6
+ 2627 0034 08000000 		.4byte	.LFE6
+ 2628 0038 00000000 		.4byte	.LFB7
+ 2629 003c 08000000 		.4byte	.LFE7
+ 2630 0040 00000000 		.4byte	.LFB8
+ 2631 0044 20000000 		.4byte	.LFE8
+ 2632 0048 00000000 		.4byte	.LFB9
+ 2633 004c 20000000 		.4byte	.LFE9
+ 2634 0050 00000000 		.4byte	.LFB10
+ 2635 0054 20000000 		.4byte	.LFE10
+ 2636 0058 00000000 		.4byte	.LFB11
+ 2637 005c 20000000 		.4byte	.LFE11
+ 2638 0060 00000000 		.4byte	.LFB12
+ 2639 0064 34000000 		.4byte	.LFE12
+ 2640 0068 00000000 		.4byte	.LFB13
+ 2641 006c 20000000 		.4byte	.LFE13
+ 2642 0070 00000000 		.4byte	.LFB14
+ 2643 0074 30000000 		.4byte	.LFE14
+ 2644 0078 00000000 		.4byte	.LFB15
+ 2645 007c 48000000 		.4byte	.LFE15
+ 2646 0080 00000000 		.4byte	.LFB16
+ 2647 0084 24000000 		.4byte	.LFE16
+ 2648 0088 00000000 		.4byte	.LFB17
+ 2649 008c 68000000 		.4byte	.LFE17
+ 2650 0090 00000000 		.4byte	.LFB18
+ 2651 0094 52000000 		.4byte	.LFE18
+ 2652 0098 00000000 		.4byte	.LFB19
+ 2653 009c 84000000 		.4byte	.LFE19
+ 2654 00a0 00000000 		.4byte	.LFB20
+ 2655 00a4 08000000 		.4byte	.LFE20
+ 2656 00a8 00000000 		.4byte	.LFB21
+ 2657 00ac 08000000 		.4byte	.LFE21
+ 2658 00b0 00000000 		.4byte	.LFB22
+ 2659 00b4 2C000000 		.4byte	.LFE22
+ 2660 00b8 00000000 		.4byte	.LFB23
+ 2661 00bc 38000000 		.4byte	.LFE23
+ 2662 00c0 00000000 		.4byte	0
+ 2663 00c4 00000000 		.4byte	0
+ 2664              		.section	.debug_line,"",%progbits
+ 2665              	.Ldebug_line0:
+ 2666 0000 6C020000 		.section	.debug_str,"MS",%progbits,1
+ 2666      02004200 
+ 2666      00000201 
+ 2666      FB0E0D00 
+ 2666      01010101 
+ 2667              	.LASF15:
+ 2668 0000 72656731 		.ascii	"reg16\000"
+ 2668      3600
+ 2669              	.LASF46:
+ 2670 0006 5350495F 		.ascii	"SPI_EnableInt\000"
+ 2670      456E6162 
+ 2670      6C65496E 
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 70
+
+
+ 2670      7400
+ 2671              	.LASF54:
+ 2672 0014 2E5C4765 		.ascii	".\\Generated_Source\\PSoC4\\SPI.c\000"
+ 2672      6E657261 
+ 2672      7465645F 
+ 2672      536F7572 
+ 2672      63655C50 
+ 2673              	.LASF32:
+ 2674 0033 5350495F 		.ascii	"SPI_WriteTxData\000"
+ 2674      57726974 
+ 2674      65547844 
+ 2674      61746100 
+ 2675              	.LASF50:
+ 2676 0043 5350495F 		.ascii	"SPI_initVar\000"
+ 2676      696E6974 
+ 2676      56617200 
+ 2677              	.LASF34:
+ 2678 004f 5350495F 		.ascii	"SPI_ReadRxData\000"
+ 2678      52656164 
+ 2678      52784461 
+ 2678      746100
+ 2679              	.LASF3:
+ 2680 005e 73686F72 		.ascii	"short unsigned int\000"
+ 2680      7420756E 
+ 2680      7369676E 
+ 2680      65642069 
+ 2680      6E7400
+ 2681              	.LASF17:
+ 2682 0071 5350495F 		.ascii	"SPI_Init\000"
+ 2682      496E6974 
+ 2682      00
+ 2683              	.LASF52:
+ 2684 007a 5350495F 		.ascii	"SPI_swStatusRx\000"
+ 2684      73775374 
+ 2684      61747573 
+ 2684      527800
+ 2685              	.LASF40:
+ 2686 0089 5350495F 		.ascii	"SPI_ClearTxBuffer\000"
+ 2686      436C6561 
+ 2686      72547842 
+ 2686      75666665 
+ 2686      7200
+ 2687              	.LASF51:
+ 2688 009b 5350495F 		.ascii	"SPI_swStatusTx\000"
+ 2688      73775374 
+ 2688      61747573 
+ 2688      547800
+ 2689              	.LASF35:
+ 2690 00aa 72784461 		.ascii	"rxData\000"
+ 2690      746100
+ 2691              	.LASF55:
+ 2692 00b1 433A5C55 		.ascii	"C:\\Users\\trehans\\Documents\\SignAway\\Source\\PS"
+ 2692      73657273 
+ 2692      5C747265 
+ 2692      68616E73 
+ 2692      5C446F63 
+ 2693 00de 6F435C53 		.ascii	"oC\\SignatureVerifier\\SignatureVerifier.cydsn\000"
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 71
+
+
+ 2693      69676E61 
+ 2693      74757265 
+ 2693      56657269 
+ 2693      66696572 
+ 2694              	.LASF11:
+ 2695 010b 666C6F61 		.ascii	"float\000"
+ 2695      7400
+ 2696              	.LASF45:
+ 2697 0111 5350495F 		.ascii	"SPI_ClearFIFO\000"
+ 2697      436C6561 
+ 2697      72464946 
+ 2697      4F00
+ 2698              	.LASF48:
+ 2699 011f 5350495F 		.ascii	"SPI_SetInterruptMode\000"
+ 2699      53657449 
+ 2699      6E746572 
+ 2699      72757074 
+ 2699      4D6F6465 
+ 2700              	.LASF37:
+ 2701 0134 73697A65 		.ascii	"size\000"
+ 2701      00
+ 2702              	.LASF14:
+ 2703 0139 72656738 		.ascii	"reg8\000"
+ 2703      00
+ 2704              	.LASF25:
+ 2705 013e 5350495F 		.ascii	"SPI_DisableRxInt\000"
+ 2705      44697361 
+ 2705      626C6552 
+ 2705      78496E74 
+ 2705      00
+ 2706              	.LASF5:
+ 2707 014f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2707      20756E73 
+ 2707      69676E65 
+ 2707      6420696E 
+ 2707      7400
+ 2708              	.LASF9:
+ 2709 0161 75696E74 		.ascii	"uint8\000"
+ 2709      3800
+ 2710              	.LASF43:
+ 2711 0167 62797465 		.ascii	"byteCount\000"
+ 2711      436F756E 
+ 2711      7400
+ 2712              	.LASF30:
+ 2713 0171 5350495F 		.ascii	"SPI_ReadTxStatus\000"
+ 2713      52656164 
+ 2713      54785374 
+ 2713      61747573 
+ 2713      00
+ 2714              	.LASF22:
+ 2715 0182 5350495F 		.ascii	"SPI_EnableTxInt\000"
+ 2715      456E6162 
+ 2715      6C655478 
+ 2715      496E7400 
+ 2716              	.LASF1:
+ 2717 0192 756E7369 		.ascii	"unsigned char\000"
+ 2717      676E6564 
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 72
+
+
+ 2717      20636861 
+ 2717      7200
+ 2718              	.LASF12:
+ 2719 01a0 646F7562 		.ascii	"double\000"
+ 2719      6C6500
+ 2720              	.LASF27:
+ 2721 01a7 5350495F 		.ascii	"SPI_SetRxInterruptMode\000"
+ 2721      53657452 
+ 2721      78496E74 
+ 2721      65727275 
+ 2721      70744D6F 
+ 2722              	.LASF28:
+ 2723 01be 696E7453 		.ascii	"intSrc\000"
+ 2723      726300
+ 2724              	.LASF41:
+ 2725 01c5 5350495F 		.ascii	"SPI_PutArray\000"
+ 2725      50757441 
+ 2725      72726179 
+ 2725      00
+ 2726              	.LASF38:
+ 2727 01d2 5350495F 		.ascii	"SPI_GetTxBufferSize\000"
+ 2727      47657454 
+ 2727      78427566 
+ 2727      66657253 
+ 2727      697A6500 
+ 2728              	.LASF20:
+ 2729 01e6 5350495F 		.ascii	"SPI_Stop\000"
+ 2729      53746F70 
+ 2729      00
+ 2730              	.LASF10:
+ 2731 01ef 75696E74 		.ascii	"uint16\000"
+ 2731      313600
+ 2732              	.LASF36:
+ 2733 01f6 5350495F 		.ascii	"SPI_GetRxBufferSize\000"
+ 2733      47657452 
+ 2733      78427566 
+ 2733      66657253 
+ 2733      697A6500 
+ 2734              	.LASF8:
+ 2735 020a 756E7369 		.ascii	"unsigned int\000"
+ 2735      676E6564 
+ 2735      20696E74 
+ 2735      00
+ 2736              	.LASF26:
+ 2737 0217 5350495F 		.ascii	"SPI_SetTxInterruptMode\000"
+ 2737      53657454 
+ 2737      78496E74 
+ 2737      65727275 
+ 2737      70744D6F 
+ 2738              	.LASF7:
+ 2739 022e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2739      206C6F6E 
+ 2739      6720756E 
+ 2739      7369676E 
+ 2739      65642069 
+ 2740              	.LASF44:
+ 2741 0245 62756649 		.ascii	"bufIndex\000"
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 73
+
+
+ 2741      6E646578 
+ 2741      00
+ 2742              	.LASF33:
+ 2743 024e 74784461 		.ascii	"txData\000"
+ 2743      746100
+ 2744              	.LASF39:
+ 2745 0255 5350495F 		.ascii	"SPI_ClearRxBuffer\000"
+ 2745      436C6561 
+ 2745      72527842 
+ 2745      75666665 
+ 2745      7200
+ 2746              	.LASF16:
+ 2747 0267 73697A65 		.ascii	"sizetype\000"
+ 2747      74797065 
+ 2747      00
+ 2748              	.LASF21:
+ 2749 0270 656E6162 		.ascii	"enableInterrupts\000"
+ 2749      6C65496E 
+ 2749      74657272 
+ 2749      75707473 
+ 2749      00
+ 2750              	.LASF6:
+ 2751 0281 6C6F6E67 		.ascii	"long long int\000"
+ 2751      206C6F6E 
+ 2751      6720696E 
+ 2751      7400
+ 2752              	.LASF13:
+ 2753 028f 63686172 		.ascii	"char\000"
+ 2753      00
+ 2754              	.LASF19:
+ 2755 0294 5350495F 		.ascii	"SPI_Enable\000"
+ 2755      456E6162 
+ 2755      6C6500
+ 2756              	.LASF47:
+ 2757 029f 5350495F 		.ascii	"SPI_DisableInt\000"
+ 2757      44697361 
+ 2757      626C6549 
+ 2757      6E7400
+ 2758              	.LASF2:
+ 2759 02ae 73686F72 		.ascii	"short int\000"
+ 2759      7420696E 
+ 2759      7400
+ 2760              	.LASF42:
+ 2761 02b8 62756666 		.ascii	"buffer\000"
+ 2761      657200
+ 2762              	.LASF24:
+ 2763 02bf 5350495F 		.ascii	"SPI_DisableTxInt\000"
+ 2763      44697361 
+ 2763      626C6554 
+ 2763      78496E74 
+ 2763      00
+ 2764              	.LASF4:
+ 2765 02d0 6C6F6E67 		.ascii	"long int\000"
+ 2765      20696E74 
+ 2765      00
+ 2766              	.LASF29:
+ 2767 02d9 746D7053 		.ascii	"tmpStatus\000"
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc8r9g7K.s 			page 74
+
+
+ 2767      74617475 
+ 2767      7300
+ 2768              	.LASF31:
+ 2769 02e3 5350495F 		.ascii	"SPI_ReadRxStatus\000"
+ 2769      52656164 
+ 2769      52785374 
+ 2769      61747573 
+ 2769      00
+ 2770              	.LASF0:
+ 2771 02f4 7369676E 		.ascii	"signed char\000"
+ 2771      65642063 
+ 2771      68617200 
+ 2772              	.LASF49:
+ 2773 0300 5350495F 		.ascii	"SPI_ReadStatus\000"
+ 2773      52656164 
+ 2773      53746174 
+ 2773      757300
+ 2774              	.LASF23:
+ 2775 030f 5350495F 		.ascii	"SPI_EnableRxInt\000"
+ 2775      456E6162 
+ 2775      6C655278 
+ 2775      496E7400 
+ 2776              	.LASF18:
+ 2777 031f 5350495F 		.ascii	"SPI_Start\000"
+ 2777      53746172 
+ 2777      7400
+ 2778              	.LASF53:
+ 2779 0329 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
+ 2779      4320342E 
+ 2779      372E3320 
+ 2779      32303133 
+ 2779      30333132 
+ 2780 035c 616E6368 		.ascii	"anch revision 196615]\000"
+ 2780      20726576 
+ 2780      6973696F 
+ 2780      6E203139 
+ 2780      36363135 
+ 2781              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br
