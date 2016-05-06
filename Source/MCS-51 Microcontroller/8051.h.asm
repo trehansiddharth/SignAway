@@ -30,11 +30,6 @@
 .equ y_low, 1ch
 .equ y_high, 1dh
 
-.equ last_x_low, 1eh
-.equ last_x_high, 1fh
-.equ last_y_low, 20h
-.equ last_y_high, 21h
-
 .org 7b00h
 motion_store:
 	.db 00h
@@ -48,3 +43,6 @@ image_store:
 
 .equ motion_store_top_high, 7bh
 .equ motion_store_top_low, 0eh
+
+.equ adns_resolution, 03h
+.equ motion_cutoff, 01h

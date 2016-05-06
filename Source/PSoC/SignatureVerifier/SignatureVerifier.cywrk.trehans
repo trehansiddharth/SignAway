@@ -253,6 +253,8 @@
 <Unloaded />
 <OpenDocs>
 <name v=".\SignatureVerifier.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\SignatureVerifier.cydsn\main.c" />
+<name v=".\SignatureVerifier.cydsn\SignatureVerifier.cydwr" />
 </OpenDocs>
 <config v="" />
 <AutoUpdate v="true" />

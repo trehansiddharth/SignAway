@@ -28,15 +28,7 @@ main:
 	clr ea
 
 	; Clear absolute positions
-	mov x_low, #00h
-	mov x_high, #00h
-	mov y_low, #00h
-	mov y_high, #00h
-
-	mov last_x_low, #00h
-	mov last_x_high, #00h
-	mov last_y_low, #00h
-	mov last_y_high, #00h
+	lcall clear_positions
 
 	; Print welcome message
 	lcall print
@@ -57,15 +49,11 @@ main:
 		mov r1, a
 
 		; Update the x position
-		clr c
-
-		mov a, x_low
-		add a, r0
-		mov x_low, a
-
-		mov a, x_high
-		addc a, r1
-		mov x_high, a
+		mov r2, x_low
+		mov r3, x_high
+		lcall add16
+		mov x_low, r0
+		mov x_high, r1
 
 		; Read the DELTA_Y_* registers
 		mov a, #04h
@@ -77,16 +65,33 @@ main:
 		mov r1, a
 
 		; Update the y position
+		mov r2, y_low
+		mov r3, y_high
+		lcall add16
+		mov y_low, r0
+		mov y_high, r1
+
+		; Check if we've changed position significantly
+		lcall abs16
+
+		push 00h
+		push 01h
+		mov r0, x_low
+		mov r1, x_high
+		lcall abs16
+
+		pop 03h
+		pop 02h
+		lcall add16
+
+		mov a, r1
 		clr c
+		subb a, #motion_cutoff
 
-		mov a, y_low
-		add a, r0
-		mov y_low, a
+		; If we haven't changed positions significantly, loop again
+		jnc main_loop
 
-		mov a, y_high
-		addc a, r1
-		mov y_high, a
-
+		; Otherwise, transmit data to psoc and clear abslute positions
 		; Debugging!
 		lcall print
 		.db 0ah, 0dh, "(", 0h
@@ -105,7 +110,24 @@ main:
 		lcall print
 		.db ") ", 0h
 
-		sjmp main_loop
+		mov r0, x_low
+		mov r1, x_high
+		lcall write_psoc
+
+		mov r0, y_low
+		mov r1, y_high
+		lcall write_psoc
+
+		lcall clear_positions
+
+		ljmp main_loop
+
+clear_positions:
+	mov x_low, #00h
+	mov x_high, #00h
+	mov y_low, #00h
+	mov y_high, #00h
+	ret
 
 grab_register:
 	mov dptr, #motion_store
@@ -119,5 +141,7 @@ grab_register:
 .inc psoc.lib.asm
 
 .inc serial.lib.asm
+
+.inc math.lib.asm
 
 .inc util.lib.asm

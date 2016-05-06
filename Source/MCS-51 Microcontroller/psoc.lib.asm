@@ -3,6 +3,7 @@ setup_psoc:
 
     ret
 
+; Writes 16-bit data to the PSoC
 write_psoc:
     push acc
 
@@ -10,7 +11,10 @@ write_psoc:
     clr pcs
 
     ; Write the data
-    mov a, data
+    mov a, r1
+    lcall write_spi
+
+    mov a, r0
     lcall write_spi
 
     ; Raise PCS

@@ -32,11 +32,6 @@
 .equ y_low, 1ch
 .equ y_high, 1dh
 
-.equ last_x_low, 1eh
-.equ last_x_high, 1fh
-.equ last_y_low, 20h
-.equ last_y_high, 21h
-
 .org 7b00h
 motion_store:
 	.db 00h
@@ -50,6 +45,9 @@ image_store:
 
 .equ motion_store_top_high, 7bh
 .equ motion_store_top_low, 0eh
+
+.equ adns_resolution, 03h
+.equ motion_cutoff, 01h
 
 .org 000h
 sjmp main
@@ -78,15 +76,7 @@ main:
 	clr ea
 
 	; Clear absolute positions
-	mov x_low, #00h
-	mov x_high, #00h
-	mov y_low, #00h
-	mov y_high, #00h
-
-	mov last_x_low, #00h
-	mov last_x_high, #00h
-	mov last_y_low, #00h
-	mov last_y_high, #00h
+	lcall clear_positions
 
 	; Print welcome message
 	lcall print
@@ -107,15 +97,11 @@ main:
 		mov r1, a
 
 		; Update the x position
-		clr c
-
-		mov a, x_low
-		add a, r0
-		mov x_low, a
-
-		mov a, x_high
-		addc a, r1
-		mov x_high, a
+		mov r2, x_low
+		mov r3, x_high
+		lcall add16
+		mov x_low, r0
+		mov x_high, r1
 
 		; Read the DELTA_Y_* registers
 		mov a, #04h
@@ -127,16 +113,33 @@ main:
 		mov r1, a
 
 		; Update the y position
+		mov r2, y_low
+		mov r3, y_high
+		lcall add16
+		mov y_low, r0
+		mov y_high, r1
+
+		; Check if we've changed position significantly
+		lcall abs16
+
+		push 00h
+		push 01h
+		mov r0, x_low
+		mov r1, x_high
+		lcall abs16
+
+		pop 03h
+		pop 02h
+		lcall add16
+
+		mov a, r1
 		clr c
+		subb a, #motion_cutoff
 
-		mov a, y_low
-		add a, r0
-		mov y_low, a
+		; If we haven't changed positions significantly, loop again
+		jnc main_loop
 
-		mov a, y_high
-		addc a, r1
-		mov y_high, a
-
+		; Otherwise, transmit data to psoc and clear abslute positions
 		; Debugging!
 		lcall print
 		.db 0ah, 0dh, "(", 0h
@@ -155,7 +158,24 @@ main:
 		lcall print
 		.db ") ", 0h
 
-		sjmp main_loop
+		mov r0, x_low
+		mov r1, x_high
+		lcall write_psoc
+
+		mov r0, y_low
+		mov r1, y_high
+		lcall write_psoc
+
+		lcall clear_positions
+
+		ljmp main_loop
+
+clear_positions:
+	mov x_low, #00h
+	mov x_high, #00h
+	mov y_low, #00h
+	mov y_high, #00h
+	ret
 
 grab_register:
 	mov dptr, #motion_store
@@ -569,6 +589,7 @@ setup_psoc:
 
     ret
 
+; Writes 16-bit data to the PSoC
 write_psoc:
     push acc
 
@@ -576,7 +597,10 @@ write_psoc:
     clr pcs
 
     ; Write the data
-    mov a, data
+    mov a, r1
+    lcall write_spi
+
+    mov a, r0
     lcall write_spi
 
     ; Raise PCS
@@ -605,6 +629,51 @@ getchr:
     mov a,  sbuf
     anl a,  #7fh
     clr ri
+    ret
+
+; ==== Included from "math.lib.asm" by AS115: ====
+; ABS(ACC) -> ACC
+abs:
+    ; Check if number is positive or negative
+    jnb acc.7, abs_do_nothing
+
+    ; Negate the number
+    cpl a
+    inc a
+
+    abs_do_nothing:
+    ; Return the number
+    ret
+
+; ABS(R1 R0) -> R1 R0
+abs16:
+    mov a, r1
+    jnb acc.7, abs16_do_nothing
+
+    ; Negate the number
+    mov a, r0
+    cpl a
+    inc a
+    mov r0, a
+
+    mov a, r1
+    cpl a
+    mov r1, a
+
+    abs16_do_nothing:
+    ; Return the number
+    ret
+
+; R1 R0 + R3 R2 -> R1 R0
+add16:
+    mov a, r0
+    add a, r2
+    mov r0, a
+
+    mov a, r1
+    addc a, r3
+    mov r1, a
+
     ret
 
 ; ==== Included from "util.lib.asm" by AS115: ====
