@@ -41,3 +41,13 @@ add16:
     mov r1, a
 
     ret
+
+; R1 R0 >= R3 R2 -> C
+gtreq16:
+	mov a, r1
+	cjne a, 03h, gtreq16_exit
+	mov a, r0
+	cjne a, 02h, gtreq16_exit
+	setb c
+	gtreq16_exit:
+		ret

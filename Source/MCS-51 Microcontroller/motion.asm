@@ -16,9 +16,9 @@ main:
 	lcall setup_adns
 	lcall powerup_adns
 
-	; Set the resolution to be 200 cpi by setting the CONFIGURATION_I register to 01h
+	; Set the resolution to the desired value by setting the CONFIGURATION_I register to 01h
 	mov address, #0fh
-	mov data, #01h
+	mov data, #adns_resolution
 	lcall write_adns
 
 	; Setup the SPI connection with the PSoC
@@ -71,27 +71,6 @@ main:
 		mov y_low, r0
 		mov y_high, r1
 
-		; Check if we've changed position significantly
-		lcall abs16
-
-		push 00h
-		push 01h
-		mov r0, x_low
-		mov r1, x_high
-		lcall abs16
-
-		pop 03h
-		pop 02h
-		lcall add16
-
-		mov a, r1
-		clr c
-		subb a, #motion_cutoff
-
-		; If we haven't changed positions significantly, loop again
-		jnc main_loop
-
-		; Otherwise, transmit data to psoc and clear abslute positions
 		; Debugging!
 		lcall print
 		.db 0ah, 0dh, "(", 0h
@@ -110,17 +89,40 @@ main:
 		lcall print
 		.db ") ", 0h
 
+		; Check if we've changed position significantly
+		lcall abs16
+
+		mov r2, 00h
+		mov r3, 01h
 		mov r0, x_low
 		mov r1, x_high
-		lcall write_psoc
+		lcall abs16
+		
+		lcall add16
 
-		mov r0, y_low
-		mov r1, y_high
-		lcall write_psoc
+		; If we haven't changed positions significantly, loop again
+		mov r3, #motion_cutoff_high
+		mov r2, #motion_cutoff_low
+		lcall gtreq16
+		jc main_loop
+		
+		; Otherwise, transmit data to PSoC and clear absolute positions
+		main_hit:
+			; Debugging
+			lcall print
+			.db 0ah, 0dh, "Hit!", 0h
+			
+			mov r0, x_low
+			mov r1, x_high
+			;lcall write_psoc
 
-		lcall clear_positions
+			mov r0, y_low
+			mov r1, y_high
+			;lcall write_psoc
 
-		ljmp main_loop
+			lcall clear_positions
+
+			ljmp main_loop
 
 clear_positions:
 	mov x_low, #00h
