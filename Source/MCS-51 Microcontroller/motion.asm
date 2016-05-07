@@ -31,7 +31,7 @@ main:
 	lcall clear_positions
 
 	; Print welcome message
-	lcall print
+	ljmp print
 	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
 
 	; Keep running motion burst to keep an accumulated absolute position
@@ -72,14 +72,14 @@ main:
 		mov y_high, r1
 
 		; Debugging!
-		lcall print
+		ljmp print
 		.db 0ah, 0dh, "(", 0h
 		mov a, x_high
 		lcall prthex
 		mov a, x_low
 		lcall prthex
 
-		lcall print
+		ljmp print
 		.db ", ", 0h
 		mov a, y_high
 		lcall prthex
@@ -97,7 +97,7 @@ main:
 		mov r0, x_low
 		mov r1, x_high
 		lcall abs16
-		
+
 		lcall add16
 
 		; If we haven't changed positions significantly, loop again
@@ -105,20 +105,20 @@ main:
 		mov r2, #motion_cutoff_low
 		lcall gtreq16
 		jc main_loop
-		
+
 		; Otherwise, transmit data to PSoC and clear absolute positions
 		main_hit:
 			; Debugging
-			lcall print
+			ljmp print
 			.db 0ah, 0dh, "Hit!", 0h
-			
+
 			mov r0, x_low
 			mov r1, x_high
-			;lcall write_psoc
+			lcall write_psoc
 
 			mov r0, y_low
 			mov r1, y_high
-			;lcall write_psoc
+			lcall write_psoc
 
 			lcall clear_positions
 
