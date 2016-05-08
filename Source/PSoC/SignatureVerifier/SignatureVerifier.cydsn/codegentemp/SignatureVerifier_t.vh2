@@ -1,5 +1,5 @@
 -- Project:   C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\SignatureVerifier.cyprj
--- Generated: 05/05/2016 00:17:56
+-- Generated: 05/08/2016 18:36:24
 -- 
 
 ENTITY SignatureVerifier IS
@@ -12,7 +12,9 @@ ENTITY SignatureVerifier IS
         Pin_LED_Yellow(0)_PAD : OUT std_ulogic;
         Pin_MOSI(0)_PAD : IN std_ulogic;
         Pin_SCLK(0)_PAD : IN std_ulogic;
-        Pin_SS(0)_PAD : IN std_ulogic);
+        Pin_SS(0)_PAD : IN std_ulogic;
+        \UART:rx(0)_PAD\ : IN std_ulogic;
+        \UART:tx(0)_PAD\ : INOUT std_ulogic);
     ATTRIBUTE voltage_VDDD OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDA OF __DEFAULT__ : ENTITY IS 3.3e0;
 END SignatureVerifier;
@@ -25,6 +27,7 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL ClockBlock_IMO : bit;
     SIGNAL ClockBlock_LFCLK : bit;
     SIGNAL ClockBlock_SYSCLK : bit;
+    SIGNAL Net_102 : bit;
     SIGNAL Net_27 : bit;
     SIGNAL Net_28 : bit;
     SIGNAL Net_29 : bit;
@@ -40,7 +43,7 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL Pin_SCLK(0)__PA : bit;
     SIGNAL Pin_SS(0)__PA : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:byte_complete\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:byte_complete\ : SIGNAL IS "U(1,1,B)2";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:byte_complete\ : SIGNAL IS "U(0,1,A)2";
     SIGNAL \SPI:BSPIS:es3:SPISlave:count_0\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:count_1\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:count_2\ : bit;
@@ -56,28 +59,41 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:dpcounter_one\ : SIGNAL IS "U(1,0,A)3";
     SIGNAL \SPI:BSPIS:es3:SPISlave:dpcounter_one_fin\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : SIGNAL IS "U(1,1,A)2";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : SIGNAL IS "U(1,1,B)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:inv_ss\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : SIGNAL IS "U(1,1,B)1";
     SIGNAL \SPI:BSPIS:es3:SPISlave:miso_tx_empty_reg_fin\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : SIGNAL IS "U(1,0,B)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : SIGNAL IS "U(0,1,B)0";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : SIGNAL IS "U(1,1,A)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_reg\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : SIGNAL IS "U(1,0,A)1";
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : SIGNAL IS "U(1,0,A)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : SIGNAL IS "U(0,1,A)3";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : SIGNAL IS "U(1,1,B)3";
     SIGNAL \SPI:BSPIS:es3:SPISlave:rx_status_4\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : SIGNAL IS "U(0,0,A)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:tx_load\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:tx_load\ : SIGNAL IS "U(1,0,A)2";
     SIGNAL \SPI:BSPIS:es3:SPISlave:tx_status_0\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : SIGNAL IS "U(0,1,A)0";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : SIGNAL IS "U(0,1,B)3";
     SIGNAL \SPI:BSPIS:es3:SPISlave:tx_status_1\ : bit;
+    SIGNAL \UART:Net_284_ff2\ : bit;
+    ATTRIBUTE global_signal OF \UART:Net_284_ff2\ : SIGNAL IS true;
+    SIGNAL \UART:Net_654\ : bit;
+    SIGNAL \UART:Net_656\ : bit;
+    SIGNAL \UART:Net_660\ : bit;
+    SIGNAL \UART:Net_687\ : bit;
+    SIGNAL \UART:Net_703\ : bit;
+    SIGNAL \\\UART:rx(0)\\__PA\ : bit;
+    SIGNAL \UART:ss_0\ : bit;
+    SIGNAL \UART:ss_1\ : bit;
+    SIGNAL \UART:ss_2\ : bit;
+    SIGNAL \UART:ss_3\ : bit;
+    SIGNAL \\\UART:tx(0)\\__PA\ : bit;
     SIGNAL __ONE__ : bit;
     ATTRIBUTE POWER OF __ONE__ : SIGNAL IS true;
     SIGNAL __ZERO__ : bit;
@@ -126,7 +142,7 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:TxStsReg\ : LABEL IS "statusicell2";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:TxStsReg\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:byte_complete\ : LABEL IS "macrocell1";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:byte_complete\ : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:byte_complete\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:dpcounter_one\ : LABEL IS "macrocell2";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:dpcounter_one\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : LABEL IS "macrocell3";
@@ -136,13 +152,13 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : LABEL IS "macrocell5";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : LABEL IS "macrocell6";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : LABEL IS "U(1,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : LABEL IS "macrocell7";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : LABEL IS "macrocell8";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : LABEL IS "macrocell9";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : LABEL IS "U(1,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : LABEL IS "macrocell10";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : LABEL IS "U(0,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\ : LABEL IS "datapathcell1";
@@ -157,6 +173,11 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:tx_load\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : LABEL IS "macrocell12";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \UART:SCB\ : LABEL IS "F(SCB,1)";
+    ATTRIBUTE lib_model OF \UART:rx(0)\ : LABEL IS "iocell10";
+    ATTRIBUTE Location OF \UART:rx(0)\ : LABEL IS "P3[0]";
+    ATTRIBUTE lib_model OF \UART:tx(0)\ : LABEL IS "iocell11";
+    ATTRIBUTE Location OF \UART:tx(0)\ : LABEL IS "P3[1]";
     COMPONENT abufcell
     END COMPONENT;
     COMPONENT boostcell
@@ -1072,7 +1093,8 @@ BEGIN
             ext => ClockBlock_EXTCLK,
             imo => ClockBlock_IMO,
             hfclk => ClockBlock_HFCLK,
-            udb_div_0 => dclk_to_genclk);
+            udb_div_0 => dclk_to_genclk,
+            ff_div_2 => \UART:Net_284_ff2\);
 
     ClockGenBlock:m0s8clockgenblockcell
         PORT MAP(
@@ -2142,5 +2164,199 @@ BEGIN
             main_0 => \SPI:BSPIS:es3:SPISlave:dpcounter_one_fin\,
             main_1 => \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\,
             main_2 => \SPI:BSPIS:es3:SPISlave:miso_tx_empty_reg_fin\);
+
+    \UART:SCB\:m0s8scbcell
+        GENERIC MAP(
+            cy_registers => "",
+            scb_mode => 2)
+        PORT MAP(
+            clock => \UART:Net_284_ff2\,
+            interrupt => Net_102,
+            rx => \UART:Net_654\,
+            tx => \UART:Net_656\,
+            mosi_m => \UART:Net_660\,
+            miso_m => open,
+            select_m_3 => \UART:ss_3\,
+            select_m_2 => \UART:ss_2\,
+            select_m_1 => \UART:ss_1\,
+            select_m_0 => \UART:ss_0\,
+            sclk_m => \UART:Net_687\,
+            mosi_s => open,
+            miso_s => \UART:Net_703\,
+            select_s => open,
+            sclk_s => open);
+
+    \UART:rx(0)\:iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "\UART:rx\",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000001000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => \\\UART:rx(0)\\__PA\,
+            oe => open,
+            fb => \UART:Net_654\,
+            pad_in => \UART:rx(0)_PAD\,
+            in_clock => open,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
+    \UART:rx\:logicalport
+        GENERIC MAP(
+            drive_mode => "001",
+            ibuf_enabled => "1",
+            id => "43ec2fa1-bf22-4b71-9477-b6ca7b97f0b0/78e33e5d-45ea-4b75-88d5-73274e8a7ce4",
+            init_dr_st => "0",
+            input_clk_en => 0,
+            input_sync => "0",
+            input_sync_mode => "0",
+            intr_mode => "00",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "0",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "I",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "",
+            sio_hyst => "0",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "00",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open);
+
+    \UART:tx(0)\:iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "\UART:tx\",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000010000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => \\\UART:tx(0)\\__PA\,
+            oe => open,
+            pin_input => \UART:Net_656\,
+            pad_out => \UART:tx(0)_PAD\,
+            pad_in => \UART:tx(0)_PAD\,
+            in_clock => open,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
+    \UART:tx\:logicalport
+        GENERIC MAP(
+            drive_mode => "110",
+            ibuf_enabled => "0",
+            id => "43ec2fa1-bf22-4b71-9477-b6ca7b97f0b0/23b8206d-1c77-4e61-be4a-b4037d5de5fc",
+            init_dr_st => "1",
+            input_clk_en => 0,
+            input_sync => "0",
+            input_sync_mode => "0",
+            intr_mode => "00",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "1",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "B",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "",
+            sio_hyst => "0",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "00",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open);
 
 END __DEFAULT__;

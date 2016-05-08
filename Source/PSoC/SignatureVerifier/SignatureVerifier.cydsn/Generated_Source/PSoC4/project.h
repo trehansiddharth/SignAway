@@ -39,6 +39,15 @@
 #include <Pin_LED_Red_aliases.h>
 #include <Pin_LED_Yellow.h>
 #include <Pin_LED_Yellow_aliases.h>
+#include <UART.h>
+#include <UART_SPI_UART.h>
+#include <UART_PINS.h>
+#include <UART_SPI_UART_PVT.h>
+#include <UART_PVT.h>
+#include <UART_tx.h>
+#include <UART_tx_aliases.h>
+#include <UART_rx.h>
+#include <UART_rx_aliases.h>
 #include <core_cm0_psoc4.h>
 #include <core_cm0.h>
 #include <CyFlash.h>

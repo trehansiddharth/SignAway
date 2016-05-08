@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="SignatureVerifier\SignatureVerifier\SignatureVerifier.cydwr">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="SignatureVerifier\SignatureVerifier\Source Files\main.c">
 <ExpandedNodeIds>
 <v>SignatureVerifier</v>
 <v>SignatureVerifier\SignatureVerifier</v>
@@ -91,6 +91,27 @@
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\SPI_Clock</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\SPI_Clock\SPI_Clock.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\SPI_Clock\SPI_Clock.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_BOOT.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_PINS.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_PM.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_PVT.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_SPI_UART.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_SPI_UART.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_SPI_UART_INT.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_SPI_UART_PVT.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_UART.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART\UART_UART_BOOT.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_rx</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_rx\UART_rx.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_rx\UART_rx.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_rx\UART_rx_aliases.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_tx</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_tx\UART_tx.c</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_tx\UART_tx.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\UART_tx\UART_tx_aliases.h</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\cydevice_trm.h</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\cydevicegnu_trm.inc</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\cydeviceiar_trm.inc</v>
@@ -181,6 +202,15 @@
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_Clock.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_INT.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_PM.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_BOOT.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_PM.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_rx.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_SPI_UART.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_SPI_UART_INT.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_tx.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_UART.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\UART_UART_BOOT.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\SignatureVerifier.elf</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\SignatureVerifier.hex</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\SignatureVerifier.map</v>
@@ -190,32 +220,6 @@
 <VisibleNodeIds>
 <v>SignatureVerifier</v>
 <v>SignatureVerifier\SignatureVerifier</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Cm0Start.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\CyBootAsmGnu.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyfitter_cfg.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\CyFlash.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\CyLib.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cymetadata.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyPm.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyutils.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\main.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Button_0.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Button_1.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Button_Interrupt.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Green.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Red.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Yellow.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_MOSI.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SCLK.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SS.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_BOOT.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_Clock.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_INT.lst</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStates>
@@ -232,6 +236,7 @@
 <v>SignatureVerifier\SignatureVerifier\System Reference Guide v4_11</v>
 <v>SignatureVerifier\SignatureVerifier\cy_clock_v2_20</v>
 <v>SignatureVerifier\SignatureVerifier\cy_pins_v2_5</v>
+<v>SignatureVerifier\SignatureVerifier\SCB_P4_v1_20</v>
 <v>SignatureVerifier\SignatureVerifier\SPI_Slave_v2_60</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
@@ -242,6 +247,7 @@
 <v>SignatureVerifier\SignatureVerifier\System Reference Guide v4_11</v>
 <v>SignatureVerifier\SignatureVerifier\cy_clock_v2_20</v>
 <v>SignatureVerifier\SignatureVerifier\cy_pins_v2_5</v>
+<v>SignatureVerifier\SignatureVerifier\SCB_P4_v1_20</v>
 <v>SignatureVerifier\SignatureVerifier\SPI_Slave_v2_60</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>

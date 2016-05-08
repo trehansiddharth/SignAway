@@ -13,12 +13,18 @@
 
 int main()
 {
-    /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+    SPI_Start();
+    UART_Start();
 
     /* CyGlobalIntEnable; */ /* Uncomment this line to enable global interrupts. */
     for(;;)
     {
-        /* Place your application code here. */
+        uint8 rxBufferSize = SPI_GetRxBufferSize();
+        if (rxBufferSize > 0) {
+            uint16 rxData = SPI_ReadRxData();
+            const char8 dataReceivedString[] = "Data Received\0";
+            UART_UartPutString(dataReceivedString);
+        }
     }
 }
 

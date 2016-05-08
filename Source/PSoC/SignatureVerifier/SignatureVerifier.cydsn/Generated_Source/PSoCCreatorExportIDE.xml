@@ -99,6 +99,24 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\core_cmInstr.h</File>
           <File BuildType="BUILD" Toolchain="IAR EWARM">.\Generated_Source\PSoC4\CyBootAsmIar.s</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\project.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_SPI_UART.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_SPI_UART.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_SPI_UART_INT.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_PM.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_UART.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_BOOT.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_UART_BOOT.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_PINS.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_SPI_UART_PVT.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_PVT.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_tx.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_tx.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_tx_aliases.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_rx.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_rx.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\UART_rx_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\prebuild.bat</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\postbuild.bat</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\CyElfTool.exe</File>

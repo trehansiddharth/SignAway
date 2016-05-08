@@ -112,13 +112,7 @@ main:
 			ljmp print
 			.db 0ah, 0dh, "Hit!", 0h
 
-			mov r0, x_low
-			mov r1, x_high
-			lcall write_psoc
-
-			mov r0, y_low
-			mov r1, y_high
-			lcall write_psoc
+			lcall report_psoc
 
 			lcall clear_positions
 
@@ -129,11 +123,32 @@ clear_positions:
 	mov x_high, #00h
 	mov y_low, #00h
 	mov y_high, #00h
+
 	ret
 
 grab_register:
 	mov dptr, #motion_store
 	movc a, @a+dptr
+
+	ret
+
+report_psoc:
+	mov r0, #00h
+	mov r1, #00h
+	lcall write_psoc
+
+	mov r0, #00h
+	mov r1, #00h
+	lcall write_psoc
+	
+	mov r0, x_low
+	mov r1, x_high
+	lcall write_psoc
+
+	mov r0, y_low
+	mov r1, y_high
+	lcall write_psoc
+
 	ret
 
 .inc adns_9800.lib.asm

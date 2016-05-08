@@ -49,6 +49,24 @@
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Yellow.c" value="ARM_C_FILE;Pin_LED_Yellow" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Yellow.h" value="NONE;Pin_LED_Yellow" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Yellow_aliases.h" value="NONE;Pin_LED_Yellow" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART.c" value="ARM_C_FILE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART.h" value="NONE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_SPI_UART.h" value="NONE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_SPI_UART.c" value="ARM_C_FILE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_SPI_UART_INT.c" value="ARM_C_FILE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_PM.c" value="ARM_C_FILE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_UART.c" value="ARM_C_FILE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_BOOT.c" value="ARM_C_FILE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_UART_BOOT.c" value="ARM_C_FILE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_PINS.h" value="NONE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_SPI_UART_PVT.h" value="NONE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_PVT.h" value="NONE;UART" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_tx.c" value="ARM_C_FILE;UART_tx" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_tx.h" value="NONE;UART_tx" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_tx_aliases.h" value="NONE;UART_tx" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_rx.c" value="ARM_C_FILE;UART_rx" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_rx.h" value="NONE;UART_rx" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_rx_aliases.h" value="NONE;UART_rx" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\cm0gcc.ld" value="NONE;cy_boot" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Cm0RealView.scat" value="NONE;cy_boot" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Cm0Start.c" value="ARM_C_FILE;cy_boot" />
