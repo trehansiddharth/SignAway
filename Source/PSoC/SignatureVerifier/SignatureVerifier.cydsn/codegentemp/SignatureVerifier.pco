@@ -1,5 +1,5 @@
 # SignatureVerifier
-# 2016-05-08 23:58:10Z
+# 2016-05-09 06:32:42Z
 
 # IO_2@[IOP=(3)][IoId=(2)] is reserved: SWDDebugEnabled
 dont_use_io iocell 3 2
@@ -18,26 +18,28 @@ set_io "Pin_MOSI(0)" iocell 0 0
 set_io "Pin_SCLK(0)" iocell 0 1
 set_io "Pin_SS(0)" iocell 0 2
 set_location "\SPI:BSPIS:es3:SPISlave:BitCounter\" 1 0 7
-set_location "\SPI:BSPIS:es3:SPISlave:RxStsReg\" 0 0 4
-set_location "\SPI:BSPIS:es3:SPISlave:TxStsReg\" 0 1 4
+set_location "\SPI:BSPIS:es3:SPISlave:RxStsReg\" 1 1 4
+set_location "\SPI:BSPIS:es3:SPISlave:TxStsReg\" 0 0 4
 set_location "\SPI:BSPIS:es3:SPISlave:byte_complete\" 0 1 0 2
 set_location "\SPI:BSPIS:es3:SPISlave:dpcounter_one\" 1 0 0 3
-set_location "\SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\" 1 1 1 0
-set_location "\SPI:BSPIS:es3:SPISlave:inv_ss\" 1 1 1 1
+set_location "\SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\" 0 1 0 1
+set_location "\SPI:BSPIS:es3:SPISlave:inv_ss\" 1 1 0 1
 set_location "\SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\" 1 0 1 0
-set_location "\SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\" 1 1 0 0
+set_location "\SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\" 0 1 1 0
 set_location "\SPI:BSPIS:es3:SPISlave:mosi_tmp\" 1 0 0 1
 set_location "\SPI:BSPIS:es3:SPISlave:mosi_to_dp\" 1 0 0 0
-set_location "\SPI:BSPIS:es3:SPISlave:rx_buf_overrun\" 1 1 1 3
-set_location "\SPI:BSPIS:es3:SPISlave:rx_status_4\" 0 0 0 0
+set_location "\SPI:BSPIS:es3:SPISlave:rx_buf_overrun\" 0 1 0 3
+set_location "\SPI:BSPIS:es3:SPISlave:rx_status_4\" 1 1 0 0
 set_location "\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\" 1 0 2
 set_location "\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\" 0 0 2
-set_location "\SPI:BSPIS:es3:SPISlave:sync_1\" 1 1 5 3
-set_location "\SPI:BSPIS:es3:SPISlave:sync_2\" 1 1 5 0
-set_location "\SPI:BSPIS:es3:SPISlave:sync_3\" 1 1 5 1
-set_location "\SPI:BSPIS:es3:SPISlave:sync_4\" 1 1 5 2
+set_location "\SPI:BSPIS:es3:SPISlave:sync_1\" 0 1 5 3
+set_location "\SPI:BSPIS:es3:SPISlave:sync_2\" 0 1 5 0
+set_location "\SPI:BSPIS:es3:SPISlave:sync_3\" 0 1 5 1
+set_location "\SPI:BSPIS:es3:SPISlave:sync_4\" 0 1 5 2
 set_location "\SPI:BSPIS:es3:SPISlave:tx_load\" 1 0 0 2
-set_location "\SPI:BSPIS:es3:SPISlave:tx_status_0\" 0 1 1 3
+set_location "\SPI:BSPIS:es3:SPISlave:tx_status_0\" 0 1 0 0
+set_location "\SPI:RxInternalInterrupt\" interrupt -1 -1 0
 set_location "\UART:SCB\" m0s8scbcell -1 -1 1
 set_io "\UART:rx(0)\" iocell 3 0
 set_io "\UART:tx(0)\" iocell 3 1
+set_location "isr_spi" interrupt -1 -1 1

@@ -2,7 +2,7 @@
 --	Conversion of SignatureVerifier.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Sun May 08 19:58:09 2016
+--	Mon May 09 02:32:41 2016
 --
 
 USE cypress.cypress.all;
@@ -90,8 +90,8 @@ SIGNAL \SPI:BSPIS:es3:SPISlave:count_3\ : bit;
 SIGNAL \SPI:BSPIS:es3:SPISlave:count_2\ : bit;
 SIGNAL \SPI:BSPIS:es3:SPISlave:count_1\ : bit;
 SIGNAL \SPI:BSPIS:es3:SPISlave:count_0\ : bit;
-SIGNAL Net_54 : bit;
-SIGNAL Net_56 : bit;
+SIGNAL Net_113 : bit;
+SIGNAL Net_112 : bit;
 SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : bit;
 SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : bit;
 SIGNAL \SPI:BSPIS:reset\ : bit;
@@ -589,7 +589,7 @@ SPI_Clock:cy_clock_v1_0
 		clock=>\SPI:BSPIS:es3:SPISlave:clock_fin\,
 		status=>(\SPI:BSPIS:es3:SPISlave:byte_complete\, zero, zero, zero,
 			\SPI:BSPIS:es3:SPISlave:miso_tx_empty_reg_fin\, \SPI:BSPIS:es3:SPISlave:tx_status_1\, \SPI:BSPIS:es3:SPISlave:tx_status_0\),
-		interrupt=>Net_54);
+		interrupt=>Net_113);
 \SPI:BSPIS:es3:SPISlave:RxStsReg\:cy_psoc3_statusi
 	GENERIC MAP(cy_force_order=>'1',
 		cy_md_select=>"0100000",
@@ -598,7 +598,7 @@ SPI_Clock:cy_clock_v1_0
 		clock=>\SPI:BSPIS:es3:SPISlave:clock_fin\,
 		status=>(\SPI:BSPIS:es3:SPISlave:dpMOSI_fifo_full_reg\, \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\, \SPI:BSPIS:es3:SPISlave:rx_status_4\, \SPI:BSPIS:es3:SPISlave:dpMOSI_fifo_not_empty\,
 			zero, zero, zero),
-		interrupt=>Net_56);
+		interrupt=>Net_112);
 \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\:cy_psoc3_dp
 	GENERIC MAP(cy_dpconfig=>"0000000000000000000000000000000000000000000000000000000000000000000000010100000000000001110000000000000000000000000000000000000011111111000000001111111111111111000000000000001000001100011100000001000010001100",
 		d0_init=>"00000000",
@@ -771,6 +771,9 @@ SPI_Clock:cy_clock_v1_0
 		pi=>(zero, zero, zero, zero,
 			zero, zero, zero, zero),
 		po=>open);
+\SPI:RxInternalInterrupt\:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10")
+	PORT MAP(int_signal=>Net_112);
 Pin_Button_Interrupt:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"86f6e3f7-f6e3-43e5-95c4-feb99ba84ec8",
 		drive_mode=>"001",
@@ -1161,6 +1164,9 @@ Pin_LED_Yellow:cy_psoc3_pins_v1_10
 		out_clock_en=>tmpOE__Pin_MOSI_net_0,
 		out_reset=>zero,
 		interrupt=>tmpINTERRUPT_0__Pin_LED_Yellow_net_0);
+isr_spi:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10")
+	PORT MAP(int_signal=>Net_112);
 Pin_LED_Debug:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"11676185-e157-4daa-afd0-9f8c3583a445",
 		drive_mode=>"110",

@@ -12,7 +12,11 @@
 .equ chip, 0b0h   ; P3
 
 .equ address, 10h
+.equ opcode, 10h
 .equ data, 11h
+
+.equ data1, 10h
+.equ data2, 11h
 
 .equ sclk_high, 12h
 .equ sclk_low, 13h
@@ -46,9 +50,10 @@ image_store:
 .equ motion_store_top_high, 7bh
 .equ motion_store_top_low, 0eh
 
+; ==== Included from "parameters.h.asm" by AS115: ====
 .equ adns_resolution, 03h
 .equ motion_cutoff_high, 00h
-.equ motion_cutoff_low, 20h
+.equ motion_cutoff_low, 10h
 
 .org 000h
 sjmp main
@@ -182,20 +187,8 @@ grab_register:
 	ret
 
 report_psoc:
-	mov r0, #00h
-	mov r1, #00h
-	lcall write_psoc
-
-	mov r0, #00h
-	mov r1, #00h
-	lcall write_psoc
-
-	mov r0, x_low
-	mov r1, x_high
-	lcall write_psoc
-
-	mov r0, y_low
-	mov r1, y_high
+	mov data1, x_low
+	mov data2, y_low
 	lcall write_psoc
 
 	ret
@@ -614,11 +607,12 @@ write_psoc:
     ; Lower PCS
     clr pcs
 
-    ; Write the data
-    mov a, r1
+    ; Write the opcode
+    mov a, opcode
     lcall write_spi
 
-    mov a, r0
+    ; Write the data
+    mov a, data
     lcall write_spi
 
     ; Raise PCS

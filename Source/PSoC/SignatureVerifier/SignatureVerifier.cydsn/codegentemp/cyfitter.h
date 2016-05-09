@@ -29,6 +29,8 @@
 #define SPI_BSPIS_es3_SPISlave_BitCounter_ST__STATUS_CNT_REG CYREG_UDB_CAT16_CTL_ST_02
 #define SPI_BSPIS_es3_SPISlave_BitCounter_ST__STATUS_CONTROL_REG CYREG_UDB_CAT16_CTL_ST_02
 #define SPI_BSPIS_es3_SPISlave_BitCounter_ST__STATUS_REG CYREG_UDB_W8_ST_02
+#define SPI_BSPIS_es3_SPISlave_RxStsReg__16BIT_STATUS_AUX_CTL_REG CYREG_UDB_W16_ACTL_01
+#define SPI_BSPIS_es3_SPISlave_RxStsReg__16BIT_STATUS_REG CYREG_UDB_W16_ST_01
 #define SPI_BSPIS_es3_SPISlave_RxStsReg__3__MASK 0x08u
 #define SPI_BSPIS_es3_SPISlave_RxStsReg__3__POS 3
 #define SPI_BSPIS_es3_SPISlave_RxStsReg__4__MASK 0x10u
@@ -38,9 +40,9 @@
 #define SPI_BSPIS_es3_SPISlave_RxStsReg__6__MASK 0x40u
 #define SPI_BSPIS_es3_SPISlave_RxStsReg__6__POS 6
 #define SPI_BSPIS_es3_SPISlave_RxStsReg__MASK 0x78u
-#define SPI_BSPIS_es3_SPISlave_RxStsReg__MASK_REG CYREG_UDB_W8_MSK_03
-#define SPI_BSPIS_es3_SPISlave_RxStsReg__STATUS_AUX_CTL_REG CYREG_UDB_W8_ACTL_03
-#define SPI_BSPIS_es3_SPISlave_RxStsReg__STATUS_REG CYREG_UDB_W8_ST_03
+#define SPI_BSPIS_es3_SPISlave_RxStsReg__MASK_REG CYREG_UDB_W8_MSK_01
+#define SPI_BSPIS_es3_SPISlave_RxStsReg__STATUS_AUX_CTL_REG CYREG_UDB_W8_ACTL_01
+#define SPI_BSPIS_es3_SPISlave_RxStsReg__STATUS_REG CYREG_UDB_W8_ST_01
 #define SPI_BSPIS_es3_SPISlave_sR16_Dp_u0__16BIT_A0_REG CYREG_UDB_W16_A0_02
 #define SPI_BSPIS_es3_SPISlave_sR16_Dp_u0__16BIT_A1_REG CYREG_UDB_W16_A1_02
 #define SPI_BSPIS_es3_SPISlave_sR16_Dp_u0__16BIT_D0_REG CYREG_UDB_W16_D0_02
@@ -74,19 +76,14 @@
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__0__POS 0
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__1__MASK 0x02u
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__1__POS 1
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__16BIT_STATUS_AUX_CTL_REG CYREG_UDB_W16_ACTL_00
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__16BIT_STATUS_REG CYREG_UDB_W16_ST_00
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__2__MASK 0x04u
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__2__POS 2
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__32BIT_MASK_REG CYREG_UDB_W32_MSK_00
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__32BIT_STATUS_AUX_CTL_REG CYREG_UDB_W32_ACTL_00
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__32BIT_STATUS_REG CYREG_UDB_W32_ST_00
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__6__MASK 0x40u
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__6__POS 6
 #define SPI_BSPIS_es3_SPISlave_TxStsReg__MASK 0x47u
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__MASK_REG CYREG_UDB_W8_MSK_00
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__STATUS_AUX_CTL_REG CYREG_UDB_W8_ACTL_00
-#define SPI_BSPIS_es3_SPISlave_TxStsReg__STATUS_REG CYREG_UDB_W8_ST_00
+#define SPI_BSPIS_es3_SPISlave_TxStsReg__MASK_REG CYREG_UDB_W8_MSK_03
+#define SPI_BSPIS_es3_SPISlave_TxStsReg__STATUS_AUX_CTL_REG CYREG_UDB_W8_ACTL_03
+#define SPI_BSPIS_es3_SPISlave_TxStsReg__STATUS_REG CYREG_UDB_W8_ST_03
 
 /* SPI_Clock */
 #define SPI_Clock__DIVIDER_MASK 0x0000FFFFu
@@ -94,6 +91,17 @@
 #define SPI_Clock__ENABLE_MASK 0x80000000u
 #define SPI_Clock__MASK 0x80000000u
 #define SPI_Clock__REGISTER CYREG_CLK_DIVIDER_A00
+
+/* SPI_RxInternalInterrupt */
+#define SPI_RxInternalInterrupt__INTC_CLR_EN_REG CYREG_CM0_ICER
+#define SPI_RxInternalInterrupt__INTC_CLR_PD_REG CYREG_CM0_ICPR
+#define SPI_RxInternalInterrupt__INTC_MASK 0x01u
+#define SPI_RxInternalInterrupt__INTC_NUMBER 0u
+#define SPI_RxInternalInterrupt__INTC_PRIOR_MASK 0xC0u
+#define SPI_RxInternalInterrupt__INTC_PRIOR_NUM 3u
+#define SPI_RxInternalInterrupt__INTC_PRIOR_REG CYREG_CM0_IPR0
+#define SPI_RxInternalInterrupt__INTC_SET_EN_REG CYREG_CM0_ISER
+#define SPI_RxInternalInterrupt__INTC_SET_PD_REG CYREG_CM0_ISPR
 
 /* UART_rx */
 #define UART_rx__0__DM__MASK 0x07u
@@ -351,6 +359,17 @@
 #define Pin_SS__PORT 0u
 #define Pin_SS__PS CYREG_PRT0_PS
 #define Pin_SS__SHIFT 2
+
+/* isr_spi */
+#define isr_spi__INTC_CLR_EN_REG CYREG_CM0_ICER
+#define isr_spi__INTC_CLR_PD_REG CYREG_CM0_ICPR
+#define isr_spi__INTC_MASK 0x02u
+#define isr_spi__INTC_NUMBER 1u
+#define isr_spi__INTC_PRIOR_MASK 0xC000u
+#define isr_spi__INTC_PRIOR_NUM 3u
+#define isr_spi__INTC_PRIOR_REG CYREG_CM0_IPR0
+#define isr_spi__INTC_SET_EN_REG CYREG_CM0_ISER
+#define isr_spi__INTC_SET_PD_REG CYREG_CM0_ISPR
 
 /* Pin_MOSI */
 #define Pin_MOSI__0__DM__MASK 0x07u

@@ -2059,15 +2059,6 @@
       </addressBlock>
       <registers>
         <register>
-          <name>SPI_TX_DATA</name>
-          <description>SPIS TX Data</description>
-          <addressOffset>0x0</addressOffset>
-          <size>16</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-        </register>
-        <register>
           <name>SPI_RX_DATA</name>
           <description>SPIS RX Data</description>
           <addressOffset>0x0</addressOffset>
@@ -2077,55 +2068,18 @@
           <resetMask>0</resetMask>
         </register>
         <register>
-          <name>SPI_TXSTATUS</name>
-          <description>SPIS TX Status Register</description>
-          <addressOffset>0x5E</addressOffset>
-          <size>8</size>
+          <name>SPI_TX_DATA</name>
+          <description>SPIS TX Data</description>
+          <addressOffset>0x0</addressOffset>
+          <size>16</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
           <resetMask>0</resetMask>
-          <fields>
-            <field>
-              <name>SPI_Done</name>
-              <description>Set when all of the data in the transmit FIFO has been sent. Set when Byte/Word Complete                           has been set and TX Data FIFO is empty</description>
-              <lsb>0</lsb>
-              <msb>0</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>TX_FIFO_Not_Full</name>
-              <description>Set when the TX Data FIFO is not full</description>
-              <lsb>1</lsb>
-              <msb>1</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>TX_FIFO_Empty</name>
-              <description>Set when the TX Data FIFO is empty</description>
-              <lsb>2</lsb>
-              <msb>2</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>Byte_Word_Complete</name>
-              <description>Set when a byte/word transmit has completed</description>
-              <lsb>6</lsb>
-              <msb>6</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>Interrupt</name>
-              <description>Set when interrupt occurs</description>
-              <lsb>7</lsb>
-              <msb>7</msb>
-              <access>read-only</access>
-            </field>
-          </fields>
         </register>
         <register>
           <name>SPI_RXSTATUS</name>
           <description>SPIS RX Status Register</description>
-          <addressOffset>0x61</addressOffset>
+          <addressOffset>0x5F</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -2155,6 +2109,52 @@
             <field>
               <name>RX_FIFO_Full</name>
               <description>Set when the RX Data FIFO is full</description>
+              <lsb>6</lsb>
+              <msb>6</msb>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>Interrupt</name>
+              <description>Set when interrupt occurs</description>
+              <lsb>7</lsb>
+              <msb>7</msb>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SPI_TXSTATUS</name>
+          <description>SPIS TX Status Register</description>
+          <addressOffset>0x61</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+          <fields>
+            <field>
+              <name>SPI_Done</name>
+              <description>Set when all of the data in the transmit FIFO has been sent. Set when Byte/Word Complete                           has been set and TX Data FIFO is empty</description>
+              <lsb>0</lsb>
+              <msb>0</msb>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TX_FIFO_Not_Full</name>
+              <description>Set when the TX Data FIFO is not full</description>
+              <lsb>1</lsb>
+              <msb>1</msb>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TX_FIFO_Empty</name>
+              <description>Set when the TX Data FIFO is empty</description>
+              <lsb>2</lsb>
+              <msb>2</msb>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>Byte_Word_Complete</name>
+              <description>Set when a byte/word transmit has completed</description>
               <lsb>6</lsb>
               <msb>6</msb>
               <access>read-only</access>

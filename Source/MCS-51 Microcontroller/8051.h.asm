@@ -10,7 +10,11 @@
 .equ chip, 0b0h   ; P3
 
 .equ address, 10h
+.equ opcode, 10h
 .equ data, 11h
+
+.equ data1, 10h
+.equ data2, 11h
 
 .equ sclk_high, 12h
 .equ sclk_low, 13h
@@ -43,7 +47,3 @@ image_store:
 
 .equ motion_store_top_high, 7bh
 .equ motion_store_top_low, 0eh
-
-.equ adns_resolution, 03h
-.equ motion_cutoff_high, 00h
-.equ motion_cutoff_low, 20h

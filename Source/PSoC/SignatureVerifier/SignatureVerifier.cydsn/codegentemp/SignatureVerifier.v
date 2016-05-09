@@ -1,6 +1,6 @@
 // ======================================================================
 // SignatureVerifier.v generated from TopDesign.cysch
-// 05/08/2016 at 19:58
+// 05/09/2016 at 02:32
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -89,7 +89,7 @@
 `include "C:\Program Files (x86)\Cypress\PSoC Creator\3.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\not_v1_0\not_v1_0.v"
 `endif
 
-// SPI_Slave_v2_60(BidirectMode=false, ClockInternal=false, ControlFileName=SPI_Slave_Default.ctl, CtlModeReplacementString=SyncCtl, CyGetRegReplacementString=CY_GET_REG16, CyGetRegReplacementString_1=CY_GET_REG16, CyGetRegReplacementString_2=CY_GET_REG16, CySetRegReplacementString=CY_SET_REG16, DesiredBitRate=1000000, FixedPlacementEnabled=false, InternalInterruptEnabled=0, InternalRxInterruptEnabled=0, InternalTxInterruptEnabled=0, InterruptOnByteComplete=false, InterruptOnDone=false, InterruptOnRXEmpty=false, InterruptOnRXFull=false, InterruptOnRXNotEmpty=false, InterruptOnRXOverrun=false, InterruptOnTXEmpty=false, InterruptOnTXFull=false, InterruptOnTXNotFull=false, IntOnByteComp=0, IntOnRXEmpty=0, IntOnRXFull=0, IntOnRXNotEmpty=0, IntOnRXOver=0, IntOnSPIDone=0, IntOnTXEmpty=0, IntOnTXFull=0, IntOnTXNotFull=0, Mode=3, ModeUseZero=0, MultiSlaveEnable=false, NumberOfDataBits=16, PSoC3_ES2_PSoC5_ES1=false, RegDefReplacementString=reg16, RegSizeReplacementString=uint16, RxBufferSize=4, ShiftDir=0, SiliconRevisionReplacementString=es3, TxBufferSize=4, UseInternalInterrupt=false, UseRxInternalInterrupt=false, UseTxInternalInterrupt=false, VerilogSectionReplacementString=sR16, CY_COMPONENT_NAME=SPI_Slave_v2_60, CY_CONTROL_FILE=SPI_Slave_Default.ctl, CY_FITTER_NAME=SPI, CY_INSTANCE_SHORT_NAME=SPI, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=60, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=cydsfit No Version Information Found, INSTANCE_NAME=SPI, )
+// SPI_Slave_v2_60(BidirectMode=false, ClockInternal=false, ControlFileName=SPI_Slave_Default.ctl, CtlModeReplacementString=SyncCtl, CyGetRegReplacementString=CY_GET_REG16, CyGetRegReplacementString_1=CY_GET_REG16, CyGetRegReplacementString_2=CY_GET_REG16, CySetRegReplacementString=CY_SET_REG16, DesiredBitRate=1000000, FixedPlacementEnabled=false, InternalInterruptEnabled=0, InternalRxInterruptEnabled=1, InternalTxInterruptEnabled=0, InterruptOnByteComplete=false, InterruptOnDone=false, InterruptOnRXEmpty=false, InterruptOnRXFull=false, InterruptOnRXNotEmpty=true, InterruptOnRXOverrun=false, InterruptOnTXEmpty=false, InterruptOnTXFull=false, InterruptOnTXNotFull=false, IntOnByteComp=0, IntOnRXEmpty=0, IntOnRXFull=0, IntOnRXNotEmpty=1, IntOnRXOver=0, IntOnSPIDone=0, IntOnTXEmpty=0, IntOnTXFull=0, IntOnTXNotFull=0, Mode=3, ModeUseZero=0, MultiSlaveEnable=false, NumberOfDataBits=16, PSoC3_ES2_PSoC5_ES1=false, RegDefReplacementString=reg16, RegSizeReplacementString=uint16, RxBufferSize=4, ShiftDir=0, SiliconRevisionReplacementString=es3, TxBufferSize=4, UseInternalInterrupt=false, UseRxInternalInterrupt=true, UseTxInternalInterrupt=false, VerilogSectionReplacementString=sR16, CY_COMPONENT_NAME=SPI_Slave_v2_60, CY_CONTROL_FILE=SPI_Slave_Default.ctl, CY_FITTER_NAME=SPI, CY_INSTANCE_SHORT_NAME=SPI, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=60, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=cydsfit No Version Information Found, INSTANCE_NAME=SPI, )
 module SPI_Slave_v2_60_0 (
     ss,
     mosi,
@@ -138,6 +138,13 @@ module SPI_Slave_v2_60_0 (
     defparam BSPIS.ModePOL = 1;
     defparam BSPIS.NumberOfDataBits = 16;
     defparam BSPIS.ShiftDir = 0;
+
+
+	cy_isr_v1_0
+		#(.int_type(2'b10))
+		RxInternalInterrupt
+		 (.int_signal(rx_interrupt));
+
 
 	// VirtualMux_1 (cy_virtualmux_v1_0)
 	assign Net_75 = mosi;
@@ -448,11 +455,11 @@ module top ;
           wire  Net_62;
           wire  Net_58;
           wire  Net_57;
-          wire  Net_56;
           wire  Net_55;
-          wire  Net_54;
+          wire  Net_113;
           wire  Net_53;
           wire  Net_52;
+          wire  Net_112;
           wire  Net_31;
           wire  Net_29;
           wire  Net_28;
@@ -680,9 +687,9 @@ module top ;
         .ss(Net_29),
         .miso(Net_53),
         .clock(Net_31),
-        .tx_interrupt(Net_54),
+        .tx_interrupt(Net_113),
         .sdat(Net_55),
-        .rx_interrupt(Net_56),
+        .rx_interrupt(Net_112),
         .miso_oe(Net_57),
         .reset(1'b0));
     defparam SPI.NumberOfDataBits = 16;
@@ -1098,6 +1105,13 @@ module top ;
 		  .out_reset({1'b0}));
 
 	assign tmpOE__Pin_LED_Yellow_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
+
+
+	cy_isr_v1_0
+		#(.int_type(2'b10))
+		isr_spi
+		 (.int_signal(Net_112));
+
 
 	wire [0:0] tmpOE__Pin_LED_Debug_net;
 	wire [0:0] tmpFB_0__Pin_LED_Debug_net;

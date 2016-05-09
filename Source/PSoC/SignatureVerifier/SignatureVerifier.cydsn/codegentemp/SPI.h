@@ -35,7 +35,7 @@
 
 #define SPI_DATA_WIDTH                  (16u)
 #define SPI_INTERNAL_TX_INT_ENABLED     (0u)
-#define SPI_INTERNAL_RX_INT_ENABLED     (0u)
+#define SPI_INTERNAL_RX_INT_ENABLED     (1u)
 #define SPI_MODE_USE_ZERO               (0u)
 #define SPI_BIDIRECTIONAL_MODE          (0u)
 #define SPI_MODE                        (3u)
@@ -45,7 +45,7 @@
 #define SPI_TX_BUFFER_SIZE             (4u)
 #define SPI_RX_BUFFER_SIZE             (4u)
 #define SPI_INTERNAL_TX_INT_ENABLED    (0u)
-#define SPI_INTERNAL_RX_INT_ENABLED    (0u)
+#define SPI_INTERNAL_RX_INT_ENABLED    (1u)
 
 #define SPI_TX_SOFTWARE_BUF_ENABLED    ((0u != SPI_INTERNAL_TX_INT_ENABLED) && \
                                                      (SPI_TX_BUFFER_SIZE > SPI_FIFO_SIZE))
@@ -199,7 +199,7 @@ extern uint8 SPI_initVar;
                                             SPI_INT_ON_BYTE_COMP)
 
 #define SPI_INT_ON_RX_EMPTY     (uint8)(0u << SPI_STS_RX_FIFO_EMPTY_SHIFT)
-#define SPI_INT_ON_RX_NOT_EMPTY (uint8)(0u << SPI_STS_RX_FIFO_NOT_EMPTY_SHIFT)
+#define SPI_INT_ON_RX_NOT_EMPTY (uint8)(1u << SPI_STS_RX_FIFO_NOT_EMPTY_SHIFT)
 #define SPI_INT_ON_RX_OVER      (uint8)(0u << SPI_STS_RX_FIFO_OVERRUN_SHIFT)
 #define SPI_INT_ON_RX_FULL      (uint8)(0u << SPI_STS_RX_FIFO_FULL_SHIFT)
 

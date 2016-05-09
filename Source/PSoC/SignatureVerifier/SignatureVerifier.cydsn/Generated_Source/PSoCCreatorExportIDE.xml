@@ -121,6 +121,8 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Debug.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Debug.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Debug_aliases.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_spi.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_spi.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\prebuild.bat</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\postbuild.bat</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\CyElfTool.exe</File>

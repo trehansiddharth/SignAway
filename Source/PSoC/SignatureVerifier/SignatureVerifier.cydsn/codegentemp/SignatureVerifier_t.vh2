@@ -1,5 +1,5 @@
 -- Project:   C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\SignatureVerifier.cyprj
--- Generated: 05/08/2016 19:58:11
+-- Generated: 05/09/2016 02:32:43
 -- 
 
 ENTITY SignatureVerifier IS
@@ -29,6 +29,7 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL ClockBlock_LFCLK : bit;
     SIGNAL ClockBlock_SYSCLK : bit;
     SIGNAL Net_102 : bit;
+    SIGNAL Net_112 : bit;
     SIGNAL Net_27 : bit;
     SIGNAL Net_28 : bit;
     SIGNAL Net_29 : bit;
@@ -61,27 +62,27 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:dpcounter_one\ : SIGNAL IS "U(1,0,A)3";
     SIGNAL \SPI:BSPIS:es3:SPISlave:dpcounter_one_fin\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : SIGNAL IS "U(1,1,B)0";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : SIGNAL IS "U(0,1,A)1";
     SIGNAL \SPI:BSPIS:es3:SPISlave:inv_ss\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : SIGNAL IS "U(1,1,B)1";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : SIGNAL IS "U(1,1,A)1";
     SIGNAL \SPI:BSPIS:es3:SPISlave:miso_tx_empty_reg_fin\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : SIGNAL IS "U(1,0,B)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : SIGNAL IS "U(1,1,A)0";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : SIGNAL IS "U(0,1,B)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_reg\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : SIGNAL IS "U(1,0,A)1";
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : SIGNAL IS "U(1,0,A)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : SIGNAL IS "U(1,1,B)3";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : SIGNAL IS "U(0,1,A)3";
     SIGNAL \SPI:BSPIS:es3:SPISlave:rx_status_4\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : SIGNAL IS "U(0,0,A)0";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : SIGNAL IS "U(1,1,A)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:tx_load\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:tx_load\ : SIGNAL IS "U(1,0,A)2";
     SIGNAL \SPI:BSPIS:es3:SPISlave:tx_status_0\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : SIGNAL IS "U(0,1,B)3";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : SIGNAL IS "U(0,1,A)0";
     SIGNAL \SPI:BSPIS:es3:SPISlave:tx_status_1\ : bit;
     SIGNAL \UART:Net_284_ff2\ : bit;
     ATTRIBUTE global_signal OF \UART:Net_284_ff2\ : SIGNAL IS true;
@@ -142,46 +143,48 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE Location OF Pin_SS(0) : LABEL IS "P0[2]";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:BitCounter\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:RxStsReg\ : LABEL IS "statusicell1";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:RxStsReg\ : LABEL IS "U(0,0)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:RxStsReg\ : LABEL IS "U(1,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:TxStsReg\ : LABEL IS "statusicell2";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:TxStsReg\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:TxStsReg\ : LABEL IS "U(0,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:byte_complete\ : LABEL IS "macrocell1";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:byte_complete\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:dpcounter_one\ : LABEL IS "macrocell2";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:dpcounter_one\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : LABEL IS "macrocell3";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : LABEL IS "macrocell4";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : LABEL IS "U(1,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : LABEL IS "macrocell5";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : LABEL IS "macrocell6";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : LABEL IS "macrocell7";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_tmp\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : LABEL IS "macrocell8";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_to_dp\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : LABEL IS "macrocell9";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:rx_buf_overrun\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : LABEL IS "macrocell10";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : LABEL IS "U(0,0)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:rx_status_4\ : LABEL IS "U(1,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\ : LABEL IS "datapathcell1";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\ : LABEL IS "datapathcell2";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\ : LABEL IS "U(0,0)";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_1\ : LABEL IS "U(1,1)";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_2\ : LABEL IS "U(1,1)";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_3\ : LABEL IS "U(1,1)";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_4\ : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_1\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_2\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_3\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:sync_4\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:tx_load\ : LABEL IS "macrocell11";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:tx_load\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : LABEL IS "macrocell12";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : LABEL IS "U(0,1)";
+    ATTRIBUTE Location OF \SPI:RxInternalInterrupt\ : LABEL IS "[IntrHod=(0)][IntrId=(0)]";
     ATTRIBUTE Location OF \UART:SCB\ : LABEL IS "F(SCB,1)";
     ATTRIBUTE lib_model OF \UART:rx(0)\ : LABEL IS "iocell11";
     ATTRIBUTE Location OF \UART:rx(0)\ : LABEL IS "P3[0]";
     ATTRIBUTE lib_model OF \UART:tx(0)\ : LABEL IS "iocell12";
     ATTRIBUTE Location OF \UART:tx(0)\ : LABEL IS "P3[1]";
+    ATTRIBUTE Location OF isr_spi : LABEL IS "[IntrHod=(0)][IntrId=(1)]";
     COMPONENT abufcell
     END COMPONENT;
     COMPONENT boostcell
@@ -2011,7 +2014,8 @@ BEGIN
             status_3 => \SPI:BSPIS:es3:SPISlave:dpMOSI_fifo_not_empty\,
             status_2 => open,
             status_1 => open,
-            status_0 => open);
+            status_0 => open,
+            interrupt => Net_112);
 
     \SPI:BSPIS:es3:SPISlave:TxStsReg\:statusicell
         GENERIC MAP(
@@ -2254,6 +2258,13 @@ BEGIN
             main_1 => \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\,
             main_2 => \SPI:BSPIS:es3:SPISlave:miso_tx_empty_reg_fin\);
 
+    \SPI:RxInternalInterrupt\:interrupt
+        GENERIC MAP(
+            int_type => "10")
+        PORT MAP(
+            interrupt => Net_112,
+            clock => ClockBlock_HFCLK);
+
     \UART:SCB\:m0s8scbcell
         GENERIC MAP(
             cy_registers => "",
@@ -2447,5 +2458,12 @@ BEGIN
             in_reset => open,
             out_clock_en => open,
             out_reset => open);
+
+    isr_spi:interrupt
+        GENERIC MAP(
+            int_type => "10")
+        PORT MAP(
+            interrupt => Net_112,
+            clock => ClockBlock_HFCLK);
 
 END __DEFAULT__;

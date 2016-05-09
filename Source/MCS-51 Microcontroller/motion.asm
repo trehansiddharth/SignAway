@@ -1,6 +1,8 @@
 ; Change to 2051.h.asm to target 2051 microcontroller:
 .inc 8051.h.asm
 
+.inc parameters.h.asm
+
 .org 000h
 sjmp main
 
@@ -9,7 +11,7 @@ main:
 	; Print welcome message
 	lcall print
 	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
-	
+
 	; Move stack pointer to where we want it
 	mov sp, #stack
 
@@ -133,20 +135,8 @@ grab_register:
 	ret
 
 report_psoc:
-	mov r0, #00h
-	mov r1, #00h
-	lcall write_psoc
-
-	mov r0, #00h
-	mov r1, #00h
-	lcall write_psoc
-	
-	mov r0, x_low
-	mov r1, x_high
-	lcall write_psoc
-
-	mov r0, y_low
-	mov r1, y_high
+	mov data1, x_low
+	mov data2, y_low
 	lcall write_psoc
 
 	ret

@@ -10,11 +10,12 @@ write_psoc:
     ; Lower PCS
     clr pcs
 
-    ; Write the data
-    mov a, r1
+    ; Write the opcode
+    mov a, opcode
     lcall write_spi
 
-    mov a, r0
+    ; Write the data
+    mov a, data
     lcall write_spi
 
     ; Raise PCS

@@ -49,6 +49,8 @@
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Yellow.c" value="ARM_C_FILE;Pin_LED_Yellow" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Yellow.h" value="NONE;Pin_LED_Yellow" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Yellow_aliases.h" value="NONE;Pin_LED_Yellow" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\isr_spi.c" value="ARM_C_FILE;isr_spi" />
+  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\isr_spi.h" value="NONE;isr_spi" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Debug.c" value="ARM_C_FILE;Pin_LED_Debug" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Debug.h" value="NONE;Pin_LED_Debug" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_LED_Debug_aliases.h" value="NONE;Pin_LED_Debug" />

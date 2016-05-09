@@ -43,7 +43,3 @@ image_store:
 
 .equ motion_store_top_high, 7bh
 .equ motion_store_top_low, 0eh
-
-.equ adns_resolution, 03h
-.equ motion_cutoff_high, 00h
-.equ motion_cutoff_low, 30h

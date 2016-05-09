@@ -1,5 +1,5 @@
 -- Project:   SignatureVerifier
--- Generated: 05/08/2016 19:58:09
+-- Generated: 05/09/2016 02:32:42
 -- 
 
 ENTITY SignatureVerifier IS
@@ -29,6 +29,7 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL ClockBlock_LFCLK : bit;
     SIGNAL ClockBlock_SYSCLK : bit;
     SIGNAL Net_102 : bit;
+    SIGNAL Net_112 : bit;
     SIGNAL Net_27 : bit;
     SIGNAL Net_28 : bit;
     SIGNAL Net_29 : bit;
@@ -1980,7 +1981,8 @@ BEGIN
             status_3 => \SPI:BSPIS:es3:SPISlave:dpMOSI_fifo_not_empty\,
             status_2 => open,
             status_1 => open,
-            status_0 => open);
+            status_0 => open,
+            interrupt => Net_112);
 
     \SPI:BSPIS:es3:SPISlave:TxStsReg\:statusicell
         GENERIC MAP(
@@ -2237,6 +2239,13 @@ BEGIN
             main_1 => \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\,
             main_2 => \SPI:BSPIS:es3:SPISlave:miso_tx_empty_reg_fin\);
 
+    \SPI:RxInternalInterrupt\:interrupt
+        GENERIC MAP(
+            int_type => "10")
+        PORT MAP(
+            interrupt => Net_112,
+            clock => ClockBlock_HFCLK);
+
     \UART:SCB\:m0s8scbcell
         GENERIC MAP(
             cy_registers => "",
@@ -2430,5 +2439,12 @@ BEGIN
             in_reset => open,
             out_clock_en => open,
             out_reset => open);
+
+    isr_spi:interrupt
+        GENERIC MAP(
+            int_type => "10")
+        PORT MAP(
+            interrupt => Net_112,
+            clock => ClockBlock_HFCLK);
 
 END __DEFAULT__;
