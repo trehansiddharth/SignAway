@@ -18,7 +18,7 @@
 .equ mosi_low, 15h
 .equ miso_mask, 16h
 
-.equ pcs, 0b7h    ; P3.7
+.equ pcs, 097h    ; P1.7
 
 .equ scratch, 17h
 
@@ -46,4 +46,4 @@ image_store:
 
 .equ adns_resolution, 03h
 .equ motion_cutoff_high, 00h
-.equ motion_cutoff_low, 30h
+.equ motion_cutoff_low, 20h

@@ -6,6 +6,10 @@ sjmp main
 
 .org 050h
 main:
+	; Print welcome message
+	lcall print
+	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
+	
 	; Move stack pointer to where we want it
 	mov sp, #stack
 
@@ -29,10 +33,6 @@ main:
 
 	; Clear absolute positions
 	lcall clear_positions
-
-	; Print welcome message
-	ljmp print
-	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
 
 	; Keep running motion burst to keep an accumulated absolute position
 	main_loop:
@@ -72,14 +72,14 @@ main:
 		mov y_high, r1
 
 		; Debugging!
-		ljmp print
+		lcall print
 		.db 0ah, 0dh, "(", 0h
 		mov a, x_high
 		lcall prthex
 		mov a, x_low
 		lcall prthex
 
-		ljmp print
+		lcall print
 		.db ", ", 0h
 		mov a, y_high
 		lcall prthex
@@ -109,7 +109,7 @@ main:
 		; Otherwise, transmit data to PSoC and clear absolute positions
 		main_hit:
 			; Debugging
-			ljmp print
+			lcall print
 			.db 0ah, 0dh, "Hit!", 0h
 
 			lcall report_psoc

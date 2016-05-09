@@ -20,7 +20,7 @@
 .equ mosi_low, 15h
 .equ miso_mask, 16h
 
-.equ pcs, 0b7h    ; P3.7
+.equ pcs, 097h    ; P1.7
 
 .equ scratch, 17h
 
@@ -48,13 +48,17 @@ image_store:
 
 .equ adns_resolution, 03h
 .equ motion_cutoff_high, 00h
-.equ motion_cutoff_low, 30h
+.equ motion_cutoff_low, 20h
 
 .org 000h
 sjmp main
 
 .org 050h
 main:
+	; Print welcome message
+	lcall print
+	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
+
 	; Move stack pointer to where we want it
 	mov sp, #stack
 
@@ -78,10 +82,6 @@ main:
 
 	; Clear absolute positions
 	lcall clear_positions
-
-	; Print welcome message
-	lcall print
-	.db 0ah, 0dh, "Welcome to the motion machine!", 00h
 
 	; Keep running motion burst to keep an accumulated absolute position
 	main_loop:
@@ -161,13 +161,7 @@ main:
 			lcall print
 			.db 0ah, 0dh, "Hit!", 0h
 
-			mov r0, x_low
-			mov r1, x_high
-			;lcall write_psoc
-
-			mov r0, y_low
-			mov r1, y_high
-			;lcall write_psoc
+			lcall report_psoc
 
 			lcall clear_positions
 
@@ -178,11 +172,32 @@ clear_positions:
 	mov x_high, #00h
 	mov y_low, #00h
 	mov y_high, #00h
+
 	ret
 
 grab_register:
 	mov dptr, #motion_store
 	movc a, @a+dptr
+
+	ret
+
+report_psoc:
+	mov r0, #00h
+	mov r1, #00h
+	lcall write_psoc
+
+	mov r0, #00h
+	mov r1, #00h
+	lcall write_psoc
+
+	mov r0, x_low
+	mov r1, x_high
+	lcall write_psoc
+
+	mov r0, y_low
+	mov r1, y_high
+	lcall write_psoc
+
 	ret
 
 ; ==== Included from "adns_9800.lib.asm" by AS115: ====
