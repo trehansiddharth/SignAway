@@ -39,6 +39,8 @@
 #include <Pin_LED_Red_aliases.h>
 #include <Pin_LED_Yellow.h>
 #include <Pin_LED_Yellow_aliases.h>
+#include <Pin_LED_Debug.h>
+#include <Pin_LED_Debug_aliases.h>
 #include <UART.h>
 #include <UART_SPI_UART.h>
 #include <UART_PINS.h>

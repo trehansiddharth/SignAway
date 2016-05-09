@@ -30,8 +30,9 @@ set_location "ClockBlock" m0s8clockblockcell -1 -1 0
 set_location "\SPI:BSPIS:es3:SPISlave:sync_4\" synccell 1 1 5 2
 set_io "Pin_SCLK(0)" iocell 0 1
 set_io "Pin_SS(0)" iocell 0 2
-set_io "Pin_LED_Green(0)" iocell 1 4
-set_io "Pin_LED_Red(0)" iocell 1 5
-set_io "Pin_LED_Yellow(0)" iocell 1 6
+set_io "Pin_LED_Debug(0)" iocell 1 6
+set_io "Pin_LED_Green(0)" iocell 1 3
+set_io "Pin_LED_Red(0)" iocell 1 4
+set_io "Pin_LED_Yellow(0)" iocell 1 5
 set_io "\UART:tx(0)\" iocell 3 1
 set_location "\SPI:BSPIS:es3:SPISlave:sync_1\" synccell 1 1 5 3

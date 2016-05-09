@@ -1,6 +1,6 @@
 (DELAYFILE
  (SDFVERSION "IEEE 1497 4.0")
- (DATE "2016-05-08T22:36:24Z")
+ (DATE "2016-05-08T23:58:11Z")
  (DESIGN "SignatureVerifier")
  (VENDOR "Cypress Semiconductor")
  (PROGRAM "cydsfit")
@@ -106,6 +106,7 @@
     (INTERCONNECT Pin_Button_0\(0\)_PAD Pin_Button_0\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_Button_1\(0\)_PAD Pin_Button_1\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_Button_Interrupt\(0\)_PAD Pin_Button_Interrupt\(0\).pad_in (0.000:0.000:0.000))
+    (INTERCONNECT Pin_LED_Debug\(0\)_PAD Pin_LED_Debug\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_LED_Green\(0\)_PAD Pin_LED_Green\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_LED_Red\(0\)_PAD Pin_LED_Red\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_LED_Yellow\(0\)_PAD Pin_LED_Yellow\(0\).pad_in (0.000:0.000:0.000))

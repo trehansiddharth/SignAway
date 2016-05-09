@@ -10,11 +10,16 @@
  * ========================================
 */
 #include <project.h>
+#include <header.h>
+#include <stdio.h>
 
 int main()
 {
     SPI_Start();
     UART_Start();
+    
+    uint8 debugState = LOW;
+    Pin_LED_Debug_Write(debugState);
 
     /* CyGlobalIntEnable; */ /* Uncomment this line to enable global interrupts. */
     for(;;)
@@ -22,8 +27,12 @@ int main()
         uint8 rxBufferSize = SPI_GetRxBufferSize();
         if (rxBufferSize > 0) {
             uint16 rxData = SPI_ReadRxData();
-            const char8 dataReceivedString[] = "Data Received\0";
-            UART_UartPutString(dataReceivedString);
+            char outputString[5];
+            snprintf(outputString, 5, "%04X", rxData);
+            UART_UartPutString(outputString);
+            UART_UartPutString("\r\n");
+            debugState = HIGH - debugState;
+            Pin_LED_Debug_Write(debugState);
         }
     }
 }
