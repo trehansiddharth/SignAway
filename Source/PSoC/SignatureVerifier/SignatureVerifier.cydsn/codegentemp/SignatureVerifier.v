@@ -1,6 +1,6 @@
 // ======================================================================
 // SignatureVerifier.v generated from TopDesign.cysch
-// 05/09/2016 at 02:32
+// 05/09/2016 at 22:40
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -447,18 +447,19 @@ endmodule
 // top
 module top ;
 
+          wire  Net_120;
           wire  Net_103;
           wire  Net_102;
           wire  Net_101;
-          wire  Net_64;
-          wire  Net_63;
-          wire  Net_62;
+          wire [2:0] Net_164;
           wire  Net_58;
           wire  Net_57;
           wire  Net_55;
           wire  Net_113;
           wire  Net_53;
           wire  Net_52;
+          wire  Net_149;
+          wire  Net_119;
           wire  Net_112;
           wire  Net_31;
           wire  Net_29;
@@ -695,65 +696,64 @@ module top ;
     defparam SPI.NumberOfDataBits = 16;
     defparam SPI.ShiftDir = 0;
 
-	wire [0:0] tmpOE__Pin_Button_Interrupt_net;
-	wire [0:0] tmpIO_0__Pin_Button_Interrupt_net;
-	wire [0:0] tmpINTERRUPT_0__Pin_Button_Interrupt_net;
-	electrical [0:0] tmpSIOVREF__Pin_Button_Interrupt_net;
+	wire [2:0] tmpOE__Pin_Button_net;
+	wire [2:0] tmpIO_2__Pin_Button_net;
+	electrical [0:0] tmpSIOVREF__Pin_Button_net;
 
 	cy_psoc3_pins_v1_10
-		#(.id("86f6e3f7-f6e3-43e5-95c4-feb99ba84ec8"),
-		  .drive_mode(3'b001),
-		  .ibuf_enabled(1'b1),
-		  .init_dr_st(1'b0),
+		#(.id("cbb194c3-a566-4f79-97aa-346942522621"),
+		  .drive_mode(9'b001_001_001),
+		  .ibuf_enabled(3'b1_1_1),
+		  .init_dr_st(3'b0_0_0),
 		  .input_clk_en(0),
-		  .input_sync(1'b1),
-		  .input_sync_mode(1'b0),
-		  .intr_mode(2'b00),
+		  .input_sync(3'b1_1_1),
+		  .input_sync_mode(3'b0_0_0),
+		  .intr_mode(6'b11_11_11),
 		  .invert_in_clock(0),
 		  .invert_in_clock_en(0),
 		  .invert_in_reset(0),
 		  .invert_out_clock(0),
 		  .invert_out_clock_en(0),
 		  .invert_out_reset(0),
-		  .io_voltage(""),
+		  .io_voltage(",,"),
 		  .layout_mode("CONTIGUOUS"),
-		  .oe_conn(1'b0),
+		  .oe_conn(3'b0_0_0),
 		  .oe_reset(0),
-		  .oe_sync(1'b0),
+		  .oe_sync(3'b0_0_0),
 		  .output_clk_en(0),
-		  .output_clock_mode(1'b0),
-		  .output_conn(1'b0),
-		  .output_mode(1'b0),
+		  .output_clock_mode(3'b0_0_0),
+		  .output_conn(3'b0_0_0),
+		  .output_mode(3'b0_0_0),
 		  .output_reset(0),
-		  .output_sync(1'b0),
+		  .output_sync(3'b0_0_0),
 		  .pa_in_clock(-1),
 		  .pa_in_clock_en(-1),
 		  .pa_in_reset(-1),
 		  .pa_out_clock(-1),
 		  .pa_out_clock_en(-1),
 		  .pa_out_reset(-1),
-		  .pin_aliases(""),
-		  .pin_mode("I"),
+		  .pin_aliases(",,"),
+		  .pin_mode("III"),
 		  .por_state(4),
 		  .sio_group_cnt(0),
-		  .sio_hyst(1'b0),
+		  .sio_hyst(3'b0_0_0),
 		  .sio_ibuf(""),
-		  .sio_info(2'b00),
+		  .sio_info(6'b00_00_00),
 		  .sio_obuf(""),
 		  .sio_refsel(""),
 		  .sio_vtrip(""),
-		  .slew_rate(1'b0),
+		  .slew_rate(3'b0_0_0),
 		  .spanning(0),
-		  .use_annotation(1'b0),
-		  .vtrip(2'b00),
-		  .width(1))
-		Pin_Button_Interrupt
-		 (.oe(tmpOE__Pin_Button_Interrupt_net),
-		  .y({1'b0}),
-		  .fb({Net_62}),
-		  .io({tmpIO_0__Pin_Button_Interrupt_net[0:0]}),
-		  .siovref(tmpSIOVREF__Pin_Button_Interrupt_net),
-		  .interrupt({tmpINTERRUPT_0__Pin_Button_Interrupt_net[0:0]}),
+		  .use_annotation(3'b0_0_0),
+		  .vtrip(6'b00_00_00),
+		  .width(3))
+		Pin_Button
+		 (.oe(tmpOE__Pin_Button_net),
+		  .y({3'b0}),
+		  .fb({Net_164[2:0]}),
+		  .io({tmpIO_2__Pin_Button_net[2:0]}),
+		  .siovref(tmpSIOVREF__Pin_Button_net),
+		  .interrupt({Net_149}),
 		  .in_clock({1'b0}),
 		  .in_clock_en({1'b1}),
 		  .in_reset({1'b0}),
@@ -761,143 +761,7 @@ module top ;
 		  .out_clock_en({1'b1}),
 		  .out_reset({1'b0}));
 
-	assign tmpOE__Pin_Button_Interrupt_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
-
-	wire [0:0] tmpOE__Pin_Button_0_net;
-	wire [0:0] tmpIO_0__Pin_Button_0_net;
-	wire [0:0] tmpINTERRUPT_0__Pin_Button_0_net;
-	electrical [0:0] tmpSIOVREF__Pin_Button_0_net;
-
-	cy_psoc3_pins_v1_10
-		#(.id("6d2de6e4-a4b9-433c-9b3c-d1af44b9c6eb"),
-		  .drive_mode(3'b001),
-		  .ibuf_enabled(1'b1),
-		  .init_dr_st(1'b0),
-		  .input_clk_en(0),
-		  .input_sync(1'b1),
-		  .input_sync_mode(1'b0),
-		  .intr_mode(2'b00),
-		  .invert_in_clock(0),
-		  .invert_in_clock_en(0),
-		  .invert_in_reset(0),
-		  .invert_out_clock(0),
-		  .invert_out_clock_en(0),
-		  .invert_out_reset(0),
-		  .io_voltage(""),
-		  .layout_mode("CONTIGUOUS"),
-		  .oe_conn(1'b0),
-		  .oe_reset(0),
-		  .oe_sync(1'b0),
-		  .output_clk_en(0),
-		  .output_clock_mode(1'b0),
-		  .output_conn(1'b0),
-		  .output_mode(1'b0),
-		  .output_reset(0),
-		  .output_sync(1'b0),
-		  .pa_in_clock(-1),
-		  .pa_in_clock_en(-1),
-		  .pa_in_reset(-1),
-		  .pa_out_clock(-1),
-		  .pa_out_clock_en(-1),
-		  .pa_out_reset(-1),
-		  .pin_aliases(""),
-		  .pin_mode("I"),
-		  .por_state(4),
-		  .sio_group_cnt(0),
-		  .sio_hyst(1'b0),
-		  .sio_ibuf(""),
-		  .sio_info(2'b00),
-		  .sio_obuf(""),
-		  .sio_refsel(""),
-		  .sio_vtrip(""),
-		  .slew_rate(1'b0),
-		  .spanning(0),
-		  .use_annotation(1'b0),
-		  .vtrip(2'b00),
-		  .width(1))
-		Pin_Button_0
-		 (.oe(tmpOE__Pin_Button_0_net),
-		  .y({1'b0}),
-		  .fb({Net_63}),
-		  .io({tmpIO_0__Pin_Button_0_net[0:0]}),
-		  .siovref(tmpSIOVREF__Pin_Button_0_net),
-		  .interrupt({tmpINTERRUPT_0__Pin_Button_0_net[0:0]}),
-		  .in_clock({1'b0}),
-		  .in_clock_en({1'b1}),
-		  .in_reset({1'b0}),
-		  .out_clock({1'b0}),
-		  .out_clock_en({1'b1}),
-		  .out_reset({1'b0}));
-
-	assign tmpOE__Pin_Button_0_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
-
-	wire [0:0] tmpOE__Pin_Button_1_net;
-	wire [0:0] tmpIO_0__Pin_Button_1_net;
-	wire [0:0] tmpINTERRUPT_0__Pin_Button_1_net;
-	electrical [0:0] tmpSIOVREF__Pin_Button_1_net;
-
-	cy_psoc3_pins_v1_10
-		#(.id("b231035c-a826-406f-b77c-35b1e79be732"),
-		  .drive_mode(3'b001),
-		  .ibuf_enabled(1'b1),
-		  .init_dr_st(1'b0),
-		  .input_clk_en(0),
-		  .input_sync(1'b1),
-		  .input_sync_mode(1'b0),
-		  .intr_mode(2'b00),
-		  .invert_in_clock(0),
-		  .invert_in_clock_en(0),
-		  .invert_in_reset(0),
-		  .invert_out_clock(0),
-		  .invert_out_clock_en(0),
-		  .invert_out_reset(0),
-		  .io_voltage(""),
-		  .layout_mode("CONTIGUOUS"),
-		  .oe_conn(1'b0),
-		  .oe_reset(0),
-		  .oe_sync(1'b0),
-		  .output_clk_en(0),
-		  .output_clock_mode(1'b0),
-		  .output_conn(1'b0),
-		  .output_mode(1'b0),
-		  .output_reset(0),
-		  .output_sync(1'b0),
-		  .pa_in_clock(-1),
-		  .pa_in_clock_en(-1),
-		  .pa_in_reset(-1),
-		  .pa_out_clock(-1),
-		  .pa_out_clock_en(-1),
-		  .pa_out_reset(-1),
-		  .pin_aliases(""),
-		  .pin_mode("I"),
-		  .por_state(4),
-		  .sio_group_cnt(0),
-		  .sio_hyst(1'b0),
-		  .sio_ibuf(""),
-		  .sio_info(2'b00),
-		  .sio_obuf(""),
-		  .sio_refsel(""),
-		  .sio_vtrip(""),
-		  .slew_rate(1'b0),
-		  .spanning(0),
-		  .use_annotation(1'b0),
-		  .vtrip(2'b00),
-		  .width(1))
-		Pin_Button_1
-		 (.oe(tmpOE__Pin_Button_1_net),
-		  .y({1'b0}),
-		  .fb({Net_64}),
-		  .io({tmpIO_0__Pin_Button_1_net[0:0]}),
-		  .siovref(tmpSIOVREF__Pin_Button_1_net),
-		  .interrupt({tmpINTERRUPT_0__Pin_Button_1_net[0:0]}),
-		  .in_clock({1'b0}),
-		  .in_clock_en({1'b1}),
-		  .in_reset({1'b0}),
-		  .out_clock({1'b0}),
-		  .out_clock_en({1'b1}),
-		  .out_reset({1'b0}));
-
-	assign tmpOE__Pin_Button_1_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
+	assign tmpOE__Pin_Button_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{3'b111} : {3'b111};
 
 	wire [0:0] tmpOE__Pin_LED_Green_net;
 	wire [0:0] tmpFB_0__Pin_LED_Green_net;
@@ -1186,6 +1050,87 @@ module top ;
         .sclk(Net_101),
         .interrupt(Net_102),
         .clock(1'b0));
+
+	wire [0:0] tmpOE__Pin_Reset_net;
+	wire [0:0] tmpIO_0__Pin_Reset_net;
+	electrical [0:0] tmpSIOVREF__Pin_Reset_net;
+
+	cy_psoc3_pins_v1_10
+		#(.id("d524cdd2-399f-46a1-b62a-d584fd7c688f"),
+		  .drive_mode(3'b001),
+		  .ibuf_enabled(1'b1),
+		  .init_dr_st(1'b0),
+		  .input_clk_en(0),
+		  .input_sync(1'b1),
+		  .input_sync_mode(1'b0),
+		  .intr_mode(2'b01),
+		  .invert_in_clock(0),
+		  .invert_in_clock_en(0),
+		  .invert_in_reset(0),
+		  .invert_out_clock(0),
+		  .invert_out_clock_en(0),
+		  .invert_out_reset(0),
+		  .io_voltage(""),
+		  .layout_mode("CONTIGUOUS"),
+		  .oe_conn(1'b0),
+		  .oe_reset(0),
+		  .oe_sync(1'b0),
+		  .output_clk_en(0),
+		  .output_clock_mode(1'b0),
+		  .output_conn(1'b0),
+		  .output_mode(1'b0),
+		  .output_reset(0),
+		  .output_sync(1'b0),
+		  .pa_in_clock(-1),
+		  .pa_in_clock_en(-1),
+		  .pa_in_reset(-1),
+		  .pa_out_clock(-1),
+		  .pa_out_clock_en(-1),
+		  .pa_out_reset(-1),
+		  .pin_aliases(""),
+		  .pin_mode("I"),
+		  .por_state(4),
+		  .sio_group_cnt(0),
+		  .sio_hyst(1'b0),
+		  .sio_ibuf(""),
+		  .sio_info(2'b00),
+		  .sio_obuf(""),
+		  .sio_refsel(""),
+		  .sio_vtrip(""),
+		  .slew_rate(1'b0),
+		  .spanning(0),
+		  .use_annotation(1'b0),
+		  .vtrip(2'b00),
+		  .width(1))
+		Pin_Reset
+		 (.oe(tmpOE__Pin_Reset_net),
+		  .y({1'b0}),
+		  .fb({Net_120}),
+		  .io({tmpIO_0__Pin_Reset_net[0:0]}),
+		  .siovref(tmpSIOVREF__Pin_Reset_net),
+		  .interrupt({Net_119}),
+		  .in_clock({1'b0}),
+		  .in_clock_en({1'b1}),
+		  .in_reset({1'b0}),
+		  .out_clock({1'b0}),
+		  .out_clock_en({1'b1}),
+		  .out_reset({1'b0}));
+
+	assign tmpOE__Pin_Reset_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
+
+
+	cy_isr_v1_0
+		#(.int_type(2'b10))
+		isr_reset
+		 (.int_signal(Net_119));
+
+
+
+	cy_isr_v1_0
+		#(.int_type(2'b10))
+		isr_button
+		 (.int_signal(Net_149));
+
 
 
 

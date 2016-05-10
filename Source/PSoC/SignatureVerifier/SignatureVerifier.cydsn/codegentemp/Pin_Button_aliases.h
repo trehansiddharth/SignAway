@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: Pin_Button_1.h  
+* File Name: Pin_Button.h  
 * Version 2.5
 *
 * Description:
@@ -14,8 +14,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_Pin_Button_1_ALIASES_H) /* Pins Pin_Button_1_ALIASES_H */
-#define CY_PINS_Pin_Button_1_ALIASES_H
+#if !defined(CY_PINS_Pin_Button_ALIASES_H) /* Pins Pin_Button_ALIASES_H */
+#define CY_PINS_Pin_Button_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -24,9 +24,11 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define Pin_Button_1_0		Pin_Button_1__0__PC
+#define Pin_Button_0		Pin_Button__0__PC
+#define Pin_Button_1		Pin_Button__1__PC
+#define Pin_Button_2		Pin_Button__2__PC
 
-#endif /* End Pins Pin_Button_1_ALIASES_H */
+#endif /* End Pins Pin_Button_ALIASES_H */
 
 
 /* [] END OF FILE */

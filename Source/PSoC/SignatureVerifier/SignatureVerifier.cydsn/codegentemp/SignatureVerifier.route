@@ -319,15 +319,18 @@ end \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0.sol_msb__sig\
 net ClockBlock_HFCLK
 	term   ":m0s8clockblockcell.hfclk"
 	switch ":m0s8clockblockcell.hfclk==>:ioport2_clock_io_mux.hfclk"
+	switch ":ioport2_clock_io_mux.clk_in==>:ioport2:pin0.in_clock"
+	term   ":ioport2:pin0.in_clock"
 	switch ":ioport2_clock_io_mux.clk_in==>:ioport2:pin1.in_clock"
 	term   ":ioport2:pin1.in_clock"
 	switch ":ioport2_clock_io_mux.clk_in==>:ioport2:pin2.in_clock"
 	term   ":ioport2:pin2.in_clock"
-	switch ":ioport2_clock_io_mux.clk_in==>:ioport2:pin0.in_clock"
-	term   ":ioport2:pin0.in_clock"
 	switch ":m0s8clockblockcell.hfclk==>:ioport0_clock_io_mux.hfclk"
 	switch ":ioport0_clock_io_mux.clk_in==>:ioport0:pin0.in_clock"
 	term   ":ioport0:pin0.in_clock"
+	switch ":m0s8clockblockcell.hfclk==>:ioport1_clock_io_mux.hfclk"
+	switch ":ioport1_clock_io_mux.clk_in==>:ioport1:pin7.in_clock"
+	term   ":ioport1:pin7.in_clock"
 	switch ":ioport0_clock_io_mux.clk_in==>:ioport0:pin1.in_clock"
 	term   ":ioport0:pin1.in_clock"
 	switch ":ioport0_clock_io_mux.clk_in==>:ioport0:pin2.in_clock"
@@ -338,8 +341,12 @@ net ClockBlock_HFCLK
 	term   ":udb@[UDB=(0,0)]:dp_wrapper:datapath.busclk"
 	switch ":m0s8clockblockcell.hfclk==>:interrupt_0.clock"
 	term   ":interrupt_0.clock"
+	switch ":m0s8clockblockcell.hfclk==>:interrupt_2.clock"
+	term   ":interrupt_2.clock"
 	switch ":m0s8clockblockcell.hfclk==>:interrupt_1.clock"
 	term   ":interrupt_1.clock"
+	switch ":m0s8clockblockcell.hfclk==>:interrupt_3.clock"
+	term   ":interrupt_3.clock"
 end ClockBlock_HFCLK
 net Net_31_digital
 	term   ":m0s8clockgenblockcell.gen_clk_out_0"
@@ -409,9 +416,12 @@ net Net_112
 	switch "Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v105+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v107+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v109==>:interrupt_idmux_0.in_1"
 	switch ":interrupt_idmux_0.interrupt_idmux_0__out==>:interrupt_0.interrupt"
 	term   ":interrupt_0.interrupt"
-	switch "Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v105+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v107+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v109==>:interrupt_idmux_1.in_1"
-	switch ":interrupt_idmux_1.interrupt_idmux_1__out==>:interrupt_1.interrupt"
-	term   ":interrupt_1.interrupt"
+	switch ":hvswitch@[UDB=(2,1)][side=left]:5,76_b"
+	switch ":dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:113,76_f"
+	switch "IStub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v111+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v113+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v115"
+	switch "Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v111+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v113+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v115==>:interrupt_idmux_3.in_1"
+	switch ":interrupt_idmux_3.interrupt_idmux_3__out==>:interrupt_3.interrupt"
+	term   ":interrupt_3.interrupt"
 end Net_112
 net \SPI:BSPIS:es3:SPISlave:dpMOSI_fifo_full\
 	term   ":udb@[UDB=(0,0)]:dp_wrapper:datapath.f1_blk_stat_comb"
@@ -450,6 +460,20 @@ net \SPI:BSPIS:es3:SPISlave:dpMOSI_fifo_not_empty\
 	switch ":udb@[UDB=(1,1)]:pld0:input_permute.mc0_main_0==>:udb@[UDB=(1,1)]:pld0:mc0.main_0"
 	term   ":udb@[UDB=(1,1)]:pld0:mc0.main_0"
 end \SPI:BSPIS:es3:SPISlave:dpMOSI_fifo_not_empty\
+net Net_119
+	term   ":logicalport_1.interrupt"
+	switch ":logicalport_1.interrupt==>Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v17+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v19"
+	switch "Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v17+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v19==>:interrupt_idmux_1.in_0"
+	switch ":interrupt_idmux_1.interrupt_idmux_1__out==>:interrupt_1.interrupt"
+	term   ":interrupt_1.interrupt"
+end Net_119
+net Net_149
+	term   ":logicalport_2.interrupt"
+	switch ":logicalport_2.interrupt==>Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v20+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v22"
+	switch "Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v20+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v22==>:interrupt_idmux_2.in_0"
+	switch ":interrupt_idmux_2.interrupt_idmux_2__out==>:interrupt_2.interrupt"
+	term   ":interrupt_2.interrupt"
+end Net_149
 net \SPI:BSPIS:es3:SPISlave:dpMISO_fifo_empty\
 	term   ":udb@[UDB=(0,0)]:dp_wrapper:datapath.f0_blk_stat_comb"
 	switch ":udb@[UDB=(0,0)]:dp_wrapper:datapath.f0_blk_stat_comb==>:udb@[UDB=(0,0)]:dp_wrapper:output_permute.f0_blk_stat_comb"

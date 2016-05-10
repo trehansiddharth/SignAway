@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: Pin_Button_0.c  
+* File Name: Pin_Button.c  
 * Version 2.5
 *
 * Description:
@@ -15,18 +15,18 @@
 *******************************************************************************/
 
 #include "cytypes.h"
-#include "Pin_Button_0.h"
+#include "Pin_Button.h"
 
 #define SetP4PinDriveMode(shift, mode)  \
     do { \
-        Pin_Button_0_PC =   (Pin_Button_0_PC & \
-                                (uint32)(~(uint32)(Pin_Button_0_DRIVE_MODE_IND_MASK << (Pin_Button_0_DRIVE_MODE_BITS * (shift))))) | \
-                                (uint32)((uint32)(mode) << (Pin_Button_0_DRIVE_MODE_BITS * (shift))); \
+        Pin_Button_PC =   (Pin_Button_PC & \
+                                (uint32)(~(uint32)(Pin_Button_DRIVE_MODE_IND_MASK << (Pin_Button_DRIVE_MODE_BITS * (shift))))) | \
+                                (uint32)((uint32)(mode) << (Pin_Button_DRIVE_MODE_BITS * (shift))); \
     } while (0)
 
 
 /*******************************************************************************
-* Function Name: Pin_Button_0_Write
+* Function Name: Pin_Button_Write
 ********************************************************************************
 *
 * Summary:
@@ -39,16 +39,16 @@
 *  None 
 *  
 *******************************************************************************/
-void Pin_Button_0_Write(uint8 value) 
+void Pin_Button_Write(uint8 value) 
 {
-    uint8 drVal = (uint8)(Pin_Button_0_DR & (uint8)(~Pin_Button_0_MASK));
-    drVal = (drVal | ((uint8)(value << Pin_Button_0_SHIFT) & Pin_Button_0_MASK));
-    Pin_Button_0_DR = (uint32)drVal;
+    uint8 drVal = (uint8)(Pin_Button_DR & (uint8)(~Pin_Button_MASK));
+    drVal = (drVal | ((uint8)(value << Pin_Button_SHIFT) & Pin_Button_MASK));
+    Pin_Button_DR = (uint32)drVal;
 }
 
 
 /*******************************************************************************
-* Function Name: Pin_Button_0_SetDriveMode
+* Function Name: Pin_Button_SetDriveMode
 ********************************************************************************
 *
 * Summary:
@@ -57,27 +57,29 @@ void Pin_Button_0_Write(uint8 value)
 * Parameters:  
 *  mode:  Change the pins to one of the following drive modes.
 *
-*  Pin_Button_0_DM_STRONG     Strong Drive 
-*  Pin_Button_0_DM_OD_HI      Open Drain, Drives High 
-*  Pin_Button_0_DM_OD_LO      Open Drain, Drives Low 
-*  Pin_Button_0_DM_RES_UP     Resistive Pull Up 
-*  Pin_Button_0_DM_RES_DWN    Resistive Pull Down 
-*  Pin_Button_0_DM_RES_UPDWN  Resistive Pull Up/Down 
-*  Pin_Button_0_DM_DIG_HIZ    High Impedance Digital 
-*  Pin_Button_0_DM_ALG_HIZ    High Impedance Analog 
+*  Pin_Button_DM_STRONG     Strong Drive 
+*  Pin_Button_DM_OD_HI      Open Drain, Drives High 
+*  Pin_Button_DM_OD_LO      Open Drain, Drives Low 
+*  Pin_Button_DM_RES_UP     Resistive Pull Up 
+*  Pin_Button_DM_RES_DWN    Resistive Pull Down 
+*  Pin_Button_DM_RES_UPDWN  Resistive Pull Up/Down 
+*  Pin_Button_DM_DIG_HIZ    High Impedance Digital 
+*  Pin_Button_DM_ALG_HIZ    High Impedance Analog 
 *
 * Return: 
 *  None
 *
 *******************************************************************************/
-void Pin_Button_0_SetDriveMode(uint8 mode) 
+void Pin_Button_SetDriveMode(uint8 mode) 
 {
-	SetP4PinDriveMode(Pin_Button_0__0__SHIFT, mode);
+	SetP4PinDriveMode(Pin_Button__0__SHIFT, mode);
+	SetP4PinDriveMode(Pin_Button__1__SHIFT, mode);
+	SetP4PinDriveMode(Pin_Button__2__SHIFT, mode);
 }
 
 
 /*******************************************************************************
-* Function Name: Pin_Button_0_Read
+* Function Name: Pin_Button_Read
 ********************************************************************************
 *
 * Summary:
@@ -91,17 +93,17 @@ void Pin_Button_0_SetDriveMode(uint8 mode)
 *  Returns the current value of the Digital Port as a right justified number
 *  
 * Note:
-*  Macro Pin_Button_0_ReadPS calls this function. 
+*  Macro Pin_Button_ReadPS calls this function. 
 *  
 *******************************************************************************/
-uint8 Pin_Button_0_Read(void) 
+uint8 Pin_Button_Read(void) 
 {
-    return (uint8)((Pin_Button_0_PS & Pin_Button_0_MASK) >> Pin_Button_0_SHIFT);
+    return (uint8)((Pin_Button_PS & Pin_Button_MASK) >> Pin_Button_SHIFT);
 }
 
 
 /*******************************************************************************
-* Function Name: Pin_Button_0_ReadDataReg
+* Function Name: Pin_Button_ReadDataReg
 ********************************************************************************
 *
 * Summary:
@@ -114,17 +116,17 @@ uint8 Pin_Button_0_Read(void)
 *  Returns the current value assigned to the Digital Port's data output register
 *  
 *******************************************************************************/
-uint8 Pin_Button_0_ReadDataReg(void) 
+uint8 Pin_Button_ReadDataReg(void) 
 {
-    return (uint8)((Pin_Button_0_DR & Pin_Button_0_MASK) >> Pin_Button_0_SHIFT);
+    return (uint8)((Pin_Button_DR & Pin_Button_MASK) >> Pin_Button_SHIFT);
 }
 
 
 /* If Interrupts Are Enabled for this Pins component */ 
-#if defined(Pin_Button_0_INTSTAT) 
+#if defined(Pin_Button_INTSTAT) 
 
     /*******************************************************************************
-    * Function Name: Pin_Button_0_ClearInterrupt
+    * Function Name: Pin_Button_ClearInterrupt
     ********************************************************************************
     *
     * Summary:
@@ -138,11 +140,11 @@ uint8 Pin_Button_0_ReadDataReg(void)
     *  Returns the value of the interrupt status register
     *  
     *******************************************************************************/
-    uint8 Pin_Button_0_ClearInterrupt(void) 
+    uint8 Pin_Button_ClearInterrupt(void) 
     {
-		uint8 maskedStatus = (uint8)(Pin_Button_0_INTSTAT & Pin_Button_0_MASK);
-		Pin_Button_0_INTSTAT = maskedStatus;
-        return maskedStatus >> Pin_Button_0_SHIFT;
+		uint8 maskedStatus = (uint8)(Pin_Button_INTSTAT & Pin_Button_MASK);
+		Pin_Button_INTSTAT = maskedStatus;
+        return maskedStatus >> Pin_Button_SHIFT;
     }
 
 #endif /* If Interrupts Are Enabled for this Pins component */ 

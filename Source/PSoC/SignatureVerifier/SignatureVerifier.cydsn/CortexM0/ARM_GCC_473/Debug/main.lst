@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -30,551 +30,1441 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 1
   27              		.size	y_position, 2
   28              	y_position:
   29 0002 0000     		.space	2
-  30              		.comm	x_positions,512,4
-  31              		.comm	y_positions,512,4
+  30              		.comm	x_positions,1024,4
+  31              		.comm	y_positions,1024,4
   32              		.global	pos_index
-  33              		.type	pos_index, %object
-  34              		.size	pos_index, 1
-  35              	pos_index:
-  36 0004 00       		.space	1
-  37 0005 00       		.section	.text.main,"ax",%progbits
-  38              		.align	2
-  39              		.global	main
-  40              		.code	16
-  41              		.thumb_func
-  42              		.type	main, %function
-  43              	main:
-  44              	.LFB33:
-  45              		.file 1 ".\\main.c"
+  33              		.align	1
+  34              		.type	pos_index, %object
+  35              		.size	pos_index, 2
+  36              	pos_index:
+  37 0004 0000     		.space	2
+  38              		.global	action_state
+  39              		.type	action_state, %object
+  40              		.size	action_state, 1
+  41              	action_state:
+  42 0006 00       		.space	1
+  43              		.global	positions_full
+  44 0007 00       		.align	2
+  45              		.type	positions_full, %object
+  46              		.size	positions_full, 4
+  47              	positions_full:
+  48 0008 00000000 		.space	4
+  49              		.global	reading
+  50              		.align	2
+  51              		.type	reading, %object
+  52              		.size	reading, 4
+  53              	reading:
+  54 000c 00000000 		.space	4
+  55              		.global	debug_state
+  56              		.type	debug_state, %object
+  57              		.size	debug_state, 1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 2
+
+
+  58              	debug_state:
+  59 0010 00       		.space	1
+  60 0011 000000   		.section	.rodata
+  61              		.align	2
+  62              	.LC8:
+  63 0000 25692025 		.ascii	"%i %i\000"
+  63      6900
+  64 0006 0000     		.align	2
+  65              	.LC10:
+  66 0008 0D0A00   		.ascii	"\015\012\000"
+  67 000b 00       		.section	.text.isr_spi_handler,"ax",%progbits
+  68              		.align	2
+  69              		.global	isr_spi_handler
+  70              		.code	16
+  71              		.thumb_func
+  72              		.type	isr_spi_handler, %function
+  73              	isr_spi_handler:
+  74              	.LFB33:
+  75              		.file 1 ".\\main.c"
    1:.\main.c      **** #include <project.h>
    2:.\main.c      **** #include <header.h>
    3:.\main.c      **** #include <stdio.h>
    4:.\main.c      **** 
-   5:.\main.c      **** uint16 x_position = 0x00;
-   6:.\main.c      **** uint16 y_position = 0x00;
+   5:.\main.c      **** int16 x_position = 0;
+   6:.\main.c      **** int16 y_position = 0;
    7:.\main.c      **** 
-   8:.\main.c      **** uint16 x_positions[256];
-   9:.\main.c      **** uint16 y_positions[256];
-  10:.\main.c      **** uint8 pos_index = 0;
+   8:.\main.c      **** int16 x_positions[512];
+   9:.\main.c      **** int16 y_positions[512];
+  10:.\main.c      **** uint16 pos_index = 0;
   11:.\main.c      **** 
-  12:.\main.c      **** int main()
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 2
+  12:.\main.c      **** uint8 action_state = RECORDING;
+  13:.\main.c      **** bool positions_full = false;
+  14:.\main.c      **** bool reading = false;
+  15:.\main.c      **** 
+  16:.\main.c      **** uint8 debug_state = LOW;
+  17:.\main.c      **** 
+  18:.\main.c      **** CY_ISR_PROTO(isr_spi_handler);
+  19:.\main.c      **** CY_ISR_PROTO(isr_reset_handler);
+  20:.\main.c      **** CY_ISR_PROTO(isr_button_handler);
+  21:.\main.c      **** 
+  22:.\main.c      **** CY_ISR(isr_spi_handler) {
+  76              		.loc 1 22 0
+  77              		.cfi_startproc
+  78 0000 90B5     		push	{r4, r7, lr}
+  79              	.LCFI0:
+  80              		.cfi_def_cfa_offset 12
+  81              		.cfi_offset 4, -12
+  82              		.cfi_offset 7, -8
+  83              		.cfi_offset 14, -4
+  84 0002 87B0     		sub	sp, sp, #28
+  85              	.LCFI1:
+  86              		.cfi_def_cfa_offset 40
+  87 0004 02AF     		add	r7, sp, #8
+  88              	.LCFI2:
+  89              		.cfi_def_cfa 7, 32
+  23:.\main.c      ****     // Get the data that arrives over SPI
+  24:.\main.c      ****     uint16 rxData = SPI_ReadRxData();
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 3
 
 
-  13:.\main.c      **** {
-  46              		.loc 1 13 0
-  47              		.cfi_startproc
-  48 0000 80B5     		push	{r7, lr}
-  49              	.LCFI0:
-  50              		.cfi_def_cfa_offset 8
-  51              		.cfi_offset 7, -8
-  52              		.cfi_offset 14, -4
-  53 0002 00AF     		add	r7, sp, #0
-  54              	.LCFI1:
-  55              		.cfi_def_cfa_register 7
-  14:.\main.c      ****     // Initialize positions    
-  15:.\main.c      ****     x_positions[pos_index] = x_position;
-  56              		.loc 1 15 0
-  57 0004 0B4B     		ldr	r3, .L3
-  58 0006 1B78     		ldrb	r3, [r3]
-  59 0008 1A1C     		mov	r2, r3
-  60 000a 0B4B     		ldr	r3, .L3+4
-  61 000c 1988     		ldrh	r1, [r3]
-  62 000e 0B4B     		ldr	r3, .L3+8
-  63 0010 5200     		lsl	r2, r2, #1
-  64 0012 D152     		strh	r1, [r2, r3]
-  16:.\main.c      ****     y_positions[pos_index] = y_position;
-  65              		.loc 1 16 0
-  66 0014 074B     		ldr	r3, .L3
-  67 0016 1B78     		ldrb	r3, [r3]
-  68 0018 1A1C     		mov	r2, r3
-  69 001a 094B     		ldr	r3, .L3+12
-  70 001c 1988     		ldrh	r1, [r3]
-  71 001e 094B     		ldr	r3, .L3+16
-  72 0020 5200     		lsl	r2, r2, #1
-  73 0022 D152     		strh	r1, [r2, r3]
-  17:.\main.c      ****     
-  18:.\main.c      ****     // Start the serial communication systems
-  19:.\main.c      ****     SPI_Start();
-  74              		.loc 1 19 0
-  75 0024 FFF7FEFF 		bl	SPI_Start
-  20:.\main.c      ****     UART_Start();
-  76              		.loc 1 20 0
-  77 0028 FFF7FEFF 		bl	UART_Start
-  21:.\main.c      ****     
-  22:.\main.c      ****     // Enable interrupts for the SPI system
-  23:.\main.c      ****     SPI_EnableRxInt();
-  78              		.loc 1 23 0
-  79 002c FFF7FEFF 		bl	SPI_EnableRxInt
-  24:.\main.c      ****     
-  25:.\main.c      ****     // Enable global interrupts
-  26:.\main.c      ****     CyGlobalIntEnable;
-  80              		.loc 1 26 0
-  81              	@ 26 ".\main.c" 1
-  82 0030 62B6     		CPSIE   i
-  83              	@ 0 "" 2
-  84              		.code	16
-  85              	.L2:
+  90              		.loc 1 24 0
+  91 0006 3C1C     		mov	r4, r7
+  92 0008 0E34     		add	r4, r4, #14
+  93 000a FFF7FEFF 		bl	SPI_ReadRxData
+  94 000e 031C     		mov	r3, r0
+  95 0010 2380     		strh	r3, [r4]
+  25:.\main.c      ****     int8 delta_x = (0xf0 | rxData) >> 8;
+  96              		.loc 1 25 0
+  97 0012 3B1C     		mov	r3, r7
+  98 0014 0E33     		add	r3, r3, #14
+  99 0016 1B88     		ldrh	r3, [r3]
+ 100 0018 F022     		mov	r2, #240
+ 101 001a 1343     		orr	r3, r2
+ 102 001c 9BB2     		uxth	r3, r3
+ 103 001e 1B0A     		lsr	r3, r3, #8
+ 104 0020 9AB2     		uxth	r2, r3
+ 105 0022 3B1C     		mov	r3, r7
+ 106 0024 0D33     		add	r3, r3, #13
+ 107 0026 1A70     		strb	r2, [r3]
+  26:.\main.c      ****     int8 delta_y = 0x0f | rxData;
+ 108              		.loc 1 26 0
+ 109 0028 3B1C     		mov	r3, r7
+ 110 002a 0E33     		add	r3, r3, #14
+ 111 002c 1B88     		ldrh	r3, [r3]
+ 112 002e DBB2     		uxtb	r3, r3
+ 113 0030 0F22     		mov	r2, #15
+ 114 0032 1343     		orr	r3, r2
+ 115 0034 DAB2     		uxtb	r2, r3
+ 116 0036 3B1C     		mov	r3, r7
+ 117 0038 0C33     		add	r3, r3, #12
+ 118 003a 1A70     		strb	r2, [r3]
   27:.\main.c      ****     
-  28:.\main.c      ****     // Chill out
-  29:.\main.c      ****     for(;;) { }
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 3
+  28:.\main.c      ****     if (action_state == RECORDING && positions_full == false && reading == true) {
+ 119              		.loc 1 28 0
+ 120 003c 2D4B     		ldr	r3, .L4
+ 121 003e 1B78     		ldrb	r3, [r3]
+ 122 0040 002B     		cmp	r3, #0
+ 123 0042 54D1     		bne	.L1
+ 124              		.loc 1 28 0 is_stmt 0 discriminator 1
+ 125 0044 2C4B     		ldr	r3, .L4+4
+ 126 0046 1B68     		ldr	r3, [r3]
+ 127 0048 002B     		cmp	r3, #0
+ 128 004a 50D1     		bne	.L1
+ 129 004c 2B4B     		ldr	r3, .L4+8
+ 130 004e 1B68     		ldr	r3, [r3]
+ 131 0050 012B     		cmp	r3, #1
+ 132 0052 4CD1     		bne	.L1
+ 133              	.LBB2:
+  29:.\main.c      ****         // Update x and y positions
+  30:.\main.c      ****         x_position += delta_x;
+ 134              		.loc 1 30 0 is_stmt 1
+ 135 0054 3B1C     		mov	r3, r7
+ 136 0056 0D33     		add	r3, r3, #13
+ 137 0058 1B78     		ldrb	r3, [r3]
+ 138 005a 5BB2     		sxtb	r3, r3
+ 139 005c 9AB2     		uxth	r2, r3
+ 140 005e 284B     		ldr	r3, .L4+12
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 4
 
 
-  86              		.loc 1 29 0 discriminator 1
-  87 0032 FEE7     		b	.L2
-  88              	.L4:
-  89              		.align	2
-  90              	.L3:
-  91 0034 00000000 		.word	pos_index
-  92 0038 00000000 		.word	x_position
-  93 003c 00000000 		.word	x_positions
-  94 0040 00000000 		.word	y_position
-  95 0044 00000000 		.word	y_positions
-  96              		.cfi_endproc
-  97              	.LFE33:
-  98              		.size	main, .-main
-  99              		.text
- 100              	.Letext0:
- 101              		.file 2 "./Generated_Source/PSoC4/cytypes.h"
- 102              		.section	.debug_info,"",%progbits
- 103              	.Ldebug_info0:
- 104 0000 21010000 		.4byte	0x121
- 105 0004 0200     		.2byte	0x2
- 106 0006 00000000 		.4byte	.Ldebug_abbrev0
- 107 000a 04       		.byte	0x4
- 108 000b 01       		.uleb128 0x1
- 109 000c D5000000 		.4byte	.LASF20
- 110 0010 01       		.byte	0x1
- 111 0011 7C010000 		.4byte	.LASF21
- 112 0015 26000000 		.4byte	.LASF22
- 113 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 114 001d 00000000 		.4byte	0
- 115 0021 00000000 		.4byte	0
- 116 0025 00000000 		.4byte	.Ldebug_line0
- 117 0029 02       		.uleb128 0x2
- 118 002a 01       		.byte	0x1
- 119 002b 06       		.byte	0x6
- 120 002c 64010000 		.4byte	.LASF0
- 121 0030 02       		.uleb128 0x2
- 122 0031 01       		.byte	0x1
- 123 0032 08       		.byte	0x8
- 124 0033 24010000 		.4byte	.LASF1
- 125 0037 02       		.uleb128 0x2
- 126 0038 02       		.byte	0x2
- 127 0039 05       		.byte	0x5
- 128 003a 40010000 		.4byte	.LASF2
- 129 003e 02       		.uleb128 0x2
- 130 003f 02       		.byte	0x2
- 131 0040 07       		.byte	0x7
- 132 0041 51010000 		.4byte	.LASF3
- 133 0045 02       		.uleb128 0x2
- 134 0046 04       		.byte	0x4
- 135 0047 05       		.byte	0x5
- 136 0048 37010000 		.4byte	.LASF4
- 137 004c 02       		.uleb128 0x2
- 138 004d 04       		.byte	0x4
- 139 004e 07       		.byte	0x7
- 140 004f AC000000 		.4byte	.LASF5
- 141 0053 02       		.uleb128 0x2
- 142 0054 08       		.byte	0x8
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 4
+ 141 0060 1B88     		ldrh	r3, [r3]
+ 142 0062 9BB2     		uxth	r3, r3
+ 143 0064 D318     		add	r3, r2, r3
+ 144 0066 9BB2     		uxth	r3, r3
+ 145 0068 9AB2     		uxth	r2, r3
+ 146 006a 254B     		ldr	r3, .L4+12
+ 147 006c 1A80     		strh	r2, [r3]
+  31:.\main.c      ****         y_position += delta_y;
+ 148              		.loc 1 31 0
+ 149 006e 3B1C     		mov	r3, r7
+ 150 0070 0C33     		add	r3, r3, #12
+ 151 0072 1B78     		ldrb	r3, [r3]
+ 152 0074 5BB2     		sxtb	r3, r3
+ 153 0076 9AB2     		uxth	r2, r3
+ 154 0078 224B     		ldr	r3, .L4+16
+ 155 007a 1B88     		ldrh	r3, [r3]
+ 156 007c 9BB2     		uxth	r3, r3
+ 157 007e D318     		add	r3, r2, r3
+ 158 0080 9BB2     		uxth	r3, r3
+ 159 0082 9AB2     		uxth	r2, r3
+ 160 0084 1F4B     		ldr	r3, .L4+16
+ 161 0086 1A80     		strh	r2, [r3]
+  32:.\main.c      ****         x_positions[pos_index] = x_position;
+ 162              		.loc 1 32 0
+ 163 0088 1F4B     		ldr	r3, .L4+20
+ 164 008a 1B88     		ldrh	r3, [r3]
+ 165 008c 1A1C     		mov	r2, r3
+ 166 008e 1C4B     		ldr	r3, .L4+12
+ 167 0090 1988     		ldrh	r1, [r3]
+ 168 0092 1E4B     		ldr	r3, .L4+24
+ 169 0094 5200     		lsl	r2, r2, #1
+ 170 0096 D152     		strh	r1, [r2, r3]
+  33:.\main.c      ****         y_positions[pos_index] = y_position;
+ 171              		.loc 1 33 0
+ 172 0098 1B4B     		ldr	r3, .L4+20
+ 173 009a 1B88     		ldrh	r3, [r3]
+ 174 009c 1A1C     		mov	r2, r3
+ 175 009e 194B     		ldr	r3, .L4+16
+ 176 00a0 1988     		ldrh	r1, [r3]
+ 177 00a2 1B4B     		ldr	r3, .L4+28
+ 178 00a4 5200     		lsl	r2, r2, #1
+ 179 00a6 D152     		strh	r1, [r2, r3]
+  34:.\main.c      ****         
+  35:.\main.c      ****         // Send it to the desktop
+  36:.\main.c      ****         char outputString[12];
+  37:.\main.c      ****         snprintf(outputString, 12, "%i %i", x_position, y_position);
+ 180              		.loc 1 37 0
+ 181 00a8 154B     		ldr	r3, .L4+12
+ 182 00aa 1B88     		ldrh	r3, [r3]
+ 183 00ac 1BB2     		sxth	r3, r3
+ 184 00ae 154A     		ldr	r2, .L4+16
+ 185 00b0 1288     		ldrh	r2, [r2]
+ 186 00b2 10B2     		sxth	r0, r2
+ 187 00b4 391C     		mov	r1, r7
+ 188 00b6 174A     		ldr	r2, .L4+32
+ 189 00b8 0090     		str	r0, [sp]
+ 190 00ba 081C     		mov	r0, r1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 5
 
 
- 143 0055 05       		.byte	0x5
- 144 0056 00000000 		.4byte	.LASF6
- 145 005a 02       		.uleb128 0x2
- 146 005b 08       		.byte	0x8
- 147 005c 07       		.byte	0x7
- 148 005d BE000000 		.4byte	.LASF7
- 149 0061 03       		.uleb128 0x3
- 150 0062 04       		.byte	0x4
- 151 0063 05       		.byte	0x5
- 152 0064 696E7400 		.ascii	"int\000"
- 153 0068 02       		.uleb128 0x2
- 154 0069 04       		.byte	0x4
- 155 006a 07       		.byte	0x7
- 156 006b 0E000000 		.4byte	.LASF8
- 157 006f 04       		.uleb128 0x4
- 158 0070 A6000000 		.4byte	.LASF9
- 159 0074 02       		.byte	0x2
- 160 0075 5B       		.byte	0x5b
- 161 0076 30000000 		.4byte	0x30
- 162 007a 04       		.uleb128 0x4
- 163 007b 85010000 		.4byte	.LASF10
- 164 007f 02       		.byte	0x2
- 165 0080 5C       		.byte	0x5c
- 166 0081 3E000000 		.4byte	0x3e
- 167 0085 02       		.uleb128 0x2
- 168 0086 04       		.byte	0x4
- 169 0087 04       		.byte	0x4
- 170 0088 1E010000 		.4byte	.LASF11
- 171 008c 02       		.uleb128 0x2
- 172 008d 08       		.byte	0x8
- 173 008e 04       		.byte	0x4
- 174 008f 4A010000 		.4byte	.LASF12
- 175 0093 02       		.uleb128 0x2
- 176 0094 01       		.byte	0x1
- 177 0095 08       		.byte	0x8
- 178 0096 32010000 		.4byte	.LASF13
- 179 009a 02       		.uleb128 0x2
- 180 009b 04       		.byte	0x4
- 181 009c 07       		.byte	0x7
- 182 009d 8C010000 		.4byte	.LASF14
- 183 00a1 05       		.uleb128 0x5
- 184 00a2 01       		.byte	0x1
- 185 00a3 95000000 		.4byte	.LASF23
- 186 00a7 01       		.byte	0x1
- 187 00a8 0C       		.byte	0xc
- 188 00a9 61000000 		.4byte	0x61
- 189 00ad 00000000 		.4byte	.LFB33
- 190 00b1 48000000 		.4byte	.LFE33
- 191 00b5 00000000 		.4byte	.LLST0
- 192 00b9 01       		.byte	0x1
- 193 00ba 06       		.uleb128 0x6
- 194 00bb 8A000000 		.4byte	.LASF15
- 195 00bf 01       		.byte	0x1
- 196 00c0 05       		.byte	0x5
- 197 00c1 7A000000 		.4byte	0x7a
- 198 00c5 01       		.byte	0x1
- 199 00c6 05       		.byte	0x5
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 5
+ 191 00bc 0C21     		mov	r1, #12
+ 192 00be FFF7FEFF 		bl	snprintf
+  38:.\main.c      ****         UART_UartPutString(outputString);
+ 193              		.loc 1 38 0
+ 194 00c2 3B1C     		mov	r3, r7
+ 195 00c4 181C     		mov	r0, r3
+ 196 00c6 FFF7FEFF 		bl	UART_UartPutString
+  39:.\main.c      ****         UART_UartPutString("\r\n");
+ 197              		.loc 1 39 0
+ 198 00ca 134B     		ldr	r3, .L4+36
+ 199 00cc 181C     		mov	r0, r3
+ 200 00ce FFF7FEFF 		bl	UART_UartPutString
+  40:.\main.c      ****         
+  41:.\main.c      ****         // Update pos_index
+  42:.\main.c      ****         pos_index++;
+ 201              		.loc 1 42 0
+ 202 00d2 0D4B     		ldr	r3, .L4+20
+ 203 00d4 1B88     		ldrh	r3, [r3]
+ 204 00d6 0133     		add	r3, r3, #1
+ 205 00d8 9AB2     		uxth	r2, r3
+ 206 00da 0B4B     		ldr	r3, .L4+20
+ 207 00dc 1A80     		strh	r2, [r3]
+  43:.\main.c      ****         if (pos_index > 511) {
+ 208              		.loc 1 43 0
+ 209 00de 0A4B     		ldr	r3, .L4+20
+ 210 00e0 1A88     		ldrh	r2, [r3]
+ 211 00e2 0E4B     		ldr	r3, .L4+40
+ 212 00e4 9A42     		cmp	r2, r3
+ 213 00e6 02D9     		bls	.L1
+  44:.\main.c      ****             positions_full = true;
+ 214              		.loc 1 44 0
+ 215 00e8 034B     		ldr	r3, .L4+4
+ 216 00ea 0122     		mov	r2, #1
+ 217 00ec 1A60     		str	r2, [r3]
+ 218              	.L1:
+ 219              	.LBE2:
+  45:.\main.c      ****         }
+  46:.\main.c      ****     }
+  47:.\main.c      **** }
+ 220              		.loc 1 47 0
+ 221 00ee BD46     		mov	sp, r7
+ 222 00f0 05B0     		add	sp, sp, #20
+ 223              		@ sp needed for prologue
+ 224 00f2 90BD     		pop	{r4, r7, pc}
+ 225              	.L5:
+ 226              		.align	2
+ 227              	.L4:
+ 228 00f4 00000000 		.word	action_state
+ 229 00f8 00000000 		.word	positions_full
+ 230 00fc 00000000 		.word	reading
+ 231 0100 00000000 		.word	x_position
+ 232 0104 00000000 		.word	y_position
+ 233 0108 00000000 		.word	pos_index
+ 234 010c 00000000 		.word	x_positions
+ 235 0110 00000000 		.word	y_positions
+ 236 0114 00000000 		.word	.LC8
+ 237 0118 08000000 		.word	.LC10
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 6
 
 
- 200 00c7 03       		.byte	0x3
- 201 00c8 00000000 		.4byte	x_position
- 202 00cc 06       		.uleb128 0x6
- 203 00cd 1B000000 		.4byte	.LASF16
- 204 00d1 01       		.byte	0x1
- 205 00d2 06       		.byte	0x6
- 206 00d3 7A000000 		.4byte	0x7a
- 207 00d7 01       		.byte	0x1
- 208 00d8 05       		.byte	0x5
- 209 00d9 03       		.byte	0x3
- 210 00da 00000000 		.4byte	y_position
- 211 00de 07       		.uleb128 0x7
- 212 00df 7A000000 		.4byte	0x7a
- 213 00e3 EE000000 		.4byte	0xee
- 214 00e7 08       		.uleb128 0x8
- 215 00e8 9A000000 		.4byte	0x9a
- 216 00ec FF       		.byte	0xff
- 217 00ed 00       		.byte	0
- 218 00ee 06       		.uleb128 0x6
- 219 00ef 9A000000 		.4byte	.LASF17
- 220 00f3 01       		.byte	0x1
- 221 00f4 08       		.byte	0x8
- 222 00f5 DE000000 		.4byte	0xde
- 223 00f9 01       		.byte	0x1
- 224 00fa 05       		.byte	0x5
- 225 00fb 03       		.byte	0x3
- 226 00fc 00000000 		.4byte	x_positions
- 227 0100 06       		.uleb128 0x6
- 228 0101 70010000 		.4byte	.LASF18
- 229 0105 01       		.byte	0x1
- 230 0106 09       		.byte	0x9
- 231 0107 DE000000 		.4byte	0xde
- 232 010b 01       		.byte	0x1
- 233 010c 05       		.byte	0x5
- 234 010d 03       		.byte	0x3
- 235 010e 00000000 		.4byte	y_positions
- 236 0112 06       		.uleb128 0x6
- 237 0113 80000000 		.4byte	.LASF19
- 238 0117 01       		.byte	0x1
- 239 0118 0A       		.byte	0xa
- 240 0119 6F000000 		.4byte	0x6f
- 241 011d 01       		.byte	0x1
- 242 011e 05       		.byte	0x5
- 243 011f 03       		.byte	0x3
- 244 0120 00000000 		.4byte	pos_index
- 245 0124 00       		.byte	0
- 246              		.section	.debug_abbrev,"",%progbits
- 247              	.Ldebug_abbrev0:
- 248 0000 01       		.uleb128 0x1
- 249 0001 11       		.uleb128 0x11
- 250 0002 01       		.byte	0x1
- 251 0003 25       		.uleb128 0x25
- 252 0004 0E       		.uleb128 0xe
- 253 0005 13       		.uleb128 0x13
- 254 0006 0B       		.uleb128 0xb
- 255 0007 03       		.uleb128 0x3
- 256 0008 0E       		.uleb128 0xe
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 6
+ 238 011c FF010000 		.word	511
+ 239              		.cfi_endproc
+ 240              	.LFE33:
+ 241              		.size	isr_spi_handler, .-isr_spi_handler
+ 242              		.section	.text.isr_reset_handler,"ax",%progbits
+ 243              		.align	2
+ 244              		.global	isr_reset_handler
+ 245              		.code	16
+ 246              		.thumb_func
+ 247              		.type	isr_reset_handler, %function
+ 248              	isr_reset_handler:
+ 249              	.LFB34:
+  48:.\main.c      **** 
+  49:.\main.c      **** CY_ISR(isr_reset_handler) {
+ 250              		.loc 1 49 0
+ 251              		.cfi_startproc
+ 252 0000 80B5     		push	{r7, lr}
+ 253              	.LCFI3:
+ 254              		.cfi_def_cfa_offset 8
+ 255              		.cfi_offset 7, -8
+ 256              		.cfi_offset 14, -4
+ 257 0002 00AF     		add	r7, sp, #0
+ 258              	.LCFI4:
+ 259              		.cfi_def_cfa_register 7
+  50:.\main.c      ****     // Reset everything back to initial values
+  51:.\main.c      ****     x_position = 0;
+ 260              		.loc 1 51 0
+ 261 0004 064B     		ldr	r3, .L7
+ 262 0006 0022     		mov	r2, #0
+ 263 0008 1A80     		strh	r2, [r3]
+  52:.\main.c      ****     y_position = 0;
+ 264              		.loc 1 52 0
+ 265 000a 064B     		ldr	r3, .L7+4
+ 266 000c 0022     		mov	r2, #0
+ 267 000e 1A80     		strh	r2, [r3]
+  53:.\main.c      ****     pos_index = 0;
+ 268              		.loc 1 53 0
+ 269 0010 054B     		ldr	r3, .L7+8
+ 270 0012 0022     		mov	r2, #0
+ 271 0014 1A80     		strh	r2, [r3]
+  54:.\main.c      ****     positions_full = false;
+ 272              		.loc 1 54 0
+ 273 0016 054B     		ldr	r3, .L7+12
+ 274 0018 0022     		mov	r2, #0
+ 275 001a 1A60     		str	r2, [r3]
+  55:.\main.c      **** }
+ 276              		.loc 1 55 0
+ 277 001c BD46     		mov	sp, r7
+ 278              		@ sp needed for prologue
+ 279 001e 80BD     		pop	{r7, pc}
+ 280              	.L8:
+ 281              		.align	2
+ 282              	.L7:
+ 283 0020 00000000 		.word	x_position
+ 284 0024 00000000 		.word	y_position
+ 285 0028 00000000 		.word	pos_index
+ 286 002c 00000000 		.word	positions_full
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 7
 
 
- 257 0009 1B       		.uleb128 0x1b
- 258 000a 0E       		.uleb128 0xe
- 259 000b 55       		.uleb128 0x55
- 260 000c 06       		.uleb128 0x6
- 261 000d 11       		.uleb128 0x11
- 262 000e 01       		.uleb128 0x1
- 263 000f 52       		.uleb128 0x52
- 264 0010 01       		.uleb128 0x1
- 265 0011 10       		.uleb128 0x10
- 266 0012 06       		.uleb128 0x6
- 267 0013 00       		.byte	0
- 268 0014 00       		.byte	0
- 269 0015 02       		.uleb128 0x2
- 270 0016 24       		.uleb128 0x24
- 271 0017 00       		.byte	0
- 272 0018 0B       		.uleb128 0xb
- 273 0019 0B       		.uleb128 0xb
- 274 001a 3E       		.uleb128 0x3e
- 275 001b 0B       		.uleb128 0xb
- 276 001c 03       		.uleb128 0x3
- 277 001d 0E       		.uleb128 0xe
- 278 001e 00       		.byte	0
- 279 001f 00       		.byte	0
- 280 0020 03       		.uleb128 0x3
- 281 0021 24       		.uleb128 0x24
- 282 0022 00       		.byte	0
- 283 0023 0B       		.uleb128 0xb
- 284 0024 0B       		.uleb128 0xb
- 285 0025 3E       		.uleb128 0x3e
- 286 0026 0B       		.uleb128 0xb
- 287 0027 03       		.uleb128 0x3
- 288 0028 08       		.uleb128 0x8
- 289 0029 00       		.byte	0
- 290 002a 00       		.byte	0
- 291 002b 04       		.uleb128 0x4
- 292 002c 16       		.uleb128 0x16
- 293 002d 00       		.byte	0
- 294 002e 03       		.uleb128 0x3
- 295 002f 0E       		.uleb128 0xe
- 296 0030 3A       		.uleb128 0x3a
- 297 0031 0B       		.uleb128 0xb
- 298 0032 3B       		.uleb128 0x3b
- 299 0033 0B       		.uleb128 0xb
- 300 0034 49       		.uleb128 0x49
- 301 0035 13       		.uleb128 0x13
- 302 0036 00       		.byte	0
- 303 0037 00       		.byte	0
- 304 0038 05       		.uleb128 0x5
- 305 0039 2E       		.uleb128 0x2e
- 306 003a 00       		.byte	0
- 307 003b 3F       		.uleb128 0x3f
- 308 003c 0C       		.uleb128 0xc
- 309 003d 03       		.uleb128 0x3
- 310 003e 0E       		.uleb128 0xe
- 311 003f 3A       		.uleb128 0x3a
- 312 0040 0B       		.uleb128 0xb
- 313 0041 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 7
+ 287              		.cfi_endproc
+ 288              	.LFE34:
+ 289              		.size	isr_reset_handler, .-isr_reset_handler
+ 290              		.section	.text.isr_button_handler,"ax",%progbits
+ 291              		.align	2
+ 292              		.global	isr_button_handler
+ 293              		.code	16
+ 294              		.thumb_func
+ 295              		.type	isr_button_handler, %function
+ 296              	isr_button_handler:
+ 297              	.LFB35:
+  56:.\main.c      **** 
+  57:.\main.c      **** CY_ISR(isr_button_handler) {
+ 298              		.loc 1 57 0
+ 299              		.cfi_startproc
+ 300 0000 90B5     		push	{r4, r7, lr}
+ 301              	.LCFI5:
+ 302              		.cfi_def_cfa_offset 12
+ 303              		.cfi_offset 4, -12
+ 304              		.cfi_offset 7, -8
+ 305              		.cfi_offset 14, -4
+ 306 0002 83B0     		sub	sp, sp, #12
+ 307              	.LCFI6:
+ 308              		.cfi_def_cfa_offset 24
+ 309 0004 00AF     		add	r7, sp, #0
+ 310              	.LCFI7:
+ 311              		.cfi_def_cfa_register 7
+  58:.\main.c      ****     CyDelay(1);
+ 312              		.loc 1 58 0
+ 313 0006 0120     		mov	r0, #1
+ 314 0008 FFF7FEFF 		bl	CyDelay
+  59:.\main.c      ****     // Change the action_state to reflect which way the switch is set
+  60:.\main.c      ****     uint8 btn = Pin_Button_Read();
+ 315              		.loc 1 60 0
+ 316 000c FC1D     		add	r4, r7, #7
+ 317 000e FFF7FEFF 		bl	Pin_Button_Read
+ 318 0012 031C     		mov	r3, r0
+ 319 0014 2370     		strb	r3, [r4]
+  61:.\main.c      ****     if ((0x2 & btn) == 0) {
+ 320              		.loc 1 61 0
+ 321 0016 FB1D     		add	r3, r7, #7
+ 322 0018 1A78     		ldrb	r2, [r3]
+ 323 001a 0223     		mov	r3, #2
+ 324 001c 1340     		and	r3, r2
+ 325 001e DBB2     		uxtb	r3, r3
+ 326 0020 002B     		cmp	r3, #0
+ 327 0022 03D1     		bne	.L10
+  62:.\main.c      ****         action_state = RECORDING;
+ 328              		.loc 1 62 0
+ 329 0024 1A4B     		ldr	r3, .L15
+ 330 0026 0022     		mov	r2, #0
+ 331 0028 1A70     		strb	r2, [r3]
+ 332 002a 0DE0     		b	.L11
+ 333              	.L10:
+  63:.\main.c      ****     } else if ((0x4 & btn) == 0) {
+ 334              		.loc 1 63 0
+ 335 002c FB1D     		add	r3, r7, #7
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 8
 
 
- 314 0042 0B       		.uleb128 0xb
- 315 0043 49       		.uleb128 0x49
- 316 0044 13       		.uleb128 0x13
- 317 0045 11       		.uleb128 0x11
- 318 0046 01       		.uleb128 0x1
- 319 0047 12       		.uleb128 0x12
- 320 0048 01       		.uleb128 0x1
- 321 0049 40       		.uleb128 0x40
- 322 004a 06       		.uleb128 0x6
- 323 004b 9642     		.uleb128 0x2116
- 324 004d 0C       		.uleb128 0xc
- 325 004e 00       		.byte	0
- 326 004f 00       		.byte	0
- 327 0050 06       		.uleb128 0x6
- 328 0051 34       		.uleb128 0x34
- 329 0052 00       		.byte	0
- 330 0053 03       		.uleb128 0x3
- 331 0054 0E       		.uleb128 0xe
- 332 0055 3A       		.uleb128 0x3a
- 333 0056 0B       		.uleb128 0xb
- 334 0057 3B       		.uleb128 0x3b
- 335 0058 0B       		.uleb128 0xb
- 336 0059 49       		.uleb128 0x49
- 337 005a 13       		.uleb128 0x13
- 338 005b 3F       		.uleb128 0x3f
- 339 005c 0C       		.uleb128 0xc
- 340 005d 02       		.uleb128 0x2
- 341 005e 0A       		.uleb128 0xa
- 342 005f 00       		.byte	0
- 343 0060 00       		.byte	0
- 344 0061 07       		.uleb128 0x7
- 345 0062 01       		.uleb128 0x1
- 346 0063 01       		.byte	0x1
- 347 0064 49       		.uleb128 0x49
- 348 0065 13       		.uleb128 0x13
- 349 0066 01       		.uleb128 0x1
- 350 0067 13       		.uleb128 0x13
- 351 0068 00       		.byte	0
- 352 0069 00       		.byte	0
- 353 006a 08       		.uleb128 0x8
- 354 006b 21       		.uleb128 0x21
- 355 006c 00       		.byte	0
- 356 006d 49       		.uleb128 0x49
- 357 006e 13       		.uleb128 0x13
- 358 006f 2F       		.uleb128 0x2f
- 359 0070 0B       		.uleb128 0xb
- 360 0071 00       		.byte	0
- 361 0072 00       		.byte	0
- 362 0073 00       		.byte	0
- 363              		.section	.debug_loc,"",%progbits
- 364              	.Ldebug_loc0:
- 365              	.LLST0:
- 366 0000 00000000 		.4byte	.LFB33
- 367 0004 02000000 		.4byte	.LCFI0
- 368 0008 0200     		.2byte	0x2
- 369 000a 7D       		.byte	0x7d
- 370 000b 00       		.sleb128 0
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 8
+ 336 002e 1A78     		ldrb	r2, [r3]
+ 337 0030 0423     		mov	r3, #4
+ 338 0032 1340     		and	r3, r2
+ 339 0034 DBB2     		uxtb	r3, r3
+ 340 0036 002B     		cmp	r3, #0
+ 341 0038 03D1     		bne	.L12
+  64:.\main.c      ****         action_state = VERIFYING;
+ 342              		.loc 1 64 0
+ 343 003a 154B     		ldr	r3, .L15
+ 344 003c 0122     		mov	r2, #1
+ 345 003e 1A70     		strb	r2, [r3]
+ 346 0040 02E0     		b	.L11
+ 347              	.L12:
+  65:.\main.c      ****     } else {
+  66:.\main.c      ****         action_state = FORGING;
+ 348              		.loc 1 66 0
+ 349 0042 134B     		ldr	r3, .L15
+ 350 0044 0222     		mov	r2, #2
+ 351 0046 1A70     		strb	r2, [r3]
+ 352              	.L11:
+  67:.\main.c      ****     }
+  68:.\main.c      ****     
+  69:.\main.c      ****     // Change the reading variable to reflect whether the red button is held down or not
+  70:.\main.c      ****     if ((0x1 & btn) == 0) {
+ 353              		.loc 1 70 0
+ 354 0048 FB1D     		add	r3, r7, #7
+ 355 004a 1A78     		ldrb	r2, [r3]
+ 356 004c 0123     		mov	r3, #1
+ 357 004e 1340     		and	r3, r2
+ 358 0050 DBB2     		uxtb	r3, r3
+ 359 0052 002B     		cmp	r3, #0
+ 360 0054 03D1     		bne	.L13
+  71:.\main.c      ****         reading = true;
+ 361              		.loc 1 71 0
+ 362 0056 0F4B     		ldr	r3, .L15+4
+ 363 0058 0122     		mov	r2, #1
+ 364 005a 1A60     		str	r2, [r3]
+ 365 005c 02E0     		b	.L14
+ 366              	.L13:
+  72:.\main.c      ****     } else {
+  73:.\main.c      ****         reading = false;
+ 367              		.loc 1 73 0
+ 368 005e 0D4B     		ldr	r3, .L15+4
+ 369 0060 0022     		mov	r2, #0
+ 370 0062 1A60     		str	r2, [r3]
+ 371              	.L14:
+  74:.\main.c      ****     }
+  75:.\main.c      ****     
+  76:.\main.c      ****     // Debugging!
+  77:.\main.c      ****     Pin_LED_Debug_Write(action_state == RECORDING);
+ 372              		.loc 1 77 0
+ 373 0064 0A4B     		ldr	r3, .L15
+ 374 0066 1B78     		ldrb	r3, [r3]
+ 375 0068 5A42     		neg	r2, r3
+ 376 006a 5341     		adc	r3, r3, r2
+ 377 006c DBB2     		uxtb	r3, r3
+ 378 006e 181C     		mov	r0, r3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 9
 
 
- 371 000c 02000000 		.4byte	.LCFI0
- 372 0010 04000000 		.4byte	.LCFI1
- 373 0014 0200     		.2byte	0x2
- 374 0016 7D       		.byte	0x7d
- 375 0017 08       		.sleb128 8
- 376 0018 04000000 		.4byte	.LCFI1
- 377 001c 48000000 		.4byte	.LFE33
- 378 0020 0200     		.2byte	0x2
- 379 0022 77       		.byte	0x77
- 380 0023 08       		.sleb128 8
- 381 0024 00000000 		.4byte	0
- 382 0028 00000000 		.4byte	0
- 383              		.section	.debug_aranges,"",%progbits
- 384 0000 1C000000 		.4byte	0x1c
- 385 0004 0200     		.2byte	0x2
- 386 0006 00000000 		.4byte	.Ldebug_info0
- 387 000a 04       		.byte	0x4
- 388 000b 00       		.byte	0
- 389 000c 0000     		.2byte	0
- 390 000e 0000     		.2byte	0
- 391 0010 00000000 		.4byte	.LFB33
- 392 0014 48000000 		.4byte	.LFE33-.LFB33
- 393 0018 00000000 		.4byte	0
- 394 001c 00000000 		.4byte	0
- 395              		.section	.debug_ranges,"",%progbits
- 396              	.Ldebug_ranges0:
- 397 0000 00000000 		.4byte	.LFB33
- 398 0004 48000000 		.4byte	.LFE33
- 399 0008 00000000 		.4byte	0
- 400 000c 00000000 		.4byte	0
- 401              		.section	.debug_line,"",%progbits
- 402              	.Ldebug_line0:
- 403 0000 65000000 		.section	.debug_str,"MS",%progbits,1
- 403      02004500 
- 403      00000201 
- 403      FB0E0D00 
- 403      01010101 
- 404              	.LASF6:
- 405 0000 6C6F6E67 		.ascii	"long long int\000"
- 405      206C6F6E 
- 405      6720696E 
- 405      7400
- 406              	.LASF8:
- 407 000e 756E7369 		.ascii	"unsigned int\000"
- 407      676E6564 
- 407      20696E74 
- 407      00
- 408              	.LASF16:
- 409 001b 795F706F 		.ascii	"y_position\000"
- 409      73697469 
- 409      6F6E00
- 410              	.LASF22:
- 411 0026 433A5C55 		.ascii	"C:\\Users\\trehans\\Documents\\SignAway\\Source\\PS"
- 411      73657273 
- 411      5C747265 
- 411      68616E73 
- 411      5C446F63 
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 9
+ 379 0070 FFF7FEFF 		bl	Pin_LED_Debug_Write
+  78:.\main.c      ****     debug_state = HIGH - debug_state;
+ 380              		.loc 1 78 0
+ 381 0074 084B     		ldr	r3, .L15+8
+ 382 0076 1B78     		ldrb	r3, [r3]
+ 383 0078 0122     		mov	r2, #1
+ 384 007a D31A     		sub	r3, r2, r3
+ 385 007c DAB2     		uxtb	r2, r3
+ 386 007e 064B     		ldr	r3, .L15+8
+ 387 0080 1A70     		strb	r2, [r3]
+  79:.\main.c      ****     
+  80:.\main.c      ****     isr_button_ClearPending();
+ 388              		.loc 1 80 0
+ 389 0082 FFF7FEFF 		bl	isr_button_ClearPending
+  81:.\main.c      ****     Pin_Button_ClearInterrupt();
+ 390              		.loc 1 81 0
+ 391 0086 FFF7FEFF 		bl	Pin_Button_ClearInterrupt
+  82:.\main.c      **** }
+ 392              		.loc 1 82 0
+ 393 008a BD46     		mov	sp, r7
+ 394 008c 03B0     		add	sp, sp, #12
+ 395              		@ sp needed for prologue
+ 396 008e 90BD     		pop	{r4, r7, pc}
+ 397              	.L16:
+ 398              		.align	2
+ 399              	.L15:
+ 400 0090 00000000 		.word	action_state
+ 401 0094 00000000 		.word	reading
+ 402 0098 00000000 		.word	debug_state
+ 403              		.cfi_endproc
+ 404              	.LFE35:
+ 405              		.size	isr_button_handler, .-isr_button_handler
+ 406              		.section	.text.main,"ax",%progbits
+ 407              		.align	2
+ 408              		.global	main
+ 409              		.code	16
+ 410              		.thumb_func
+ 411              		.type	main, %function
+ 412              	main:
+ 413              	.LFB36:
+  83:.\main.c      **** 
+  84:.\main.c      **** int main()
+  85:.\main.c      **** {
+ 414              		.loc 1 85 0
+ 415              		.cfi_startproc
+ 416 0000 80B5     		push	{r7, lr}
+ 417              	.LCFI8:
+ 418              		.cfi_def_cfa_offset 8
+ 419              		.cfi_offset 7, -8
+ 420              		.cfi_offset 14, -4
+ 421 0002 00AF     		add	r7, sp, #0
+ 422              	.LCFI9:
+ 423              		.cfi_def_cfa_register 7
+  86:.\main.c      ****     // Initialize positions    
+  87:.\main.c      ****     x_positions[pos_index] = x_position;
+ 424              		.loc 1 87 0
+ 425 0004 174B     		ldr	r3, .L19
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 10
 
 
- 412 0053 6F435C53 		.ascii	"oC\\SignatureVerifier\\SignatureVerifier.cydsn\000"
- 412      69676E61 
- 412      74757265 
- 412      56657269 
- 412      66696572 
- 413              	.LASF19:
- 414 0080 706F735F 		.ascii	"pos_index\000"
- 414      696E6465 
- 414      7800
- 415              	.LASF15:
- 416 008a 785F706F 		.ascii	"x_position\000"
- 416      73697469 
- 416      6F6E00
- 417              	.LASF23:
- 418 0095 6D61696E 		.ascii	"main\000"
- 418      00
- 419              	.LASF17:
- 420 009a 785F706F 		.ascii	"x_positions\000"
- 420      73697469 
- 420      6F6E7300 
- 421              	.LASF9:
- 422 00a6 75696E74 		.ascii	"uint8\000"
- 422      3800
- 423              	.LASF5:
- 424 00ac 6C6F6E67 		.ascii	"long unsigned int\000"
- 424      20756E73 
- 424      69676E65 
- 424      6420696E 
- 424      7400
- 425              	.LASF7:
- 426 00be 6C6F6E67 		.ascii	"long long unsigned int\000"
- 426      206C6F6E 
- 426      6720756E 
- 426      7369676E 
- 426      65642069 
- 427              	.LASF20:
- 428 00d5 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
- 428      4320342E 
- 428      372E3320 
- 428      32303133 
- 428      30333132 
- 429 0108 616E6368 		.ascii	"anch revision 196615]\000"
- 429      20726576 
- 429      6973696F 
- 429      6E203139 
- 429      36363135 
- 430              	.LASF11:
- 431 011e 666C6F61 		.ascii	"float\000"
- 431      7400
- 432              	.LASF1:
- 433 0124 756E7369 		.ascii	"unsigned char\000"
- 433      676E6564 
- 433      20636861 
- 433      7200
- 434              	.LASF13:
- 435 0132 63686172 		.ascii	"char\000"
- 435      00
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccVrBZUt.s 			page 10
+ 426 0006 1B88     		ldrh	r3, [r3]
+ 427 0008 1A1C     		mov	r2, r3
+ 428 000a 174B     		ldr	r3, .L19+4
+ 429 000c 1988     		ldrh	r1, [r3]
+ 430 000e 174B     		ldr	r3, .L19+8
+ 431 0010 5200     		lsl	r2, r2, #1
+ 432 0012 D152     		strh	r1, [r2, r3]
+  88:.\main.c      ****     y_positions[pos_index] = y_position;
+ 433              		.loc 1 88 0
+ 434 0014 134B     		ldr	r3, .L19
+ 435 0016 1B88     		ldrh	r3, [r3]
+ 436 0018 1A1C     		mov	r2, r3
+ 437 001a 154B     		ldr	r3, .L19+12
+ 438 001c 1988     		ldrh	r1, [r3]
+ 439 001e 154B     		ldr	r3, .L19+16
+ 440 0020 5200     		lsl	r2, r2, #1
+ 441 0022 D152     		strh	r1, [r2, r3]
+  89:.\main.c      ****     
+  90:.\main.c      ****     // Start the serial communication systems
+  91:.\main.c      ****     SPI_Start();
+ 442              		.loc 1 91 0
+ 443 0024 FFF7FEFF 		bl	SPI_Start
+  92:.\main.c      ****     UART_Start();
+ 444              		.loc 1 92 0
+ 445 0028 FFF7FEFF 		bl	UART_Start
+  93:.\main.c      ****     
+  94:.\main.c      ****     // Enable interrupts for the SPI system
+  95:.\main.c      ****     SPI_EnableRxInt();
+ 446              		.loc 1 95 0
+ 447 002c FFF7FEFF 		bl	SPI_EnableRxInt
+  96:.\main.c      ****     
+  97:.\main.c      ****     // Enable the isrs
+  98:.\main.c      ****     isr_spi_StartEx(isr_spi_handler);
+ 448              		.loc 1 98 0
+ 449 0030 114B     		ldr	r3, .L19+20
+ 450 0032 181C     		mov	r0, r3
+ 451 0034 FFF7FEFF 		bl	isr_spi_StartEx
+  99:.\main.c      ****     isr_reset_StartEx(isr_reset_handler);
+ 452              		.loc 1 99 0
+ 453 0038 104B     		ldr	r3, .L19+24
+ 454 003a 181C     		mov	r0, r3
+ 455 003c FFF7FEFF 		bl	isr_reset_StartEx
+ 100:.\main.c      ****     isr_button_StartEx(isr_button_handler);
+ 456              		.loc 1 100 0
+ 457 0040 0F4B     		ldr	r3, .L19+28
+ 458 0042 181C     		mov	r0, r3
+ 459 0044 FFF7FEFF 		bl	isr_button_StartEx
+ 101:.\main.c      ****     
+ 102:.\main.c      ****     // Enable global interrupts
+ 103:.\main.c      ****     CyGlobalIntEnable;
+ 460              		.loc 1 103 0
+ 461              	@ 103 ".\main.c" 1
+ 462 0048 62B6     		CPSIE   i
+ 463              	@ 0 "" 2
+ 104:.\main.c      ****     
+ 105:.\main.c      ****     // Debugging!
+ 106:.\main.c      ****     Pin_LED_Debug_Write(debug_state);
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 11
 
 
- 436              	.LASF4:
- 437 0137 6C6F6E67 		.ascii	"long int\000"
- 437      20696E74 
- 437      00
- 438              	.LASF2:
- 439 0140 73686F72 		.ascii	"short int\000"
- 439      7420696E 
- 439      7400
- 440              	.LASF12:
- 441 014a 646F7562 		.ascii	"double\000"
- 441      6C6500
- 442              	.LASF3:
- 443 0151 73686F72 		.ascii	"short unsigned int\000"
- 443      7420756E 
- 443      7369676E 
- 443      65642069 
- 443      6E7400
- 444              	.LASF0:
- 445 0164 7369676E 		.ascii	"signed char\000"
- 445      65642063 
- 445      68617200 
- 446              	.LASF18:
- 447 0170 795F706F 		.ascii	"y_positions\000"
- 447      73697469 
- 447      6F6E7300 
- 448              	.LASF21:
- 449 017c 2E5C6D61 		.ascii	".\\main.c\000"
- 449      696E2E63 
- 449      00
- 450              	.LASF10:
- 451 0185 75696E74 		.ascii	"uint16\000"
- 451      313600
- 452              	.LASF14:
- 453 018c 73697A65 		.ascii	"sizetype\000"
- 453      74797065 
- 453      00
- 454              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br
+ 464              		.loc 1 106 0
+ 465              		.code	16
+ 466 004a 0E4B     		ldr	r3, .L19+32
+ 467 004c 1B78     		ldrb	r3, [r3]
+ 468 004e 181C     		mov	r0, r3
+ 469 0050 FFF7FEFF 		bl	Pin_LED_Debug_Write
+ 107:.\main.c      ****     debug_state = HIGH - debug_state;
+ 470              		.loc 1 107 0
+ 471 0054 0B4B     		ldr	r3, .L19+32
+ 472 0056 1B78     		ldrb	r3, [r3]
+ 473 0058 0122     		mov	r2, #1
+ 474 005a D31A     		sub	r3, r2, r3
+ 475 005c DAB2     		uxtb	r2, r3
+ 476 005e 094B     		ldr	r3, .L19+32
+ 477 0060 1A70     		strb	r2, [r3]
+ 478              	.L18:
+ 108:.\main.c      ****     
+ 109:.\main.c      ****     // Chill out
+ 110:.\main.c      ****     for(;;) { }
+ 479              		.loc 1 110 0 discriminator 1
+ 480 0062 FEE7     		b	.L18
+ 481              	.L20:
+ 482              		.align	2
+ 483              	.L19:
+ 484 0064 00000000 		.word	pos_index
+ 485 0068 00000000 		.word	x_position
+ 486 006c 00000000 		.word	x_positions
+ 487 0070 00000000 		.word	y_position
+ 488 0074 00000000 		.word	y_positions
+ 489 0078 00000000 		.word	isr_spi_handler
+ 490 007c 00000000 		.word	isr_reset_handler
+ 491 0080 00000000 		.word	isr_button_handler
+ 492 0084 00000000 		.word	debug_state
+ 493              		.cfi_endproc
+ 494              	.LFE36:
+ 495              		.size	main, .-main
+ 496              		.text
+ 497              	.Letext0:
+ 498              		.file 2 "./Generated_Source/PSoC4/cytypes.h"
+ 499              		.file 3 "./header.h"
+ 500              		.section	.debug_info,"",%progbits
+ 501              	.Ldebug_info0:
+ 502 0000 37020000 		.4byte	0x237
+ 503 0004 0200     		.2byte	0x2
+ 504 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 505 000a 04       		.byte	0x4
+ 506 000b 01       		.uleb128 0x1
+ 507 000c D0010000 		.4byte	.LASF35
+ 508 0010 01       		.byte	0x1
+ 509 0011 FE000000 		.4byte	.LASF36
+ 510 0015 A4000000 		.4byte	.LASF37
+ 511 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 512 001d 00000000 		.4byte	0
+ 513 0021 00000000 		.4byte	0
+ 514 0025 00000000 		.4byte	.Ldebug_line0
+ 515 0029 02       		.uleb128 0x2
+ 516 002a 01       		.byte	0x1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 12
+
+
+ 517 002b 06       		.byte	0x6
+ 518 002c 22020000 		.4byte	.LASF0
+ 519 0030 02       		.uleb128 0x2
+ 520 0031 01       		.byte	0x1
+ 521 0032 08       		.byte	0x8
+ 522 0033 5F000000 		.4byte	.LASF1
+ 523 0037 02       		.uleb128 0x2
+ 524 0038 02       		.byte	0x2
+ 525 0039 05       		.byte	0x5
+ 526 003a C6010000 		.4byte	.LASF2
+ 527 003e 02       		.uleb128 0x2
+ 528 003f 02       		.byte	0x2
+ 529 0040 07       		.byte	0x7
+ 530 0041 05000000 		.4byte	.LASF3
+ 531 0045 02       		.uleb128 0x2
+ 532 0046 04       		.byte	0x4
+ 533 0047 05       		.byte	0x5
+ 534 0048 19020000 		.4byte	.LASF4
+ 535 004c 02       		.uleb128 0x2
+ 536 004d 04       		.byte	0x4
+ 537 004e 07       		.byte	0x7
+ 538 004f 73000000 		.4byte	.LASF5
+ 539 0053 02       		.uleb128 0x2
+ 540 0054 08       		.byte	0x8
+ 541 0055 05       		.byte	0x5
+ 542 0056 98010000 		.4byte	.LASF6
+ 543 005a 02       		.uleb128 0x2
+ 544 005b 08       		.byte	0x8
+ 545 005c 07       		.byte	0x7
+ 546 005d 42010000 		.4byte	.LASF7
+ 547 0061 03       		.uleb128 0x3
+ 548 0062 04       		.byte	0x4
+ 549 0063 05       		.byte	0x5
+ 550 0064 696E7400 		.ascii	"int\000"
+ 551 0068 02       		.uleb128 0x2
+ 552 0069 04       		.byte	0x4
+ 553 006a 07       		.byte	0x7
+ 554 006b 25010000 		.4byte	.LASF8
+ 555 006f 04       		.uleb128 0x4
+ 556 0070 85000000 		.4byte	.LASF9
+ 557 0074 02       		.byte	0x2
+ 558 0075 5B       		.byte	0x5b
+ 559 0076 30000000 		.4byte	0x30
+ 560 007a 04       		.uleb128 0x4
+ 561 007b 14010000 		.4byte	.LASF10
+ 562 007f 02       		.byte	0x2
+ 563 0080 5C       		.byte	0x5c
+ 564 0081 3E000000 		.4byte	0x3e
+ 565 0085 04       		.uleb128 0x4
+ 566 0086 1B010000 		.4byte	.LASF11
+ 567 008a 02       		.byte	0x2
+ 568 008b 5E       		.byte	0x5e
+ 569 008c 29000000 		.4byte	0x29
+ 570 0090 04       		.uleb128 0x4
+ 571 0091 6D000000 		.4byte	.LASF12
+ 572 0095 02       		.byte	0x2
+ 573 0096 5F       		.byte	0x5f
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 13
+
+
+ 574 0097 37000000 		.4byte	0x37
+ 575 009b 02       		.uleb128 0x2
+ 576 009c 04       		.byte	0x4
+ 577 009d 04       		.byte	0x4
+ 578 009e 4C000000 		.4byte	.LASF13
+ 579 00a2 02       		.uleb128 0x2
+ 580 00a3 08       		.byte	0x8
+ 581 00a4 04       		.byte	0x4
+ 582 00a5 9D000000 		.4byte	.LASF14
+ 583 00a9 02       		.uleb128 0x2
+ 584 00aa 01       		.byte	0x1
+ 585 00ab 08       		.byte	0x8
+ 586 00ac B5010000 		.4byte	.LASF15
+ 587 00b0 02       		.uleb128 0x2
+ 588 00b1 04       		.byte	0x4
+ 589 00b2 07       		.byte	0x7
+ 590 00b3 8F010000 		.4byte	.LASF16
+ 591 00b7 04       		.uleb128 0x4
+ 592 00b8 00000000 		.4byte	.LASF17
+ 593 00bc 03       		.byte	0x3
+ 594 00bd 08       		.byte	0x8
+ 595 00be 61000000 		.4byte	0x61
+ 596 00c2 05       		.uleb128 0x5
+ 597 00c3 01       		.byte	0x1
+ 598 00c4 3C000000 		.4byte	.LASF22
+ 599 00c8 01       		.byte	0x1
+ 600 00c9 16       		.byte	0x16
+ 601 00ca 01       		.byte	0x1
+ 602 00cb 00000000 		.4byte	.LFB33
+ 603 00cf 20010000 		.4byte	.LFE33
+ 604 00d3 00000000 		.4byte	.LLST0
+ 605 00d7 01       		.byte	0x1
+ 606 00d8 1F010000 		.4byte	0x11f
+ 607 00dc 06       		.uleb128 0x6
+ 608 00dd 96000000 		.4byte	.LASF18
+ 609 00e1 01       		.byte	0x1
+ 610 00e2 18       		.byte	0x18
+ 611 00e3 7A000000 		.4byte	0x7a
+ 612 00e7 02       		.byte	0x2
+ 613 00e8 91       		.byte	0x91
+ 614 00e9 6E       		.sleb128 -18
+ 615 00ea 06       		.uleb128 0x6
+ 616 00eb 32010000 		.4byte	.LASF19
+ 617 00ef 01       		.byte	0x1
+ 618 00f0 19       		.byte	0x19
+ 619 00f1 85000000 		.4byte	0x85
+ 620 00f5 02       		.byte	0x2
+ 621 00f6 91       		.byte	0x91
+ 622 00f7 6D       		.sleb128 -19
+ 623 00f8 06       		.uleb128 0x6
+ 624 00f9 3A010000 		.4byte	.LASF20
+ 625 00fd 01       		.byte	0x1
+ 626 00fe 1A       		.byte	0x1a
+ 627 00ff 85000000 		.4byte	0x85
+ 628 0103 02       		.byte	0x2
+ 629 0104 91       		.byte	0x91
+ 630 0105 6C       		.sleb128 -20
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 14
+
+
+ 631 0106 07       		.uleb128 0x7
+ 632 0107 54000000 		.4byte	.LBB2
+ 633 010b EE000000 		.4byte	.LBE2
+ 634 010f 06       		.uleb128 0x6
+ 635 0110 07010000 		.4byte	.LASF21
+ 636 0114 01       		.byte	0x1
+ 637 0115 24       		.byte	0x24
+ 638 0116 1F010000 		.4byte	0x11f
+ 639 011a 02       		.byte	0x2
+ 640 011b 91       		.byte	0x91
+ 641 011c 60       		.sleb128 -32
+ 642 011d 00       		.byte	0
+ 643 011e 00       		.byte	0
+ 644 011f 08       		.uleb128 0x8
+ 645 0120 A9000000 		.4byte	0xa9
+ 646 0124 2F010000 		.4byte	0x12f
+ 647 0128 09       		.uleb128 0x9
+ 648 0129 B0000000 		.4byte	0xb0
+ 649 012d 0B       		.byte	0xb
+ 650 012e 00       		.byte	0
+ 651 012f 0A       		.uleb128 0xa
+ 652 0130 01       		.byte	0x1
+ 653 0131 22000000 		.4byte	.LASF24
+ 654 0135 01       		.byte	0x1
+ 655 0136 31       		.byte	0x31
+ 656 0137 01       		.byte	0x1
+ 657 0138 00000000 		.4byte	.LFB34
+ 658 013c 30000000 		.4byte	.LFE34
+ 659 0140 38000000 		.4byte	.LLST1
+ 660 0144 01       		.byte	0x1
+ 661 0145 05       		.uleb128 0x5
+ 662 0146 01       		.byte	0x1
+ 663 0147 59010000 		.4byte	.LASF23
+ 664 014b 01       		.byte	0x1
+ 665 014c 39       		.byte	0x39
+ 666 014d 01       		.byte	0x1
+ 667 014e 00000000 		.4byte	.LFB35
+ 668 0152 9C000000 		.4byte	.LFE35
+ 669 0156 64000000 		.4byte	.LLST2
+ 670 015a 01       		.byte	0x1
+ 671 015b 6E010000 		.4byte	0x16e
+ 672 015f 0B       		.uleb128 0xb
+ 673 0160 62746E00 		.ascii	"btn\000"
+ 674 0164 01       		.byte	0x1
+ 675 0165 3C       		.byte	0x3c
+ 676 0166 6F000000 		.4byte	0x6f
+ 677 016a 02       		.byte	0x2
+ 678 016b 91       		.byte	0x91
+ 679 016c 6F       		.sleb128 -17
+ 680 016d 00       		.byte	0
+ 681 016e 0C       		.uleb128 0xc
+ 682 016f 01       		.byte	0x1
+ 683 0170 20010000 		.4byte	.LASF25
+ 684 0174 01       		.byte	0x1
+ 685 0175 54       		.byte	0x54
+ 686 0176 61000000 		.4byte	0x61
+ 687 017a 00000000 		.4byte	.LFB36
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 15
+
+
+ 688 017e 88000000 		.4byte	.LFE36
+ 689 0182 9C000000 		.4byte	.LLST3
+ 690 0186 01       		.byte	0x1
+ 691 0187 0D       		.uleb128 0xd
+ 692 0188 78010000 		.4byte	.LASF26
+ 693 018c 01       		.byte	0x1
+ 694 018d 05       		.byte	0x5
+ 695 018e 90000000 		.4byte	0x90
+ 696 0192 01       		.byte	0x1
+ 697 0193 05       		.byte	0x5
+ 698 0194 03       		.byte	0x3
+ 699 0195 00000000 		.4byte	x_position
+ 700 0199 0D       		.uleb128 0xd
+ 701 019a 8B000000 		.4byte	.LASF27
+ 702 019e 01       		.byte	0x1
+ 703 019f 06       		.byte	0x6
+ 704 01a0 90000000 		.4byte	0x90
+ 705 01a4 01       		.byte	0x1
+ 706 01a5 05       		.byte	0x5
+ 707 01a6 03       		.byte	0x3
+ 708 01a7 00000000 		.4byte	y_position
+ 709 01ab 08       		.uleb128 0x8
+ 710 01ac 90000000 		.4byte	0x90
+ 711 01b0 BC010000 		.4byte	0x1bc
+ 712 01b4 0E       		.uleb128 0xe
+ 713 01b5 B0000000 		.4byte	0xb0
+ 714 01b9 FF01     		.2byte	0x1ff
+ 715 01bb 00       		.byte	0
+ 716 01bc 0D       		.uleb128 0xd
+ 717 01bd BA010000 		.4byte	.LASF28
+ 718 01c1 01       		.byte	0x1
+ 719 01c2 08       		.byte	0x8
+ 720 01c3 AB010000 		.4byte	0x1ab
+ 721 01c7 01       		.byte	0x1
+ 722 01c8 05       		.byte	0x5
+ 723 01c9 03       		.byte	0x3
+ 724 01ca 00000000 		.4byte	x_positions
+ 725 01ce 0D       		.uleb128 0xd
+ 726 01cf 6C010000 		.4byte	.LASF29
+ 727 01d3 01       		.byte	0x1
+ 728 01d4 09       		.byte	0x9
+ 729 01d5 AB010000 		.4byte	0x1ab
+ 730 01d9 01       		.byte	0x1
+ 731 01da 05       		.byte	0x5
+ 732 01db 03       		.byte	0x3
+ 733 01dc 00000000 		.4byte	y_positions
+ 734 01e0 0D       		.uleb128 0xd
+ 735 01e1 18000000 		.4byte	.LASF30
+ 736 01e5 01       		.byte	0x1
+ 737 01e6 0A       		.byte	0xa
+ 738 01e7 7A000000 		.4byte	0x7a
+ 739 01eb 01       		.byte	0x1
+ 740 01ec 05       		.byte	0x5
+ 741 01ed 03       		.byte	0x3
+ 742 01ee 00000000 		.4byte	pos_index
+ 743 01f2 0D       		.uleb128 0xd
+ 744 01f3 52000000 		.4byte	.LASF31
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 16
+
+
+ 745 01f7 01       		.byte	0x1
+ 746 01f8 0C       		.byte	0xc
+ 747 01f9 6F000000 		.4byte	0x6f
+ 748 01fd 01       		.byte	0x1
+ 749 01fe 05       		.byte	0x5
+ 750 01ff 03       		.byte	0x3
+ 751 0200 00000000 		.4byte	action_state
+ 752 0204 0D       		.uleb128 0xd
+ 753 0205 A6010000 		.4byte	.LASF32
+ 754 0209 01       		.byte	0x1
+ 755 020a 0D       		.byte	0xd
+ 756 020b B7000000 		.4byte	0xb7
+ 757 020f 01       		.byte	0x1
+ 758 0210 05       		.byte	0x5
+ 759 0211 03       		.byte	0x3
+ 760 0212 00000000 		.4byte	positions_full
+ 761 0216 0D       		.uleb128 0xd
+ 762 0217 34000000 		.4byte	.LASF33
+ 763 021b 01       		.byte	0x1
+ 764 021c 0E       		.byte	0xe
+ 765 021d B7000000 		.4byte	0xb7
+ 766 0221 01       		.byte	0x1
+ 767 0222 05       		.byte	0x5
+ 768 0223 03       		.byte	0x3
+ 769 0224 00000000 		.4byte	reading
+ 770 0228 0D       		.uleb128 0xd
+ 771 0229 83010000 		.4byte	.LASF34
+ 772 022d 01       		.byte	0x1
+ 773 022e 10       		.byte	0x10
+ 774 022f 6F000000 		.4byte	0x6f
+ 775 0233 01       		.byte	0x1
+ 776 0234 05       		.byte	0x5
+ 777 0235 03       		.byte	0x3
+ 778 0236 00000000 		.4byte	debug_state
+ 779 023a 00       		.byte	0
+ 780              		.section	.debug_abbrev,"",%progbits
+ 781              	.Ldebug_abbrev0:
+ 782 0000 01       		.uleb128 0x1
+ 783 0001 11       		.uleb128 0x11
+ 784 0002 01       		.byte	0x1
+ 785 0003 25       		.uleb128 0x25
+ 786 0004 0E       		.uleb128 0xe
+ 787 0005 13       		.uleb128 0x13
+ 788 0006 0B       		.uleb128 0xb
+ 789 0007 03       		.uleb128 0x3
+ 790 0008 0E       		.uleb128 0xe
+ 791 0009 1B       		.uleb128 0x1b
+ 792 000a 0E       		.uleb128 0xe
+ 793 000b 55       		.uleb128 0x55
+ 794 000c 06       		.uleb128 0x6
+ 795 000d 11       		.uleb128 0x11
+ 796 000e 01       		.uleb128 0x1
+ 797 000f 52       		.uleb128 0x52
+ 798 0010 01       		.uleb128 0x1
+ 799 0011 10       		.uleb128 0x10
+ 800 0012 06       		.uleb128 0x6
+ 801 0013 00       		.byte	0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 17
+
+
+ 802 0014 00       		.byte	0
+ 803 0015 02       		.uleb128 0x2
+ 804 0016 24       		.uleb128 0x24
+ 805 0017 00       		.byte	0
+ 806 0018 0B       		.uleb128 0xb
+ 807 0019 0B       		.uleb128 0xb
+ 808 001a 3E       		.uleb128 0x3e
+ 809 001b 0B       		.uleb128 0xb
+ 810 001c 03       		.uleb128 0x3
+ 811 001d 0E       		.uleb128 0xe
+ 812 001e 00       		.byte	0
+ 813 001f 00       		.byte	0
+ 814 0020 03       		.uleb128 0x3
+ 815 0021 24       		.uleb128 0x24
+ 816 0022 00       		.byte	0
+ 817 0023 0B       		.uleb128 0xb
+ 818 0024 0B       		.uleb128 0xb
+ 819 0025 3E       		.uleb128 0x3e
+ 820 0026 0B       		.uleb128 0xb
+ 821 0027 03       		.uleb128 0x3
+ 822 0028 08       		.uleb128 0x8
+ 823 0029 00       		.byte	0
+ 824 002a 00       		.byte	0
+ 825 002b 04       		.uleb128 0x4
+ 826 002c 16       		.uleb128 0x16
+ 827 002d 00       		.byte	0
+ 828 002e 03       		.uleb128 0x3
+ 829 002f 0E       		.uleb128 0xe
+ 830 0030 3A       		.uleb128 0x3a
+ 831 0031 0B       		.uleb128 0xb
+ 832 0032 3B       		.uleb128 0x3b
+ 833 0033 0B       		.uleb128 0xb
+ 834 0034 49       		.uleb128 0x49
+ 835 0035 13       		.uleb128 0x13
+ 836 0036 00       		.byte	0
+ 837 0037 00       		.byte	0
+ 838 0038 05       		.uleb128 0x5
+ 839 0039 2E       		.uleb128 0x2e
+ 840 003a 01       		.byte	0x1
+ 841 003b 3F       		.uleb128 0x3f
+ 842 003c 0C       		.uleb128 0xc
+ 843 003d 03       		.uleb128 0x3
+ 844 003e 0E       		.uleb128 0xe
+ 845 003f 3A       		.uleb128 0x3a
+ 846 0040 0B       		.uleb128 0xb
+ 847 0041 3B       		.uleb128 0x3b
+ 848 0042 0B       		.uleb128 0xb
+ 849 0043 27       		.uleb128 0x27
+ 850 0044 0C       		.uleb128 0xc
+ 851 0045 11       		.uleb128 0x11
+ 852 0046 01       		.uleb128 0x1
+ 853 0047 12       		.uleb128 0x12
+ 854 0048 01       		.uleb128 0x1
+ 855 0049 40       		.uleb128 0x40
+ 856 004a 06       		.uleb128 0x6
+ 857 004b 9642     		.uleb128 0x2116
+ 858 004d 0C       		.uleb128 0xc
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 18
+
+
+ 859 004e 01       		.uleb128 0x1
+ 860 004f 13       		.uleb128 0x13
+ 861 0050 00       		.byte	0
+ 862 0051 00       		.byte	0
+ 863 0052 06       		.uleb128 0x6
+ 864 0053 34       		.uleb128 0x34
+ 865 0054 00       		.byte	0
+ 866 0055 03       		.uleb128 0x3
+ 867 0056 0E       		.uleb128 0xe
+ 868 0057 3A       		.uleb128 0x3a
+ 869 0058 0B       		.uleb128 0xb
+ 870 0059 3B       		.uleb128 0x3b
+ 871 005a 0B       		.uleb128 0xb
+ 872 005b 49       		.uleb128 0x49
+ 873 005c 13       		.uleb128 0x13
+ 874 005d 02       		.uleb128 0x2
+ 875 005e 0A       		.uleb128 0xa
+ 876 005f 00       		.byte	0
+ 877 0060 00       		.byte	0
+ 878 0061 07       		.uleb128 0x7
+ 879 0062 0B       		.uleb128 0xb
+ 880 0063 01       		.byte	0x1
+ 881 0064 11       		.uleb128 0x11
+ 882 0065 01       		.uleb128 0x1
+ 883 0066 12       		.uleb128 0x12
+ 884 0067 01       		.uleb128 0x1
+ 885 0068 00       		.byte	0
+ 886 0069 00       		.byte	0
+ 887 006a 08       		.uleb128 0x8
+ 888 006b 01       		.uleb128 0x1
+ 889 006c 01       		.byte	0x1
+ 890 006d 49       		.uleb128 0x49
+ 891 006e 13       		.uleb128 0x13
+ 892 006f 01       		.uleb128 0x1
+ 893 0070 13       		.uleb128 0x13
+ 894 0071 00       		.byte	0
+ 895 0072 00       		.byte	0
+ 896 0073 09       		.uleb128 0x9
+ 897 0074 21       		.uleb128 0x21
+ 898 0075 00       		.byte	0
+ 899 0076 49       		.uleb128 0x49
+ 900 0077 13       		.uleb128 0x13
+ 901 0078 2F       		.uleb128 0x2f
+ 902 0079 0B       		.uleb128 0xb
+ 903 007a 00       		.byte	0
+ 904 007b 00       		.byte	0
+ 905 007c 0A       		.uleb128 0xa
+ 906 007d 2E       		.uleb128 0x2e
+ 907 007e 00       		.byte	0
+ 908 007f 3F       		.uleb128 0x3f
+ 909 0080 0C       		.uleb128 0xc
+ 910 0081 03       		.uleb128 0x3
+ 911 0082 0E       		.uleb128 0xe
+ 912 0083 3A       		.uleb128 0x3a
+ 913 0084 0B       		.uleb128 0xb
+ 914 0085 3B       		.uleb128 0x3b
+ 915 0086 0B       		.uleb128 0xb
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 19
+
+
+ 916 0087 27       		.uleb128 0x27
+ 917 0088 0C       		.uleb128 0xc
+ 918 0089 11       		.uleb128 0x11
+ 919 008a 01       		.uleb128 0x1
+ 920 008b 12       		.uleb128 0x12
+ 921 008c 01       		.uleb128 0x1
+ 922 008d 40       		.uleb128 0x40
+ 923 008e 06       		.uleb128 0x6
+ 924 008f 9742     		.uleb128 0x2117
+ 925 0091 0C       		.uleb128 0xc
+ 926 0092 00       		.byte	0
+ 927 0093 00       		.byte	0
+ 928 0094 0B       		.uleb128 0xb
+ 929 0095 34       		.uleb128 0x34
+ 930 0096 00       		.byte	0
+ 931 0097 03       		.uleb128 0x3
+ 932 0098 08       		.uleb128 0x8
+ 933 0099 3A       		.uleb128 0x3a
+ 934 009a 0B       		.uleb128 0xb
+ 935 009b 3B       		.uleb128 0x3b
+ 936 009c 0B       		.uleb128 0xb
+ 937 009d 49       		.uleb128 0x49
+ 938 009e 13       		.uleb128 0x13
+ 939 009f 02       		.uleb128 0x2
+ 940 00a0 0A       		.uleb128 0xa
+ 941 00a1 00       		.byte	0
+ 942 00a2 00       		.byte	0
+ 943 00a3 0C       		.uleb128 0xc
+ 944 00a4 2E       		.uleb128 0x2e
+ 945 00a5 00       		.byte	0
+ 946 00a6 3F       		.uleb128 0x3f
+ 947 00a7 0C       		.uleb128 0xc
+ 948 00a8 03       		.uleb128 0x3
+ 949 00a9 0E       		.uleb128 0xe
+ 950 00aa 3A       		.uleb128 0x3a
+ 951 00ab 0B       		.uleb128 0xb
+ 952 00ac 3B       		.uleb128 0x3b
+ 953 00ad 0B       		.uleb128 0xb
+ 954 00ae 49       		.uleb128 0x49
+ 955 00af 13       		.uleb128 0x13
+ 956 00b0 11       		.uleb128 0x11
+ 957 00b1 01       		.uleb128 0x1
+ 958 00b2 12       		.uleb128 0x12
+ 959 00b3 01       		.uleb128 0x1
+ 960 00b4 40       		.uleb128 0x40
+ 961 00b5 06       		.uleb128 0x6
+ 962 00b6 9642     		.uleb128 0x2116
+ 963 00b8 0C       		.uleb128 0xc
+ 964 00b9 00       		.byte	0
+ 965 00ba 00       		.byte	0
+ 966 00bb 0D       		.uleb128 0xd
+ 967 00bc 34       		.uleb128 0x34
+ 968 00bd 00       		.byte	0
+ 969 00be 03       		.uleb128 0x3
+ 970 00bf 0E       		.uleb128 0xe
+ 971 00c0 3A       		.uleb128 0x3a
+ 972 00c1 0B       		.uleb128 0xb
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 20
+
+
+ 973 00c2 3B       		.uleb128 0x3b
+ 974 00c3 0B       		.uleb128 0xb
+ 975 00c4 49       		.uleb128 0x49
+ 976 00c5 13       		.uleb128 0x13
+ 977 00c6 3F       		.uleb128 0x3f
+ 978 00c7 0C       		.uleb128 0xc
+ 979 00c8 02       		.uleb128 0x2
+ 980 00c9 0A       		.uleb128 0xa
+ 981 00ca 00       		.byte	0
+ 982 00cb 00       		.byte	0
+ 983 00cc 0E       		.uleb128 0xe
+ 984 00cd 21       		.uleb128 0x21
+ 985 00ce 00       		.byte	0
+ 986 00cf 49       		.uleb128 0x49
+ 987 00d0 13       		.uleb128 0x13
+ 988 00d1 2F       		.uleb128 0x2f
+ 989 00d2 05       		.uleb128 0x5
+ 990 00d3 00       		.byte	0
+ 991 00d4 00       		.byte	0
+ 992 00d5 00       		.byte	0
+ 993              		.section	.debug_loc,"",%progbits
+ 994              	.Ldebug_loc0:
+ 995              	.LLST0:
+ 996 0000 00000000 		.4byte	.LFB33
+ 997 0004 02000000 		.4byte	.LCFI0
+ 998 0008 0200     		.2byte	0x2
+ 999 000a 7D       		.byte	0x7d
+ 1000 000b 00       		.sleb128 0
+ 1001 000c 02000000 		.4byte	.LCFI0
+ 1002 0010 04000000 		.4byte	.LCFI1
+ 1003 0014 0200     		.2byte	0x2
+ 1004 0016 7D       		.byte	0x7d
+ 1005 0017 0C       		.sleb128 12
+ 1006 0018 04000000 		.4byte	.LCFI1
+ 1007 001c 06000000 		.4byte	.LCFI2
+ 1008 0020 0200     		.2byte	0x2
+ 1009 0022 7D       		.byte	0x7d
+ 1010 0023 28       		.sleb128 40
+ 1011 0024 06000000 		.4byte	.LCFI2
+ 1012 0028 20010000 		.4byte	.LFE33
+ 1013 002c 0200     		.2byte	0x2
+ 1014 002e 77       		.byte	0x77
+ 1015 002f 20       		.sleb128 32
+ 1016 0030 00000000 		.4byte	0
+ 1017 0034 00000000 		.4byte	0
+ 1018              	.LLST1:
+ 1019 0038 00000000 		.4byte	.LFB34
+ 1020 003c 02000000 		.4byte	.LCFI3
+ 1021 0040 0200     		.2byte	0x2
+ 1022 0042 7D       		.byte	0x7d
+ 1023 0043 00       		.sleb128 0
+ 1024 0044 02000000 		.4byte	.LCFI3
+ 1025 0048 04000000 		.4byte	.LCFI4
+ 1026 004c 0200     		.2byte	0x2
+ 1027 004e 7D       		.byte	0x7d
+ 1028 004f 08       		.sleb128 8
+ 1029 0050 04000000 		.4byte	.LCFI4
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 21
+
+
+ 1030 0054 30000000 		.4byte	.LFE34
+ 1031 0058 0200     		.2byte	0x2
+ 1032 005a 77       		.byte	0x77
+ 1033 005b 08       		.sleb128 8
+ 1034 005c 00000000 		.4byte	0
+ 1035 0060 00000000 		.4byte	0
+ 1036              	.LLST2:
+ 1037 0064 00000000 		.4byte	.LFB35
+ 1038 0068 02000000 		.4byte	.LCFI5
+ 1039 006c 0200     		.2byte	0x2
+ 1040 006e 7D       		.byte	0x7d
+ 1041 006f 00       		.sleb128 0
+ 1042 0070 02000000 		.4byte	.LCFI5
+ 1043 0074 04000000 		.4byte	.LCFI6
+ 1044 0078 0200     		.2byte	0x2
+ 1045 007a 7D       		.byte	0x7d
+ 1046 007b 0C       		.sleb128 12
+ 1047 007c 04000000 		.4byte	.LCFI6
+ 1048 0080 06000000 		.4byte	.LCFI7
+ 1049 0084 0200     		.2byte	0x2
+ 1050 0086 7D       		.byte	0x7d
+ 1051 0087 18       		.sleb128 24
+ 1052 0088 06000000 		.4byte	.LCFI7
+ 1053 008c 9C000000 		.4byte	.LFE35
+ 1054 0090 0200     		.2byte	0x2
+ 1055 0092 77       		.byte	0x77
+ 1056 0093 18       		.sleb128 24
+ 1057 0094 00000000 		.4byte	0
+ 1058 0098 00000000 		.4byte	0
+ 1059              	.LLST3:
+ 1060 009c 00000000 		.4byte	.LFB36
+ 1061 00a0 02000000 		.4byte	.LCFI8
+ 1062 00a4 0200     		.2byte	0x2
+ 1063 00a6 7D       		.byte	0x7d
+ 1064 00a7 00       		.sleb128 0
+ 1065 00a8 02000000 		.4byte	.LCFI8
+ 1066 00ac 04000000 		.4byte	.LCFI9
+ 1067 00b0 0200     		.2byte	0x2
+ 1068 00b2 7D       		.byte	0x7d
+ 1069 00b3 08       		.sleb128 8
+ 1070 00b4 04000000 		.4byte	.LCFI9
+ 1071 00b8 88000000 		.4byte	.LFE36
+ 1072 00bc 0200     		.2byte	0x2
+ 1073 00be 77       		.byte	0x77
+ 1074 00bf 08       		.sleb128 8
+ 1075 00c0 00000000 		.4byte	0
+ 1076 00c4 00000000 		.4byte	0
+ 1077              		.section	.debug_aranges,"",%progbits
+ 1078 0000 34000000 		.4byte	0x34
+ 1079 0004 0200     		.2byte	0x2
+ 1080 0006 00000000 		.4byte	.Ldebug_info0
+ 1081 000a 04       		.byte	0x4
+ 1082 000b 00       		.byte	0
+ 1083 000c 0000     		.2byte	0
+ 1084 000e 0000     		.2byte	0
+ 1085 0010 00000000 		.4byte	.LFB33
+ 1086 0014 20010000 		.4byte	.LFE33-.LFB33
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 22
+
+
+ 1087 0018 00000000 		.4byte	.LFB34
+ 1088 001c 30000000 		.4byte	.LFE34-.LFB34
+ 1089 0020 00000000 		.4byte	.LFB35
+ 1090 0024 9C000000 		.4byte	.LFE35-.LFB35
+ 1091 0028 00000000 		.4byte	.LFB36
+ 1092 002c 88000000 		.4byte	.LFE36-.LFB36
+ 1093 0030 00000000 		.4byte	0
+ 1094 0034 00000000 		.4byte	0
+ 1095              		.section	.debug_ranges,"",%progbits
+ 1096              	.Ldebug_ranges0:
+ 1097 0000 00000000 		.4byte	.LFB33
+ 1098 0004 20010000 		.4byte	.LFE33
+ 1099 0008 00000000 		.4byte	.LFB34
+ 1100 000c 30000000 		.4byte	.LFE34
+ 1101 0010 00000000 		.4byte	.LFB35
+ 1102 0014 9C000000 		.4byte	.LFE35
+ 1103 0018 00000000 		.4byte	.LFB36
+ 1104 001c 88000000 		.4byte	.LFE36
+ 1105 0020 00000000 		.4byte	0
+ 1106 0024 00000000 		.4byte	0
+ 1107              		.section	.debug_line,"",%progbits
+ 1108              	.Ldebug_line0:
+ 1109 0000 D0000000 		.section	.debug_str,"MS",%progbits,1
+ 1109      02005300 
+ 1109      00000201 
+ 1109      FB0E0D00 
+ 1109      01010101 
+ 1110              	.LASF17:
+ 1111 0000 626F6F6C 		.ascii	"bool\000"
+ 1111      00
+ 1112              	.LASF3:
+ 1113 0005 73686F72 		.ascii	"short unsigned int\000"
+ 1113      7420756E 
+ 1113      7369676E 
+ 1113      65642069 
+ 1113      6E7400
+ 1114              	.LASF30:
+ 1115 0018 706F735F 		.ascii	"pos_index\000"
+ 1115      696E6465 
+ 1115      7800
+ 1116              	.LASF24:
+ 1117 0022 6973725F 		.ascii	"isr_reset_handler\000"
+ 1117      72657365 
+ 1117      745F6861 
+ 1117      6E646C65 
+ 1117      7200
+ 1118              	.LASF33:
+ 1119 0034 72656164 		.ascii	"reading\000"
+ 1119      696E6700 
+ 1120              	.LASF22:
+ 1121 003c 6973725F 		.ascii	"isr_spi_handler\000"
+ 1121      7370695F 
+ 1121      68616E64 
+ 1121      6C657200 
+ 1122              	.LASF13:
+ 1123 004c 666C6F61 		.ascii	"float\000"
+ 1123      7400
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 23
+
+
+ 1124              	.LASF31:
+ 1125 0052 61637469 		.ascii	"action_state\000"
+ 1125      6F6E5F73 
+ 1125      74617465 
+ 1125      00
+ 1126              	.LASF1:
+ 1127 005f 756E7369 		.ascii	"unsigned char\000"
+ 1127      676E6564 
+ 1127      20636861 
+ 1127      7200
+ 1128              	.LASF12:
+ 1129 006d 696E7431 		.ascii	"int16\000"
+ 1129      3600
+ 1130              	.LASF5:
+ 1131 0073 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1131      20756E73 
+ 1131      69676E65 
+ 1131      6420696E 
+ 1131      7400
+ 1132              	.LASF9:
+ 1133 0085 75696E74 		.ascii	"uint8\000"
+ 1133      3800
+ 1134              	.LASF27:
+ 1135 008b 795F706F 		.ascii	"y_position\000"
+ 1135      73697469 
+ 1135      6F6E00
+ 1136              	.LASF18:
+ 1137 0096 72784461 		.ascii	"rxData\000"
+ 1137      746100
+ 1138              	.LASF14:
+ 1139 009d 646F7562 		.ascii	"double\000"
+ 1139      6C6500
+ 1140              	.LASF37:
+ 1141 00a4 433A5C55 		.ascii	"C:\\Users\\trehans\\Documents\\SignAway\\Source\\PS"
+ 1141      73657273 
+ 1141      5C747265 
+ 1141      68616E73 
+ 1141      5C446F63 
+ 1142 00d1 6F435C53 		.ascii	"oC\\SignatureVerifier\\SignatureVerifier.cydsn\000"
+ 1142      69676E61 
+ 1142      74757265 
+ 1142      56657269 
+ 1142      66696572 
+ 1143              	.LASF36:
+ 1144 00fe 2E5C6D61 		.ascii	".\\main.c\000"
+ 1144      696E2E63 
+ 1144      00
+ 1145              	.LASF21:
+ 1146 0107 6F757470 		.ascii	"outputString\000"
+ 1146      75745374 
+ 1146      72696E67 
+ 1146      00
+ 1147              	.LASF10:
+ 1148 0114 75696E74 		.ascii	"uint16\000"
+ 1148      313600
+ 1149              	.LASF11:
+ 1150 011b 696E7438 		.ascii	"int8\000"
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 24
+
+
+ 1150      00
+ 1151              	.LASF25:
+ 1152 0120 6D61696E 		.ascii	"main\000"
+ 1152      00
+ 1153              	.LASF8:
+ 1154 0125 756E7369 		.ascii	"unsigned int\000"
+ 1154      676E6564 
+ 1154      20696E74 
+ 1154      00
+ 1155              	.LASF19:
+ 1156 0132 64656C74 		.ascii	"delta_x\000"
+ 1156      615F7800 
+ 1157              	.LASF20:
+ 1158 013a 64656C74 		.ascii	"delta_y\000"
+ 1158      615F7900 
+ 1159              	.LASF7:
+ 1160 0142 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1160      206C6F6E 
+ 1160      6720756E 
+ 1160      7369676E 
+ 1160      65642069 
+ 1161              	.LASF23:
+ 1162 0159 6973725F 		.ascii	"isr_button_handler\000"
+ 1162      62757474 
+ 1162      6F6E5F68 
+ 1162      616E646C 
+ 1162      657200
+ 1163              	.LASF29:
+ 1164 016c 795F706F 		.ascii	"y_positions\000"
+ 1164      73697469 
+ 1164      6F6E7300 
+ 1165              	.LASF26:
+ 1166 0178 785F706F 		.ascii	"x_position\000"
+ 1166      73697469 
+ 1166      6F6E00
+ 1167              	.LASF34:
+ 1168 0183 64656275 		.ascii	"debug_state\000"
+ 1168      675F7374 
+ 1168      61746500 
+ 1169              	.LASF16:
+ 1170 018f 73697A65 		.ascii	"sizetype\000"
+ 1170      74797065 
+ 1170      00
+ 1171              	.LASF6:
+ 1172 0198 6C6F6E67 		.ascii	"long long int\000"
+ 1172      206C6F6E 
+ 1172      6720696E 
+ 1172      7400
+ 1173              	.LASF32:
+ 1174 01a6 706F7369 		.ascii	"positions_full\000"
+ 1174      74696F6E 
+ 1174      735F6675 
+ 1174      6C6C00
+ 1175              	.LASF15:
+ 1176 01b5 63686172 		.ascii	"char\000"
+ 1176      00
+ 1177              	.LASF28:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\cc5FOAmW.s 			page 25
+
+
+ 1178 01ba 785F706F 		.ascii	"x_positions\000"
+ 1178      73697469 
+ 1178      6F6E7300 
+ 1179              	.LASF2:
+ 1180 01c6 73686F72 		.ascii	"short int\000"
+ 1180      7420696E 
+ 1180      7400
+ 1181              	.LASF35:
+ 1182 01d0 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
+ 1182      4320342E 
+ 1182      372E3320 
+ 1182      32303133 
+ 1182      30333132 
+ 1183 0203 616E6368 		.ascii	"anch revision 196615]\000"
+ 1183      20726576 
+ 1183      6973696F 
+ 1183      6E203139 
+ 1183      36363135 
+ 1184              	.LASF4:
+ 1185 0219 6C6F6E67 		.ascii	"long int\000"
+ 1185      20696E74 
+ 1185      00
+ 1186              	.LASF0:
+ 1187 0222 7369676E 		.ascii	"signed char\000"
+ 1187      65642063 
+ 1187      68617200 
+ 1188              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br

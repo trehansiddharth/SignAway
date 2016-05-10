@@ -27,12 +27,8 @@
 #include <SPI_Clock.h>
 #include <SPI.h>
 #include <SPI_PVT.h>
-#include <Pin_Button_Interrupt.h>
-#include <Pin_Button_Interrupt_aliases.h>
-#include <Pin_Button_0.h>
-#include <Pin_Button_0_aliases.h>
-#include <Pin_Button_1.h>
-#include <Pin_Button_1_aliases.h>
+#include <Pin_Button.h>
+#include <Pin_Button_aliases.h>
 #include <Pin_LED_Green.h>
 #include <Pin_LED_Green_aliases.h>
 #include <Pin_LED_Red.h>
@@ -47,6 +43,10 @@
 #include <UART_PINS.h>
 #include <UART_SPI_UART_PVT.h>
 #include <UART_PVT.h>
+#include <Pin_Reset.h>
+#include <Pin_Reset_aliases.h>
+#include <isr_reset.h>
+#include <isr_button.h>
 #include <UART_tx.h>
 #include <UART_tx_aliases.h>
 #include <UART_rx.h>
