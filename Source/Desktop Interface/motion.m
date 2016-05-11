@@ -1,5 +1,13 @@
+% Clear the previous serial connection if it exists
+if (exist('s'))
+    fclose(s);
+    delete(s);
+    clear s;
+    delete(instrfindall);
+end
+
 % Create a serial port object
-s = serial(defInput('Serial Port', 'COM4'));
+s = serial('COM4');
 
 % Settings for UART communication
 set(s, 'BaudRate', 9600);
@@ -9,12 +17,29 @@ set(s, 'StopBit', 1);
 
 fopen(s);
 
-figure;
-hold on;
+points = [];
 
 while 1
     d = fgetl(s);
-    disp(d);
-    dxy = str2num(char(strsplit(d)));
-    scatter(dxy(1), dxy(2));
+    if (~isempty(d))
+        disp(d);
+        if (strncmpi(d, ':', 1))
+            if (strncmpi(d, ':R', 2))
+                templatePoints = points;
+                points = [];
+            elseif (strncmpi(d, ':T', 2))
+                testPoints = points;
+                points = [];
+            elseif (strncmpi(d, ':E', 2))
+                break;
+            end
+        else
+            dxy = str2num(char(strsplit(d)));
+            points = [points; dxy(1) dxy(2)];
+        end
+    end
 end
+
+plot(templatePoints(:,1), -templatePoints(:,2));
+hold on;
+plot(testPoints(:,1), -testPoints(:,2));

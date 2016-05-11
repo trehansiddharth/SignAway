@@ -26,15 +26,15 @@
                     1::Clock Frequency Summary
 ===================================================================== 
 Number of clocks: 9
-Clock: CyHFCLK           | Frequency: 102.34 MHz  | Target: 24.00 MHz  | 
-Clock: CyILO             | N/A                    | Target: 0.03 MHz   | 
-Clock: CyIMO             | N/A                    | Target: 24.00 MHz  | 
-Clock: CyLFCLK           | N/A                    | Target: 0.03 MHz   | 
-Clock: CySYSCLK          | N/A                    | Target: 24.00 MHz  | 
-Clock: Pin_SCLK(0)/fb    | Frequency: 34.87 MHz   | Target: 12.00 MHz  | 
-Clock: SPI_Clock         | Frequency: 86.27 MHz   | Target: 12.00 MHz  | 
-Clock: UART_SCBCLK       | N/A                    | Target: 0.12 MHz   | 
-Clock: UART_SCBCLK(FFB)  | N/A                    | Target: 0.12 MHz   | 
+Clock: CyHFCLK           | Frequency: 81.43 MHz  | Target: 24.00 MHz  | 
+Clock: CyILO             | N/A                   | Target: 0.03 MHz   | 
+Clock: CyIMO             | N/A                   | Target: 24.00 MHz  | 
+Clock: CyLFCLK           | N/A                   | Target: 0.03 MHz   | 
+Clock: CySYSCLK          | N/A                   | Target: 24.00 MHz  | 
+Clock: Pin_SCLK(0)/fb    | Frequency: 34.49 MHz  | Target: 12.00 MHz  | 
+Clock: SPI_Clock         | Frequency: 86.27 MHz  | Target: 12.00 MHz  | 
+Clock: UART_SCBCLK       | N/A                   | Target: 0.12 MHz   | 
+Clock: UART_SCBCLK(FFB)  | N/A                   | Target: 0.12 MHz   | 
 
  =====================================================================
                     End of Clock Frequency Summary
@@ -47,8 +47,8 @@ Clock: UART_SCBCLK(FFB)  | N/A                    | Target: 0.12 MHz   |
 
 Launch Clock    Capture Clock   Constraint(R-R)  Slack(R-R)  Constraint(R-F)  Slack(R-F)  Constraint(F-F)  Slack(F-F)  Constraint(F-R)  Slack(F-R)  
 --------------  --------------  ---------------  ----------  ---------------  ----------  ---------------  ----------  ---------------  ----------  
-CyHFCLK         Pin_SCLK(0)/fb  41666.7          38097       41666.7          31896       N/A              N/A         N/A              N/A         
-Pin_SCLK(0)/fb  Pin_SCLK(0)/fb  N/A              N/A         41666.7          27326       83333.3          67644       41666.7          29617       
+CyHFCLK         Pin_SCLK(0)/fb  41666.7          37576       41666.7          29387       N/A              N/A         N/A              N/A         
+Pin_SCLK(0)/fb  Pin_SCLK(0)/fb  N/A              N/A         41666.7          27171       83333.3          67479       41666.7          29607       
 SPI_Clock       SPI_Clock       83333.3          71741       N/A              N/A         N/A              N/A         N/A              N/A         
 
  =====================================================================
@@ -91,98 +91,98 @@ Port Name (Source)  Port Name (Destination)  Delay
 4.1::Critical Path Report for CyHFCLK
 *************************************
 Clock: CyHFCLK
-Frequency: 102.34 MHz | Target: 24.00 MHz
+Frequency: 81.43 MHz | Target: 24.00 MHz
 
 ++++ Path 1 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 Path Begin     : Pin_SS(0)/fb
-Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2
-Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 31896p
+Path End       : \SPI:BSPIS:es3:SPISlave:BitCounter\/enable
+Capture Clock  : \SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n
+Path slack     : 29387p
 
 Capture Clock Arrival Time                            41667
-+ Clock path delay                                     9207
++ Clock path delay                                     8680
 + Cycle adjust (CyHFCLK:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
-- Setup time                                          -3170
+- Setup time                                          -3340
 ---------------------------------------------------   ----- 
-End-of-path required time (ps)                        47704
+End-of-path required time (ps)                        47007
 
 Launch Clock Arrival Time                       0
 + Clock path delay                          0
-+ Data path delay                       15808
++ Data path delay                       17620
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           15808
+End-of-path arrival time (ps)           17620
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SS(0)/in_clock                                    iocell11                0      0  RISE       1
+Pin_SS(0)/in_clock                                    iocell10                0      0  RISE       1
 
 Data path
-pin name                                       model name     delay     AT  slack  edge  Fanout
----------------------------------------------  -------------  -----  -----  -----  ----  ------
-Pin_SS(0)/fb                                   iocell11        4047   4047  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0         macrocell4      5038   9085  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/q              macrocell4      3350  12435  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2  datapathcell1   3373  15808  31896  RISE       1
+pin name                                    model name   delay     AT  slack  edge  Fanout
+------------------------------------------  -----------  -----  -----  -----  ----  ------
+Pin_SS(0)/fb                                iocell10      4047   4047  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0      macrocell4    5607   9654  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/q           macrocell4    3350  13004  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/enable  count7cell    4616  17620  29387  RISE       1
 
 Capture Clock Path
-pin name                                            model name     delay     AT  edge  Fanout
---------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+pin name                                            model name   delay     AT  edge  Fanout
+--------------------------------------------------  -----------  -----  -----  ----  ------
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  50347  FALL       1
 
 
 ===================================================================== 
 4.2::Critical Path Report for Pin_SCLK(0)/fb
 ********************************************
 Clock: Pin_SCLK(0)/fb
-Frequency: 34.87 MHz | Target: 12.00 MHz
+Frequency: 34.49 MHz | Target: 12.00 MHz
 
 ++++ Path 1 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 Path Begin     : \SPI:BSPIS:es3:SPISlave:mosi_tmp\/q
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 27326p
+Path slack     : 27171p
 
 Capture Clock Arrival Time                                   41667
-+ Clock path delay                                            9207
++ Clock path delay                                            8680
 + Cycle adjust (Pin_SCLK(0)/fb:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
 - Setup time                                                 -3650
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               47224
+End-of-path required time (ps)                               46697
 
-Launch Clock Arrival Time                       0
-+ Clock path delay                      10514
-+ Data path delay                        9383
--------------------------------------   ----- 
-End-of-path arrival time (ps)           19897
+Launch Clock Arrival Time                      0
++ Clock path delay                      9987
++ Data path delay                       9538
+-------------------------------------   ---- 
+End-of-path arrival time (ps)           19526
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             4047   4047  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   4047  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           6467  10514  RISE       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              4047   4047  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   4047  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           5940   9987  RISE       1
 
 Data path
 pin name                                      model name     delay     AT  slack  edge  Fanout
 --------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/q           macrocell7      1250  11764  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_5    macrocell8      2232  13996  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  17346  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2551  19897  27326  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/q           macrocell7      1250  11237  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_5    macrocell8      2232  13469  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  16819  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2707  19526  27171  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   5940  50347  FALL       1
 
 
 ===================================================================== 
@@ -254,20 +254,20 @@ ClockGenBlock/gen_clk_out_0                               m0s8clockgenblockcell 
 Path Begin     : Pin_MOSI(0)/fb
 Path End       : \SPI:BSPIS:es3:SPISlave:mosi_tmp\/main_0
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0
-Path slack     : 38097p
+Path slack     : 37576p
 
 Capture Clock Arrival Time                                0
-+ Clock path delay                                     9207
++ Clock path delay                                     8680
 + Cycle adjust (CyHFCLK:R#2 vs. Pin_SCLK(0)/fb:R#2)   41667
 - Setup time                                          -3510
 ---------------------------------------------------   ----- 
-End-of-path required time (ps)                        47364
+End-of-path required time (ps)                        46837
 
 Launch Clock Arrival Time                      0
 + Clock path delay                         0
-+ Data path delay                       9266
++ Data path delay                       9261
 -------------------------------------   ---- 
-End-of-path arrival time (ps)           9266
+End-of-path arrival time (ps)           9261
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
@@ -278,18 +278,18 @@ Pin_MOSI(0)/in_clock                                  iocell8                 0 
 Data path
 pin name                                  model name   delay     AT  slack  edge  Fanout
 ----------------------------------------  -----------  -----  -----  -----  ----  ------
-Pin_MOSI(0)/fb                            iocell8       4047   4047  38097  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/main_0  macrocell7    5219   9266  38097  RISE       1
+Pin_MOSI(0)/fb                            iocell8       4047   4047  37576  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/main_0  macrocell7    5214   9261  37576  RISE       1
 
 Capture Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             2740   2740  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   2740  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           6467   9207  RISE       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              2740   2740  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   2740  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           5940   8680  RISE       1
 
 
 5.2::Critical Path Report for (CyHFCLK:R vs. Pin_SCLK(0)/fb:F)
@@ -298,42 +298,42 @@ Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0 
 ++++ Path 2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 Path Begin     : Pin_SS(0)/fb
-Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2
-Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 31896p
+Path End       : \SPI:BSPIS:es3:SPISlave:BitCounter\/enable
+Capture Clock  : \SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n
+Path slack     : 29387p
 
 Capture Clock Arrival Time                            41667
-+ Clock path delay                                     9207
++ Clock path delay                                     8680
 + Cycle adjust (CyHFCLK:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
-- Setup time                                          -3170
+- Setup time                                          -3340
 ---------------------------------------------------   ----- 
-End-of-path required time (ps)                        47704
+End-of-path required time (ps)                        47007
 
 Launch Clock Arrival Time                       0
 + Clock path delay                          0
-+ Data path delay                       15808
++ Data path delay                       17620
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           15808
+End-of-path arrival time (ps)           17620
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SS(0)/in_clock                                    iocell11                0      0  RISE       1
+Pin_SS(0)/in_clock                                    iocell10                0      0  RISE       1
 
 Data path
-pin name                                       model name     delay     AT  slack  edge  Fanout
----------------------------------------------  -------------  -----  -----  -----  ----  ------
-Pin_SS(0)/fb                                   iocell11        4047   4047  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0         macrocell4      5038   9085  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/q              macrocell4      3350  12435  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2  datapathcell1   3373  15808  31896  RISE       1
+pin name                                    model name   delay     AT  slack  edge  Fanout
+------------------------------------------  -----------  -----  -----  -----  ----  ------
+Pin_SS(0)/fb                                iocell10      4047   4047  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0      macrocell4    5607   9654  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/q           macrocell4    3350  13004  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/enable  count7cell    4616  17620  29387  RISE       1
 
 Capture Clock Path
-pin name                                            model name     delay     AT  edge  Fanout
---------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+pin name                                            model name   delay     AT  edge  Fanout
+--------------------------------------------------  -----------  -----  -----  ----  ------
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  50347  FALL       1
 
 
 5.3::Critical Path Report for (SPI_Clock:R vs. SPI_Clock:R)
@@ -392,44 +392,44 @@ ClockGenBlock/gen_clk_out_0                               m0s8clockgenblockcell 
 Path Begin     : \SPI:BSPIS:es3:SPISlave:mosi_tmp\/q
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 27326p
+Path slack     : 27171p
 
 Capture Clock Arrival Time                                   41667
-+ Clock path delay                                            9207
++ Clock path delay                                            8680
 + Cycle adjust (Pin_SCLK(0)/fb:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
 - Setup time                                                 -3650
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               47224
+End-of-path required time (ps)                               46697
 
-Launch Clock Arrival Time                       0
-+ Clock path delay                      10514
-+ Data path delay                        9383
--------------------------------------   ----- 
-End-of-path arrival time (ps)           19897
+Launch Clock Arrival Time                      0
++ Clock path delay                      9987
++ Data path delay                       9538
+-------------------------------------   ---- 
+End-of-path arrival time (ps)           19526
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             4047   4047  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   4047  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           6467  10514  RISE       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              4047   4047  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   4047  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           5940   9987  RISE       1
 
 Data path
 pin name                                      model name     delay     AT  slack  edge  Fanout
 --------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/q           macrocell7      1250  11764  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_5    macrocell8      2232  13996  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  17346  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2551  19897  27326  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/q           macrocell7      1250  11237  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_5    macrocell8      2232  13469  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  16819  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2707  19526  27171  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   5940  50347  FALL       1
 
 
 5.5::Critical Path Report for (Pin_SCLK(0)/fb:F vs. Pin_SCLK(0)/fb:F)
@@ -437,43 +437,43 @@ Pin_SCLK(0)/fb                                      iocell10           0  45714 
 
 ++++ Path 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_3
+Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_0
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 67644p
+Path slack     : 67479p
 
 Capture Clock Arrival Time                                   41667
-+ Clock path delay                                            9207
++ Clock path delay                                            8680
 + Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:F#2)   83333
 - Setup time                                                 -3650
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               130557
+End-of-path required time (ps)                               130030
 
 Launch Clock Arrival Time                   41667
-+ Clock path delay                      10514
-+ Data path delay                       10733
++ Clock path delay                       9987
++ Data path delay                       10898
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           62913
+End-of-path arrival time (ps)           62552
  
 Launch Clock Path
 pin name                                            model name   delay     AT  edge  Fanout
 --------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  52181  FALL       1
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  51654  FALL       1
 
 Data path
 pin name                                      model name     delay     AT  slack  edge  Fanout
 --------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:BitCounter\/count_3   count7cell      2110  54291  67644  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_1    macrocell8      2721  57012  67644  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  60362  67644  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2551  62913  67644  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/count_0   count7cell      2110  53764  67479  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_4    macrocell8      2731  56495  67479  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  59845  67479  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2707  62552  67479  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   5940  50347  FALL       1
 
 
 5.6::Critical Path Report for (Pin_SCLK(0)/fb:F vs. Pin_SCLK(0)/fb:R)
@@ -481,47 +481,47 @@ Pin_SCLK(0)/fb                                      iocell10           0  45714 
 
 ++++ Path 6 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_3
+Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_0
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/f1_load
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 29617p
+Path slack     : 29607p
 
 Capture Clock Arrival Time                                       0
-+ Clock path delay                                            9207
++ Clock path delay                                            8680
 + Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:R#2)   83333
 - Setup time                                                     0
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               92540
+End-of-path required time (ps)                               92014
 
 Launch Clock Arrival Time                   41667
-+ Clock path delay                      10514
-+ Data path delay                       10742
++ Clock path delay                       9987
++ Data path delay                       10752
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           62923
+End-of-path arrival time (ps)           62406
  
 Launch Clock Path
 pin name                                            model name   delay     AT  edge  Fanout
 --------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  52181  FALL       1
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  51654  FALL       1
 
 Data path
 pin name                                     model name     delay     AT  slack  edge  Fanout
 -------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:BitCounter\/count_3  count7cell      2110  54291  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/main_0      macrocell11     2721  57012  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/q           macrocell11     3350  60362  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/f1_load  datapathcell1   2561  62923  29617  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/count_0  count7cell      2110  53764  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/main_3      macrocell11     2731  56495  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/q           macrocell11     3350  59845  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/f1_load  datapathcell1   2561  62406  29607  RISE       1
 
 Capture Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             2740   2740  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   2740  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock             datapathcell1        6467   9207  RISE       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              2740   2740  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   2740  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock             datapathcell1        5940   8680  RISE       1
 
 
 
@@ -538,220 +538,220 @@ Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0 
 Path Begin     : \SPI:BSPIS:es3:SPISlave:mosi_tmp\/q
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 27326p
+Path slack     : 27171p
 
 Capture Clock Arrival Time                                   41667
-+ Clock path delay                                            9207
++ Clock path delay                                            8680
 + Cycle adjust (Pin_SCLK(0)/fb:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
 - Setup time                                                 -3650
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               47224
+End-of-path required time (ps)                               46697
 
-Launch Clock Arrival Time                       0
-+ Clock path delay                      10514
-+ Data path delay                        9383
--------------------------------------   ----- 
-End-of-path arrival time (ps)           19897
+Launch Clock Arrival Time                      0
++ Clock path delay                      9987
++ Data path delay                       9538
+-------------------------------------   ---- 
+End-of-path arrival time (ps)           19526
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             4047   4047  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   4047  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           6467  10514  RISE       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              4047   4047  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   4047  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           5940   9987  RISE       1
 
 Data path
 pin name                                      model name     delay     AT  slack  edge  Fanout
 --------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/q           macrocell7      1250  11764  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_5    macrocell8      2232  13996  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  17346  27326  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2551  19897  27326  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/q           macrocell7      1250  11237  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/main_5    macrocell8      2232  13469  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_to_dp\/q         macrocell8      3350  16819  27171  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/route_si  datapathcell1   2707  19526  27171  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   5940  50347  FALL       1
 
 
 
 ++++ Path 2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_3
-Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/f1_load
-Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 29617p
+Path Begin     : Pin_SS(0)/fb
+Path End       : \SPI:BSPIS:es3:SPISlave:BitCounter\/enable
+Capture Clock  : \SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n
+Path slack     : 29387p
 
-Capture Clock Arrival Time                                       0
-+ Clock path delay                                            9207
-+ Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:R#2)   83333
-- Setup time                                                     0
-----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               92540
+Capture Clock Arrival Time                            41667
++ Clock path delay                                     8680
++ Cycle adjust (CyHFCLK:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
+- Setup time                                          -3340
+---------------------------------------------------   ----- 
+End-of-path required time (ps)                        47007
 
-Launch Clock Arrival Time                   41667
-+ Clock path delay                      10514
-+ Data path delay                       10742
+Launch Clock Arrival Time                       0
++ Clock path delay                          0
++ Data path delay                       17620
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           62923
+End-of-path arrival time (ps)           17620
  
 Launch Clock Path
-pin name                                            model name   delay     AT  edge  Fanout
---------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  52181  FALL       1
-
-Data path
-pin name                                     model name     delay     AT  slack  edge  Fanout
--------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:BitCounter\/count_3  count7cell      2110  54291  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/main_0      macrocell11     2721  57012  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/q           macrocell11     3350  60362  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/f1_load  datapathcell1   2561  62923  29617  RISE       1
-
-Capture Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             2740   2740  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   2740  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock             datapathcell1        6467   9207  RISE       1
+Pin_SS(0)/in_clock                                    iocell10                0      0  RISE       1
+
+Data path
+pin name                                    model name   delay     AT  slack  edge  Fanout
+------------------------------------------  -----------  -----  -----  -----  ----  ------
+Pin_SS(0)/fb                                iocell10      4047   4047  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0      macrocell4    5607   9654  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/q           macrocell4    3350  13004  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/enable  count7cell    4616  17620  29387  RISE       1
+
+Capture Clock Path
+pin name                                            model name   delay     AT  edge  Fanout
+--------------------------------------------------  -----------  -----  -----  ----  ------
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  50347  FALL       1
 
 
 
 ++++ Path 3 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_3
-Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/f1_load
-Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock
-Path slack     : 30139p
+Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_0
+Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/f1_load
+Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
+Path slack     : 29607p
 
 Capture Clock Arrival Time                                       0
-+ Clock path delay                                            9727
++ Clock path delay                                            8680
 + Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:R#2)   83333
 - Setup time                                                     0
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               93060
+End-of-path required time (ps)                               92014
 
 Launch Clock Arrival Time                   41667
-+ Clock path delay                      10514
-+ Data path delay                       10741
++ Clock path delay                       9987
++ Data path delay                       10752
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           62921
+End-of-path arrival time (ps)           62406
  
 Launch Clock Path
 pin name                                            model name   delay     AT  edge  Fanout
 --------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  52181  FALL       1
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  51654  FALL       1
 
 Data path
 pin name                                     model name     delay     AT  slack  edge  Fanout
 -------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:BitCounter\/count_3  count7cell      2110  54291  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/main_0      macrocell11     2721  57012  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/q           macrocell11     3350  60362  29617  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/f1_load  datapathcell2   2560  62921  30139  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/count_0  count7cell      2110  53764  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/main_3      macrocell11     2731  56495  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/q           macrocell11     3350  59845  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/f1_load  datapathcell1   2561  62406  29607  RISE       1
 
 Capture Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             2740   2740  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   2740  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock             datapathcell2        6987   9727  RISE       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              2740   2740  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   2740  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock             datapathcell1        5940   8680  RISE       1
 
 
 
 ++++ Path 4 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-Path Begin     : Pin_SS(0)/fb
-Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2
-Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 31896p
+Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_0
+Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/f1_load
+Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock
+Path slack     : 29610p
 
-Capture Clock Arrival Time                            41667
-+ Clock path delay                                     9207
-+ Cycle adjust (CyHFCLK:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
-- Setup time                                          -3170
----------------------------------------------------   ----- 
-End-of-path required time (ps)                        47704
+Capture Clock Arrival Time                                       0
++ Clock path delay                                            8682
++ Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:R#2)   83333
+- Setup time                                                     0
+----------------------------------------------------------   ----- 
+End-of-path required time (ps)                               92015
 
-Launch Clock Arrival Time                       0
-+ Clock path delay                          0
-+ Data path delay                       15808
+Launch Clock Arrival Time                   41667
++ Clock path delay                       9987
++ Data path delay                       10751
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           15808
+End-of-path arrival time (ps)           62405
  
 Launch Clock Path
+pin name                                            model name   delay     AT  edge  Fanout
+--------------------------------------------------  -----------  -----  -----  ----  ------
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  51654  FALL       1
+
+Data path
+pin name                                     model name     delay     AT  slack  edge  Fanout
+-------------------------------------------  -------------  -----  -----  -----  ----  ------
+\SPI:BSPIS:es3:SPISlave:BitCounter\/count_0  count7cell      2110  53764  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/main_3      macrocell11     2731  56495  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/q           macrocell11     3350  59845  29607  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/f1_load  datapathcell2   2560  62405  29610  RISE       1
+
+Capture Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SS(0)/in_clock                                    iocell11                0      0  RISE       1
-
-Data path
-pin name                                       model name     delay     AT  slack  edge  Fanout
----------------------------------------------  -------------  -----  -----  -----  ----  ------
-Pin_SS(0)/fb                                   iocell11        4047   4047  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0         macrocell4      5038   9085  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/q              macrocell4      3350  12435  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2  datapathcell1   3373  15808  31896  RISE       1
-
-Capture Clock Path
-pin name                                            model name     delay     AT  edge  Fanout
---------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              2740   2740  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   2740  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock             datapathcell2        5942   8682  RISE       1
 
 
 
 ++++ Path 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 Path Begin     : Pin_SS(0)/fb
-Path End       : \SPI:BSPIS:es3:SPISlave:BitCounter\/enable
-Capture Clock  : \SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n
-Path slack     : 31918p
+Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2
+Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
+Path slack     : 30462p
 
 Capture Clock Arrival Time                            41667
-+ Clock path delay                                     9207
++ Clock path delay                                     8680
 + Cycle adjust (CyHFCLK:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
-- Setup time                                          -3340
+- Setup time                                          -3170
 ---------------------------------------------------   ----- 
-End-of-path required time (ps)                        47534
+End-of-path required time (ps)                        47177
 
 Launch Clock Arrival Time                       0
 + Clock path delay                          0
-+ Data path delay                       15616
++ Data path delay                       16715
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           15616
+End-of-path arrival time (ps)           16715
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SS(0)/in_clock                                    iocell11                0      0  RISE       1
+Pin_SS(0)/in_clock                                    iocell10                0      0  RISE       1
 
 Data path
-pin name                                    model name   delay     AT  slack  edge  Fanout
-------------------------------------------  -----------  -----  -----  -----  ----  ------
-Pin_SS(0)/fb                                iocell11      4047   4047  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0      macrocell4    5038   9085  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/q           macrocell4    3350  12435  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/enable  count7cell    3181  15616  31918  RISE       1
+pin name                                       model name     delay     AT  slack  edge  Fanout
+---------------------------------------------  -------------  -----  -----  -----  ----  ------
+Pin_SS(0)/fb                                   iocell10        4047   4047  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0         macrocell4      5607   9654  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/q              macrocell4      3350  13004  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_2  datapathcell1   3710  16715  30462  RISE       1
 
 Capture Clock Path
-pin name                                            model name   delay     AT  edge  Fanout
---------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  50874  FALL       1
+pin name                                            model name     delay     AT  edge  Fanout
+--------------------------------------------------  -------------  -----  -----  ----  ------
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   5940  50347  FALL       1
 
 
 
@@ -760,40 +760,40 @@ Pin_SCLK(0)/fb                                      iocell10         0  45714  F
 Path Begin     : Pin_SS(0)/fb
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/cs_addr_2
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock
-Path slack     : 32417p
+Path slack     : 30466p
 
 Capture Clock Arrival Time                            41667
-+ Clock path delay                                     9727
++ Clock path delay                                     8682
 + Cycle adjust (CyHFCLK:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
 - Setup time                                          -3170
 ---------------------------------------------------   ----- 
-End-of-path required time (ps)                        48224
+End-of-path required time (ps)                        47179
 
 Launch Clock Arrival Time                       0
 + Clock path delay                          0
-+ Data path delay                       15806
++ Data path delay                       16713
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           15806
+End-of-path arrival time (ps)           16713
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SS(0)/in_clock                                    iocell11                0      0  RISE       1
+Pin_SS(0)/in_clock                                    iocell10                0      0  RISE       1
 
 Data path
 pin name                                       model name     delay     AT  slack  edge  Fanout
 ---------------------------------------------  -------------  -----  -----  -----  ----  ------
-Pin_SS(0)/fb                                   iocell11        4047   4047  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0         macrocell4      5038   9085  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:inv_ss\/q              macrocell4      3350  12435  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/cs_addr_2  datapathcell2   3372  15806  32417  RISE       1
+Pin_SS(0)/fb                                   iocell10        4047   4047  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/main_0         macrocell4      5607   9654  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:inv_ss\/q              macrocell4      3350  13004  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/cs_addr_2  datapathcell2   3708  16713  30466  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock           datapathcell2   6987  51394  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock           datapathcell2   5942  50349  FALL       1
 
 
 
@@ -802,20 +802,20 @@ Pin_SCLK(0)/fb                                      iocell10           0  45714 
 Path Begin     : Pin_MOSI(0)/fb
 Path End       : \SPI:BSPIS:es3:SPISlave:mosi_tmp\/main_0
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0
-Path slack     : 38097p
+Path slack     : 37576p
 
 Capture Clock Arrival Time                                0
-+ Clock path delay                                     9207
++ Clock path delay                                     8680
 + Cycle adjust (CyHFCLK:R#2 vs. Pin_SCLK(0)/fb:R#2)   41667
 - Setup time                                          -3510
 ---------------------------------------------------   ----- 
-End-of-path required time (ps)                        47364
+End-of-path required time (ps)                        46837
 
 Launch Clock Arrival Time                      0
 + Clock path delay                         0
-+ Data path delay                       9266
++ Data path delay                       9261
 -------------------------------------   ---- 
-End-of-path arrival time (ps)           9266
+End-of-path arrival time (ps)           9261
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
@@ -826,18 +826,18 @@ Pin_MOSI(0)/in_clock                                  iocell8                 0 
 Data path
 pin name                                  model name   delay     AT  slack  edge  Fanout
 ----------------------------------------  -----------  -----  -----  -----  ----  ------
-Pin_MOSI(0)/fb                            iocell8       4047   4047  38097  RISE       1
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/main_0  macrocell7    5219   9266  38097  RISE       1
+Pin_MOSI(0)/fb                            iocell8       4047   4047  37576  RISE       1
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/main_0  macrocell7    5214   9261  37576  RISE       1
 
 Capture Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SCLK(0)/in_clock                                  iocell10                0      0  RISE       1
-Pin_SCLK(0)/fb                                        iocell10             2740   2740  
-Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0   2740  RISE       1
---Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell10                0    N/A  
-\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           6467   9207  RISE       1
+Pin_SCLK(0)/in_clock                                  iocell9                 0      0  RISE       1
+Pin_SCLK(0)/fb                                        iocell9              2740   2740  
+Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell9                 0   2740  RISE       1
+--Pin_SCLK(0)/fb (Clock Phase Adjustment Delay)       iocell9                 0    N/A  
+\SPI:BSPIS:es3:SPISlave:mosi_tmp\/clock_0             macrocell7           5940   8680  RISE       1
 
 
 
@@ -846,122 +846,122 @@ Pin_SCLK(0)/fb (TOTAL_ADJUSTMENTS)                    iocell10                0 
 Path Begin     : Pin_SS(0)/fb
 Path End       : \SPI:BSPIS:es3:SPISlave:BitCounter\/reset
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n
-Path slack     : 41062p
+Path slack     : 40711p
 
 Capture Clock Arrival Time                            41667
-+ Clock path delay                                     9207
++ Clock path delay                                     8680
 + Cycle adjust (CyHFCLK:R#1 vs. Pin_SCLK(0)/fb:F#1)       0
 - Recovery time                                           0
 ---------------------------------------------------   ----- 
-End-of-path required time (ps)                        50874
+End-of-path required time (ps)                        50347
 
 Launch Clock Arrival Time                      0
 + Clock path delay                         0
-+ Data path delay                       9812
++ Data path delay                       9636
 -------------------------------------   ---- 
-End-of-path arrival time (ps)           9812
+End-of-path arrival time (ps)           9636
  
 Launch Clock Path
 pin name                                              model name          delay     AT  edge  Fanout
 ----------------------------------------------------  ------------------  -----  -----  ----  ------
 ClockBlock/hfclk                                      m0s8clockblockcell      0      0  RISE       1
-Pin_SS(0)/in_clock                                    iocell11                0      0  RISE       1
+Pin_SS(0)/in_clock                                    iocell10                0      0  RISE       1
 
 Data path
 pin name                                   model name   delay     AT  slack  edge  Fanout
 -----------------------------------------  -----------  -----  -----  -----  ----  ------
-Pin_SS(0)/fb                               iocell11      4047   4047  31896  RISE       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/reset  count7cell    5765   9812  41062  RISE       1
+Pin_SS(0)/fb                               iocell10      4047   4047  29387  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/reset  count7cell    5589   9636  40711  RISE       1
 
 Capture Clock Path
 pin name                                            model name   delay     AT  edge  Fanout
 --------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  50874  FALL       1
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  50347  FALL       1
 
 
 
 ++++ Path 9 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_3
+Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_0
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_0
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock
-Path slack     : 68114p
+Path slack     : 68104p
 
 Capture Clock Arrival Time                                   41667
-+ Clock path delay                                            9207
++ Clock path delay                                            8680
 + Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:F#2)   83333
 - Setup time                                                 -3170
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               131037
+End-of-path required time (ps)                               130510
 
 Launch Clock Arrival Time                   41667
-+ Clock path delay                      10514
-+ Data path delay                       10742
++ Clock path delay                       9987
++ Data path delay                       10752
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           62923
+End-of-path arrival time (ps)           62406
  
 Launch Clock Path
 pin name                                            model name   delay     AT  edge  Fanout
 --------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  52181  FALL       1
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  51654  FALL       1
 
 Data path
 pin name                                       model name     delay     AT  slack  edge  Fanout
 ---------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:BitCounter\/count_3    count7cell      2110  54291  67644  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/main_0        macrocell11     2721  57012  68114  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/q             macrocell11     3350  60362  68114  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_0  datapathcell1   2561  62923  68114  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/count_0    count7cell      2110  53764  67479  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/main_3        macrocell11     2731  56495  68104  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/q             macrocell11     3350  59845  68104  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/cs_addr_0  datapathcell1   2561  62406  68104  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  50874  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   5940  50347  FALL       1
 
 
 
 ++++ Path 10 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
-Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_3
+Path Begin     : \SPI:BSPIS:es3:SPISlave:BitCounter\/count_0
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/cs_addr_0
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock
-Path slack     : 68636p
+Path slack     : 68107p
 
 Capture Clock Arrival Time                                   41667
-+ Clock path delay                                            9727
++ Clock path delay                                            8682
 + Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:F#2)   83333
 - Setup time                                                 -3170
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               131557
+End-of-path required time (ps)                               130512
 
 Launch Clock Arrival Time                   41667
-+ Clock path delay                      10514
-+ Data path delay                       10741
++ Clock path delay                       9987
++ Data path delay                       10751
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           62921
+End-of-path arrival time (ps)           62405
  
 Launch Clock Path
 pin name                                            model name   delay     AT  edge  Fanout
 --------------------------------------------------  -----------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10         0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    6467  52181  FALL       1
+Pin_SCLK(0)/fb                                      iocell9          0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/clock_n         count7cell    5940  51654  FALL       1
 
 Data path
 pin name                                       model name     delay     AT  slack  edge  Fanout
 ---------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:BitCounter\/count_3    count7cell      2110  54291  67644  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/main_0        macrocell11     2721  57012  68114  RISE       1
-\SPI:BSPIS:es3:SPISlave:tx_load\/q             macrocell11     3350  60362  68114  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/cs_addr_0  datapathcell2   2560  62921  68636  RISE       1
+\SPI:BSPIS:es3:SPISlave:BitCounter\/count_0    count7cell      2110  53764  67479  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/main_3        macrocell11     2731  56495  68104  RISE       1
+\SPI:BSPIS:es3:SPISlave:tx_load\/q             macrocell11     3350  59845  68104  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/cs_addr_0  datapathcell2   2560  62405  68107  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock           datapathcell2   6987  51394  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock           datapathcell2   5942  50349  FALL       1
 
 
 
@@ -1108,38 +1108,38 @@ ClockGenBlock/gen_clk_out_0                               m0s8clockgenblockcell 
 Path Begin     : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/sol_msb
 Path End       : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/sir
 Capture Clock  : \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock
-Path slack     : 73626p
+Path slack     : 73108p
 
 Capture Clock Arrival Time                                   41667
-+ Clock path delay                                            9727
++ Clock path delay                                            8682
 + Cycle adjust (Pin_SCLK(0)/fb:F#1 vs. Pin_SCLK(0)/fb:F#2)   83333
 - Setup time                                                 -3410
 ----------------------------------------------------------   ----- 
-End-of-path required time (ps)                               131317
+End-of-path required time (ps)                               130272
 
 Launch Clock Arrival Time                   41667
-+ Clock path delay                      10514
++ Clock path delay                       9987
 + Data path delay                        5510
 -------------------------------------   ----- 
-End-of-path arrival time (ps)           57691
+End-of-path arrival time (ps)           57164
  
 Launch Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   6467  52181  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/clock           datapathcell1   5940  51654  FALL       1
 
 Data path
 pin name                                     model name     delay     AT  slack  edge  Fanout
 -------------------------------------------  -------------  -----  -----  -----  ----  ------
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/sol_msb  datapathcell1   5510  57691  73626  RISE       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/sir      datapathcell2      0  57691  73626  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u0\/sol_msb  datapathcell1   5510  57164  73108  RISE       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/sir      datapathcell2      0  57164  73108  RISE       1
 
 Capture Clock Path
 pin name                                            model name     delay     AT  edge  Fanout
 --------------------------------------------------  -------------  -----  -----  ----  ------
-Pin_SCLK(0)/fb                                      iocell10           0  45714  FALL       1
-\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock           datapathcell2   6987  51394  FALL       1
+Pin_SCLK(0)/fb                                      iocell9            0  45714  FALL       1
+\SPI:BSPIS:es3:SPISlave:sR16:Dp:u1\/clock           datapathcell2   5942  50349  FALL       1
 
 
 

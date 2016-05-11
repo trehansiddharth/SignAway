@@ -5,19 +5,58 @@
 int16 x_position = 0;
 int16 y_position = 0;
 
-int16 x_positions[512];
-int16 y_positions[512];
-uint16 pos_index = 0;
+int16 x_positions_template[256];
+int16 y_positions_template[256];
+uint16 pos_index_template = 0;
+
+int16 x_positions_test[256];
+int16 y_positions_test[256];
+uint16 pos_index_test = 0;
+
+uint16 pos_size = 256;
 
 uint8 action_state = RECORDING;
-bool positions_full = false;
 bool reading = false;
 
 uint8 debug_state = LOW;
 
 CY_ISR_PROTO(isr_spi_handler);
-CY_ISR_PROTO(isr_reset_handler);
 CY_ISR_PROTO(isr_button_handler);
+
+void reset_all() {
+    // Reset everything back to initial values
+    x_position = 0;
+    y_position = 0;
+    if (action_state == RECORDING) {
+        x_positions_template[0] = 0;
+        y_positions_template[0] = 0;
+        pos_index_template = 1;
+    } else {
+        x_positions_test[0] = 0;
+        y_positions_test[0] = 0;
+        pos_index_test = 1;
+    }
+}
+
+void stop_reading () {
+    // Check if we've just exited the VERIFYING action state
+    if (action_state == VERIFYING) {
+        // Send data to the desktop
+        char outputString[14];
+        int i = 0;
+        for (i = 0; i < pos_index_template; i++) {
+            snprintf(outputString, 14, "%i %i\r\n", x_positions_template[i], y_positions_template[i]);
+            UART_UartPutString(outputString);
+        }
+        UART_UartPutString(":R\r\n\0");
+        for (i = 0; i < pos_index_test; i++) {
+            snprintf(outputString, 14, "%i %i\r\n", x_positions_test[i], y_positions_test[i]);
+            UART_UartPutString(outputString);
+        }
+        UART_UartPutString(":T\r\n\0");
+        UART_UartPutString(":E\r\n\0");
+    }
+}
 
 CY_ISR(isr_spi_handler) {
     // Get the data that arrives over SPI
@@ -25,41 +64,45 @@ CY_ISR(isr_spi_handler) {
     int8 delta_x = (0xf0 | rxData) >> 8;
     int8 delta_y = 0x0f | rxData;
     
-    if (action_state == RECORDING && positions_full == false && reading == true) {
-        // Update x and y positions
-        x_position += delta_x;
-        y_position += delta_y;
-        x_positions[pos_index] = x_position;
-        y_positions[pos_index] = y_position;
-        
-        // Send it to the desktop
-        char outputString[12];
-        snprintf(outputString, 12, "%i %i", x_position, y_position);
-        UART_UartPutString(outputString);
-        UART_UartPutString("\r\n");
-        
-        // Update pos_index
-        pos_index++;
-        if (pos_index > 511) {
-            positions_full = true;
+    if (reading == true) {
+        if (action_state == RECORDING && pos_index_template < pos_size) {            
+            // Update x and y positions
+            x_position += delta_x;
+            y_position += delta_y;
+            x_positions_template[pos_index_template] = x_position;
+            y_positions_template[pos_index_template] = y_position;
+            
+            // Update pos_index_template
+            pos_index_template++;
+        }
+        if (action_state != RECORDING && pos_index_test < pos_size) {            
+            // Update x and y positions
+            x_position += delta_x;
+            y_position += delta_y;
+            x_positions_test[pos_index_test] = x_position;
+            y_positions_test[pos_index_test] = y_position;
+            
+            // Update pos_index_size
+            pos_index_test++;
         }
     }
 }
 
-CY_ISR(isr_reset_handler) {
-    // Reset everything back to initial values
-    x_position = 0;
-    y_position = 0;
-    pos_index = 0;
-    positions_full = false;
-    
-    isr_reset_ClearPending();
-}
-
 CY_ISR(isr_button_handler) {
+    // Wait for a bit for the buttons to settle and then read
     CyDelay(1);
-    // Change the action_state to reflect which way the switch is set
     uint8 btn = Pin_Button_Read();
+    
+    // Change the reading variable to reflect whether the red button is held down or not
+    if ((0x1 & btn) == 0 && reading == false) {
+        reset_all();
+        reading = true;
+    } else if ((0x1 & btn) != 0 && reading == true) {
+        reading = false;
+        stop_reading();
+    }
+    
+    // Change the action_state to reflect which way the switch is set
     if ((0x2 & btn) == 0) {
         action_state = RECORDING;
     } else if ((0x4 & btn) == 0) {
@@ -68,15 +111,13 @@ CY_ISR(isr_button_handler) {
         action_state = FORGING;
     }
     
-    // Change the reading variable to reflect whether the red button is held down or not
-    if ((0x1 & btn) == 0) {
-        reading = true;
-    } else {
-        reading = false;
+    if ((0x8 & btn) == 1) {        
+        // Clear all the values relevant to the current action_state
+        reset_all();
     }
     
     // Debugging!
-    Pin_LED_Debug_Write(action_state == RECORDING);
+    Pin_LED_Debug_Write(debug_state);
     debug_state = HIGH - debug_state;
     
     isr_button_ClearPending();
@@ -85,9 +126,8 @@ CY_ISR(isr_button_handler) {
 
 int main()
 {
-    // Initialize positions    
-    x_positions[pos_index] = x_position;
-    y_positions[pos_index] = y_position;
+    // Reset everything
+    reset_all();
     
     // Start the serial communication systems
     SPI_Start();
@@ -98,7 +138,6 @@ int main()
     
     // Enable the isrs
     isr_spi_StartEx(isr_spi_handler);
-    isr_reset_StartEx(isr_reset_handler);
     isr_button_StartEx(isr_button_handler);
     
     // Enable global interrupts

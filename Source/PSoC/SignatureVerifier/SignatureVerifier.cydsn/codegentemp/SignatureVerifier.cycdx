@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <blockRegMap version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cypress.com/xsd/cyblockregmap cyblockregmap.xsd" xmlns="http://cypress.com/xsd/cyblockregmap">
-  <block name="Pin_LED_Debug" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="isr_spi" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="Pin_LED_Yellow" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="Pin_LED_Red" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="isr_button" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="UART" BASE="0x0" SIZE="0x0" desc="Serial Communication Block" visible="true">
     <block name="ZeroTerminal_1" BASE="0x0" SIZE="0x0" desc="" visible="true" />
     <block name="ZeroTerminal_2" BASE="0x0" SIZE="0x0" desc="" visible="true" />
@@ -331,15 +332,11 @@
       <field name="BREAK_DETECT" from="11" to="11" access="RW" resetVal="" desc="Logical and of corresponding request and mask bits" />
     </register>
   </block>
-  <block name="isr_button" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="isr_reset" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="Pin_Reset" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="Pin_LED_Red" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="Pin_LED_Debug" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="Pin_LED_Green" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="Pin_SS" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="Pin_SCLK" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="Pin_MOSI" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="SPI_Clock" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="Pin_LED_Green" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="Pin_Button" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="SPI" BASE="0x0" SIZE="0x0" desc="" visible="true">
     <block name="RxInternalInterrupt" BASE="0x0" SIZE="0x0" desc="" visible="true" />
@@ -364,4 +361,5 @@
       <field name="Interrupt" from="7" to="7" access="R" resetVal="" desc="Set when interrupt occurs" />
     </register>
   </block>
+  <block name="SPI_Clock" BASE="0x0" SIZE="0x0" desc="" visible="true" />
 </blockRegMap>

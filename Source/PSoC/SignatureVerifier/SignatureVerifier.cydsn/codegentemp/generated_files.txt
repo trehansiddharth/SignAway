@@ -60,11 +60,6 @@
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_PINS.h" value="NONE;UART" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_SPI_UART_PVT.h" value="NONE;UART" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_PVT.h" value="NONE;UART" />
-  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_Reset.c" value="ARM_C_FILE;Pin_Reset" />
-  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_Reset.h" value="NONE;Pin_Reset" />
-  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\Pin_Reset_aliases.h" value="NONE;Pin_Reset" />
-  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\isr_reset.c" value="ARM_C_FILE;isr_reset" />
-  <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\isr_reset.h" value="NONE;isr_reset" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\isr_button.c" value="ARM_C_FILE;isr_button" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\isr_button.h" value="NONE;isr_button" />
   <file name="C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\codegentemp\UART_tx.c" value="ARM_C_FILE;UART_tx" />

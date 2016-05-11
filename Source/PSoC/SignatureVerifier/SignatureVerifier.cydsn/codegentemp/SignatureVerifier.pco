@@ -1,5 +1,5 @@
 # SignatureVerifier
-# 2016-05-10 02:40:53Z
+# 2016-05-10 23:59:18Z
 
 # IO_2@[IOP=(3)][IoId=(2)] is reserved: SWDDebugEnabled
 dont_use_io iocell 3 2
@@ -16,8 +16,6 @@ set_io "Pin_LED_Green(0)" iocell 1 3
 set_io "Pin_LED_Red(0)" iocell 1 4
 set_io "Pin_LED_Yellow(0)" iocell 1 5
 set_io "Pin_MOSI(0)" iocell 0 0
-set_location "Pin_Reset" logicalport -1 -1 1
-set_io "Pin_Reset(0)" iocell 1 7
 set_io "Pin_SCLK(0)" iocell 0 1
 set_io "Pin_SS(0)" iocell 0 2
 set_location "\SPI:BSPIS:es3:SPISlave:BitCounter\" 1 0 7
@@ -26,7 +24,7 @@ set_location "\SPI:BSPIS:es3:SPISlave:TxStsReg\" 0 0 4
 set_location "\SPI:BSPIS:es3:SPISlave:byte_complete\" 0 1 0 2
 set_location "\SPI:BSPIS:es3:SPISlave:dpcounter_one\" 1 0 0 3
 set_location "\SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\" 0 1 0 1
-set_location "\SPI:BSPIS:es3:SPISlave:inv_ss\" 1 1 0 1
+set_location "\SPI:BSPIS:es3:SPISlave:inv_ss\" 1 0 1 1
 set_location "\SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\" 1 0 1 0
 set_location "\SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\" 0 1 1 0
 set_location "\SPI:BSPIS:es3:SPISlave:mosi_tmp\" 1 0 0 1
@@ -46,5 +44,4 @@ set_location "\UART:SCB\" m0s8scbcell -1 -1 1
 set_io "\UART:rx(0)\" iocell 3 0
 set_io "\UART:tx(0)\" iocell 3 1
 set_location "isr_button" interrupt -1 -1 2
-set_location "isr_reset" interrupt -1 -1 1
-set_location "isr_spi" interrupt -1 -1 3
+set_location "isr_spi" interrupt -1 -1 1

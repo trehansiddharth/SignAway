@@ -49,9 +49,6 @@
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_button</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_button\isr_button.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_button\isr_button.h</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_reset</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_reset\isr_reset.c</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_reset\isr_reset.h</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_spi</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_spi\isr_spi.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_spi\isr_spi.h</v>
@@ -79,10 +76,6 @@
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_MOSI\Pin_MOSI.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_MOSI\Pin_MOSI.h</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_MOSI\Pin_MOSI_aliases.h</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_Reset</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_Reset\Pin_Reset.c</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_Reset\Pin_Reset.h</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_Reset\Pin_Reset_aliases.h</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_SCLK</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_SCLK\Pin_SCLK.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_SCLK\Pin_SCLK.h</v>
@@ -144,9 +137,6 @@
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_button</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_button\isr_button.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_button\isr_button.h</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_reset</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_reset\isr_reset.c</v>
-<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_reset\isr_reset.h</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_spi</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_spi\isr_spi.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\isr_spi\isr_spi.h</v>
@@ -165,6 +155,9 @@
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_LED_Red</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_LED_Red\Pin_LED_Red.c</v>
 <v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_LED_Red\Pin_LED_Red.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_LED_Red\Pin_LED_Red_aliases.h</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_LED_Yellow</v>
+<v>SignatureVerifier\SignatureVerifier\Generated_Source\PSoC4\Pin_LED_Yellow\Pin_LED_Yellow.c</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -198,7 +191,6 @@
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyPm.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyutils.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_button.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_reset.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_spi.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\main.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Button.lst</v>
@@ -207,7 +199,6 @@
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Red.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Yellow.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_MOSI.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Reset.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SCLK.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SS.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI.lst</v>
@@ -246,7 +237,6 @@
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyPm.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyutils.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_button.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_reset.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_spi.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\main.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Button.lst</v>
@@ -255,10 +245,11 @@
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Red.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Yellow.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_MOSI.lst</v>
-<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Reset.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SCLK.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SS.lst</v>
 <v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_BOOT.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_Clock.lst</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStates>
@@ -300,8 +291,9 @@
 <Unloaded />
 <OpenDocs>
 <name v=".\SignatureVerifier.cydsn\TopDesign\TopDesign.cysch" />
-<name v=".\SignatureVerifier.cydsn\main.c" />
 <name v=".\SignatureVerifier.cydsn\SignatureVerifier.cydwr" />
+<name v=".\SignatureVerifier.cydsn\main.c" />
+<name v=".\SignatureVerifier.cydsn\header.h" />
 </OpenDocs>
 <config v="" />
 <AutoUpdate v="true" />

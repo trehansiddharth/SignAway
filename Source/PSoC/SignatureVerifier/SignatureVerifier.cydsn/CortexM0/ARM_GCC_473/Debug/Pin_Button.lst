@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
   30:.\Generated_Source\PSoC4/Pin_Button.c **** ********************************************************************************
   31:.\Generated_Source\PSoC4/Pin_Button.c **** *
   32:.\Generated_Source\PSoC4/Pin_Button.c **** * Summary:
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 2
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 2
 
 
   33:.\Generated_Source\PSoC4/Pin_Button.c **** *  Assign a new value to the digital port's data output register.  
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
   66 0036 3A1C     		mov	r2, r7
   67 0038 0F32     		add	r2, r2, #15
   68 003a 1278     		ldrb	r2, [r2]
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 3
 
 
   69 003c 1A60     		str	r2, [r3]
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
   95              		.cfi_offset 7, -8
   96              		.cfi_offset 14, -4
   97 0002 82B0     		sub	sp, sp, #8
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 4
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 4
 
 
   98              	.LCFI4:
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  148              		.align	2
  149              	.L5:
  150 0054 08020440 		.word	1074004488
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 5
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 5
 
 
  151 0058 3FFEFFFF 		.word	-449
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  181 0010 181C     		mov	r0, r3
  182 0012 BD46     		mov	sp, r7
  183              		@ sp needed for prologue
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 6
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 6
 
 
  184 0014 80BD     		pop	{r7, pc}
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  218 0010 181C     		mov	r0, r3
  219 0012 BD46     		mov	sp, r7
  220              		@ sp needed for prologue
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 7
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 7
 
 
  221 0014 80BD     		pop	{r7, pc}
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  252 0008 1B68     		ldr	r3, [r3]
  253 000a D9B2     		uxtb	r1, r3
  254 000c FB1D     		add	r3, r7, #7
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 8
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 8
 
 
  255 000e 0722     		mov	r2, #7
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  306 0038 02       		.byte	0x2
  307 0039 05       		.byte	0x5
  308 003a 4C010000 		.4byte	.LASF2
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 9
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 9
 
 
  309 003e 02       		.uleb128 0x2
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  363 00a1 A5000000 		.4byte	0xa5
  364 00a5 05       		.uleb128 0x5
  365 00a6 7A000000 		.4byte	0x7a
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 10
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 10
 
 
  366 00aa 06       		.uleb128 0x6
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  420 0113 6F000000 		.4byte	0x6f
  421 0117 00000000 		.4byte	.LFB2
  422 011b 1C000000 		.4byte	.LFE2
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 11
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 11
 
 
  423 011f 70000000 		.4byte	.LLST2
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  477 0012 06       		.uleb128 0x6
  478 0013 00       		.byte	0
  479 0014 00       		.byte	0
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 12
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 12
 
 
  480 0015 02       		.uleb128 0x2
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  534 004b 0C       		.uleb128 0xc
  535 004c 11       		.uleb128 0x11
  536 004d 01       		.uleb128 0x1
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 13
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 13
 
 
  537 004e 12       		.uleb128 0x12
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  591 0085 13       		.uleb128 0x13
  592 0086 11       		.uleb128 0x11
  593 0087 01       		.uleb128 0x1
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 14
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 14
 
 
  594 0088 12       		.uleb128 0x12
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  648 002c 0200     		.2byte	0x2
  649 002e 77       		.byte	0x77
  650 002f 18       		.sleb128 24
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 15
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 15
 
 
  651 0030 00000000 		.4byte	0
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  705 00b4 04000000 		.4byte	.LCFI9
  706 00b8 1C000000 		.4byte	.LFE3
  707 00bc 0200     		.2byte	0x2
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 16
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 16
 
 
  708 00be 77       		.byte	0x77
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  762 0014 1C000000 		.4byte	.LFE2
  763 0018 00000000 		.4byte	.LFB3
  764 001c 1C000000 		.4byte	.LFE3
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 17
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 17
 
 
  765 0020 00000000 		.4byte	.LFB4
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  791      42757474 
  791      6F6E5F52 
  791      65616400 
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 18
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 18
 
 
  792              	.LASF3:
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 1
  815              	.LASF9:
  816 0156 75696E74 		.ascii	"uint8\000"
  816      3800
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccKGN7Dc.s 			page 19
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 19
 
 
  817              	.LASF24:

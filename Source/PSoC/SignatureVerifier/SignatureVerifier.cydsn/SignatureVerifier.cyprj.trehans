@@ -27,8 +27,6 @@
 <dep name=".\Generated_Source\PSoC4\Pin_LED_Yellow_aliases.h" />
 <dep name=".\Generated_Source\PSoC4\Pin_MOSI.h" />
 <dep name=".\Generated_Source\PSoC4\Pin_MOSI_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\Pin_Reset.h" />
-<dep name=".\Generated_Source\PSoC4\Pin_Reset_aliases.h" />
 <dep name=".\Generated_Source\PSoC4\Pin_SCLK.h" />
 <dep name=".\Generated_Source\PSoC4\Pin_SCLK_aliases.h" />
 <dep name=".\Generated_Source\PSoC4\Pin_SS.h" />
@@ -57,7 +55,6 @@
 <dep name=".\Generated_Source\PSoC4\cypins.h" />
 <dep name=".\Generated_Source\PSoC4\cytypes.h" />
 <dep name=".\Generated_Source\PSoC4\isr_button.h" />
-<dep name=".\Generated_Source\PSoC4\isr_reset.h" />
 <dep name=".\Generated_Source\PSoC4\isr_spi.h" />
 <dep name=".\Generated_Source\PSoC4\project.h" />
 <dep name=".\header.h" />
@@ -77,8 +74,6 @@
 <file name=".\Generated_Source\PSoC4\Pin_LED_Yellow_aliases.h" />
 <file name=".\Generated_Source\PSoC4\Pin_MOSI.h" />
 <file name=".\Generated_Source\PSoC4\Pin_MOSI_aliases.h" />
-<file name=".\Generated_Source\PSoC4\Pin_Reset.h" />
-<file name=".\Generated_Source\PSoC4\Pin_Reset_aliases.h" />
 <file name=".\Generated_Source\PSoC4\Pin_SCLK.h" />
 <file name=".\Generated_Source\PSoC4\Pin_SCLK_aliases.h" />
 <file name=".\Generated_Source\PSoC4\Pin_SS.h" />
@@ -107,7 +102,6 @@
 <file name=".\Generated_Source\PSoC4\cypins.h" />
 <file name=".\Generated_Source\PSoC4\cytypes.h" />
 <file name=".\Generated_Source\PSoC4\isr_button.h" />
-<file name=".\Generated_Source\PSoC4\isr_reset.h" />
 <file name=".\Generated_Source\PSoC4\isr_spi.h" />
 <file name=".\Generated_Source\PSoC4\project.h" />
 <file name=".\header.h" />
@@ -193,15 +187,6 @@
 <dep name=".\Generated_Source\PSoC4\Pin_MOSI.c" />
 </file>
 <file name=".\Generated_Source\PSoC4\Pin_MOSI.c" />
-<file name=".\CortexM0\ARM_GCC_473\Debug\Pin_Reset.o">
-<dep name=".\Generated_Source\PSoC4\Pin_Reset.h" />
-<dep name=".\Generated_Source\PSoC4\Pin_Reset_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC4\cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\Pin_Reset.c" />
-</file>
-<file name=".\Generated_Source\PSoC4\Pin_Reset.c" />
 <file name=".\CortexM0\ARM_GCC_473\Debug\Pin_SCLK.o">
 <dep name=".\Generated_Source\PSoC4\Pin_SCLK.h" />
 <dep name=".\Generated_Source\PSoC4\Pin_SCLK_aliases.h" />
@@ -441,15 +426,6 @@
 <dep name=".\Generated_Source\PSoC4\isr_button.c" />
 </file>
 <file name=".\Generated_Source\PSoC4\isr_button.c" />
-<file name=".\CortexM0\ARM_GCC_473\Debug\isr_reset.o">
-<dep name=".\Generated_Source\PSoC4\CyLib.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC4\cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\isr_reset.h" />
-<dep name=".\Generated_Source\PSoC4\isr_reset.c" />
-</file>
-<file name=".\Generated_Source\PSoC4\isr_reset.c" />
 <file name=".\CortexM0\ARM_GCC_473\Debug\isr_spi.o">
 <dep name=".\Generated_Source\PSoC4\CyLib.h" />
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
@@ -459,6 +435,27 @@
 <dep name=".\Generated_Source\PSoC4\isr_spi.c" />
 </file>
 <file name=".\Generated_Source\PSoC4\isr_spi.c" />
+<file name=".\Generated_Source\PSoC4\Pin_Reset.h" />
+<file name=".\Generated_Source\PSoC4\Pin_Reset_aliases.h" />
+<file name=".\Generated_Source\PSoC4\isr_reset.h" />
+<file name=".\CortexM0\ARM_GCC_473\Debug\Pin_Reset.o">
+<dep name=".\Generated_Source\PSoC4\Pin_Reset.h" />
+<dep name=".\Generated_Source\PSoC4\Pin_Reset_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\Pin_Reset.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\Pin_Reset.c" />
+<file name=".\CortexM0\ARM_GCC_473\Debug\isr_reset.o">
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\isr_reset.h" />
+<dep name=".\Generated_Source\PSoC4\isr_reset.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\isr_reset.c" />
 <file name=".\Generated_Source\PSoC4\Pin_Button_0.h" />
 <file name=".\Generated_Source\PSoC4\Pin_Button_0_aliases.h" />
 <file name=".\Generated_Source\PSoC4\Pin_Button_1.h" />
@@ -678,8 +675,6 @@
 <dep name=".\CortexM0\ARM_GCC_473\Debug\UART_rx.o" />
 <dep name=".\CortexM0\ARM_GCC_473\Debug\Pin_LED_Debug.o" />
 <dep name=".\CortexM0\ARM_GCC_473\Debug\isr_spi.o" />
-<dep name=".\CortexM0\ARM_GCC_473\Debug\Pin_Reset.o" />
-<dep name=".\CortexM0\ARM_GCC_473\Debug\isr_reset.o" />
 <dep name=".\CortexM0\ARM_GCC_473\Debug\isr_button.o" />
 <dep name=".\CortexM0\ARM_GCC_473\Debug\Pin_Button.o" />
 <dep name=".\CortexM0\ARM_GCC_473\Debug\SignatureVerifier.a" />
@@ -1409,54 +1404,6 @@
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_0\PSoC4\API\aliases.h</v>
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_m0s8_scb_v1_0\cy_m0s8_scb_v1_0.cysym</v>
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_m0s8_scb_v1_0\PSoC4\cy_m0s8_scb_v1_0.cyprimitive</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\cy_pins_v2_5.cyprimitive</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\cy_pins_v2_5.cysym</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\cy_pins_v2_5.pdf</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\cy_pins_v2_5.cystate</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\custom.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyenums.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinsdata.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinutils.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cygeneralcontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cygeneralcontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyinputcontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyinputcontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cymappingcontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cymappingcontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyoutputcontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyoutputcontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinaliasdialog.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinaliasdialog.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinscontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinscontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyporcontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyporcontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cytypecontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cytypecontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\Resource1.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyclockingcontrol.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyclockingcontrol.Designer.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cygeneralcontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyinputcontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cymappingcontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyoutputcontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinaliasdialog.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cypinscontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyporcontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cytypecontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\Resource1.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\Custom\cyclockingcontrol.resx</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\PSoC4\API\pins.c</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\PSoC4\API\pins.h</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_pins_v2_5\PSoC4\API\aliases.h</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\cy_isr_v1_70.cysym</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\cy_isr_v1_70.primitive</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\cy_isr_v1_70.cystate</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\Custom\custom.cs</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\PSoC4\API\intc.c</v>
-<v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\PSoC4\API\intc.h</v>
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\cy_isr_v1_70.cysym</v>
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\cy_isr_v1_70.primitive</v>
@@ -1621,14 +1568,14 @@
 <v>C:\Program Files (x86)\Cypress\PSoC Creator\3.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif</v>
 <v>C:\Program Files (x86)\Cypress\PSoC Creator\3.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3.vif</v>
 </warp_dep>
-<deps_time v="131073216559600793" />
+<deps_time v="131073983613370285" />
 <top_block v="TopDesign" />
 <last_generation v="0" />
 </CyGuid_925cc1e1-309e-4e08-b0a1-09a83c35b157>
 </dataGuid>
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
-<deps_time v="131073220442306747" />
+<deps_time v="131074688718410176" />
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>
 <dataGuid v="2a4578c1-6f5e-41bc-81e4-e5d0befc4490">

@@ -114,11 +114,6 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Debug_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_spi.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_spi.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Reset.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Reset.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Reset_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_reset.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_reset.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_button.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_button.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button.c</File>

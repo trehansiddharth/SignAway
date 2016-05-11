@@ -1,5 +1,5 @@
 -- Project:   SignatureVerifier
--- Generated: 05/09/2016 22:40:53
+-- Generated: 05/10/2016 19:59:18
 -- 
 
 ENTITY SignatureVerifier IS
@@ -12,7 +12,6 @@ ENTITY SignatureVerifier IS
         Pin_LED_Red(0)_PAD : OUT std_ulogic;
         Pin_LED_Yellow(0)_PAD : OUT std_ulogic;
         Pin_MOSI(0)_PAD : IN std_ulogic;
-        Pin_Reset(0)_PAD : IN std_ulogic;
         Pin_SCLK(0)_PAD : IN std_ulogic;
         Pin_SS(0)_PAD : IN std_ulogic;
         \UART:rx(0)_PAD\ : IN std_ulogic;
@@ -31,7 +30,6 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL ClockBlock_SYSCLK : bit;
     SIGNAL Net_102 : bit;
     SIGNAL Net_112 : bit;
-    SIGNAL Net_119 : bit;
     SIGNAL Net_149 : bit;
     SIGNAL Net_27 : bit;
     SIGNAL Net_28 : bit;
@@ -46,7 +44,6 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL Pin_LED_Red(0)__PA : bit;
     SIGNAL Pin_LED_Yellow(0)__PA : bit;
     SIGNAL Pin_MOSI(0)__PA : bit;
-    SIGNAL Pin_Reset(0)__PA : bit;
     SIGNAL Pin_SCLK(0)__PA : bit;
     SIGNAL Pin_SS(0)__PA : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:byte_complete\ : bit;
@@ -68,7 +65,7 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : SIGNAL IS "U(0,1,A)1";
     SIGNAL \SPI:BSPIS:es3:SPISlave:inv_ss\ : bit;
-    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : SIGNAL IS "U(1,1,A)1";
+    ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : SIGNAL IS "U(1,0,B)1";
     SIGNAL \SPI:BSPIS:es3:SPISlave:miso_tx_empty_reg_fin\ : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : bit;
     ATTRIBUTE placement_force OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : SIGNAL IS "U(1,0,B)0";
@@ -142,12 +139,9 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE Location OF Pin_LED_Yellow(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF Pin_MOSI(0) : LABEL IS "iocell8";
     ATTRIBUTE Location OF Pin_MOSI(0) : LABEL IS "P0[0]";
-    ATTRIBUTE Location OF Pin_Reset : LABEL IS "F(PICU,1)";
-    ATTRIBUTE lib_model OF Pin_Reset(0) : LABEL IS "iocell9";
-    ATTRIBUTE Location OF Pin_Reset(0) : LABEL IS "P1[7]";
-    ATTRIBUTE lib_model OF Pin_SCLK(0) : LABEL IS "iocell10";
+    ATTRIBUTE lib_model OF Pin_SCLK(0) : LABEL IS "iocell9";
     ATTRIBUTE Location OF Pin_SCLK(0) : LABEL IS "P0[1]";
-    ATTRIBUTE lib_model OF Pin_SS(0) : LABEL IS "iocell11";
+    ATTRIBUTE lib_model OF Pin_SS(0) : LABEL IS "iocell10";
     ATTRIBUTE Location OF Pin_SS(0) : LABEL IS "P0[2]";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:BitCounter\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:RxStsReg\ : LABEL IS "statusicell1";
@@ -161,7 +155,7 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : LABEL IS "macrocell3";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:dpcounter_one_reg\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : LABEL IS "macrocell4";
-    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:inv_ss\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : LABEL IS "macrocell5";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:mosi_buf_overrun_fin\ : LABEL IS "macrocell6";
@@ -188,13 +182,12 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : LABEL IS "U(0,1)";
     ATTRIBUTE Location OF \SPI:RxInternalInterrupt\ : LABEL IS "[IntrHod=(0)][IntrId=(0)]";
     ATTRIBUTE Location OF \UART:SCB\ : LABEL IS "F(SCB,1)";
-    ATTRIBUTE lib_model OF \UART:rx(0)\ : LABEL IS "iocell12";
+    ATTRIBUTE lib_model OF \UART:rx(0)\ : LABEL IS "iocell11";
     ATTRIBUTE Location OF \UART:rx(0)\ : LABEL IS "P3[0]";
-    ATTRIBUTE lib_model OF \UART:tx(0)\ : LABEL IS "iocell13";
+    ATTRIBUTE lib_model OF \UART:tx(0)\ : LABEL IS "iocell12";
     ATTRIBUTE Location OF \UART:tx(0)\ : LABEL IS "P3[1]";
     ATTRIBUTE Location OF isr_button : LABEL IS "[IntrHod=(0)][IntrId=(2)]";
-    ATTRIBUTE Location OF isr_reset : LABEL IS "[IntrHod=(0)][IntrId=(1)]";
-    ATTRIBUTE Location OF isr_spi : LABEL IS "[IntrHod=(0)][IntrId=(3)]";
+    ATTRIBUTE Location OF isr_spi : LABEL IS "[IntrHod=(0)][IntrId=(1)]";
     COMPONENT abufcell
     END COMPONENT;
     COMPONENT boostcell
@@ -1670,93 +1663,6 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    Pin_Reset:logicalport
-        GENERIC MAP(
-            drive_mode => "001",
-            ibuf_enabled => "1",
-            id => "d524cdd2-399f-46a1-b62a-d584fd7c688f",
-            init_dr_st => "0",
-            input_clk_en => 0,
-            input_sync => "1",
-            input_sync_mode => "0",
-            intr_mode => "01",
-            invert_in_clock => 0,
-            invert_in_clock_en => 0,
-            invert_in_reset => 0,
-            invert_out_clock => 0,
-            invert_out_clock_en => 0,
-            invert_out_reset => 0,
-            io_voltage => "",
-            layout_mode => "CONTIGUOUS",
-            oe_conn => "0",
-            oe_reset => 0,
-            oe_sync => "0",
-            output_clk_en => 0,
-            output_clock_mode => "0",
-            output_conn => "0",
-            output_mode => "0",
-            output_reset => 0,
-            output_sync => "0",
-            pa_in_clock => -1,
-            pa_in_clock_en => -1,
-            pa_in_reset => -1,
-            pa_out_clock => -1,
-            pa_out_clock_en => -1,
-            pa_out_reset => -1,
-            pin_aliases => "",
-            pin_mode => "I",
-            por_state => 4,
-            port_alias_group => "",
-            port_alias_required => 0,
-            sio_group_cnt => 0,
-            sio_hifreq => "",
-            sio_hyst => "0",
-            sio_ibuf => "00000000",
-            sio_info => "00",
-            sio_obuf => "00000000",
-            sio_refsel => "00000000",
-            sio_vtrip => "00000000",
-            slew_rate => "0",
-            spanning => 0,
-            sw_only => 0,
-            use_annotation => "0",
-            vtrip => "00",
-            width => 1,
-            in_clk_inv => 0,
-            in_clken_inv => 0,
-            in_clken_mode => 1,
-            in_rst_inv => 0,
-            out_clk_inv => 0,
-            out_clken_inv => 0,
-            out_clken_mode => 1,
-            out_rst_inv => 0)
-        PORT MAP(
-            in_clock_en => open,
-            in_reset => open,
-            out_clock_en => open,
-            out_reset => open,
-            interrupt => Net_119,
-            in_clock => open);
-
-    Pin_Reset(0):iocell
-        GENERIC MAP(
-            in_sync_mode => 2,
-            out_sync_mode => 0,
-            oe_sync_mode => 0,
-            logicalport => "Pin_Reset",
-            logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000100000000000000000000000000000000000000001")
-        PORT MAP(
-            pa_out => Pin_Reset(0)__PA,
-            oe => open,
-            pad_in => Pin_Reset(0)_PAD,
-            in_clock => ClockBlock_HFCLK,
-            in_clock_en => '1',
-            in_reset => '0',
-            out_clock => open,
-            out_clock_en => '1',
-            out_reset => '0');
-
     Pin_SCLK:logicalport
         GENERIC MAP(
             drive_mode => "001",
@@ -2414,13 +2320,6 @@ BEGIN
             int_type => "10")
         PORT MAP(
             interrupt => Net_149,
-            clock => ClockBlock_HFCLK);
-
-    isr_reset:interrupt
-        GENERIC MAP(
-            int_type => "10")
-        PORT MAP(
-            interrupt => Net_119,
             clock => ClockBlock_HFCLK);
 
     isr_spi:interrupt

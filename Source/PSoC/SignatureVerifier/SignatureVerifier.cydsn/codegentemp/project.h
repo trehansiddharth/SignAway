@@ -43,9 +43,6 @@
 #include <UART_PINS.h>
 #include <UART_SPI_UART_PVT.h>
 #include <UART_PVT.h>
-#include <Pin_Reset.h>
-#include <Pin_Reset_aliases.h>
-#include <isr_reset.h>
 #include <isr_button.h>
 #include <UART_tx.h>
 #include <UART_tx_aliases.h>
