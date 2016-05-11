@@ -9,7 +9,12 @@ set(s, 'StopBit', 1);
 
 fopen(s);
 
+figure;
+hold on;
+
 while 1
     d = fgetl(s);
     disp(d);
+    dxy = str2num(char(strsplit(d)));
+    scatter(dxy(1), dxy(2));
 end

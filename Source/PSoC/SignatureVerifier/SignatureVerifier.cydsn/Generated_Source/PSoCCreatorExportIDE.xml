@@ -64,15 +64,6 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\SPI_INT.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\SPI_BOOT.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\SPI_PVT.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_Interrupt.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_Interrupt.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_Interrupt_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_0.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_0.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_0_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_1.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_1.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_1_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Green.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Green.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Green_aliases.h</File>
@@ -123,6 +114,16 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_LED_Debug_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_spi.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_spi.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Reset.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Reset.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Reset_aliases.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_reset.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_reset.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_button.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\isr_button.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button.c</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\Pin_Button_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\prebuild.bat</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\postbuild.bat</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC4\CyElfTool.exe</File>

@@ -327,7 +327,7 @@ void cyfitter_cfg(void)
 			0x400F3120u, /* Base address: 0x400F3100 Count: 32 */
 			0x400F3248u, /* Base address: 0x400F3200 Count: 72 */
 			0x400F3337u, /* Base address: 0x400F3300 Count: 55 */
-			0x400F4007u, /* Base address: 0x400F4000 Count: 7 */
+			0x400F400Au, /* Base address: 0x400F4000 Count: 10 */
 			0x400F4105u, /* Base address: 0x400F4100 Count: 5 */
 			0x400F6002u, /* Base address: 0x400F6000 Count: 2 */
 		};
@@ -525,9 +525,12 @@ void cyfitter_cfg(void)
 			{0x03u, 0x28u},
 			{0x07u, 0x80u},
 			{0x6Eu, 0x80u},
+			{0x77u, 0x02u},
 			{0x86u, 0x40u},
+			{0x87u, 0x02u},
 			{0xC0u, 0x70u},
 			{0xDAu, 0x80u},
+			{0xDCu, 0x40u},
 			{0xE6u, 0x40u},
 			{0x83u, 0x80u},
 			{0x9Bu, 0x80u},
@@ -573,10 +576,12 @@ void cyfitter_cfg(void)
 		CY_SET_XTND_REG32((void CYFAR *)(CYREG_PRT0_PC), 0x00000049u);
 
 		/* IOPINS0_1 Starting address: CYDEV_PRT1_DR */
-		CY_SET_XTND_REG32((void CYFAR *)(CYREG_PRT1_PC), 0x001B6C00u);
+		CY_SET_XTND_REG32((void CYFAR *)(CYREG_PRT1_PC), 0x003B6C00u);
+		CY_SET_XTND_REG32((void CYFAR *)(CYREG_PRT1_INTCFG), 0x00004000u);
 
 		/* IOPINS0_2 Starting address: CYDEV_PRT2_DR */
 		CY_SET_XTND_REG32((void CYFAR *)(CYREG_PRT2_PC), 0x00000049u);
+		CY_SET_XTND_REG32((void CYFAR *)(CYREG_PRT2_INTCFG), 0x0000003Fu);
 
 		/* IOPINS0_3 Starting address: CYDEV_PRT3_DR */
 		CY_SET_XTND_REG32((void CYFAR *)(CYREG_PRT3_DR), 0x00000002u);
@@ -589,6 +594,7 @@ void cyfitter_cfg(void)
 
 		/* UDB_PA_1 Starting address: CYDEV_UDB_PA1_BASE */
 		CY_SET_XTND_REG32((void CYFAR *)(CYDEV_UDB_PA1_BASE), 0x00990000u);
+		CY_SET_XTND_REG32((void CYFAR *)(CYREG_UDB_PA1_CFG4), 0x80000000u);
 
 		/* UDB_PA_2 Starting address: CYDEV_UDB_PA2_BASE */
 		CY_SET_XTND_REG32((void CYFAR *)(CYDEV_UDB_PA2_BASE), 0x00990000u);
@@ -598,10 +604,10 @@ void cyfitter_cfg(void)
 		CY_SET_XTND_REG32((void CYFAR *)(CYDEV_UDB_PA3_BASE), 0x00990000u);
 
 		/* INT_SELECT Starting address: CYDEV_CPUSS_INTR_SELECT */
-		CY_SET_XTND_REG32((void CYFAR *)(CYREG_CPUSS_INTR_SELECT), 0x00000003u);
+		CY_SET_XTND_REG32((void CYFAR *)(CYREG_CPUSS_INTR_SELECT), 0x00000009u);
 
 		/* INT_CONFIG Starting address: CYDEV_UDB_INT_CFG */
-		CY_SET_XTND_REG32((void CYFAR *)(CYREG_UDB_INT_CFG), 0x00000002u);
+		CY_SET_XTND_REG32((void CYFAR *)(CYREG_UDB_INT_CFG), 0x0000000Au);
 
 		/* Enable digital routing */
 		CY_SET_XTND_REG8((void *)CYREG_UDB_UDBIF_BANK_CTL, CY_GET_XTND_REG8((void *)CYREG_UDB_UDBIF_BANK_CTL) | 0x02u);

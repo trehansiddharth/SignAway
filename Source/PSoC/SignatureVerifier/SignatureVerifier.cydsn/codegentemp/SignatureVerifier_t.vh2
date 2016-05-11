@@ -1,17 +1,18 @@
 -- Project:   C:\Users\trehans\Documents\SignAway\Source\PSoC\SignatureVerifier\SignatureVerifier.cydsn\SignatureVerifier.cyprj
--- Generated: 05/09/2016 02:32:43
+-- Generated: 05/09/2016 22:40:54
 -- 
 
 ENTITY SignatureVerifier IS
     PORT(
-        Pin_Button_0(0)_PAD : IN std_ulogic;
-        Pin_Button_1(0)_PAD : IN std_ulogic;
-        Pin_Button_Interrupt(0)_PAD : IN std_ulogic;
+        Pin_Button(0)_PAD : IN std_ulogic;
+        Pin_Button(1)_PAD : IN std_ulogic;
+        Pin_Button(2)_PAD : IN std_ulogic;
         Pin_LED_Debug(0)_PAD : OUT std_ulogic;
         Pin_LED_Green(0)_PAD : OUT std_ulogic;
         Pin_LED_Red(0)_PAD : OUT std_ulogic;
         Pin_LED_Yellow(0)_PAD : OUT std_ulogic;
         Pin_MOSI(0)_PAD : IN std_ulogic;
+        Pin_Reset(0)_PAD : IN std_ulogic;
         Pin_SCLK(0)_PAD : IN std_ulogic;
         Pin_SS(0)_PAD : IN std_ulogic;
         \UART:rx(0)_PAD\ : IN std_ulogic;
@@ -30,19 +31,22 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL ClockBlock_SYSCLK : bit;
     SIGNAL Net_102 : bit;
     SIGNAL Net_112 : bit;
+    SIGNAL Net_119 : bit;
+    SIGNAL Net_149 : bit;
     SIGNAL Net_27 : bit;
     SIGNAL Net_28 : bit;
     SIGNAL Net_29 : bit;
     SIGNAL Net_31_digital : bit;
     ATTRIBUTE global_signal OF Net_31_digital : SIGNAL IS true;
-    SIGNAL Pin_Button_0(0)__PA : bit;
-    SIGNAL Pin_Button_1(0)__PA : bit;
-    SIGNAL Pin_Button_Interrupt(0)__PA : bit;
+    SIGNAL Pin_Button(0)__PA : bit;
+    SIGNAL Pin_Button(1)__PA : bit;
+    SIGNAL Pin_Button(2)__PA : bit;
     SIGNAL Pin_LED_Debug(0)__PA : bit;
     SIGNAL Pin_LED_Green(0)__PA : bit;
     SIGNAL Pin_LED_Red(0)__PA : bit;
     SIGNAL Pin_LED_Yellow(0)__PA : bit;
     SIGNAL Pin_MOSI(0)__PA : bit;
+    SIGNAL Pin_Reset(0)__PA : bit;
     SIGNAL Pin_SCLK(0)__PA : bit;
     SIGNAL Pin_SS(0)__PA : bit;
     SIGNAL \SPI:BSPIS:es3:SPISlave:byte_complete\ : bit;
@@ -121,12 +125,13 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     SIGNAL \SPI:BSPIS:es3:SPISlave:sR16:Dp:u1.cmsbo__sig\ : bit;
     ATTRIBUTE Location OF ClockBlock : LABEL IS "F(Clock,0)";
     ATTRIBUTE Location OF ClockGenBlock : LABEL IS "F(CLK_GEN,0)";
-    ATTRIBUTE lib_model OF Pin_Button_0(0) : LABEL IS "iocell1";
-    ATTRIBUTE Location OF Pin_Button_0(0) : LABEL IS "P2[1]";
-    ATTRIBUTE lib_model OF Pin_Button_1(0) : LABEL IS "iocell2";
-    ATTRIBUTE Location OF Pin_Button_1(0) : LABEL IS "P2[2]";
-    ATTRIBUTE lib_model OF Pin_Button_Interrupt(0) : LABEL IS "iocell3";
-    ATTRIBUTE Location OF Pin_Button_Interrupt(0) : LABEL IS "P2[0]";
+    ATTRIBUTE Location OF Pin_Button : LABEL IS "F(PICU,2)";
+    ATTRIBUTE lib_model OF Pin_Button(0) : LABEL IS "iocell1";
+    ATTRIBUTE Location OF Pin_Button(0) : LABEL IS "P2[0]";
+    ATTRIBUTE lib_model OF Pin_Button(1) : LABEL IS "iocell2";
+    ATTRIBUTE Location OF Pin_Button(1) : LABEL IS "P2[1]";
+    ATTRIBUTE lib_model OF Pin_Button(2) : LABEL IS "iocell3";
+    ATTRIBUTE Location OF Pin_Button(2) : LABEL IS "P2[2]";
     ATTRIBUTE lib_model OF Pin_LED_Debug(0) : LABEL IS "iocell4";
     ATTRIBUTE Location OF Pin_LED_Debug(0) : LABEL IS "P1[6]";
     ATTRIBUTE lib_model OF Pin_LED_Green(0) : LABEL IS "iocell5";
@@ -137,9 +142,12 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE Location OF Pin_LED_Yellow(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF Pin_MOSI(0) : LABEL IS "iocell8";
     ATTRIBUTE Location OF Pin_MOSI(0) : LABEL IS "P0[0]";
-    ATTRIBUTE lib_model OF Pin_SCLK(0) : LABEL IS "iocell9";
+    ATTRIBUTE Location OF Pin_Reset : LABEL IS "F(PICU,1)";
+    ATTRIBUTE lib_model OF Pin_Reset(0) : LABEL IS "iocell9";
+    ATTRIBUTE Location OF Pin_Reset(0) : LABEL IS "P1[7]";
+    ATTRIBUTE lib_model OF Pin_SCLK(0) : LABEL IS "iocell10";
     ATTRIBUTE Location OF Pin_SCLK(0) : LABEL IS "P0[1]";
-    ATTRIBUTE lib_model OF Pin_SS(0) : LABEL IS "iocell10";
+    ATTRIBUTE lib_model OF Pin_SS(0) : LABEL IS "iocell11";
     ATTRIBUTE Location OF Pin_SS(0) : LABEL IS "P0[2]";
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:BitCounter\ : LABEL IS "U(1,0)";
     ATTRIBUTE lib_model OF \SPI:BSPIS:es3:SPISlave:RxStsReg\ : LABEL IS "statusicell1";
@@ -180,11 +188,13 @@ ARCHITECTURE __DEFAULT__ OF SignatureVerifier IS
     ATTRIBUTE Location OF \SPI:BSPIS:es3:SPISlave:tx_status_0\ : LABEL IS "U(0,1)";
     ATTRIBUTE Location OF \SPI:RxInternalInterrupt\ : LABEL IS "[IntrHod=(0)][IntrId=(0)]";
     ATTRIBUTE Location OF \UART:SCB\ : LABEL IS "F(SCB,1)";
-    ATTRIBUTE lib_model OF \UART:rx(0)\ : LABEL IS "iocell11";
+    ATTRIBUTE lib_model OF \UART:rx(0)\ : LABEL IS "iocell12";
     ATTRIBUTE Location OF \UART:rx(0)\ : LABEL IS "P3[0]";
-    ATTRIBUTE lib_model OF \UART:tx(0)\ : LABEL IS "iocell12";
+    ATTRIBUTE lib_model OF \UART:tx(0)\ : LABEL IS "iocell13";
     ATTRIBUTE Location OF \UART:tx(0)\ : LABEL IS "P3[1]";
-    ATTRIBUTE Location OF isr_spi : LABEL IS "[IntrHod=(0)][IntrId=(1)]";
+    ATTRIBUTE Location OF isr_button : LABEL IS "[IntrHod=(0)][IntrId=(2)]";
+    ATTRIBUTE Location OF isr_reset : LABEL IS "[IntrHod=(0)][IntrId=(1)]";
+    ATTRIBUTE Location OF isr_spi : LABEL IS "[IntrHod=(0)][IntrId=(3)]";
     COMPONENT abufcell
     END COMPONENT;
     COMPONENT boostcell
@@ -1122,58 +1132,58 @@ BEGIN
             gen_clk_in_7 => open,
             gen_clk_out_7 => open);
 
-    Pin_Button_0:logicalport
+    Pin_Button:logicalport
         GENERIC MAP(
-            drive_mode => "001",
-            ibuf_enabled => "1",
-            id => "6d2de6e4-a4b9-433c-9b3c-d1af44b9c6eb",
-            init_dr_st => "0",
+            drive_mode => "001001001",
+            ibuf_enabled => "111",
+            id => "cbb194c3-a566-4f79-97aa-346942522621",
+            init_dr_st => "000",
             input_clk_en => 0,
-            input_sync => "1",
-            input_sync_mode => "0",
-            intr_mode => "00",
+            input_sync => "111",
+            input_sync_mode => "000",
+            intr_mode => "111111",
             invert_in_clock => 0,
             invert_in_clock_en => 0,
             invert_in_reset => 0,
             invert_out_clock => 0,
             invert_out_clock_en => 0,
             invert_out_reset => 0,
-            io_voltage => "",
+            io_voltage => ",,",
             layout_mode => "CONTIGUOUS",
-            oe_conn => "0",
+            oe_conn => "000",
             oe_reset => 0,
-            oe_sync => "0",
+            oe_sync => "000",
             output_clk_en => 0,
-            output_clock_mode => "0",
-            output_conn => "0",
-            output_mode => "0",
+            output_clock_mode => "000",
+            output_conn => "000",
+            output_mode => "000",
             output_reset => 0,
-            output_sync => "0",
+            output_sync => "000",
             pa_in_clock => -1,
             pa_in_clock_en => -1,
             pa_in_reset => -1,
             pa_out_clock => -1,
             pa_out_clock_en => -1,
             pa_out_reset => -1,
-            pin_aliases => "",
-            pin_mode => "I",
+            pin_aliases => ",,",
+            pin_mode => "III",
             por_state => 4,
             port_alias_group => "",
             port_alias_required => 0,
             sio_group_cnt => 0,
             sio_hifreq => "",
-            sio_hyst => "0",
+            sio_hyst => "000",
             sio_ibuf => "00000000",
-            sio_info => "00",
+            sio_info => "000000",
             sio_obuf => "00000000",
             sio_refsel => "00000000",
             sio_vtrip => "00000000",
-            slew_rate => "0",
+            slew_rate => "000",
             spanning => 0,
             sw_only => 0,
-            use_annotation => "0",
-            vtrip => "00",
-            width => 1,
+            use_annotation => "000",
+            vtrip => "000000",
+            width => 3,
             in_clk_inv => 0,
             in_clken_inv => 0,
             in_clken_mode => 1,
@@ -1187,20 +1197,21 @@ BEGIN
             in_reset => open,
             out_clock_en => open,
             out_reset => open,
+            interrupt => Net_149,
             in_clock => open);
 
-    Pin_Button_0(0):iocell
+    Pin_Button(0):iocell
         GENERIC MAP(
             in_sync_mode => 2,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "Pin_Button_0",
+            logicalport => "Pin_Button",
             logicalport_pin_id => 0,
             io_capabilities => "0000000000000000000000100000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => Pin_Button_0(0)__PA,
+            pa_out => Pin_Button(0)__PA,
             oe => open,
-            pad_in => Pin_Button_0(0)_PAD,
+            pad_in => Pin_Button(0)_PAD,
             in_clock => ClockBlock_HFCLK,
             in_clock_en => '1',
             in_reset => '0',
@@ -1208,85 +1219,18 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    Pin_Button_1:logicalport
-        GENERIC MAP(
-            drive_mode => "001",
-            ibuf_enabled => "1",
-            id => "b231035c-a826-406f-b77c-35b1e79be732",
-            init_dr_st => "0",
-            input_clk_en => 0,
-            input_sync => "1",
-            input_sync_mode => "0",
-            intr_mode => "00",
-            invert_in_clock => 0,
-            invert_in_clock_en => 0,
-            invert_in_reset => 0,
-            invert_out_clock => 0,
-            invert_out_clock_en => 0,
-            invert_out_reset => 0,
-            io_voltage => "",
-            layout_mode => "CONTIGUOUS",
-            oe_conn => "0",
-            oe_reset => 0,
-            oe_sync => "0",
-            output_clk_en => 0,
-            output_clock_mode => "0",
-            output_conn => "0",
-            output_mode => "0",
-            output_reset => 0,
-            output_sync => "0",
-            pa_in_clock => -1,
-            pa_in_clock_en => -1,
-            pa_in_reset => -1,
-            pa_out_clock => -1,
-            pa_out_clock_en => -1,
-            pa_out_reset => -1,
-            pin_aliases => "",
-            pin_mode => "I",
-            por_state => 4,
-            port_alias_group => "",
-            port_alias_required => 0,
-            sio_group_cnt => 0,
-            sio_hifreq => "",
-            sio_hyst => "0",
-            sio_ibuf => "00000000",
-            sio_info => "00",
-            sio_obuf => "00000000",
-            sio_refsel => "00000000",
-            sio_vtrip => "00000000",
-            slew_rate => "0",
-            spanning => 0,
-            sw_only => 0,
-            use_annotation => "0",
-            vtrip => "00",
-            width => 1,
-            in_clk_inv => 0,
-            in_clken_inv => 0,
-            in_clken_mode => 1,
-            in_rst_inv => 0,
-            out_clk_inv => 0,
-            out_clken_inv => 0,
-            out_clken_mode => 1,
-            out_rst_inv => 0)
-        PORT MAP(
-            in_clock_en => open,
-            in_reset => open,
-            out_clock_en => open,
-            out_reset => open,
-            in_clock => open);
-
-    Pin_Button_1(0):iocell
+    Pin_Button(1):iocell
         GENERIC MAP(
             in_sync_mode => 2,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "Pin_Button_1",
-            logicalport_pin_id => 0,
+            logicalport => "Pin_Button",
+            logicalport_pin_id => 1,
             io_capabilities => "0000000000000000000000100000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => Pin_Button_1(0)__PA,
+            pa_out => Pin_Button(1)__PA,
             oe => open,
-            pad_in => Pin_Button_1(0)_PAD,
+            pad_in => Pin_Button(1)_PAD,
             in_clock => ClockBlock_HFCLK,
             in_clock_en => '1',
             in_reset => '0',
@@ -1294,85 +1238,18 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    Pin_Button_Interrupt:logicalport
-        GENERIC MAP(
-            drive_mode => "001",
-            ibuf_enabled => "1",
-            id => "86f6e3f7-f6e3-43e5-95c4-feb99ba84ec8",
-            init_dr_st => "0",
-            input_clk_en => 0,
-            input_sync => "1",
-            input_sync_mode => "0",
-            intr_mode => "00",
-            invert_in_clock => 0,
-            invert_in_clock_en => 0,
-            invert_in_reset => 0,
-            invert_out_clock => 0,
-            invert_out_clock_en => 0,
-            invert_out_reset => 0,
-            io_voltage => "",
-            layout_mode => "CONTIGUOUS",
-            oe_conn => "0",
-            oe_reset => 0,
-            oe_sync => "0",
-            output_clk_en => 0,
-            output_clock_mode => "0",
-            output_conn => "0",
-            output_mode => "0",
-            output_reset => 0,
-            output_sync => "0",
-            pa_in_clock => -1,
-            pa_in_clock_en => -1,
-            pa_in_reset => -1,
-            pa_out_clock => -1,
-            pa_out_clock_en => -1,
-            pa_out_reset => -1,
-            pin_aliases => "",
-            pin_mode => "I",
-            por_state => 4,
-            port_alias_group => "",
-            port_alias_required => 0,
-            sio_group_cnt => 0,
-            sio_hifreq => "",
-            sio_hyst => "0",
-            sio_ibuf => "00000000",
-            sio_info => "00",
-            sio_obuf => "00000000",
-            sio_refsel => "00000000",
-            sio_vtrip => "00000000",
-            slew_rate => "0",
-            spanning => 0,
-            sw_only => 0,
-            use_annotation => "0",
-            vtrip => "00",
-            width => 1,
-            in_clk_inv => 0,
-            in_clken_inv => 0,
-            in_clken_mode => 1,
-            in_rst_inv => 0,
-            out_clk_inv => 0,
-            out_clken_inv => 0,
-            out_clken_mode => 1,
-            out_rst_inv => 0)
-        PORT MAP(
-            in_clock_en => open,
-            in_reset => open,
-            out_clock_en => open,
-            out_reset => open,
-            in_clock => open);
-
-    Pin_Button_Interrupt(0):iocell
+    Pin_Button(2):iocell
         GENERIC MAP(
             in_sync_mode => 2,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "Pin_Button_Interrupt",
-            logicalport_pin_id => 0,
+            logicalport => "Pin_Button",
+            logicalport_pin_id => 2,
             io_capabilities => "0000000000000000000000100000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => Pin_Button_Interrupt(0)__PA,
+            pa_out => Pin_Button(2)__PA,
             oe => open,
-            pad_in => Pin_Button_Interrupt(0)_PAD,
+            pad_in => Pin_Button(2)_PAD,
             in_clock => ClockBlock_HFCLK,
             in_clock_en => '1',
             in_reset => '0',
@@ -1800,6 +1677,93 @@ BEGIN
             oe => open,
             fb => Net_27,
             pad_in => Pin_MOSI(0)_PAD,
+            in_clock => ClockBlock_HFCLK,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
+    Pin_Reset:logicalport
+        GENERIC MAP(
+            drive_mode => "001",
+            ibuf_enabled => "1",
+            id => "d524cdd2-399f-46a1-b62a-d584fd7c688f",
+            init_dr_st => "0",
+            input_clk_en => 0,
+            input_sync => "1",
+            input_sync_mode => "0",
+            intr_mode => "01",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "0",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "I",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "",
+            sio_hyst => "0",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "00",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open,
+            interrupt => Net_119,
+            in_clock => open);
+
+    Pin_Reset(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 2,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "Pin_Reset",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000100000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => Pin_Reset(0)__PA,
+            oe => open,
+            pad_in => Pin_Reset(0)_PAD,
             in_clock => ClockBlock_HFCLK,
             in_clock_en => '1',
             in_reset => '0',
@@ -2458,6 +2422,20 @@ BEGIN
             in_reset => open,
             out_clock_en => open,
             out_reset => open);
+
+    isr_button:interrupt
+        GENERIC MAP(
+            int_type => "10")
+        PORT MAP(
+            interrupt => Net_149,
+            clock => ClockBlock_HFCLK);
+
+    isr_reset:interrupt
+        GENERIC MAP(
+            int_type => "10")
+        PORT MAP(
+            interrupt => Net_119,
+            clock => ClockBlock_HFCLK);
 
     isr_spi:interrupt
         GENERIC MAP(

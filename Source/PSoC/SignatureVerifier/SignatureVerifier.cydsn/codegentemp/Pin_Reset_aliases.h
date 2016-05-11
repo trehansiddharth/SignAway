@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: Pin_Button_0.h  
+* File Name: Pin_Reset.h  
 * Version 2.5
 *
 * Description:
@@ -14,8 +14,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_Pin_Button_0_ALIASES_H) /* Pins Pin_Button_0_ALIASES_H */
-#define CY_PINS_Pin_Button_0_ALIASES_H
+#if !defined(CY_PINS_Pin_Reset_ALIASES_H) /* Pins Pin_Reset_ALIASES_H */
+#define CY_PINS_Pin_Reset_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -24,9 +24,9 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define Pin_Button_0_0		Pin_Button_0__0__PC
+#define Pin_Reset_0		Pin_Reset__0__PC
 
-#endif /* End Pins Pin_Button_0_ALIASES_H */
+#endif /* End Pins Pin_Reset_ALIASES_H */
 
 
 /* [] END OF FILE */
