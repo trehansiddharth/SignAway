@@ -53,7 +53,7 @@ image_store:
 ; ==== Included from "parameters.h.asm" by AS115: ====
 .equ adns_resolution, 03h
 .equ motion_cutoff_high, 00h
-.equ motion_cutoff_low, 10h
+.equ motion_cutoff_low, 16h
 
 .org 000h
 sjmp main
