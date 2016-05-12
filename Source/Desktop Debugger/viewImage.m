@@ -36,8 +36,11 @@ if mod(dimension, 1) == 0
         end
     end
     
+    % Normalize the matrix
+    normalizedImageMatrix = 255 / max(imageMatrix(:)) * imageMatrix;
+    
     % Show the image
-    imshow(imageMatrix, [0 255]);
+    imshow(normalizedImageMatrix, [0 255]);
 else
     sprintf('Invalid data length.')
 end
