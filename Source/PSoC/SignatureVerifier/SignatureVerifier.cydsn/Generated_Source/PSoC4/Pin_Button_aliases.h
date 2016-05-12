@@ -27,6 +27,7 @@
 #define Pin_Button_0		Pin_Button__0__PC
 #define Pin_Button_1		Pin_Button__1__PC
 #define Pin_Button_2		Pin_Button__2__PC
+#define Pin_Button_3		Pin_Button__3__PC
 
 #endif /* End Pins Pin_Button_ALIASES_H */
 

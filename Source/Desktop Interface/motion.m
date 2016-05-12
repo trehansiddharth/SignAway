@@ -27,9 +27,15 @@ while 1
             if (strncmpi(d, ':R', 2))
                 templatePoints = points;
                 points = [];
-            elseif (strncmpi(d, ':T', 2))
+            elseif (strncmpi(d, ':V', 2))
                 testPoints = points;
+                mode = 'verify';
                 points = [];
+            elseif (strncmpi(d, ':F', 2))
+                testPoints = points;
+                mode = 'forge';
+                points = [];
+                break;
             elseif (strncmpi(d, ':E', 2))
                 break;
             end
@@ -39,7 +45,3 @@ while 1
         end
     end
 end
-
-plot(templatePoints(:,1), -templatePoints(:,2));
-hold on;
-plot(testPoints(:,1), -testPoints(:,2));

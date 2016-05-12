@@ -38,22 +38,31 @@ void reset_all() {
     }
 }
 
+void start_reading() {
+    // Tell the desktop we're about to start forging if action_state is FORGING
+    if (action_state == FORGING) {
+        UART_UartPutString(":F\r\n\0");
+    }
+}
+
 void stop_reading () {
-    // Check if we've just exited the VERIFYING action state
-    if (action_state == VERIFYING) {
-        // Send data to the desktop
-        char outputString[14];
-        int i = 0;
+    char outputString[14];
+    int i = 0;
+    // Send data to the desktop
+    if (action_state == RECORDING) {
         for (i = 0; i < pos_index_template; i++) {
             snprintf(outputString, 14, "%i %i\r\n", x_positions_template[i], y_positions_template[i]);
             UART_UartPutString(outputString);
         }
         UART_UartPutString(":R\r\n\0");
-        for (i = 0; i < pos_index_test; i++) {
-            snprintf(outputString, 14, "%i %i\r\n", x_positions_test[i], y_positions_test[i]);
-            UART_UartPutString(outputString);
+    } else {
+        if (action_state == VERIFYING) {
+            for (i = 0; i < pos_index_test; i++) {
+                snprintf(outputString, 14, "%i %i\r\n", x_positions_test[i], y_positions_test[i]);
+                UART_UartPutString(outputString);
+            }
+            UART_UartPutString(":V\r\n\0");
         }
-        UART_UartPutString(":T\r\n\0");
         UART_UartPutString(":E\r\n\0");
     }
 }
@@ -64,8 +73,13 @@ CY_ISR(isr_spi_handler) {
     int8 delta_x = (0xf0 | rxData) >> 8;
     int8 delta_y = 0x0f | rxData;
     
+    //char outputString[20];
+    //snprintf(outputString, 20, ":p_temp %i\r\n", pos_index_template);
+    //UART_UartPutString(outputString);
+    //snprintf(outputString, 20, ":p_test %i\r\n", pos_index_test);
+    //UART_UartPutString(outputString);
     if (reading == true) {
-        if (action_state == RECORDING && pos_index_template < pos_size) {            
+        if ((action_state == RECORDING) && (pos_index_template < pos_size)) {
             // Update x and y positions
             x_position += delta_x;
             y_position += delta_y;
@@ -75,7 +89,7 @@ CY_ISR(isr_spi_handler) {
             // Update pos_index_template
             pos_index_template++;
         }
-        if (action_state != RECORDING && pos_index_test < pos_size) {            
+        if ((action_state != RECORDING) && (pos_index_test < pos_size)) {
             // Update x and y positions
             x_position += delta_x;
             y_position += delta_y;
@@ -84,6 +98,13 @@ CY_ISR(isr_spi_handler) {
             
             // Update pos_index_size
             pos_index_test++;
+            
+            // Send data to the desktop if action_state is FORGING
+            if (action_state == FORGING) {
+                char outputString[14];
+                snprintf(outputString, 14, "%i %i\r\n", x_position, y_position);
+                UART_UartPutString(outputString);
+            }
         }
     }
 }
@@ -97,6 +118,7 @@ CY_ISR(isr_button_handler) {
     if ((0x1 & btn) == 0 && reading == false) {
         reset_all();
         reading = true;
+        start_reading();
     } else if ((0x1 & btn) != 0 && reading == true) {
         reading = false;
         stop_reading();
@@ -112,8 +134,8 @@ CY_ISR(isr_button_handler) {
     }
     
     if ((0x8 & btn) == 1) {        
-        // Clear all the values relevant to the current action_state
-        reset_all();
+        // Reset everything
+        CySoftwareReset();
     }
     
     // Debugging!

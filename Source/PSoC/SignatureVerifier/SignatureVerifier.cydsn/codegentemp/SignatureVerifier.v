@@ -1,6 +1,6 @@
 // ======================================================================
 // SignatureVerifier.v generated from TopDesign.cysch
-// 05/10/2016 at 19:59
+// 05/11/2016 at 19:49
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -450,7 +450,7 @@ module top ;
           wire  Net_103;
           wire  Net_102;
           wire  Net_101;
-          wire [2:0] Net_167;
+          wire [3:0] Net_168;
           wire  Net_58;
           wire  Net_57;
           wire  Net_55;
@@ -694,62 +694,62 @@ module top ;
     defparam SPI.NumberOfDataBits = 16;
     defparam SPI.ShiftDir = 0;
 
-	wire [2:0] tmpOE__Pin_Button_net;
-	wire [2:0] tmpIO_2__Pin_Button_net;
+	wire [3:0] tmpOE__Pin_Button_net;
+	wire [3:0] tmpIO_3__Pin_Button_net;
 	electrical [0:0] tmpSIOVREF__Pin_Button_net;
 
 	cy_psoc3_pins_v1_10
 		#(.id("cbb194c3-a566-4f79-97aa-346942522621"),
-		  .drive_mode(9'b001_001_001),
-		  .ibuf_enabled(3'b1_1_1),
-		  .init_dr_st(3'b0_0_0),
+		  .drive_mode(12'b001_001_001_001),
+		  .ibuf_enabled(4'b1_1_1_1),
+		  .init_dr_st(4'b0_0_0_0),
 		  .input_clk_en(0),
-		  .input_sync(3'b1_1_1),
-		  .input_sync_mode(3'b0_0_0),
-		  .intr_mode(6'b11_11_11),
+		  .input_sync(4'b1_1_1_1),
+		  .input_sync_mode(4'b0_0_0_0),
+		  .intr_mode(8'b11_11_11_11),
 		  .invert_in_clock(0),
 		  .invert_in_clock_en(0),
 		  .invert_in_reset(0),
 		  .invert_out_clock(0),
 		  .invert_out_clock_en(0),
 		  .invert_out_reset(0),
-		  .io_voltage(",,"),
+		  .io_voltage(",,,"),
 		  .layout_mode("CONTIGUOUS"),
-		  .oe_conn(3'b0_0_0),
+		  .oe_conn(4'b0_0_0_0),
 		  .oe_reset(0),
-		  .oe_sync(3'b0_0_0),
+		  .oe_sync(4'b0_0_0_0),
 		  .output_clk_en(0),
-		  .output_clock_mode(3'b0_0_0),
-		  .output_conn(3'b0_0_0),
-		  .output_mode(3'b0_0_0),
+		  .output_clock_mode(4'b0_0_0_0),
+		  .output_conn(4'b0_0_0_0),
+		  .output_mode(4'b0_0_0_0),
 		  .output_reset(0),
-		  .output_sync(3'b0_0_0),
+		  .output_sync(4'b0_0_0_0),
 		  .pa_in_clock(-1),
 		  .pa_in_clock_en(-1),
 		  .pa_in_reset(-1),
 		  .pa_out_clock(-1),
 		  .pa_out_clock_en(-1),
 		  .pa_out_reset(-1),
-		  .pin_aliases(",,"),
-		  .pin_mode("III"),
+		  .pin_aliases(",,,"),
+		  .pin_mode("IIII"),
 		  .por_state(4),
 		  .sio_group_cnt(0),
-		  .sio_hyst(3'b0_0_0),
+		  .sio_hyst(4'b0_0_0_0),
 		  .sio_ibuf(""),
-		  .sio_info(6'b00_00_00),
+		  .sio_info(8'b00_00_00_00),
 		  .sio_obuf(""),
 		  .sio_refsel(""),
 		  .sio_vtrip(""),
-		  .slew_rate(3'b0_0_0),
+		  .slew_rate(4'b0_0_0_0),
 		  .spanning(0),
-		  .use_annotation(3'b0_0_0),
-		  .vtrip(6'b00_00_00),
-		  .width(3))
+		  .use_annotation(4'b0_0_0_0),
+		  .vtrip(8'b00_00_00_00),
+		  .width(4))
 		Pin_Button
 		 (.oe(tmpOE__Pin_Button_net),
-		  .y({3'b0}),
-		  .fb({Net_167[2:0]}),
-		  .io({tmpIO_2__Pin_Button_net[2:0]}),
+		  .y({4'b0}),
+		  .fb({Net_168[3:0]}),
+		  .io({tmpIO_3__Pin_Button_net[3:0]}),
 		  .siovref(tmpSIOVREF__Pin_Button_net),
 		  .interrupt({Net_149}),
 		  .in_clock({1'b0}),
@@ -759,7 +759,7 @@ module top ;
 		  .out_clock_en({1'b1}),
 		  .out_reset({1'b0}));
 
-	assign tmpOE__Pin_Button_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{3'b111} : {3'b111};
+	assign tmpOE__Pin_Button_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{4'b1111} : {4'b1111};
 
 	wire [0:0] tmpOE__Pin_LED_Green_net;
 	wire [0:0] tmpFB_0__Pin_LED_Green_net;

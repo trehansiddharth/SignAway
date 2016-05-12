@@ -326,6 +326,8 @@ net ClockBlock_HFCLK
 	term   ":ioport2:pin1.in_clock"
 	switch ":ioport2_clock_io_mux.clk_in==>:ioport2:pin2.in_clock"
 	term   ":ioport2:pin2.in_clock"
+	switch ":ioport2_clock_io_mux.clk_in==>:ioport2:pin3.in_clock"
+	term   ":ioport2:pin3.in_clock"
 	switch ":m0s8clockblockcell.hfclk==>:ioport0_clock_io_mux.hfclk"
 	switch ":ioport0_clock_io_mux.clk_in==>:ioport0:pin0.in_clock"
 	term   ":ioport0:pin0.in_clock"

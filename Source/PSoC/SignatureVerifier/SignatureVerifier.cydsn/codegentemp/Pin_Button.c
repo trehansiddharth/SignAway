@@ -75,6 +75,7 @@ void Pin_Button_SetDriveMode(uint8 mode)
 	SetP4PinDriveMode(Pin_Button__0__SHIFT, mode);
 	SetP4PinDriveMode(Pin_Button__1__SHIFT, mode);
 	SetP4PinDriveMode(Pin_Button__2__SHIFT, mode);
+	SetP4PinDriveMode(Pin_Button__3__SHIFT, mode);
 }
 
 

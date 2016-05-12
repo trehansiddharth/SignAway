@@ -2,7 +2,7 @@
 --	Conversion of SignatureVerifier.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Tue May 10 19:59:17 2016
+--	Wed May 11 19:49:46 2016
 --
 
 USE cypress.cypress.all;
@@ -227,15 +227,18 @@ SIGNAL \SPI:BSPIS:es3:SPISlave:sR16:Dp:f1_blk_stat_reg_1\ : bit;
 ATTRIBUTE port_state_att of \SPI:BSPIS:es3:SPISlave:sR16:Dp:f1_blk_stat_reg_1\:SIGNAL IS 2;
 SIGNAL Net_57 : bit;
 SIGNAL Net_53 : bit;
+SIGNAL tmpOE__Pin_Button_net_3 : bit;
 SIGNAL tmpOE__Pin_Button_net_2 : bit;
 SIGNAL tmpOE__Pin_Button_net_1 : bit;
 SIGNAL tmpOE__Pin_Button_net_0 : bit;
-SIGNAL Net_167_2 : bit;
-SIGNAL Net_167_1 : bit;
-SIGNAL Net_167_0 : bit;
-SIGNAL tmpIO_2__Pin_Button_net_2 : bit;
-SIGNAL tmpIO_2__Pin_Button_net_1 : bit;
-SIGNAL tmpIO_2__Pin_Button_net_0 : bit;
+SIGNAL Net_168_3 : bit;
+SIGNAL Net_168_2 : bit;
+SIGNAL Net_168_1 : bit;
+SIGNAL Net_168_0 : bit;
+SIGNAL tmpIO_3__Pin_Button_net_3 : bit;
+SIGNAL tmpIO_3__Pin_Button_net_2 : bit;
+SIGNAL tmpIO_3__Pin_Button_net_1 : bit;
+SIGNAL tmpIO_3__Pin_Button_net_0 : bit;
 TERMINAL tmpSIOVREF__Pin_Button_net_0 : bit;
 SIGNAL Net_149 : bit;
 SIGNAL tmpOE__Pin_LED_Green_net_0 : bit;
@@ -772,62 +775,62 @@ SPI_Clock:cy_clock_v1_0
 	PORT MAP(int_signal=>Net_112);
 Pin_Button:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"cbb194c3-a566-4f79-97aa-346942522621",
-		drive_mode=>"001001001",
-		ibuf_enabled=>"111",
-		init_dr_st=>"000",
-		input_sync=>"111",
+		drive_mode=>"001001001001",
+		ibuf_enabled=>"1111",
+		init_dr_st=>"0000",
+		input_sync=>"1111",
 		input_clk_en=>'0',
-		input_sync_mode=>"000",
-		intr_mode=>"111111",
+		input_sync_mode=>"0000",
+		intr_mode=>"11111111",
 		invert_in_clock=>'0',
 		invert_in_clock_en=>'0',
 		invert_in_reset=>'0',
 		invert_out_clock=>'0',
 		invert_out_clock_en=>'0',
 		invert_out_reset=>'0',
-		io_voltage=>",,",
+		io_voltage=>",,,",
 		layout_mode=>"CONTIGUOUS",
-		output_conn=>"000",
-		output_sync=>"000",
+		output_conn=>"0000",
+		output_sync=>"0000",
 		output_clk_en=>'0',
-		output_mode=>"000",
+		output_mode=>"0000",
 		output_reset=>'0',
-		output_clock_mode=>"000",
-		oe_sync=>"000",
-		oe_conn=>"000",
+		output_clock_mode=>"0000",
+		oe_sync=>"0000",
+		oe_conn=>"0000",
 		oe_reset=>'0',
-		pin_aliases=>",,",
-		pin_mode=>"III",
+		pin_aliases=>",,,",
+		pin_mode=>"IIII",
 		por_state=>4,
 		sio_group_cnt=>0,
 		sio_hifreq=>"",
-		sio_hyst=>"000",
+		sio_hyst=>"0000",
 		sio_ibuf=>"00000000",
-		sio_info=>"000000",
+		sio_info=>"00000000",
 		sio_obuf=>"00000000",
 		sio_refsel=>"00000000",
 		sio_vtrip=>"00000000",
-		slew_rate=>"000",
+		slew_rate=>"0000",
 		spanning=>'0',
 		sw_only=>'0',
-		vtrip=>"000000",
-		width=>3,
+		vtrip=>"00000000",
+		width=>4,
 		port_alias_required=>'0',
 		port_alias_group=>"",
-		use_annotation=>"000",
+		use_annotation=>"0000",
 		pa_in_clock=>-1,
 		pa_in_clock_en=>-1,
 		pa_in_reset=>-1,
 		pa_out_clock=>-1,
 		pa_out_clock_en=>-1,
 		pa_out_reset=>-1)
-	PORT MAP(oe=>(tmpOE__Pin_MOSI_net_0, tmpOE__Pin_MOSI_net_0, tmpOE__Pin_MOSI_net_0),
-		y=>(zero, zero, zero),
-		fb=>(Net_167_2, Net_167_1, Net_167_0),
-		analog=>(open, open, open),
-		io=>(tmpIO_2__Pin_Button_net_2, tmpIO_2__Pin_Button_net_1, tmpIO_2__Pin_Button_net_0),
+	PORT MAP(oe=>(tmpOE__Pin_MOSI_net_0, tmpOE__Pin_MOSI_net_0, tmpOE__Pin_MOSI_net_0, tmpOE__Pin_MOSI_net_0),
+		y=>(zero, zero, zero, zero),
+		fb=>(Net_168_3, Net_168_2, Net_168_1, Net_168_0),
+		analog=>(open, open, open, open),
+		io=>(tmpIO_3__Pin_Button_net_3, tmpIO_3__Pin_Button_net_2, tmpIO_3__Pin_Button_net_1, tmpIO_3__Pin_Button_net_0),
 		siovref=>(tmpSIOVREF__Pin_Button_net_0),
-		annotation=>(open, open, open),
+		annotation=>(open, open, open, open),
 		in_clock=>zero,
 		in_clock_en=>tmpOE__Pin_MOSI_net_0,
 		in_reset=>zero,

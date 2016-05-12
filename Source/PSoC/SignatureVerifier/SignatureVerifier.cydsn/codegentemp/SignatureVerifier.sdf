@@ -1,6 +1,6 @@
 (DELAYFILE
  (SDFVERSION "IEEE 1497 4.0")
- (DATE "2016-05-10T23:59:19Z")
+ (DATE "2016-05-11T23:49:49Z")
  (DESIGN "SignatureVerifier")
  (VENDOR "Cypress Semiconductor")
  (PROGRAM "cydsfit")
@@ -18,6 +18,7 @@
     (INTERCONNECT ClockBlock.hfclk Pin_SS\(0\).in_clock (0.000:0.000:0.000))
     (INTERCONNECT ClockBlock.hfclk Pin_Button\(1\).in_clock (0.000:0.000:0.000))
     (INTERCONNECT ClockBlock.hfclk Pin_Button\(2\).in_clock (0.000:0.000:0.000))
+    (INTERCONNECT ClockBlock.hfclk Pin_Button\(3\).in_clock (0.000:0.000:0.000))
     (INTERCONNECT ClockBlock.hfclk \\SPI\:BSPIS\:es3\:SPISlave\:sR16\:Dp\:u0\\.busclk (0.000:0.000:0.000))
     (INTERCONNECT ClockBlock.hfclk \\SPI\:BSPIS\:es3\:SPISlave\:sR16\:Dp\:u1\\.busclk (0.000:0.000:0.000))
     (INTERCONNECT ClockBlock.hfclk \\SPI\:RxInternalInterrupt\\.clock (0.000:0.000:0.000))
@@ -112,6 +113,7 @@
     (INTERCONNECT Pin_Button\(0\)_PAD Pin_Button\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_Button\(1\)_PAD Pin_Button\(1\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_Button\(2\)_PAD Pin_Button\(2\).pad_in (0.000:0.000:0.000))
+    (INTERCONNECT Pin_Button\(3\)_PAD Pin_Button\(3\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_LED_Debug\(0\)_PAD Pin_LED_Debug\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_LED_Green\(0\)_PAD Pin_LED_Green\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_LED_Red\(0\)_PAD Pin_LED_Red\(0\).pad_in (0.000:0.000:0.000))

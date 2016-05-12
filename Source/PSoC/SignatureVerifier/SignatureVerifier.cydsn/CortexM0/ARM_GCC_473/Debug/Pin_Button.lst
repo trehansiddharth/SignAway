@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
   30:.\Generated_Source\PSoC4/Pin_Button.c **** ********************************************************************************
   31:.\Generated_Source\PSoC4/Pin_Button.c **** *
   32:.\Generated_Source\PSoC4/Pin_Button.c **** * Summary:
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 2
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 2
 
 
   33:.\Generated_Source\PSoC4/Pin_Button.c **** *  Assign a new value to the digital port's data output register.  
@@ -95,14 +95,14 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
   45 0010 DAB2     		uxtb	r2, r3
   46 0012 3B1C     		mov	r3, r7
   47 0014 0F33     		add	r3, r3, #15
-  48 0016 0721     		mov	r1, #7
+  48 0016 0F21     		mov	r1, #15
   49 0018 8A43     		bic	r2, r1
   50 001a 1A70     		strb	r2, [r3]
   45:.\Generated_Source\PSoC4/Pin_Button.c ****     drVal = (drVal | ((uint8)(value << Pin_Button_SHIFT) & Pin_Button_MASK));
   51              		.loc 1 45 0
   52 001c FB1D     		add	r3, r7, #7
   53 001e 1A78     		ldrb	r2, [r3]
-  54 0020 0723     		mov	r3, #7
+  54 0020 0F23     		mov	r3, #15
   55 0022 1340     		and	r3, r2
   56 0024 D9B2     		uxtb	r1, r3
   57 0026 3B1C     		mov	r3, r7
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
   66 0036 3A1C     		mov	r2, r7
   67 0038 0F32     		add	r2, r2, #15
   68 003a 1278     		ldrb	r2, [r2]
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 3
 
 
   69 003c 1A60     		str	r2, [r3]
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
   95              		.cfi_offset 7, -8
   96              		.cfi_offset 14, -4
   97 0002 82B0     		sub	sp, sp, #8
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 4
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 4
 
 
   98              	.LCFI4:
@@ -191,8 +191,8 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
  105 000a 1A70     		strb	r2, [r3]
   75:.\Generated_Source\PSoC4/Pin_Button.c **** 	SetP4PinDriveMode(Pin_Button__0__SHIFT, mode);
  106              		.loc 1 75 0
- 107 000c 114B     		ldr	r3, .L5
- 108 000e 114A     		ldr	r2, .L5
+ 107 000c 164B     		ldr	r3, .L5
+ 108 000e 164A     		ldr	r2, .L5
  109 0010 1268     		ldr	r2, [r2]
  110 0012 0721     		mov	r1, #7
  111 0014 101C     		mov	r0, r2
@@ -204,8 +204,8 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
  117 0020 1A60     		str	r2, [r3]
   76:.\Generated_Source\PSoC4/Pin_Button.c **** 	SetP4PinDriveMode(Pin_Button__1__SHIFT, mode);
  118              		.loc 1 76 0
- 119 0022 0C4B     		ldr	r3, .L5
- 120 0024 0B4A     		ldr	r2, .L5
+ 119 0022 114B     		ldr	r3, .L5
+ 120 0024 104A     		ldr	r2, .L5
  121 0026 1268     		ldr	r2, [r2]
  122 0028 3821     		mov	r1, #56
  123 002a 101C     		mov	r0, r2
@@ -218,898 +218,911 @@ ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 1
  130 0038 1A60     		str	r2, [r3]
   77:.\Generated_Source\PSoC4/Pin_Button.c **** 	SetP4PinDriveMode(Pin_Button__2__SHIFT, mode);
  131              		.loc 1 77 0
- 132 003a 064B     		ldr	r3, .L5
- 133 003c 054A     		ldr	r2, .L5
+ 132 003a 0B4B     		ldr	r3, .L5
+ 133 003c 0A4A     		ldr	r2, .L5
  134 003e 1168     		ldr	r1, [r2]
- 135 0040 054A     		ldr	r2, .L5+4
+ 135 0040 0A4A     		ldr	r2, .L5+4
  136 0042 1140     		and	r1, r2
  137 0044 FA1D     		add	r2, r7, #7
  138 0046 1278     		ldrb	r2, [r2]
  139 0048 9201     		lsl	r2, r2, #6
  140 004a 0A43     		orr	r2, r1
  141 004c 1A60     		str	r2, [r3]
-  78:.\Generated_Source\PSoC4/Pin_Button.c **** }
+  78:.\Generated_Source\PSoC4/Pin_Button.c **** 	SetP4PinDriveMode(Pin_Button__3__SHIFT, mode);
  142              		.loc 1 78 0
- 143 004e BD46     		mov	sp, r7
- 144 0050 02B0     		add	sp, sp, #8
- 145              		@ sp needed for prologue
- 146 0052 80BD     		pop	{r7, pc}
- 147              	.L6:
- 148              		.align	2
- 149              	.L5:
- 150 0054 08020440 		.word	1074004488
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 5
+ 143 004e 064B     		ldr	r3, .L5
+ 144 0050 054A     		ldr	r2, .L5
+ 145 0052 1168     		ldr	r1, [r2]
+ 146 0054 064A     		ldr	r2, .L5+8
+ 147 0056 1140     		and	r1, r2
+ 148 0058 FA1D     		add	r2, r7, #7
+ 149 005a 1278     		ldrb	r2, [r2]
+ 150 005c 5202     		lsl	r2, r2, #9
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 5
 
 
- 151 0058 3FFEFFFF 		.word	-449
- 152              		.cfi_endproc
- 153              	.LFE1:
- 154              		.size	Pin_Button_SetDriveMode, .-Pin_Button_SetDriveMode
- 155              		.section	.text.Pin_Button_Read,"ax",%progbits
- 156              		.align	2
- 157              		.global	Pin_Button_Read
- 158              		.code	16
- 159              		.thumb_func
- 160              		.type	Pin_Button_Read, %function
- 161              	Pin_Button_Read:
- 162              	.LFB2:
-  79:.\Generated_Source\PSoC4/Pin_Button.c **** 
+ 151 005e 0A43     		orr	r2, r1
+ 152 0060 1A60     		str	r2, [r3]
+  79:.\Generated_Source\PSoC4/Pin_Button.c **** }
+ 153              		.loc 1 79 0
+ 154 0062 BD46     		mov	sp, r7
+ 155 0064 02B0     		add	sp, sp, #8
+ 156              		@ sp needed for prologue
+ 157 0066 80BD     		pop	{r7, pc}
+ 158              	.L6:
+ 159              		.align	2
+ 160              	.L5:
+ 161 0068 08020440 		.word	1074004488
+ 162 006c 3FFEFFFF 		.word	-449
+ 163 0070 FFF1FFFF 		.word	-3585
+ 164              		.cfi_endproc
+ 165              	.LFE1:
+ 166              		.size	Pin_Button_SetDriveMode, .-Pin_Button_SetDriveMode
+ 167              		.section	.text.Pin_Button_Read,"ax",%progbits
+ 168              		.align	2
+ 169              		.global	Pin_Button_Read
+ 170              		.code	16
+ 171              		.thumb_func
+ 172              		.type	Pin_Button_Read, %function
+ 173              	Pin_Button_Read:
+ 174              	.LFB2:
   80:.\Generated_Source\PSoC4/Pin_Button.c **** 
-  81:.\Generated_Source\PSoC4/Pin_Button.c **** /*******************************************************************************
-  82:.\Generated_Source\PSoC4/Pin_Button.c **** * Function Name: Pin_Button_Read
-  83:.\Generated_Source\PSoC4/Pin_Button.c **** ********************************************************************************
-  84:.\Generated_Source\PSoC4/Pin_Button.c **** *
-  85:.\Generated_Source\PSoC4/Pin_Button.c **** * Summary:
-  86:.\Generated_Source\PSoC4/Pin_Button.c **** *  Read the current value on the pins of the Digital Port in right justified 
-  87:.\Generated_Source\PSoC4/Pin_Button.c **** *  form.
-  88:.\Generated_Source\PSoC4/Pin_Button.c **** *
-  89:.\Generated_Source\PSoC4/Pin_Button.c **** * Parameters:  
-  90:.\Generated_Source\PSoC4/Pin_Button.c **** *  None 
-  91:.\Generated_Source\PSoC4/Pin_Button.c **** *
-  92:.\Generated_Source\PSoC4/Pin_Button.c **** * Return: 
-  93:.\Generated_Source\PSoC4/Pin_Button.c **** *  Returns the current value of the Digital Port as a right justified number
-  94:.\Generated_Source\PSoC4/Pin_Button.c **** *  
-  95:.\Generated_Source\PSoC4/Pin_Button.c **** * Note:
-  96:.\Generated_Source\PSoC4/Pin_Button.c **** *  Macro Pin_Button_ReadPS calls this function. 
-  97:.\Generated_Source\PSoC4/Pin_Button.c **** *  
-  98:.\Generated_Source\PSoC4/Pin_Button.c **** *******************************************************************************/
-  99:.\Generated_Source\PSoC4/Pin_Button.c **** uint8 Pin_Button_Read(void) 
- 100:.\Generated_Source\PSoC4/Pin_Button.c **** {
- 163              		.loc 1 100 0
- 164              		.cfi_startproc
- 165 0000 80B5     		push	{r7, lr}
- 166              	.LCFI6:
- 167              		.cfi_def_cfa_offset 8
- 168              		.cfi_offset 7, -8
- 169              		.cfi_offset 14, -4
- 170 0002 00AF     		add	r7, sp, #0
- 171              	.LCFI7:
- 172              		.cfi_def_cfa_register 7
- 101:.\Generated_Source\PSoC4/Pin_Button.c ****     return (uint8)((Pin_Button_PS & Pin_Button_MASK) >> Pin_Button_SHIFT);
- 173              		.loc 1 101 0
- 174 0004 044B     		ldr	r3, .L9
- 175 0006 1B68     		ldr	r3, [r3]
- 176 0008 DAB2     		uxtb	r2, r3
- 177 000a 0723     		mov	r3, #7
- 178 000c 1340     		and	r3, r2
- 179 000e DBB2     		uxtb	r3, r3
- 102:.\Generated_Source\PSoC4/Pin_Button.c **** }
- 180              		.loc 1 102 0
- 181 0010 181C     		mov	r0, r3
- 182 0012 BD46     		mov	sp, r7
- 183              		@ sp needed for prologue
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 6
+  81:.\Generated_Source\PSoC4/Pin_Button.c **** 
+  82:.\Generated_Source\PSoC4/Pin_Button.c **** /*******************************************************************************
+  83:.\Generated_Source\PSoC4/Pin_Button.c **** * Function Name: Pin_Button_Read
+  84:.\Generated_Source\PSoC4/Pin_Button.c **** ********************************************************************************
+  85:.\Generated_Source\PSoC4/Pin_Button.c **** *
+  86:.\Generated_Source\PSoC4/Pin_Button.c **** * Summary:
+  87:.\Generated_Source\PSoC4/Pin_Button.c **** *  Read the current value on the pins of the Digital Port in right justified 
+  88:.\Generated_Source\PSoC4/Pin_Button.c **** *  form.
+  89:.\Generated_Source\PSoC4/Pin_Button.c **** *
+  90:.\Generated_Source\PSoC4/Pin_Button.c **** * Parameters:  
+  91:.\Generated_Source\PSoC4/Pin_Button.c **** *  None 
+  92:.\Generated_Source\PSoC4/Pin_Button.c **** *
+  93:.\Generated_Source\PSoC4/Pin_Button.c **** * Return: 
+  94:.\Generated_Source\PSoC4/Pin_Button.c **** *  Returns the current value of the Digital Port as a right justified number
+  95:.\Generated_Source\PSoC4/Pin_Button.c **** *  
+  96:.\Generated_Source\PSoC4/Pin_Button.c **** * Note:
+  97:.\Generated_Source\PSoC4/Pin_Button.c **** *  Macro Pin_Button_ReadPS calls this function. 
+  98:.\Generated_Source\PSoC4/Pin_Button.c **** *  
+  99:.\Generated_Source\PSoC4/Pin_Button.c **** *******************************************************************************/
+ 100:.\Generated_Source\PSoC4/Pin_Button.c **** uint8 Pin_Button_Read(void) 
+ 101:.\Generated_Source\PSoC4/Pin_Button.c **** {
+ 175              		.loc 1 101 0
+ 176              		.cfi_startproc
+ 177 0000 80B5     		push	{r7, lr}
+ 178              	.LCFI6:
+ 179              		.cfi_def_cfa_offset 8
+ 180              		.cfi_offset 7, -8
+ 181              		.cfi_offset 14, -4
+ 182 0002 00AF     		add	r7, sp, #0
+ 183              	.LCFI7:
+ 184              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 6
 
 
- 184 0014 80BD     		pop	{r7, pc}
- 185              	.L10:
- 186 0016 C046     		.align	2
- 187              	.L9:
- 188 0018 04020440 		.word	1074004484
- 189              		.cfi_endproc
- 190              	.LFE2:
- 191              		.size	Pin_Button_Read, .-Pin_Button_Read
- 192              		.section	.text.Pin_Button_ReadDataReg,"ax",%progbits
- 193              		.align	2
- 194              		.global	Pin_Button_ReadDataReg
- 195              		.code	16
- 196              		.thumb_func
- 197              		.type	Pin_Button_ReadDataReg, %function
- 198              	Pin_Button_ReadDataReg:
- 199              	.LFB3:
- 103:.\Generated_Source\PSoC4/Pin_Button.c **** 
+ 102:.\Generated_Source\PSoC4/Pin_Button.c ****     return (uint8)((Pin_Button_PS & Pin_Button_MASK) >> Pin_Button_SHIFT);
+ 185              		.loc 1 102 0
+ 186 0004 044B     		ldr	r3, .L9
+ 187 0006 1B68     		ldr	r3, [r3]
+ 188 0008 DAB2     		uxtb	r2, r3
+ 189 000a 0F23     		mov	r3, #15
+ 190 000c 1340     		and	r3, r2
+ 191 000e DBB2     		uxtb	r3, r3
+ 103:.\Generated_Source\PSoC4/Pin_Button.c **** }
+ 192              		.loc 1 103 0
+ 193 0010 181C     		mov	r0, r3
+ 194 0012 BD46     		mov	sp, r7
+ 195              		@ sp needed for prologue
+ 196 0014 80BD     		pop	{r7, pc}
+ 197              	.L10:
+ 198 0016 C046     		.align	2
+ 199              	.L9:
+ 200 0018 04020440 		.word	1074004484
+ 201              		.cfi_endproc
+ 202              	.LFE2:
+ 203              		.size	Pin_Button_Read, .-Pin_Button_Read
+ 204              		.section	.text.Pin_Button_ReadDataReg,"ax",%progbits
+ 205              		.align	2
+ 206              		.global	Pin_Button_ReadDataReg
+ 207              		.code	16
+ 208              		.thumb_func
+ 209              		.type	Pin_Button_ReadDataReg, %function
+ 210              	Pin_Button_ReadDataReg:
+ 211              	.LFB3:
  104:.\Generated_Source\PSoC4/Pin_Button.c **** 
- 105:.\Generated_Source\PSoC4/Pin_Button.c **** /*******************************************************************************
- 106:.\Generated_Source\PSoC4/Pin_Button.c **** * Function Name: Pin_Button_ReadDataReg
- 107:.\Generated_Source\PSoC4/Pin_Button.c **** ********************************************************************************
- 108:.\Generated_Source\PSoC4/Pin_Button.c **** *
- 109:.\Generated_Source\PSoC4/Pin_Button.c **** * Summary:
- 110:.\Generated_Source\PSoC4/Pin_Button.c **** *  Read the current value assigned to a Digital Port's data output register
- 111:.\Generated_Source\PSoC4/Pin_Button.c **** *
- 112:.\Generated_Source\PSoC4/Pin_Button.c **** * Parameters:  
- 113:.\Generated_Source\PSoC4/Pin_Button.c **** *  None 
- 114:.\Generated_Source\PSoC4/Pin_Button.c **** *
- 115:.\Generated_Source\PSoC4/Pin_Button.c **** * Return: 
- 116:.\Generated_Source\PSoC4/Pin_Button.c **** *  Returns the current value assigned to the Digital Port's data output register
- 117:.\Generated_Source\PSoC4/Pin_Button.c **** *  
- 118:.\Generated_Source\PSoC4/Pin_Button.c **** *******************************************************************************/
- 119:.\Generated_Source\PSoC4/Pin_Button.c **** uint8 Pin_Button_ReadDataReg(void) 
- 120:.\Generated_Source\PSoC4/Pin_Button.c **** {
- 200              		.loc 1 120 0
- 201              		.cfi_startproc
- 202 0000 80B5     		push	{r7, lr}
- 203              	.LCFI8:
- 204              		.cfi_def_cfa_offset 8
- 205              		.cfi_offset 7, -8
- 206              		.cfi_offset 14, -4
- 207 0002 00AF     		add	r7, sp, #0
- 208              	.LCFI9:
- 209              		.cfi_def_cfa_register 7
- 121:.\Generated_Source\PSoC4/Pin_Button.c ****     return (uint8)((Pin_Button_DR & Pin_Button_MASK) >> Pin_Button_SHIFT);
- 210              		.loc 1 121 0
- 211 0004 044B     		ldr	r3, .L13
- 212 0006 1B68     		ldr	r3, [r3]
- 213 0008 DAB2     		uxtb	r2, r3
- 214 000a 0723     		mov	r3, #7
- 215 000c 1340     		and	r3, r2
- 216 000e DBB2     		uxtb	r3, r3
- 122:.\Generated_Source\PSoC4/Pin_Button.c **** }
- 217              		.loc 1 122 0
- 218 0010 181C     		mov	r0, r3
- 219 0012 BD46     		mov	sp, r7
- 220              		@ sp needed for prologue
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 7
+ 105:.\Generated_Source\PSoC4/Pin_Button.c **** 
+ 106:.\Generated_Source\PSoC4/Pin_Button.c **** /*******************************************************************************
+ 107:.\Generated_Source\PSoC4/Pin_Button.c **** * Function Name: Pin_Button_ReadDataReg
+ 108:.\Generated_Source\PSoC4/Pin_Button.c **** ********************************************************************************
+ 109:.\Generated_Source\PSoC4/Pin_Button.c **** *
+ 110:.\Generated_Source\PSoC4/Pin_Button.c **** * Summary:
+ 111:.\Generated_Source\PSoC4/Pin_Button.c **** *  Read the current value assigned to a Digital Port's data output register
+ 112:.\Generated_Source\PSoC4/Pin_Button.c **** *
+ 113:.\Generated_Source\PSoC4/Pin_Button.c **** * Parameters:  
+ 114:.\Generated_Source\PSoC4/Pin_Button.c **** *  None 
+ 115:.\Generated_Source\PSoC4/Pin_Button.c **** *
+ 116:.\Generated_Source\PSoC4/Pin_Button.c **** * Return: 
+ 117:.\Generated_Source\PSoC4/Pin_Button.c **** *  Returns the current value assigned to the Digital Port's data output register
+ 118:.\Generated_Source\PSoC4/Pin_Button.c **** *  
+ 119:.\Generated_Source\PSoC4/Pin_Button.c **** *******************************************************************************/
+ 120:.\Generated_Source\PSoC4/Pin_Button.c **** uint8 Pin_Button_ReadDataReg(void) 
+ 121:.\Generated_Source\PSoC4/Pin_Button.c **** {
+ 212              		.loc 1 121 0
+ 213              		.cfi_startproc
+ 214 0000 80B5     		push	{r7, lr}
+ 215              	.LCFI8:
+ 216              		.cfi_def_cfa_offset 8
+ 217              		.cfi_offset 7, -8
+ 218              		.cfi_offset 14, -4
+ 219 0002 00AF     		add	r7, sp, #0
+ 220              	.LCFI9:
+ 221              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 7
 
 
- 221 0014 80BD     		pop	{r7, pc}
- 222              	.L14:
- 223 0016 C046     		.align	2
- 224              	.L13:
- 225 0018 00020440 		.word	1074004480
- 226              		.cfi_endproc
- 227              	.LFE3:
- 228              		.size	Pin_Button_ReadDataReg, .-Pin_Button_ReadDataReg
- 229              		.section	.text.Pin_Button_ClearInterrupt,"ax",%progbits
- 230              		.align	2
- 231              		.global	Pin_Button_ClearInterrupt
- 232              		.code	16
- 233              		.thumb_func
- 234              		.type	Pin_Button_ClearInterrupt, %function
- 235              	Pin_Button_ClearInterrupt:
- 236              	.LFB4:
- 123:.\Generated_Source\PSoC4/Pin_Button.c **** 
+ 122:.\Generated_Source\PSoC4/Pin_Button.c ****     return (uint8)((Pin_Button_DR & Pin_Button_MASK) >> Pin_Button_SHIFT);
+ 222              		.loc 1 122 0
+ 223 0004 044B     		ldr	r3, .L13
+ 224 0006 1B68     		ldr	r3, [r3]
+ 225 0008 DAB2     		uxtb	r2, r3
+ 226 000a 0F23     		mov	r3, #15
+ 227 000c 1340     		and	r3, r2
+ 228 000e DBB2     		uxtb	r3, r3
+ 123:.\Generated_Source\PSoC4/Pin_Button.c **** }
+ 229              		.loc 1 123 0
+ 230 0010 181C     		mov	r0, r3
+ 231 0012 BD46     		mov	sp, r7
+ 232              		@ sp needed for prologue
+ 233 0014 80BD     		pop	{r7, pc}
+ 234              	.L14:
+ 235 0016 C046     		.align	2
+ 236              	.L13:
+ 237 0018 00020440 		.word	1074004480
+ 238              		.cfi_endproc
+ 239              	.LFE3:
+ 240              		.size	Pin_Button_ReadDataReg, .-Pin_Button_ReadDataReg
+ 241              		.section	.text.Pin_Button_ClearInterrupt,"ax",%progbits
+ 242              		.align	2
+ 243              		.global	Pin_Button_ClearInterrupt
+ 244              		.code	16
+ 245              		.thumb_func
+ 246              		.type	Pin_Button_ClearInterrupt, %function
+ 247              	Pin_Button_ClearInterrupt:
+ 248              	.LFB4:
  124:.\Generated_Source\PSoC4/Pin_Button.c **** 
- 125:.\Generated_Source\PSoC4/Pin_Button.c **** /* If Interrupts Are Enabled for this Pins component */ 
- 126:.\Generated_Source\PSoC4/Pin_Button.c **** #if defined(Pin_Button_INTSTAT) 
- 127:.\Generated_Source\PSoC4/Pin_Button.c **** 
- 128:.\Generated_Source\PSoC4/Pin_Button.c ****     /*******************************************************************************
- 129:.\Generated_Source\PSoC4/Pin_Button.c ****     * Function Name: Pin_Button_ClearInterrupt
- 130:.\Generated_Source\PSoC4/Pin_Button.c ****     ********************************************************************************
- 131:.\Generated_Source\PSoC4/Pin_Button.c ****     *
- 132:.\Generated_Source\PSoC4/Pin_Button.c ****     * Summary:
- 133:.\Generated_Source\PSoC4/Pin_Button.c ****     *  Clears any active interrupts attached to port and returns the value of the 
- 134:.\Generated_Source\PSoC4/Pin_Button.c ****     *  interrupt status register.
- 135:.\Generated_Source\PSoC4/Pin_Button.c ****     *
- 136:.\Generated_Source\PSoC4/Pin_Button.c ****     * Parameters:  
- 137:.\Generated_Source\PSoC4/Pin_Button.c ****     *  None 
- 138:.\Generated_Source\PSoC4/Pin_Button.c ****     *
- 139:.\Generated_Source\PSoC4/Pin_Button.c ****     * Return: 
- 140:.\Generated_Source\PSoC4/Pin_Button.c ****     *  Returns the value of the interrupt status register
- 141:.\Generated_Source\PSoC4/Pin_Button.c ****     *  
- 142:.\Generated_Source\PSoC4/Pin_Button.c ****     *******************************************************************************/
- 143:.\Generated_Source\PSoC4/Pin_Button.c ****     uint8 Pin_Button_ClearInterrupt(void) 
- 144:.\Generated_Source\PSoC4/Pin_Button.c ****     {
- 237              		.loc 1 144 0
- 238              		.cfi_startproc
- 239 0000 80B5     		push	{r7, lr}
- 240              	.LCFI10:
- 241              		.cfi_def_cfa_offset 8
- 242              		.cfi_offset 7, -8
- 243              		.cfi_offset 14, -4
- 244 0002 82B0     		sub	sp, sp, #8
- 245              	.LCFI11:
- 246              		.cfi_def_cfa_offset 16
- 247 0004 00AF     		add	r7, sp, #0
- 248              	.LCFI12:
- 249              		.cfi_def_cfa_register 7
- 145:.\Generated_Source\PSoC4/Pin_Button.c **** 		uint8 maskedStatus = (uint8)(Pin_Button_INTSTAT & Pin_Button_MASK);
- 250              		.loc 1 145 0
- 251 0006 084B     		ldr	r3, .L17
- 252 0008 1B68     		ldr	r3, [r3]
- 253 000a D9B2     		uxtb	r1, r3
- 254 000c FB1D     		add	r3, r7, #7
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 8
+ 125:.\Generated_Source\PSoC4/Pin_Button.c **** 
+ 126:.\Generated_Source\PSoC4/Pin_Button.c **** /* If Interrupts Are Enabled for this Pins component */ 
+ 127:.\Generated_Source\PSoC4/Pin_Button.c **** #if defined(Pin_Button_INTSTAT) 
+ 128:.\Generated_Source\PSoC4/Pin_Button.c **** 
+ 129:.\Generated_Source\PSoC4/Pin_Button.c ****     /*******************************************************************************
+ 130:.\Generated_Source\PSoC4/Pin_Button.c ****     * Function Name: Pin_Button_ClearInterrupt
+ 131:.\Generated_Source\PSoC4/Pin_Button.c ****     ********************************************************************************
+ 132:.\Generated_Source\PSoC4/Pin_Button.c ****     *
+ 133:.\Generated_Source\PSoC4/Pin_Button.c ****     * Summary:
+ 134:.\Generated_Source\PSoC4/Pin_Button.c ****     *  Clears any active interrupts attached to port and returns the value of the 
+ 135:.\Generated_Source\PSoC4/Pin_Button.c ****     *  interrupt status register.
+ 136:.\Generated_Source\PSoC4/Pin_Button.c ****     *
+ 137:.\Generated_Source\PSoC4/Pin_Button.c ****     * Parameters:  
+ 138:.\Generated_Source\PSoC4/Pin_Button.c ****     *  None 
+ 139:.\Generated_Source\PSoC4/Pin_Button.c ****     *
+ 140:.\Generated_Source\PSoC4/Pin_Button.c ****     * Return: 
+ 141:.\Generated_Source\PSoC4/Pin_Button.c ****     *  Returns the value of the interrupt status register
+ 142:.\Generated_Source\PSoC4/Pin_Button.c ****     *  
+ 143:.\Generated_Source\PSoC4/Pin_Button.c ****     *******************************************************************************/
+ 144:.\Generated_Source\PSoC4/Pin_Button.c ****     uint8 Pin_Button_ClearInterrupt(void) 
+ 145:.\Generated_Source\PSoC4/Pin_Button.c ****     {
+ 249              		.loc 1 145 0
+ 250              		.cfi_startproc
+ 251 0000 80B5     		push	{r7, lr}
+ 252              	.LCFI10:
+ 253              		.cfi_def_cfa_offset 8
+ 254              		.cfi_offset 7, -8
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 8
 
 
- 255 000e 0722     		mov	r2, #7
- 256 0010 0A40     		and	r2, r1
- 257 0012 1A70     		strb	r2, [r3]
- 146:.\Generated_Source\PSoC4/Pin_Button.c **** 		Pin_Button_INTSTAT = maskedStatus;
- 258              		.loc 1 146 0
- 259 0014 044B     		ldr	r3, .L17
- 260 0016 FA1D     		add	r2, r7, #7
- 261 0018 1278     		ldrb	r2, [r2]
- 262 001a 1A60     		str	r2, [r3]
- 147:.\Generated_Source\PSoC4/Pin_Button.c ****         return maskedStatus >> Pin_Button_SHIFT;
- 263              		.loc 1 147 0
- 264 001c FB1D     		add	r3, r7, #7
- 265 001e 1B78     		ldrb	r3, [r3]
- 148:.\Generated_Source\PSoC4/Pin_Button.c ****     }
- 266              		.loc 1 148 0
- 267 0020 181C     		mov	r0, r3
- 268 0022 BD46     		mov	sp, r7
- 269 0024 02B0     		add	sp, sp, #8
- 270              		@ sp needed for prologue
- 271 0026 80BD     		pop	{r7, pc}
- 272              	.L18:
- 273              		.align	2
- 274              	.L17:
- 275 0028 10020440 		.word	1074004496
- 276              		.cfi_endproc
- 277              	.LFE4:
- 278              		.size	Pin_Button_ClearInterrupt, .-Pin_Button_ClearInterrupt
- 279              		.text
- 280              	.Letext0:
- 281              		.file 2 ".\\Generated_Source\\PSoC4\\cytypes.h"
- 282              		.section	.debug_info,"",%progbits
- 283              	.Ldebug_info0:
- 284 0000 64010000 		.4byte	0x164
- 285 0004 0200     		.2byte	0x2
- 286 0006 00000000 		.4byte	.Ldebug_abbrev0
- 287 000a 04       		.byte	0x4
- 288 000b 01       		.uleb128 0x1
- 289 000c 5C010000 		.4byte	.LASF24
- 290 0010 01       		.byte	0x1
- 291 0011 A5010000 		.4byte	.LASF25
- 292 0015 A2000000 		.4byte	.LASF26
- 293 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 294 001d 00000000 		.4byte	0
- 295 0021 00000000 		.4byte	0
- 296 0025 00000000 		.4byte	.Ldebug_line0
- 297 0029 02       		.uleb128 0x2
- 298 002a 01       		.byte	0x1
- 299 002b 06       		.byte	0x6
- 300 002c EE010000 		.4byte	.LASF0
- 301 0030 02       		.uleb128 0x2
- 302 0031 01       		.byte	0x1
- 303 0032 08       		.byte	0x8
- 304 0033 52000000 		.4byte	.LASF1
- 305 0037 02       		.uleb128 0x2
- 306 0038 02       		.byte	0x2
- 307 0039 05       		.byte	0x5
- 308 003a 4C010000 		.4byte	.LASF2
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 9
+ 255              		.cfi_offset 14, -4
+ 256 0002 82B0     		sub	sp, sp, #8
+ 257              	.LCFI11:
+ 258              		.cfi_def_cfa_offset 16
+ 259 0004 00AF     		add	r7, sp, #0
+ 260              	.LCFI12:
+ 261              		.cfi_def_cfa_register 7
+ 146:.\Generated_Source\PSoC4/Pin_Button.c **** 		uint8 maskedStatus = (uint8)(Pin_Button_INTSTAT & Pin_Button_MASK);
+ 262              		.loc 1 146 0
+ 263 0006 084B     		ldr	r3, .L17
+ 264 0008 1B68     		ldr	r3, [r3]
+ 265 000a D9B2     		uxtb	r1, r3
+ 266 000c FB1D     		add	r3, r7, #7
+ 267 000e 0F22     		mov	r2, #15
+ 268 0010 0A40     		and	r2, r1
+ 269 0012 1A70     		strb	r2, [r3]
+ 147:.\Generated_Source\PSoC4/Pin_Button.c **** 		Pin_Button_INTSTAT = maskedStatus;
+ 270              		.loc 1 147 0
+ 271 0014 044B     		ldr	r3, .L17
+ 272 0016 FA1D     		add	r2, r7, #7
+ 273 0018 1278     		ldrb	r2, [r2]
+ 274 001a 1A60     		str	r2, [r3]
+ 148:.\Generated_Source\PSoC4/Pin_Button.c ****         return maskedStatus >> Pin_Button_SHIFT;
+ 275              		.loc 1 148 0
+ 276 001c FB1D     		add	r3, r7, #7
+ 277 001e 1B78     		ldrb	r3, [r3]
+ 149:.\Generated_Source\PSoC4/Pin_Button.c ****     }
+ 278              		.loc 1 149 0
+ 279 0020 181C     		mov	r0, r3
+ 280 0022 BD46     		mov	sp, r7
+ 281 0024 02B0     		add	sp, sp, #8
+ 282              		@ sp needed for prologue
+ 283 0026 80BD     		pop	{r7, pc}
+ 284              	.L18:
+ 285              		.align	2
+ 286              	.L17:
+ 287 0028 10020440 		.word	1074004496
+ 288              		.cfi_endproc
+ 289              	.LFE4:
+ 290              		.size	Pin_Button_ClearInterrupt, .-Pin_Button_ClearInterrupt
+ 291              		.text
+ 292              	.Letext0:
+ 293              		.file 2 ".\\Generated_Source\\PSoC4\\cytypes.h"
+ 294              		.section	.debug_info,"",%progbits
+ 295              	.Ldebug_info0:
+ 296 0000 64010000 		.4byte	0x164
+ 297 0004 0200     		.2byte	0x2
+ 298 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 299 000a 04       		.byte	0x4
+ 300 000b 01       		.uleb128 0x1
+ 301 000c 5C010000 		.4byte	.LASF24
+ 302 0010 01       		.byte	0x1
+ 303 0011 A5010000 		.4byte	.LASF25
+ 304 0015 A2000000 		.4byte	.LASF26
+ 305 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 306 001d 00000000 		.4byte	0
+ 307 0021 00000000 		.4byte	0
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 9
 
 
- 309 003e 02       		.uleb128 0x2
- 310 003f 02       		.byte	0x2
- 311 0040 07       		.byte	0x7
- 312 0041 88000000 		.4byte	.LASF3
- 313 0045 02       		.uleb128 0x2
- 314 0046 04       		.byte	0x4
- 315 0047 05       		.byte	0x5
- 316 0048 CB010000 		.4byte	.LASF4
- 317 004c 02       		.uleb128 0x2
- 318 004d 04       		.byte	0x4
- 319 004e 07       		.byte	0x7
- 320 004f 66000000 		.4byte	.LASF5
- 321 0053 02       		.uleb128 0x2
- 322 0054 08       		.byte	0x8
- 323 0055 05       		.byte	0x5
- 324 0056 2C010000 		.4byte	.LASF6
- 325 005a 02       		.uleb128 0x2
- 326 005b 08       		.byte	0x8
- 327 005c 07       		.byte	0x7
- 328 005d 10010000 		.4byte	.LASF7
- 329 0061 03       		.uleb128 0x3
- 330 0062 04       		.byte	0x4
- 331 0063 05       		.byte	0x5
- 332 0064 696E7400 		.ascii	"int\000"
- 333 0068 02       		.uleb128 0x2
- 334 0069 04       		.byte	0x4
- 335 006a 07       		.byte	0x7
- 336 006b 03010000 		.4byte	.LASF8
- 337 006f 04       		.uleb128 0x4
- 338 0070 56010000 		.4byte	.LASF9
- 339 0074 02       		.byte	0x2
- 340 0075 5B       		.byte	0x5b
- 341 0076 30000000 		.4byte	0x30
- 342 007a 04       		.uleb128 0x4
- 343 007b FC000000 		.4byte	.LASF10
- 344 007f 02       		.byte	0x2
- 345 0080 5D       		.byte	0x5d
- 346 0081 4C000000 		.4byte	0x4c
- 347 0085 02       		.uleb128 0x2
- 348 0086 04       		.byte	0x4
- 349 0087 04       		.byte	0x4
- 350 0088 4C000000 		.4byte	.LASF11
- 351 008c 02       		.uleb128 0x2
- 352 008d 08       		.byte	0x8
- 353 008e 04       		.byte	0x4
- 354 008f 9B000000 		.4byte	.LASF12
- 355 0093 02       		.uleb128 0x2
- 356 0094 01       		.byte	0x1
- 357 0095 08       		.byte	0x8
- 358 0096 47010000 		.4byte	.LASF13
- 359 009a 04       		.uleb128 0x4
- 360 009b 00000000 		.4byte	.LASF14
- 361 009f 02       		.byte	0x2
- 362 00a0 F2       		.byte	0xf2
- 363 00a1 A5000000 		.4byte	0xa5
- 364 00a5 05       		.uleb128 0x5
- 365 00a6 7A000000 		.4byte	0x7a
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 10
+ 308 0025 00000000 		.4byte	.Ldebug_line0
+ 309 0029 02       		.uleb128 0x2
+ 310 002a 01       		.byte	0x1
+ 311 002b 06       		.byte	0x6
+ 312 002c EE010000 		.4byte	.LASF0
+ 313 0030 02       		.uleb128 0x2
+ 314 0031 01       		.byte	0x1
+ 315 0032 08       		.byte	0x8
+ 316 0033 52000000 		.4byte	.LASF1
+ 317 0037 02       		.uleb128 0x2
+ 318 0038 02       		.byte	0x2
+ 319 0039 05       		.byte	0x5
+ 320 003a 4C010000 		.4byte	.LASF2
+ 321 003e 02       		.uleb128 0x2
+ 322 003f 02       		.byte	0x2
+ 323 0040 07       		.byte	0x7
+ 324 0041 88000000 		.4byte	.LASF3
+ 325 0045 02       		.uleb128 0x2
+ 326 0046 04       		.byte	0x4
+ 327 0047 05       		.byte	0x5
+ 328 0048 CB010000 		.4byte	.LASF4
+ 329 004c 02       		.uleb128 0x2
+ 330 004d 04       		.byte	0x4
+ 331 004e 07       		.byte	0x7
+ 332 004f 66000000 		.4byte	.LASF5
+ 333 0053 02       		.uleb128 0x2
+ 334 0054 08       		.byte	0x8
+ 335 0055 05       		.byte	0x5
+ 336 0056 2C010000 		.4byte	.LASF6
+ 337 005a 02       		.uleb128 0x2
+ 338 005b 08       		.byte	0x8
+ 339 005c 07       		.byte	0x7
+ 340 005d 10010000 		.4byte	.LASF7
+ 341 0061 03       		.uleb128 0x3
+ 342 0062 04       		.byte	0x4
+ 343 0063 05       		.byte	0x5
+ 344 0064 696E7400 		.ascii	"int\000"
+ 345 0068 02       		.uleb128 0x2
+ 346 0069 04       		.byte	0x4
+ 347 006a 07       		.byte	0x7
+ 348 006b 03010000 		.4byte	.LASF8
+ 349 006f 04       		.uleb128 0x4
+ 350 0070 56010000 		.4byte	.LASF9
+ 351 0074 02       		.byte	0x2
+ 352 0075 5B       		.byte	0x5b
+ 353 0076 30000000 		.4byte	0x30
+ 354 007a 04       		.uleb128 0x4
+ 355 007b FC000000 		.4byte	.LASF10
+ 356 007f 02       		.byte	0x2
+ 357 0080 5D       		.byte	0x5d
+ 358 0081 4C000000 		.4byte	0x4c
+ 359 0085 02       		.uleb128 0x2
+ 360 0086 04       		.byte	0x4
+ 361 0087 04       		.byte	0x4
+ 362 0088 4C000000 		.4byte	.LASF11
+ 363 008c 02       		.uleb128 0x2
+ 364 008d 08       		.byte	0x8
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 10
 
 
- 366 00aa 06       		.uleb128 0x6
- 367 00ab 01       		.byte	0x1
- 368 00ac 24000000 		.4byte	.LASF15
- 369 00b0 01       		.byte	0x1
- 370 00b1 2A       		.byte	0x2a
- 371 00b2 01       		.byte	0x1
- 372 00b3 00000000 		.4byte	.LFB0
- 373 00b7 48000000 		.4byte	.LFE0
- 374 00bb 00000000 		.4byte	.LLST0
- 375 00bf 01       		.byte	0x1
- 376 00c0 E1000000 		.4byte	0xe1
- 377 00c4 07       		.uleb128 0x7
- 378 00c5 1E000000 		.4byte	.LASF17
- 379 00c9 01       		.byte	0x1
- 380 00ca 2A       		.byte	0x2a
- 381 00cb 6F000000 		.4byte	0x6f
- 382 00cf 02       		.byte	0x2
- 383 00d0 91       		.byte	0x91
- 384 00d1 6F       		.sleb128 -17
- 385 00d2 08       		.uleb128 0x8
- 386 00d3 60000000 		.4byte	.LASF22
- 387 00d7 01       		.byte	0x1
- 388 00d8 2C       		.byte	0x2c
- 389 00d9 6F000000 		.4byte	0x6f
- 390 00dd 02       		.byte	0x2
- 391 00de 91       		.byte	0x91
- 392 00df 77       		.sleb128 -9
- 393 00e0 00       		.byte	0
- 394 00e1 06       		.uleb128 0x6
- 395 00e2 01       		.byte	0x1
- 396 00e3 06000000 		.4byte	.LASF16
- 397 00e7 01       		.byte	0x1
- 398 00e8 49       		.byte	0x49
- 399 00e9 01       		.byte	0x1
- 400 00ea 00000000 		.4byte	.LFB1
- 401 00ee 5C000000 		.4byte	.LFE1
- 402 00f2 38000000 		.4byte	.LLST1
- 403 00f6 01       		.byte	0x1
- 404 00f7 0A010000 		.4byte	0x10a
- 405 00fb 07       		.uleb128 0x7
- 406 00fc 27010000 		.4byte	.LASF18
- 407 0100 01       		.byte	0x1
- 408 0101 49       		.byte	0x49
- 409 0102 6F000000 		.4byte	0x6f
- 410 0106 02       		.byte	0x2
- 411 0107 91       		.byte	0x91
- 412 0108 77       		.sleb128 -9
- 413 0109 00       		.byte	0
- 414 010a 09       		.uleb128 0x9
- 415 010b 01       		.byte	0x1
- 416 010c 78000000 		.4byte	.LASF19
- 417 0110 01       		.byte	0x1
- 418 0111 63       		.byte	0x63
- 419 0112 01       		.byte	0x1
- 420 0113 6F000000 		.4byte	0x6f
- 421 0117 00000000 		.4byte	.LFB2
- 422 011b 1C000000 		.4byte	.LFE2
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 11
+ 365 008e 04       		.byte	0x4
+ 366 008f 9B000000 		.4byte	.LASF12
+ 367 0093 02       		.uleb128 0x2
+ 368 0094 01       		.byte	0x1
+ 369 0095 08       		.byte	0x8
+ 370 0096 47010000 		.4byte	.LASF13
+ 371 009a 04       		.uleb128 0x4
+ 372 009b 00000000 		.4byte	.LASF14
+ 373 009f 02       		.byte	0x2
+ 374 00a0 F2       		.byte	0xf2
+ 375 00a1 A5000000 		.4byte	0xa5
+ 376 00a5 05       		.uleb128 0x5
+ 377 00a6 7A000000 		.4byte	0x7a
+ 378 00aa 06       		.uleb128 0x6
+ 379 00ab 01       		.byte	0x1
+ 380 00ac 24000000 		.4byte	.LASF15
+ 381 00b0 01       		.byte	0x1
+ 382 00b1 2A       		.byte	0x2a
+ 383 00b2 01       		.byte	0x1
+ 384 00b3 00000000 		.4byte	.LFB0
+ 385 00b7 48000000 		.4byte	.LFE0
+ 386 00bb 00000000 		.4byte	.LLST0
+ 387 00bf 01       		.byte	0x1
+ 388 00c0 E1000000 		.4byte	0xe1
+ 389 00c4 07       		.uleb128 0x7
+ 390 00c5 1E000000 		.4byte	.LASF17
+ 391 00c9 01       		.byte	0x1
+ 392 00ca 2A       		.byte	0x2a
+ 393 00cb 6F000000 		.4byte	0x6f
+ 394 00cf 02       		.byte	0x2
+ 395 00d0 91       		.byte	0x91
+ 396 00d1 6F       		.sleb128 -17
+ 397 00d2 08       		.uleb128 0x8
+ 398 00d3 60000000 		.4byte	.LASF22
+ 399 00d7 01       		.byte	0x1
+ 400 00d8 2C       		.byte	0x2c
+ 401 00d9 6F000000 		.4byte	0x6f
+ 402 00dd 02       		.byte	0x2
+ 403 00de 91       		.byte	0x91
+ 404 00df 77       		.sleb128 -9
+ 405 00e0 00       		.byte	0
+ 406 00e1 06       		.uleb128 0x6
+ 407 00e2 01       		.byte	0x1
+ 408 00e3 06000000 		.4byte	.LASF16
+ 409 00e7 01       		.byte	0x1
+ 410 00e8 49       		.byte	0x49
+ 411 00e9 01       		.byte	0x1
+ 412 00ea 00000000 		.4byte	.LFB1
+ 413 00ee 74000000 		.4byte	.LFE1
+ 414 00f2 38000000 		.4byte	.LLST1
+ 415 00f6 01       		.byte	0x1
+ 416 00f7 0A010000 		.4byte	0x10a
+ 417 00fb 07       		.uleb128 0x7
+ 418 00fc 27010000 		.4byte	.LASF18
+ 419 0100 01       		.byte	0x1
+ 420 0101 49       		.byte	0x49
+ 421 0102 6F000000 		.4byte	0x6f
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 11
 
 
- 423 011f 70000000 		.4byte	.LLST2
- 424 0123 01       		.byte	0x1
- 425 0124 09       		.uleb128 0x9
- 426 0125 01       		.byte	0x1
- 427 0126 35000000 		.4byte	.LASF20
- 428 012a 01       		.byte	0x1
- 429 012b 77       		.byte	0x77
- 430 012c 01       		.byte	0x1
- 431 012d 6F000000 		.4byte	0x6f
- 432 0131 00000000 		.4byte	.LFB3
- 433 0135 1C000000 		.4byte	.LFE3
- 434 0139 9C000000 		.4byte	.LLST3
- 435 013d 01       		.byte	0x1
- 436 013e 0A       		.uleb128 0xa
- 437 013f 01       		.byte	0x1
- 438 0140 D4010000 		.4byte	.LASF21
- 439 0144 01       		.byte	0x1
- 440 0145 8F       		.byte	0x8f
- 441 0146 01       		.byte	0x1
- 442 0147 6F000000 		.4byte	0x6f
- 443 014b 00000000 		.4byte	.LFB4
- 444 014f 2C000000 		.4byte	.LFE4
- 445 0153 C8000000 		.4byte	.LLST4
- 446 0157 01       		.byte	0x1
- 447 0158 08       		.uleb128 0x8
- 448 0159 3A010000 		.4byte	.LASF23
- 449 015d 01       		.byte	0x1
- 450 015e 91       		.byte	0x91
- 451 015f 6F000000 		.4byte	0x6f
- 452 0163 02       		.byte	0x2
- 453 0164 91       		.byte	0x91
- 454 0165 77       		.sleb128 -9
- 455 0166 00       		.byte	0
- 456 0167 00       		.byte	0
- 457              		.section	.debug_abbrev,"",%progbits
- 458              	.Ldebug_abbrev0:
- 459 0000 01       		.uleb128 0x1
- 460 0001 11       		.uleb128 0x11
- 461 0002 01       		.byte	0x1
- 462 0003 25       		.uleb128 0x25
- 463 0004 0E       		.uleb128 0xe
- 464 0005 13       		.uleb128 0x13
- 465 0006 0B       		.uleb128 0xb
- 466 0007 03       		.uleb128 0x3
- 467 0008 0E       		.uleb128 0xe
- 468 0009 1B       		.uleb128 0x1b
- 469 000a 0E       		.uleb128 0xe
- 470 000b 55       		.uleb128 0x55
- 471 000c 06       		.uleb128 0x6
- 472 000d 11       		.uleb128 0x11
- 473 000e 01       		.uleb128 0x1
- 474 000f 52       		.uleb128 0x52
- 475 0010 01       		.uleb128 0x1
- 476 0011 10       		.uleb128 0x10
- 477 0012 06       		.uleb128 0x6
- 478 0013 00       		.byte	0
- 479 0014 00       		.byte	0
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 12
+ 422 0106 02       		.byte	0x2
+ 423 0107 91       		.byte	0x91
+ 424 0108 77       		.sleb128 -9
+ 425 0109 00       		.byte	0
+ 426 010a 09       		.uleb128 0x9
+ 427 010b 01       		.byte	0x1
+ 428 010c 78000000 		.4byte	.LASF19
+ 429 0110 01       		.byte	0x1
+ 430 0111 64       		.byte	0x64
+ 431 0112 01       		.byte	0x1
+ 432 0113 6F000000 		.4byte	0x6f
+ 433 0117 00000000 		.4byte	.LFB2
+ 434 011b 1C000000 		.4byte	.LFE2
+ 435 011f 70000000 		.4byte	.LLST2
+ 436 0123 01       		.byte	0x1
+ 437 0124 09       		.uleb128 0x9
+ 438 0125 01       		.byte	0x1
+ 439 0126 35000000 		.4byte	.LASF20
+ 440 012a 01       		.byte	0x1
+ 441 012b 78       		.byte	0x78
+ 442 012c 01       		.byte	0x1
+ 443 012d 6F000000 		.4byte	0x6f
+ 444 0131 00000000 		.4byte	.LFB3
+ 445 0135 1C000000 		.4byte	.LFE3
+ 446 0139 9C000000 		.4byte	.LLST3
+ 447 013d 01       		.byte	0x1
+ 448 013e 0A       		.uleb128 0xa
+ 449 013f 01       		.byte	0x1
+ 450 0140 D4010000 		.4byte	.LASF21
+ 451 0144 01       		.byte	0x1
+ 452 0145 90       		.byte	0x90
+ 453 0146 01       		.byte	0x1
+ 454 0147 6F000000 		.4byte	0x6f
+ 455 014b 00000000 		.4byte	.LFB4
+ 456 014f 2C000000 		.4byte	.LFE4
+ 457 0153 C8000000 		.4byte	.LLST4
+ 458 0157 01       		.byte	0x1
+ 459 0158 08       		.uleb128 0x8
+ 460 0159 3A010000 		.4byte	.LASF23
+ 461 015d 01       		.byte	0x1
+ 462 015e 92       		.byte	0x92
+ 463 015f 6F000000 		.4byte	0x6f
+ 464 0163 02       		.byte	0x2
+ 465 0164 91       		.byte	0x91
+ 466 0165 77       		.sleb128 -9
+ 467 0166 00       		.byte	0
+ 468 0167 00       		.byte	0
+ 469              		.section	.debug_abbrev,"",%progbits
+ 470              	.Ldebug_abbrev0:
+ 471 0000 01       		.uleb128 0x1
+ 472 0001 11       		.uleb128 0x11
+ 473 0002 01       		.byte	0x1
+ 474 0003 25       		.uleb128 0x25
+ 475 0004 0E       		.uleb128 0xe
+ 476 0005 13       		.uleb128 0x13
+ 477 0006 0B       		.uleb128 0xb
+ 478 0007 03       		.uleb128 0x3
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 12
 
 
- 480 0015 02       		.uleb128 0x2
- 481 0016 24       		.uleb128 0x24
- 482 0017 00       		.byte	0
- 483 0018 0B       		.uleb128 0xb
- 484 0019 0B       		.uleb128 0xb
- 485 001a 3E       		.uleb128 0x3e
- 486 001b 0B       		.uleb128 0xb
- 487 001c 03       		.uleb128 0x3
- 488 001d 0E       		.uleb128 0xe
- 489 001e 00       		.byte	0
- 490 001f 00       		.byte	0
- 491 0020 03       		.uleb128 0x3
- 492 0021 24       		.uleb128 0x24
- 493 0022 00       		.byte	0
- 494 0023 0B       		.uleb128 0xb
- 495 0024 0B       		.uleb128 0xb
- 496 0025 3E       		.uleb128 0x3e
- 497 0026 0B       		.uleb128 0xb
- 498 0027 03       		.uleb128 0x3
- 499 0028 08       		.uleb128 0x8
- 500 0029 00       		.byte	0
- 501 002a 00       		.byte	0
- 502 002b 04       		.uleb128 0x4
- 503 002c 16       		.uleb128 0x16
- 504 002d 00       		.byte	0
- 505 002e 03       		.uleb128 0x3
- 506 002f 0E       		.uleb128 0xe
- 507 0030 3A       		.uleb128 0x3a
- 508 0031 0B       		.uleb128 0xb
- 509 0032 3B       		.uleb128 0x3b
- 510 0033 0B       		.uleb128 0xb
- 511 0034 49       		.uleb128 0x49
- 512 0035 13       		.uleb128 0x13
- 513 0036 00       		.byte	0
- 514 0037 00       		.byte	0
- 515 0038 05       		.uleb128 0x5
- 516 0039 35       		.uleb128 0x35
- 517 003a 00       		.byte	0
- 518 003b 49       		.uleb128 0x49
- 519 003c 13       		.uleb128 0x13
- 520 003d 00       		.byte	0
- 521 003e 00       		.byte	0
- 522 003f 06       		.uleb128 0x6
- 523 0040 2E       		.uleb128 0x2e
- 524 0041 01       		.byte	0x1
- 525 0042 3F       		.uleb128 0x3f
- 526 0043 0C       		.uleb128 0xc
- 527 0044 03       		.uleb128 0x3
- 528 0045 0E       		.uleb128 0xe
- 529 0046 3A       		.uleb128 0x3a
- 530 0047 0B       		.uleb128 0xb
- 531 0048 3B       		.uleb128 0x3b
- 532 0049 0B       		.uleb128 0xb
- 533 004a 27       		.uleb128 0x27
- 534 004b 0C       		.uleb128 0xc
- 535 004c 11       		.uleb128 0x11
- 536 004d 01       		.uleb128 0x1
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 13
+ 479 0008 0E       		.uleb128 0xe
+ 480 0009 1B       		.uleb128 0x1b
+ 481 000a 0E       		.uleb128 0xe
+ 482 000b 55       		.uleb128 0x55
+ 483 000c 06       		.uleb128 0x6
+ 484 000d 11       		.uleb128 0x11
+ 485 000e 01       		.uleb128 0x1
+ 486 000f 52       		.uleb128 0x52
+ 487 0010 01       		.uleb128 0x1
+ 488 0011 10       		.uleb128 0x10
+ 489 0012 06       		.uleb128 0x6
+ 490 0013 00       		.byte	0
+ 491 0014 00       		.byte	0
+ 492 0015 02       		.uleb128 0x2
+ 493 0016 24       		.uleb128 0x24
+ 494 0017 00       		.byte	0
+ 495 0018 0B       		.uleb128 0xb
+ 496 0019 0B       		.uleb128 0xb
+ 497 001a 3E       		.uleb128 0x3e
+ 498 001b 0B       		.uleb128 0xb
+ 499 001c 03       		.uleb128 0x3
+ 500 001d 0E       		.uleb128 0xe
+ 501 001e 00       		.byte	0
+ 502 001f 00       		.byte	0
+ 503 0020 03       		.uleb128 0x3
+ 504 0021 24       		.uleb128 0x24
+ 505 0022 00       		.byte	0
+ 506 0023 0B       		.uleb128 0xb
+ 507 0024 0B       		.uleb128 0xb
+ 508 0025 3E       		.uleb128 0x3e
+ 509 0026 0B       		.uleb128 0xb
+ 510 0027 03       		.uleb128 0x3
+ 511 0028 08       		.uleb128 0x8
+ 512 0029 00       		.byte	0
+ 513 002a 00       		.byte	0
+ 514 002b 04       		.uleb128 0x4
+ 515 002c 16       		.uleb128 0x16
+ 516 002d 00       		.byte	0
+ 517 002e 03       		.uleb128 0x3
+ 518 002f 0E       		.uleb128 0xe
+ 519 0030 3A       		.uleb128 0x3a
+ 520 0031 0B       		.uleb128 0xb
+ 521 0032 3B       		.uleb128 0x3b
+ 522 0033 0B       		.uleb128 0xb
+ 523 0034 49       		.uleb128 0x49
+ 524 0035 13       		.uleb128 0x13
+ 525 0036 00       		.byte	0
+ 526 0037 00       		.byte	0
+ 527 0038 05       		.uleb128 0x5
+ 528 0039 35       		.uleb128 0x35
+ 529 003a 00       		.byte	0
+ 530 003b 49       		.uleb128 0x49
+ 531 003c 13       		.uleb128 0x13
+ 532 003d 00       		.byte	0
+ 533 003e 00       		.byte	0
+ 534 003f 06       		.uleb128 0x6
+ 535 0040 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 13
 
 
- 537 004e 12       		.uleb128 0x12
- 538 004f 01       		.uleb128 0x1
- 539 0050 40       		.uleb128 0x40
- 540 0051 06       		.uleb128 0x6
- 541 0052 9742     		.uleb128 0x2117
- 542 0054 0C       		.uleb128 0xc
- 543 0055 01       		.uleb128 0x1
- 544 0056 13       		.uleb128 0x13
- 545 0057 00       		.byte	0
- 546 0058 00       		.byte	0
- 547 0059 07       		.uleb128 0x7
- 548 005a 05       		.uleb128 0x5
- 549 005b 00       		.byte	0
- 550 005c 03       		.uleb128 0x3
- 551 005d 0E       		.uleb128 0xe
- 552 005e 3A       		.uleb128 0x3a
- 553 005f 0B       		.uleb128 0xb
- 554 0060 3B       		.uleb128 0x3b
- 555 0061 0B       		.uleb128 0xb
- 556 0062 49       		.uleb128 0x49
- 557 0063 13       		.uleb128 0x13
- 558 0064 02       		.uleb128 0x2
- 559 0065 0A       		.uleb128 0xa
- 560 0066 00       		.byte	0
- 561 0067 00       		.byte	0
- 562 0068 08       		.uleb128 0x8
- 563 0069 34       		.uleb128 0x34
- 564 006a 00       		.byte	0
- 565 006b 03       		.uleb128 0x3
- 566 006c 0E       		.uleb128 0xe
- 567 006d 3A       		.uleb128 0x3a
- 568 006e 0B       		.uleb128 0xb
- 569 006f 3B       		.uleb128 0x3b
- 570 0070 0B       		.uleb128 0xb
- 571 0071 49       		.uleb128 0x49
- 572 0072 13       		.uleb128 0x13
- 573 0073 02       		.uleb128 0x2
- 574 0074 0A       		.uleb128 0xa
- 575 0075 00       		.byte	0
- 576 0076 00       		.byte	0
- 577 0077 09       		.uleb128 0x9
- 578 0078 2E       		.uleb128 0x2e
- 579 0079 00       		.byte	0
- 580 007a 3F       		.uleb128 0x3f
- 581 007b 0C       		.uleb128 0xc
- 582 007c 03       		.uleb128 0x3
- 583 007d 0E       		.uleb128 0xe
- 584 007e 3A       		.uleb128 0x3a
- 585 007f 0B       		.uleb128 0xb
- 586 0080 3B       		.uleb128 0x3b
- 587 0081 0B       		.uleb128 0xb
- 588 0082 27       		.uleb128 0x27
- 589 0083 0C       		.uleb128 0xc
- 590 0084 49       		.uleb128 0x49
- 591 0085 13       		.uleb128 0x13
- 592 0086 11       		.uleb128 0x11
- 593 0087 01       		.uleb128 0x1
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 14
+ 536 0041 01       		.byte	0x1
+ 537 0042 3F       		.uleb128 0x3f
+ 538 0043 0C       		.uleb128 0xc
+ 539 0044 03       		.uleb128 0x3
+ 540 0045 0E       		.uleb128 0xe
+ 541 0046 3A       		.uleb128 0x3a
+ 542 0047 0B       		.uleb128 0xb
+ 543 0048 3B       		.uleb128 0x3b
+ 544 0049 0B       		.uleb128 0xb
+ 545 004a 27       		.uleb128 0x27
+ 546 004b 0C       		.uleb128 0xc
+ 547 004c 11       		.uleb128 0x11
+ 548 004d 01       		.uleb128 0x1
+ 549 004e 12       		.uleb128 0x12
+ 550 004f 01       		.uleb128 0x1
+ 551 0050 40       		.uleb128 0x40
+ 552 0051 06       		.uleb128 0x6
+ 553 0052 9742     		.uleb128 0x2117
+ 554 0054 0C       		.uleb128 0xc
+ 555 0055 01       		.uleb128 0x1
+ 556 0056 13       		.uleb128 0x13
+ 557 0057 00       		.byte	0
+ 558 0058 00       		.byte	0
+ 559 0059 07       		.uleb128 0x7
+ 560 005a 05       		.uleb128 0x5
+ 561 005b 00       		.byte	0
+ 562 005c 03       		.uleb128 0x3
+ 563 005d 0E       		.uleb128 0xe
+ 564 005e 3A       		.uleb128 0x3a
+ 565 005f 0B       		.uleb128 0xb
+ 566 0060 3B       		.uleb128 0x3b
+ 567 0061 0B       		.uleb128 0xb
+ 568 0062 49       		.uleb128 0x49
+ 569 0063 13       		.uleb128 0x13
+ 570 0064 02       		.uleb128 0x2
+ 571 0065 0A       		.uleb128 0xa
+ 572 0066 00       		.byte	0
+ 573 0067 00       		.byte	0
+ 574 0068 08       		.uleb128 0x8
+ 575 0069 34       		.uleb128 0x34
+ 576 006a 00       		.byte	0
+ 577 006b 03       		.uleb128 0x3
+ 578 006c 0E       		.uleb128 0xe
+ 579 006d 3A       		.uleb128 0x3a
+ 580 006e 0B       		.uleb128 0xb
+ 581 006f 3B       		.uleb128 0x3b
+ 582 0070 0B       		.uleb128 0xb
+ 583 0071 49       		.uleb128 0x49
+ 584 0072 13       		.uleb128 0x13
+ 585 0073 02       		.uleb128 0x2
+ 586 0074 0A       		.uleb128 0xa
+ 587 0075 00       		.byte	0
+ 588 0076 00       		.byte	0
+ 589 0077 09       		.uleb128 0x9
+ 590 0078 2E       		.uleb128 0x2e
+ 591 0079 00       		.byte	0
+ 592 007a 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 14
 
 
- 594 0088 12       		.uleb128 0x12
- 595 0089 01       		.uleb128 0x1
- 596 008a 40       		.uleb128 0x40
- 597 008b 06       		.uleb128 0x6
- 598 008c 9742     		.uleb128 0x2117
- 599 008e 0C       		.uleb128 0xc
- 600 008f 00       		.byte	0
- 601 0090 00       		.byte	0
- 602 0091 0A       		.uleb128 0xa
- 603 0092 2E       		.uleb128 0x2e
- 604 0093 01       		.byte	0x1
- 605 0094 3F       		.uleb128 0x3f
- 606 0095 0C       		.uleb128 0xc
- 607 0096 03       		.uleb128 0x3
- 608 0097 0E       		.uleb128 0xe
- 609 0098 3A       		.uleb128 0x3a
- 610 0099 0B       		.uleb128 0xb
- 611 009a 3B       		.uleb128 0x3b
- 612 009b 0B       		.uleb128 0xb
- 613 009c 27       		.uleb128 0x27
- 614 009d 0C       		.uleb128 0xc
- 615 009e 49       		.uleb128 0x49
- 616 009f 13       		.uleb128 0x13
- 617 00a0 11       		.uleb128 0x11
- 618 00a1 01       		.uleb128 0x1
- 619 00a2 12       		.uleb128 0x12
- 620 00a3 01       		.uleb128 0x1
- 621 00a4 40       		.uleb128 0x40
- 622 00a5 06       		.uleb128 0x6
- 623 00a6 9742     		.uleb128 0x2117
- 624 00a8 0C       		.uleb128 0xc
- 625 00a9 00       		.byte	0
- 626 00aa 00       		.byte	0
- 627 00ab 00       		.byte	0
- 628              		.section	.debug_loc,"",%progbits
- 629              	.Ldebug_loc0:
- 630              	.LLST0:
- 631 0000 00000000 		.4byte	.LFB0
- 632 0004 02000000 		.4byte	.LCFI0
- 633 0008 0200     		.2byte	0x2
- 634 000a 7D       		.byte	0x7d
- 635 000b 00       		.sleb128 0
- 636 000c 02000000 		.4byte	.LCFI0
- 637 0010 04000000 		.4byte	.LCFI1
- 638 0014 0200     		.2byte	0x2
- 639 0016 7D       		.byte	0x7d
- 640 0017 08       		.sleb128 8
- 641 0018 04000000 		.4byte	.LCFI1
- 642 001c 06000000 		.4byte	.LCFI2
- 643 0020 0200     		.2byte	0x2
- 644 0022 7D       		.byte	0x7d
- 645 0023 18       		.sleb128 24
- 646 0024 06000000 		.4byte	.LCFI2
- 647 0028 48000000 		.4byte	.LFE0
- 648 002c 0200     		.2byte	0x2
- 649 002e 77       		.byte	0x77
- 650 002f 18       		.sleb128 24
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 15
+ 593 007b 0C       		.uleb128 0xc
+ 594 007c 03       		.uleb128 0x3
+ 595 007d 0E       		.uleb128 0xe
+ 596 007e 3A       		.uleb128 0x3a
+ 597 007f 0B       		.uleb128 0xb
+ 598 0080 3B       		.uleb128 0x3b
+ 599 0081 0B       		.uleb128 0xb
+ 600 0082 27       		.uleb128 0x27
+ 601 0083 0C       		.uleb128 0xc
+ 602 0084 49       		.uleb128 0x49
+ 603 0085 13       		.uleb128 0x13
+ 604 0086 11       		.uleb128 0x11
+ 605 0087 01       		.uleb128 0x1
+ 606 0088 12       		.uleb128 0x12
+ 607 0089 01       		.uleb128 0x1
+ 608 008a 40       		.uleb128 0x40
+ 609 008b 06       		.uleb128 0x6
+ 610 008c 9742     		.uleb128 0x2117
+ 611 008e 0C       		.uleb128 0xc
+ 612 008f 00       		.byte	0
+ 613 0090 00       		.byte	0
+ 614 0091 0A       		.uleb128 0xa
+ 615 0092 2E       		.uleb128 0x2e
+ 616 0093 01       		.byte	0x1
+ 617 0094 3F       		.uleb128 0x3f
+ 618 0095 0C       		.uleb128 0xc
+ 619 0096 03       		.uleb128 0x3
+ 620 0097 0E       		.uleb128 0xe
+ 621 0098 3A       		.uleb128 0x3a
+ 622 0099 0B       		.uleb128 0xb
+ 623 009a 3B       		.uleb128 0x3b
+ 624 009b 0B       		.uleb128 0xb
+ 625 009c 27       		.uleb128 0x27
+ 626 009d 0C       		.uleb128 0xc
+ 627 009e 49       		.uleb128 0x49
+ 628 009f 13       		.uleb128 0x13
+ 629 00a0 11       		.uleb128 0x11
+ 630 00a1 01       		.uleb128 0x1
+ 631 00a2 12       		.uleb128 0x12
+ 632 00a3 01       		.uleb128 0x1
+ 633 00a4 40       		.uleb128 0x40
+ 634 00a5 06       		.uleb128 0x6
+ 635 00a6 9742     		.uleb128 0x2117
+ 636 00a8 0C       		.uleb128 0xc
+ 637 00a9 00       		.byte	0
+ 638 00aa 00       		.byte	0
+ 639 00ab 00       		.byte	0
+ 640              		.section	.debug_loc,"",%progbits
+ 641              	.Ldebug_loc0:
+ 642              	.LLST0:
+ 643 0000 00000000 		.4byte	.LFB0
+ 644 0004 02000000 		.4byte	.LCFI0
+ 645 0008 0200     		.2byte	0x2
+ 646 000a 7D       		.byte	0x7d
+ 647 000b 00       		.sleb128 0
+ 648 000c 02000000 		.4byte	.LCFI0
+ 649 0010 04000000 		.4byte	.LCFI1
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 15
 
 
- 651 0030 00000000 		.4byte	0
- 652 0034 00000000 		.4byte	0
- 653              	.LLST1:
- 654 0038 00000000 		.4byte	.LFB1
- 655 003c 02000000 		.4byte	.LCFI3
- 656 0040 0200     		.2byte	0x2
- 657 0042 7D       		.byte	0x7d
- 658 0043 00       		.sleb128 0
- 659 0044 02000000 		.4byte	.LCFI3
- 660 0048 04000000 		.4byte	.LCFI4
- 661 004c 0200     		.2byte	0x2
- 662 004e 7D       		.byte	0x7d
- 663 004f 08       		.sleb128 8
- 664 0050 04000000 		.4byte	.LCFI4
- 665 0054 06000000 		.4byte	.LCFI5
- 666 0058 0200     		.2byte	0x2
- 667 005a 7D       		.byte	0x7d
- 668 005b 10       		.sleb128 16
- 669 005c 06000000 		.4byte	.LCFI5
- 670 0060 5C000000 		.4byte	.LFE1
- 671 0064 0200     		.2byte	0x2
- 672 0066 77       		.byte	0x77
- 673 0067 10       		.sleb128 16
- 674 0068 00000000 		.4byte	0
- 675 006c 00000000 		.4byte	0
- 676              	.LLST2:
- 677 0070 00000000 		.4byte	.LFB2
- 678 0074 02000000 		.4byte	.LCFI6
- 679 0078 0200     		.2byte	0x2
- 680 007a 7D       		.byte	0x7d
- 681 007b 00       		.sleb128 0
- 682 007c 02000000 		.4byte	.LCFI6
- 683 0080 04000000 		.4byte	.LCFI7
- 684 0084 0200     		.2byte	0x2
- 685 0086 7D       		.byte	0x7d
- 686 0087 08       		.sleb128 8
- 687 0088 04000000 		.4byte	.LCFI7
- 688 008c 1C000000 		.4byte	.LFE2
- 689 0090 0200     		.2byte	0x2
- 690 0092 77       		.byte	0x77
- 691 0093 08       		.sleb128 8
- 692 0094 00000000 		.4byte	0
- 693 0098 00000000 		.4byte	0
- 694              	.LLST3:
- 695 009c 00000000 		.4byte	.LFB3
- 696 00a0 02000000 		.4byte	.LCFI8
- 697 00a4 0200     		.2byte	0x2
- 698 00a6 7D       		.byte	0x7d
- 699 00a7 00       		.sleb128 0
- 700 00a8 02000000 		.4byte	.LCFI8
- 701 00ac 04000000 		.4byte	.LCFI9
- 702 00b0 0200     		.2byte	0x2
- 703 00b2 7D       		.byte	0x7d
- 704 00b3 08       		.sleb128 8
- 705 00b4 04000000 		.4byte	.LCFI9
- 706 00b8 1C000000 		.4byte	.LFE3
- 707 00bc 0200     		.2byte	0x2
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 16
+ 650 0014 0200     		.2byte	0x2
+ 651 0016 7D       		.byte	0x7d
+ 652 0017 08       		.sleb128 8
+ 653 0018 04000000 		.4byte	.LCFI1
+ 654 001c 06000000 		.4byte	.LCFI2
+ 655 0020 0200     		.2byte	0x2
+ 656 0022 7D       		.byte	0x7d
+ 657 0023 18       		.sleb128 24
+ 658 0024 06000000 		.4byte	.LCFI2
+ 659 0028 48000000 		.4byte	.LFE0
+ 660 002c 0200     		.2byte	0x2
+ 661 002e 77       		.byte	0x77
+ 662 002f 18       		.sleb128 24
+ 663 0030 00000000 		.4byte	0
+ 664 0034 00000000 		.4byte	0
+ 665              	.LLST1:
+ 666 0038 00000000 		.4byte	.LFB1
+ 667 003c 02000000 		.4byte	.LCFI3
+ 668 0040 0200     		.2byte	0x2
+ 669 0042 7D       		.byte	0x7d
+ 670 0043 00       		.sleb128 0
+ 671 0044 02000000 		.4byte	.LCFI3
+ 672 0048 04000000 		.4byte	.LCFI4
+ 673 004c 0200     		.2byte	0x2
+ 674 004e 7D       		.byte	0x7d
+ 675 004f 08       		.sleb128 8
+ 676 0050 04000000 		.4byte	.LCFI4
+ 677 0054 06000000 		.4byte	.LCFI5
+ 678 0058 0200     		.2byte	0x2
+ 679 005a 7D       		.byte	0x7d
+ 680 005b 10       		.sleb128 16
+ 681 005c 06000000 		.4byte	.LCFI5
+ 682 0060 74000000 		.4byte	.LFE1
+ 683 0064 0200     		.2byte	0x2
+ 684 0066 77       		.byte	0x77
+ 685 0067 10       		.sleb128 16
+ 686 0068 00000000 		.4byte	0
+ 687 006c 00000000 		.4byte	0
+ 688              	.LLST2:
+ 689 0070 00000000 		.4byte	.LFB2
+ 690 0074 02000000 		.4byte	.LCFI6
+ 691 0078 0200     		.2byte	0x2
+ 692 007a 7D       		.byte	0x7d
+ 693 007b 00       		.sleb128 0
+ 694 007c 02000000 		.4byte	.LCFI6
+ 695 0080 04000000 		.4byte	.LCFI7
+ 696 0084 0200     		.2byte	0x2
+ 697 0086 7D       		.byte	0x7d
+ 698 0087 08       		.sleb128 8
+ 699 0088 04000000 		.4byte	.LCFI7
+ 700 008c 1C000000 		.4byte	.LFE2
+ 701 0090 0200     		.2byte	0x2
+ 702 0092 77       		.byte	0x77
+ 703 0093 08       		.sleb128 8
+ 704 0094 00000000 		.4byte	0
+ 705 0098 00000000 		.4byte	0
+ 706              	.LLST3:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 16
 
 
- 708 00be 77       		.byte	0x77
- 709 00bf 08       		.sleb128 8
- 710 00c0 00000000 		.4byte	0
- 711 00c4 00000000 		.4byte	0
- 712              	.LLST4:
- 713 00c8 00000000 		.4byte	.LFB4
- 714 00cc 02000000 		.4byte	.LCFI10
- 715 00d0 0200     		.2byte	0x2
- 716 00d2 7D       		.byte	0x7d
- 717 00d3 00       		.sleb128 0
- 718 00d4 02000000 		.4byte	.LCFI10
- 719 00d8 04000000 		.4byte	.LCFI11
- 720 00dc 0200     		.2byte	0x2
- 721 00de 7D       		.byte	0x7d
- 722 00df 08       		.sleb128 8
- 723 00e0 04000000 		.4byte	.LCFI11
- 724 00e4 06000000 		.4byte	.LCFI12
- 725 00e8 0200     		.2byte	0x2
- 726 00ea 7D       		.byte	0x7d
- 727 00eb 10       		.sleb128 16
- 728 00ec 06000000 		.4byte	.LCFI12
- 729 00f0 2C000000 		.4byte	.LFE4
- 730 00f4 0200     		.2byte	0x2
- 731 00f6 77       		.byte	0x77
- 732 00f7 10       		.sleb128 16
- 733 00f8 00000000 		.4byte	0
- 734 00fc 00000000 		.4byte	0
- 735              		.section	.debug_aranges,"",%progbits
- 736 0000 3C000000 		.4byte	0x3c
- 737 0004 0200     		.2byte	0x2
- 738 0006 00000000 		.4byte	.Ldebug_info0
- 739 000a 04       		.byte	0x4
- 740 000b 00       		.byte	0
- 741 000c 0000     		.2byte	0
- 742 000e 0000     		.2byte	0
- 743 0010 00000000 		.4byte	.LFB0
- 744 0014 48000000 		.4byte	.LFE0-.LFB0
- 745 0018 00000000 		.4byte	.LFB1
- 746 001c 5C000000 		.4byte	.LFE1-.LFB1
- 747 0020 00000000 		.4byte	.LFB2
- 748 0024 1C000000 		.4byte	.LFE2-.LFB2
- 749 0028 00000000 		.4byte	.LFB3
- 750 002c 1C000000 		.4byte	.LFE3-.LFB3
- 751 0030 00000000 		.4byte	.LFB4
- 752 0034 2C000000 		.4byte	.LFE4-.LFB4
- 753 0038 00000000 		.4byte	0
- 754 003c 00000000 		.4byte	0
- 755              		.section	.debug_ranges,"",%progbits
- 756              	.Ldebug_ranges0:
- 757 0000 00000000 		.4byte	.LFB0
- 758 0004 48000000 		.4byte	.LFE0
- 759 0008 00000000 		.4byte	.LFB1
- 760 000c 5C000000 		.4byte	.LFE1
- 761 0010 00000000 		.4byte	.LFB2
- 762 0014 1C000000 		.4byte	.LFE2
- 763 0018 00000000 		.4byte	.LFB3
- 764 001c 1C000000 		.4byte	.LFE3
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 17
+ 707 009c 00000000 		.4byte	.LFB3
+ 708 00a0 02000000 		.4byte	.LCFI8
+ 709 00a4 0200     		.2byte	0x2
+ 710 00a6 7D       		.byte	0x7d
+ 711 00a7 00       		.sleb128 0
+ 712 00a8 02000000 		.4byte	.LCFI8
+ 713 00ac 04000000 		.4byte	.LCFI9
+ 714 00b0 0200     		.2byte	0x2
+ 715 00b2 7D       		.byte	0x7d
+ 716 00b3 08       		.sleb128 8
+ 717 00b4 04000000 		.4byte	.LCFI9
+ 718 00b8 1C000000 		.4byte	.LFE3
+ 719 00bc 0200     		.2byte	0x2
+ 720 00be 77       		.byte	0x77
+ 721 00bf 08       		.sleb128 8
+ 722 00c0 00000000 		.4byte	0
+ 723 00c4 00000000 		.4byte	0
+ 724              	.LLST4:
+ 725 00c8 00000000 		.4byte	.LFB4
+ 726 00cc 02000000 		.4byte	.LCFI10
+ 727 00d0 0200     		.2byte	0x2
+ 728 00d2 7D       		.byte	0x7d
+ 729 00d3 00       		.sleb128 0
+ 730 00d4 02000000 		.4byte	.LCFI10
+ 731 00d8 04000000 		.4byte	.LCFI11
+ 732 00dc 0200     		.2byte	0x2
+ 733 00de 7D       		.byte	0x7d
+ 734 00df 08       		.sleb128 8
+ 735 00e0 04000000 		.4byte	.LCFI11
+ 736 00e4 06000000 		.4byte	.LCFI12
+ 737 00e8 0200     		.2byte	0x2
+ 738 00ea 7D       		.byte	0x7d
+ 739 00eb 10       		.sleb128 16
+ 740 00ec 06000000 		.4byte	.LCFI12
+ 741 00f0 2C000000 		.4byte	.LFE4
+ 742 00f4 0200     		.2byte	0x2
+ 743 00f6 77       		.byte	0x77
+ 744 00f7 10       		.sleb128 16
+ 745 00f8 00000000 		.4byte	0
+ 746 00fc 00000000 		.4byte	0
+ 747              		.section	.debug_aranges,"",%progbits
+ 748 0000 3C000000 		.4byte	0x3c
+ 749 0004 0200     		.2byte	0x2
+ 750 0006 00000000 		.4byte	.Ldebug_info0
+ 751 000a 04       		.byte	0x4
+ 752 000b 00       		.byte	0
+ 753 000c 0000     		.2byte	0
+ 754 000e 0000     		.2byte	0
+ 755 0010 00000000 		.4byte	.LFB0
+ 756 0014 48000000 		.4byte	.LFE0-.LFB0
+ 757 0018 00000000 		.4byte	.LFB1
+ 758 001c 74000000 		.4byte	.LFE1-.LFB1
+ 759 0020 00000000 		.4byte	.LFB2
+ 760 0024 1C000000 		.4byte	.LFE2-.LFB2
+ 761 0028 00000000 		.4byte	.LFB3
+ 762 002c 1C000000 		.4byte	.LFE3-.LFB3
+ 763 0030 00000000 		.4byte	.LFB4
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 17
 
 
- 765 0020 00000000 		.4byte	.LFB4
- 766 0024 2C000000 		.4byte	.LFE4
- 767 0028 00000000 		.4byte	0
- 768 002c 00000000 		.4byte	0
- 769              		.section	.debug_line,"",%progbits
- 770              	.Ldebug_line0:
- 771 0000 AE000000 		.section	.debug_str,"MS",%progbits,1
- 771      02004900 
- 771      00000201 
- 771      FB0E0D00 
- 771      01010101 
- 772              	.LASF14:
- 773 0000 72656733 		.ascii	"reg32\000"
- 773      3200
- 774              	.LASF16:
- 775 0006 50696E5F 		.ascii	"Pin_Button_SetDriveMode\000"
- 775      42757474 
- 775      6F6E5F53 
- 775      65744472 
- 775      6976654D 
- 776              	.LASF17:
- 777 001e 76616C75 		.ascii	"value\000"
- 777      6500
- 778              	.LASF15:
- 779 0024 50696E5F 		.ascii	"Pin_Button_Write\000"
- 779      42757474 
- 779      6F6E5F57 
- 779      72697465 
- 779      00
- 780              	.LASF20:
- 781 0035 50696E5F 		.ascii	"Pin_Button_ReadDataReg\000"
- 781      42757474 
- 781      6F6E5F52 
- 781      65616444 
- 781      61746152 
- 782              	.LASF11:
- 783 004c 666C6F61 		.ascii	"float\000"
- 783      7400
- 784              	.LASF1:
- 785 0052 756E7369 		.ascii	"unsigned char\000"
- 785      676E6564 
- 785      20636861 
- 785      7200
- 786              	.LASF22:
- 787 0060 64725661 		.ascii	"drVal\000"
- 787      6C00
- 788              	.LASF5:
- 789 0066 6C6F6E67 		.ascii	"long unsigned int\000"
- 789      20756E73 
- 789      69676E65 
- 789      6420696E 
- 789      7400
- 790              	.LASF19:
- 791 0078 50696E5F 		.ascii	"Pin_Button_Read\000"
+ 764 0034 2C000000 		.4byte	.LFE4-.LFB4
+ 765 0038 00000000 		.4byte	0
+ 766 003c 00000000 		.4byte	0
+ 767              		.section	.debug_ranges,"",%progbits
+ 768              	.Ldebug_ranges0:
+ 769 0000 00000000 		.4byte	.LFB0
+ 770 0004 48000000 		.4byte	.LFE0
+ 771 0008 00000000 		.4byte	.LFB1
+ 772 000c 74000000 		.4byte	.LFE1
+ 773 0010 00000000 		.4byte	.LFB2
+ 774 0014 1C000000 		.4byte	.LFE2
+ 775 0018 00000000 		.4byte	.LFB3
+ 776 001c 1C000000 		.4byte	.LFE3
+ 777 0020 00000000 		.4byte	.LFB4
+ 778 0024 2C000000 		.4byte	.LFE4
+ 779 0028 00000000 		.4byte	0
+ 780 002c 00000000 		.4byte	0
+ 781              		.section	.debug_line,"",%progbits
+ 782              	.Ldebug_line0:
+ 783 0000 AF000000 		.section	.debug_str,"MS",%progbits,1
+ 783      02004900 
+ 783      00000201 
+ 783      FB0E0D00 
+ 783      01010101 
+ 784              	.LASF14:
+ 785 0000 72656733 		.ascii	"reg32\000"
+ 785      3200
+ 786              	.LASF16:
+ 787 0006 50696E5F 		.ascii	"Pin_Button_SetDriveMode\000"
+ 787      42757474 
+ 787      6F6E5F53 
+ 787      65744472 
+ 787      6976654D 
+ 788              	.LASF17:
+ 789 001e 76616C75 		.ascii	"value\000"
+ 789      6500
+ 790              	.LASF15:
+ 791 0024 50696E5F 		.ascii	"Pin_Button_Write\000"
  791      42757474 
- 791      6F6E5F52 
- 791      65616400 
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 18
+ 791      6F6E5F57 
+ 791      72697465 
+ 791      00
+ 792              	.LASF20:
+ 793 0035 50696E5F 		.ascii	"Pin_Button_ReadDataReg\000"
+ 793      42757474 
+ 793      6F6E5F52 
+ 793      65616444 
+ 793      61746152 
+ 794              	.LASF11:
+ 795 004c 666C6F61 		.ascii	"float\000"
+ 795      7400
+ 796              	.LASF1:
+ 797 0052 756E7369 		.ascii	"unsigned char\000"
+ 797      676E6564 
+ 797      20636861 
+ 797      7200
+ 798              	.LASF22:
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 18
 
 
- 792              	.LASF3:
- 793 0088 73686F72 		.ascii	"short unsigned int\000"
- 793      7420756E 
- 793      7369676E 
- 793      65642069 
- 793      6E7400
- 794              	.LASF12:
- 795 009b 646F7562 		.ascii	"double\000"
- 795      6C6500
- 796              	.LASF26:
- 797 00a2 433A5C55 		.ascii	"C:\\Users\\trehans\\Documents\\SignAway\\Source\\PS"
- 797      73657273 
- 797      5C747265 
- 797      68616E73 
- 797      5C446F63 
- 798 00cf 6F435C53 		.ascii	"oC\\SignatureVerifier\\SignatureVerifier.cydsn\000"
- 798      69676E61 
- 798      74757265 
- 798      56657269 
- 798      66696572 
- 799              	.LASF10:
- 800 00fc 75696E74 		.ascii	"uint32\000"
- 800      333200
- 801              	.LASF8:
- 802 0103 756E7369 		.ascii	"unsigned int\000"
- 802      676E6564 
- 802      20696E74 
- 802      00
- 803              	.LASF7:
- 804 0110 6C6F6E67 		.ascii	"long long unsigned int\000"
- 804      206C6F6E 
- 804      6720756E 
- 804      7369676E 
- 804      65642069 
- 805              	.LASF18:
- 806 0127 6D6F6465 		.ascii	"mode\000"
- 806      00
- 807              	.LASF6:
- 808 012c 6C6F6E67 		.ascii	"long long int\000"
- 808      206C6F6E 
- 808      6720696E 
- 808      7400
- 809              	.LASF23:
- 810 013a 6D61736B 		.ascii	"maskedStatus\000"
- 810      65645374 
- 810      61747573 
- 810      00
- 811              	.LASF13:
- 812 0147 63686172 		.ascii	"char\000"
- 812      00
- 813              	.LASF2:
- 814 014c 73686F72 		.ascii	"short int\000"
- 814      7420696E 
- 814      7400
- 815              	.LASF9:
- 816 0156 75696E74 		.ascii	"uint8\000"
- 816      3800
-ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccuhN6Hk.s 			page 19
+ 799 0060 64725661 		.ascii	"drVal\000"
+ 799      6C00
+ 800              	.LASF5:
+ 801 0066 6C6F6E67 		.ascii	"long unsigned int\000"
+ 801      20756E73 
+ 801      69676E65 
+ 801      6420696E 
+ 801      7400
+ 802              	.LASF19:
+ 803 0078 50696E5F 		.ascii	"Pin_Button_Read\000"
+ 803      42757474 
+ 803      6F6E5F52 
+ 803      65616400 
+ 804              	.LASF3:
+ 805 0088 73686F72 		.ascii	"short unsigned int\000"
+ 805      7420756E 
+ 805      7369676E 
+ 805      65642069 
+ 805      6E7400
+ 806              	.LASF12:
+ 807 009b 646F7562 		.ascii	"double\000"
+ 807      6C6500
+ 808              	.LASF26:
+ 809 00a2 433A5C55 		.ascii	"C:\\Users\\trehans\\Documents\\SignAway\\Source\\PS"
+ 809      73657273 
+ 809      5C747265 
+ 809      68616E73 
+ 809      5C446F63 
+ 810 00cf 6F435C53 		.ascii	"oC\\SignatureVerifier\\SignatureVerifier.cydsn\000"
+ 810      69676E61 
+ 810      74757265 
+ 810      56657269 
+ 810      66696572 
+ 811              	.LASF10:
+ 812 00fc 75696E74 		.ascii	"uint32\000"
+ 812      333200
+ 813              	.LASF8:
+ 814 0103 756E7369 		.ascii	"unsigned int\000"
+ 814      676E6564 
+ 814      20696E74 
+ 814      00
+ 815              	.LASF7:
+ 816 0110 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 816      206C6F6E 
+ 816      6720756E 
+ 816      7369676E 
+ 816      65642069 
+ 817              	.LASF18:
+ 818 0127 6D6F6465 		.ascii	"mode\000"
+ 818      00
+ 819              	.LASF6:
+ 820 012c 6C6F6E67 		.ascii	"long long int\000"
+ 820      206C6F6E 
+ 820      6720696E 
+ 820      7400
+ 821              	.LASF23:
+ 822 013a 6D61736B 		.ascii	"maskedStatus\000"
+ARM GAS  C:\Users\trehans\AppData\Local\Temp\ccA1Oz5J.s 			page 19
 
 
- 817              	.LASF24:
- 818 015c 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
- 818      4320342E 
- 818      372E3320 
- 818      32303133 
- 818      30333132 
- 819 018f 616E6368 		.ascii	"anch revision 196615]\000"
- 819      20726576 
- 819      6973696F 
- 819      6E203139 
- 819      36363135 
- 820              	.LASF25:
- 821 01a5 2E5C4765 		.ascii	".\\Generated_Source\\PSoC4\\Pin_Button.c\000"
- 821      6E657261 
- 821      7465645F 
- 821      536F7572 
- 821      63655C50 
- 822              	.LASF4:
- 823 01cb 6C6F6E67 		.ascii	"long int\000"
- 823      20696E74 
- 823      00
- 824              	.LASF21:
- 825 01d4 50696E5F 		.ascii	"Pin_Button_ClearInterrupt\000"
- 825      42757474 
- 825      6F6E5F43 
- 825      6C656172 
- 825      496E7465 
- 826              	.LASF0:
- 827 01ee 7369676E 		.ascii	"signed char\000"
- 827      65642063 
- 827      68617200 
- 828              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br
+ 822      65645374 
+ 822      61747573 
+ 822      00
+ 823              	.LASF13:
+ 824 0147 63686172 		.ascii	"char\000"
+ 824      00
+ 825              	.LASF2:
+ 826 014c 73686F72 		.ascii	"short int\000"
+ 826      7420696E 
+ 826      7400
+ 827              	.LASF9:
+ 828 0156 75696E74 		.ascii	"uint8\000"
+ 828      3800
+ 829              	.LASF24:
+ 830 015c 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
+ 830      4320342E 
+ 830      372E3320 
+ 830      32303133 
+ 830      30333132 
+ 831 018f 616E6368 		.ascii	"anch revision 196615]\000"
+ 831      20726576 
+ 831      6973696F 
+ 831      6E203139 
+ 831      36363135 
+ 832              	.LASF25:
+ 833 01a5 2E5C4765 		.ascii	".\\Generated_Source\\PSoC4\\Pin_Button.c\000"
+ 833      6E657261 
+ 833      7465645F 
+ 833      536F7572 
+ 833      63655C50 
+ 834              	.LASF4:
+ 835 01cb 6C6F6E67 		.ascii	"long int\000"
+ 835      20696E74 
+ 835      00
+ 836              	.LASF21:
+ 837 01d4 50696E5F 		.ascii	"Pin_Button_ClearInterrupt\000"
+ 837      42757474 
+ 837      6F6E5F43 
+ 837      6C656172 
+ 837      496E7465 
+ 838              	.LASF0:
+ 839 01ee 7369676E 		.ascii	"signed char\000"
+ 839      65642063 
+ 839      68617200 
+ 840              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br

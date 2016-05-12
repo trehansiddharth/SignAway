@@ -1,0 +1,43 @@
+Correct
+-------
+
+totalDelta =
+
+   13.0314
+
+
+finalDisplacement =
+
+    5.5149
+
+
+normedDelta =
+
+    0.4654
+
+
+normedDisplacement =
+
+    0.1970
+
+Incorrect
+---------
+
+totalDelta =
+
+   10.2098
+
+
+finalDisplacement =
+
+    8.6881
+
+
+normedDelta =
+
+    0.1571
+
+
+normedDisplacement =
+
+    0.1337

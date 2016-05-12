@@ -55,7 +55,7 @@ uint8   Pin_Button_ClearInterrupt(void) ;
 /* Digital Port Constants */
 #define Pin_Button_MASK               Pin_Button__MASK
 #define Pin_Button_SHIFT              Pin_Button__SHIFT
-#define Pin_Button_WIDTH              3u
+#define Pin_Button_WIDTH              4u
 
 
 /***************************************
