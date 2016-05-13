@@ -224,6 +224,32 @@
 <VisibleNodeIds>
 <v>SignatureVerifier</v>
 <v>SignatureVerifier\SignatureVerifier</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Cm0Start.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\CyFlash.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\CyLib.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cymetadata.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyPm.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\cyutils.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_button.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\isr_spi.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\main.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_Button.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Debug.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Green.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Red.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_LED_Yellow.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_MOSI.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SCLK.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\Pin_SS.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_BOOT.lst</v>
+<v>SignatureVerifier\SignatureVerifier\CortexM0\ARM_GCC_473\Debug\Listing Files\SPI_Clock.lst</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStates>
